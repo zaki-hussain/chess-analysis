@@ -1,0 +1,151 @@
+{
+  "live_with_extras": {
+    "url": "https://www.chess.com/game/live/79793544345",
+    "pgn": "[Event \"Live Chess\"]\n[Site \"Chess.com\"]\n[Date \"2023.06.06\"]\n[Round \"-\"]\n[White \"zakihussa1n\"]\n[Black \"SachyProZacatecniky\"]\n[Result \"0-1\"]\n[Tournament \"https://www.chess.com/tournament/live/32-blitz-2724784\"]\n[CurrentPosition \"r3r1k1/ppp2ppp/8/4P3/3B4/1P1N2Pb/2P2PqP/RN1QR1K1 w - -\"]\n[Timezone \"UTC\"]\n[ECO \"C50\"]\n[ECOUrl \"https://www.chess.com/openings/Giuoco-Piano-Game-4.O-O-Nf6\"]\n[UTCDate \"2023.06.06\"]\n[UTCTime \"12:30:09\"]\n[WhiteElo \"829\"]\n[BlackElo \"763\"]\n[TimeControl \"180+2\"]\n[Termination \"SachyProZacatecniky won by checkmate\"]\n[StartTime \"12:30:09\"]\n[EndDate \"2023.06.06\"]\n[EndTime \"12:32:57\"]\n[Link \"https://www.chess.com/game/live/79793544345\"]\n\n1. e4 {[%clk 0:03:01.7]} 1... e5 {[%clk 0:02:58.2]} 2. Nf3 {[%clk 0:03:02.9]} 2... Nc6 {[%clk 0:02:58.4]} 3. Bc4 {[%clk 0:03:04.2]} 3... Bc5 {[%clk 0:02:59.3]} 4. O-O {[%clk 0:03:05]} 4... Nf6 {[%clk 0:02:57.2]} 5. Ng5 {[%clk 0:03:06.1]} 5... Nxe4 {[%clk 0:02:56.2]} 6. Nxe4 {[%clk 0:03:04.3]} 6... d5 {[%clk 0:02:55.3]} 7. Nxc5 {[%clk 0:03:03.8]} 7... dxc4 {[%clk 0:02:54.5]} 8. b3 {[%clk 0:02:55.8]} 8... cxb3 {[%clk 0:02:38]} 9. axb3 {[%clk 0:02:50.3]} 9... O-O {[%clk 0:02:36.8]} 10. Re1 {[%clk 0:02:50.6]} 10... Qg5 {[%clk 0:02:27.8]} 11. d4 {[%clk 0:02:46.9]} 11... Qg6 {[%clk 0:02:22.8]} 12. dxe5 {[%clk 0:02:46.1]} 12... Bh3 {[%clk 0:02:21.4]} 13. g3 {[%clk 0:02:45]} 13... Rfe8 {[%clk 0:02:13.1]} 14. Nd3 {[%clk 0:02:36.8]} 14... Nd4 {[%clk 0:01:54.1]} 15. Be3 {[%clk 0:02:31.4]} 15... Qc6 {[%clk 0:01:53.3]} 16. Bxd4 {[%clk 0:02:31]} 16... Qg2# {[%clk 0:01:53.8]} 0-1\n",
+    "time_control": "180+2",
+    "end_time": 1686054777,
+    "rated": true,
+    "accuracies": {
+      "white": 41.88,
+      "black": 58.55
+    },
+    "tcn": "mC0Kgv5QfA9Ieg!TvMTCMCZJCIJAjrArir8!fe7MlBMUBK6xow98ItQBcuUQuBQo",
+    "uuid": "e1821325-0465-11ee-8d03-6cfe544c0428",
+    "initial_setup": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+    "fen": "r3r1k1/ppp2ppp/8/4P3/3B4/1P1N2Pb/2P2PqP/RN1QR1K1 w - -",
+    "time_class": "blitz",
+    "rules": "chess",
+    "white": {
+      "rating": 829,
+      "result": "checkmated",
+      "@id": "https://api.chess.com/pub/player/zakihussa1n",
+      "username": "zakihussa1n",
+      "uuid": "24259a00-0754-11ec-9c07-d7d6a183fbf5"
+    },
+    "black": {
+      "rating": 763,
+      "result": "win",
+      "@id": "https://api.chess.com/pub/player/sachyprozacatecniky",
+      "username": "SachyProZacatecniky",
+      "uuid": "0898af2e-a1b4-11ed-89c8-91d9c9ee752c"
+    },
+    "eco": "https://www.chess.com/openings/Giuoco-Piano-Game-4.O-O-Nf6",
+    "tournament": "https://api.chess.com/pub/tournament/32-blitz-2724784"
+  },
+  "daily": {
+    "url": "https://www.chess.com/game/daily/780164711",
+    "pgn": "[Event \"Let's Play!\"]\n[Site \"Chess.com\"]\n[Date \"2025.02.27\"]\n[Round \"-\"]\n[White \"Ben992100\"]\n[Black \"zakihussa1n\"]\n[Result \"1-0\"]\n[CurrentPosition \"r1bqk2r/pppp1ppp/2n2n2/2b1p3/2B1P3/2NP1N2/PPP2PPP/R1BQK2R b KQkq - 0 5\"]\n[Timezone \"UTC\"]\n[ECO \"C28\"]\n[ECOUrl \"https://www.chess.com/openings/Bishops-Opening-Berlin-Vienna-Hybrid-Variation-4...Bc5-5.Nf3\"]\n[UTCDate \"2025.02.27\"]\n[UTCTime \"10:08:57\"]\n[WhiteElo \"801\"]\n[BlackElo \"1050\"]\n[TimeControl \"1/86400\"]\n[Termination \"Ben992100 won on time\"]\n[StartTime \"10:08:57\"]\n[EndDate \"2025.05.09\"]\n[EndTime \"10:04:59\"]\n[Link \"https://www.chess.com/game/daily/780164711\"]\n\n1. e4 {[%clk 2:00:01.6]} 1... e5 {[%clk 0:00:07.2]} 2. Nf3 {[%clk 0:06:09]} 2... Nc6 {[%clk 0:57:50.6]} 3. Nc3 {[%clk 7:17:04.1]} 3... Nf6 {[%clk 0:20:45.8]} 4. Bc4 {[%clk 1:46:41.5]} 4... Bc5 {[%clk 0:02:13.1]} 5. d3 {[%clk 1:02:05]} 1-0\n",
+    "time_control": "1/86400",
+    "end_time": 1746785099,
+    "rated": true,
+    "accuracies": {
+      "white": 100,
+      "black": 100
+    },
+    "tcn": "mC0Kgv5Qbs!TfA9Ilt",
+    "uuid": "db7412f6-f4f2-11ef-b0e9-a60c2101000b",
+    "initial_setup": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+    "fen": "r1bqk2r/pppp1ppp/2n2n2/2b1p3/2B1P3/2NP1N2/PPP2PPP/R1BQK2R b KQkq - 0 5",
+    "start_time": 1740650937,
+    "time_class": "daily",
+    "rules": "chess",
+    "white": {
+      "rating": 801,
+      "result": "win",
+      "@id": "https://api.chess.com/pub/player/ben992100",
+      "username": "Ben992100",
+      "uuid": "25e7c968-90b8-11ee-97a2-59862e1dac4a"
+    },
+    "black": {
+      "rating": 1050,
+      "result": "timeout",
+      "@id": "https://api.chess.com/pub/player/zakihussa1n",
+      "username": "zakihussa1n",
+      "uuid": "24259a00-0754-11ec-9c07-d7d6a183fbf5"
+    },
+    "eco": "https://www.chess.com/openings/Bishops-Opening-Berlin-Vienna-Hybrid-Variation-4...Bc5-5.Nf3"
+  },
+  "crazyhouse": {
+    "url": "https://www.chess.com/game/live/41718064577",
+    "pgn": "[Event \"Live Chess - Crazyhouse\"]\n[Site \"Chess.com\"]\n[Date \"2022.03.22\"]\n[Round \"-\"]\n[White \"yusufhussain1\"]\n[Black \"zakihussa1n\"]\n[Result \"1-0\"]\n[Variant \"Crazyhouse\"]\n[SetUp \"1\"]\n[FEN \"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR/ w KQkq - 0 1\"]\n[CurrentPosition \"rnQ2bnr/ppk3pp/4Q3/1bp5/8/3P1N2/PPP2PPP/R1B2RK1 b - -\"]\n[Timezone \"UTC\"]\n[ECO \"B27\"]\n[ECOUrl \"https://www.chess.com/openings/Sicilian-Defense-2.Nf3\"]\n[UTCDate \"2022.03.22\"]\n[UTCTime \"19:59:45\"]\n[WhiteElo \"1818\"]\n[BlackElo \"325\"]\n[TimeControl \"180+2\"]\n[Termination \"yusufhussain1 won by checkmate\"]\n[StartTime \"19:59:45\"]\n[EndDate \"2022.03.22\"]\n[EndTime \"20:02:46\"]\n[Link \"https://www.chess.com/game/live/41718064577\"]\n\n1. e4 {[%clk 0:03:02]} 1... c5 {[%clk 0:03:02]} 2. Nf3 {[%clk 0:03:01.8]} 2... Qa5 {[%clk 0:03:00]} 3. Bc4 {[%clk 0:02:56.8]} 3... e6 {[%clk 0:02:58]} 4. O-O {[%clk 0:02:57.2]} 4... d5 {[%clk 0:02:56.9]} 5. exd5 {[%clk 0:02:55.7]} 5... exd5 {[%clk 0:02:57.5]} 6. Bxd5 {[%clk 0:02:55.2]} 6... Qb5 {[%clk 0:02:51.5]} 7. Qe1+ {[%clk 0:02:52.4]} 7... Kd8 {[%clk 0:02:47]} 8. Nc3 {[%clk 0:02:41.5]} 8... Qa5 {[%clk 0:02:42.6]} 9. d3 {[%clk 0:02:35.9]} 9... Be6 {[%clk 0:02:41.7]} 10. Bxe6 {[%clk 0:02:34.4]} 10... fxe6 {[%clk 0:02:42.4]} 11. Qxe6 {[%clk 0:02:31.8]} 11... B@b5 {[%clk 0:02:31.3]} 12. @c7+ {[%clk 0:02:23.1]} 12... Kxc7 {[%clk 0:02:23.5]} 13. Nd5+ {[%clk 0:02:18.7]} 13... Kd8 {[%clk 0:02:19.2]} 14. @c7+ {[%clk 0:02:14.6]} 14... Qxc7 {[%clk 0:01:59.9]} 15. Nxc7 {[%clk 0:02:15.3]} 15... Kxc7 {[%clk 0:02:00.1]} 16. Q@c8# {[%clk 0:02:08.8]} 1-0\n",
+    "time_control": "180+2",
+    "end_time": 1647979366,
+    "rated": false,
+    "tcn": "mCYIgv7GfA0SegZJCJSJAJGHde87bsHGlt6SJS1SeS+H=Y7YsJY7=YGYJY7Y&6",
+    "uuid": "98dc03dd-aa1a-11ec-aec7-78ac4409ff3c",
+    "initial_setup": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+    "fen": "rnQ2bnr/ppk3pp/4Q3/1bp5/8/3P1N2/PPP2PPP/R1B2RK1 b - -",
+    "time_class": "blitz",
+    "rules": "crazyhouse",
+    "white": {
+      "rating": 1818,
+      "result": "win",
+      "@id": "https://api.chess.com/pub/player/yusufhussain1",
+      "username": "yusufhussain1",
+      "uuid": "ed48ef9c-bda1-11eb-b9b2-039500e74068"
+    },
+    "black": {
+      "rating": 325,
+      "result": "checkmated",
+      "@id": "https://api.chess.com/pub/player/zakihussa1n",
+      "username": "zakihussa1n",
+      "uuid": "24259a00-0754-11ec-9c07-d7d6a183fbf5"
+    },
+    "eco": "https://www.chess.com/openings/Sicilian-Defense-2.Nf3"
+  },
+  "odds": {
+    "url": "https://www.chess.com/game/live/37556475223",
+    "pgn": "[Event \"Live Chess - Odds Chess\"]\n[Site \"Chess.com\"]\n[Date \"2022.02.02\"]\n[Round \"-\"]\n[White \"dhruvnair2006\"]\n[Black \"zakihussa1n\"]\n[Result \"0-1\"]\n[SetUp \"1\"]\n[FEN \"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/R2QKB1R w KQkq - 0 1\"]\n[CurrentPosition \"r1bqkbnr/pppp1ppp/8/n2Pp3/4P3/8/PPP2PPP/R2QKB1R w KQkq -\"]\n[Timezone \"UTC\"]\n[ECO \"B00\"]\n[ECOUrl \"https://www.chess.com/openings/Nimzowitsch-Defense-Kennedy-Variation\"]\n[UTCDate \"2022.02.02\"]\n[UTCTime \"16:00:12\"]\n[WhiteElo \"595\"]\n[BlackElo \"470\"]\n[TimeControl \"300\"]\n[Termination \"zakihussa1n won - game abandoned\"]\n[StartTime \"16:00:12\"]\n[EndDate \"2022.02.02\"]\n[EndTime \"16:01:07\"]\n[Link \"https://www.chess.com/game/live/37556475223\"]\n\n1. e4 {[%clk 0:05:00]} 1... e5 {[%clk 0:05:00]} 2. d4 {[%clk 0:04:58.6]} 2... Nc6 {[%clk 0:04:58.8]} 3. d5 {[%clk 0:04:55.6]} 3... Na5 {[%clk 0:04:50.8]} 0-1\n",
+    "time_control": "300",
+    "end_time": 1643817667,
+    "rated": false,
+    "tcn": "mC0KlB5QBJQG",
+    "uuid": "31908c1f-8441-11ec-8587-78ac4409ff3c",
+    "initial_setup": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/R2QKB1R w KQkq -",
+    "fen": "r1bqkbnr/pppp1ppp/8/n2Pp3/4P3/8/PPP2PPP/R2QKB1R w KQkq -",
+    "time_class": "blitz",
+    "rules": "oddschess",
+    "white": {
+      "rating": 595,
+      "result": "abandoned",
+      "@id": "https://api.chess.com/pub/player/dhruvnair2006",
+      "username": "dhruvnair2006",
+      "uuid": "aa97d020-c053-11e9-9f3f-097472846cd8"
+    },
+    "black": {
+      "rating": 470,
+      "result": "win",
+      "@id": "https://api.chess.com/pub/player/zakihussa1n",
+      "username": "zakihussa1n",
+      "uuid": "24259a00-0754-11ec-9c07-d7d6a183fbf5"
+    }
+  },
+  "no_moves": {
+    "url": "https://www.chess.com/game/live/80997640489",
+    "pgn": "[Event \"Live Chess\"]\n[Site \"Chess.com\"]\n[Date \"2023.06.20\"]\n[Round \"-\"]\n[White \"MagentaRoom\"]\n[Black \"zakihussa1n\"]\n[Result \"0-1\"]\n[CurrentPosition \"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq -\"]\n[Timezone \"UTC\"]\n[ECO \"A00\"]\n[ECOUrl \"https://www.chess.com/openings/Undefined\"]\n[UTCDate \"2023.06.20\"]\n[UTCTime \"10:54:43\"]\n[WhiteElo \"973\"]\n[BlackElo \"1097\"]\n[TimeControl \"60\"]\n[Termination \"zakihussa1n won by resignation\"]\n[StartTime \"10:54:43\"]\n[EndDate \"2023.06.20\"]\n[EndTime \"10:54:43\"]\n[Link \"https://www.chess.com/game/live/80997640489\"]\n\n0-1\n",
+    "time_control": "60",
+    "end_time": 1687258483,
+    "rated": true,
+    "tcn": "",
+    "uuid": "d99cbaab-0f58-11ee-9f85-6cfe544c0428",
+    "initial_setup": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+    "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq -",
+    "time_class": "bullet",
+    "rules": "chess",
+    "white": {
+      "rating": 973,
+      "result": "resigned",
+      "@id": "https://api.chess.com/pub/player/magentaroom",
+      "username": "MagentaRoom",
+      "uuid": "e606c05a-38cd-11eb-95a2-ef800d1982a2"
+    },
+    "black": {
+      "rating": 1097,
+      "result": "win",
+      "@id": "https://api.chess.com/pub/player/zakihussa1n",
+      "username": "zakihussa1n",
+      "uuid": "24259a00-0754-11ec-9c07-d7d6a183fbf5"
+    },
+    "eco": "https://www.chess.com/openings/Undefined"
+  }
+}
