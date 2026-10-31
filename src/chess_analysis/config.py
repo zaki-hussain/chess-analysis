@@ -2,6 +2,7 @@
 
 import re
 import tomllib
+import zoneinfo
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -20,6 +21,8 @@ class ConfigError(Exception):
 class Settings:
     username: str
     data_dir: Path
+    timezone: str = "UTC"
+    session_gap_minutes: float = 30
 
     @property
     def user_dir(self) -> Path:
@@ -65,4 +68,14 @@ def load_settings(username: str | None = None, config_path: Path | None = None) 
         raise ConfigError(f"No chess.com username: pass --username or set username in {CONFIG_NAME}")
 
     data_dir = (root / values.get("data_dir", "data")).resolve()
-    return Settings(username=normalise_username(name), data_dir=data_dir)
+    timezone = values.get("timezone", "UTC")
+    try:
+        zoneinfo.ZoneInfo(timezone)
+    except (zoneinfo.ZoneInfoNotFoundError, ValueError):
+        raise ConfigError(f"Unknown timezone in {CONFIG_NAME}: {timezone!r}") from None
+    return Settings(
+        username=normalise_username(name),
+        data_dir=data_dir,
+        timezone=timezone,
+        session_gap_minutes=float(values.get("session_gap_minutes", 30)),
+    )

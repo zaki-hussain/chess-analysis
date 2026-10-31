@@ -16,6 +16,8 @@ from .parse import parse_game
 
 GAMES_FILE = "games.parquet"
 MOVES_FILE = "moves.parquet"
+MOVES_ENRICHED_FILE = "moves_enriched.parquet"
+MY_GAMES_FILE = "my_games.parquet"
 
 MOVE_COLUMNS = ["game_uuid", "ply", "move_number", "color", "san", "clock", "clock_seconds"]
 # Shown first; every other column follows in the order chess.com gives it, with the full PGN last.
@@ -63,9 +65,10 @@ def _tidy_moves(moves: pd.DataFrame) -> pd.DataFrame:
     return moves.astype({"ply": "int64", "move_number": "int64", "clock_seconds": "float64"})
 
 
-def save_tables(games: pd.DataFrame, moves: pd.DataFrame, user_dir: Path, csv: bool = False) -> None:
+def save_tables(tables: dict[str, pd.DataFrame], user_dir: Path, csv: bool = False) -> None:
+    """Write each table as <name>.parquet (and optionally <name>.csv) in user_dir."""
     user_dir.mkdir(parents=True, exist_ok=True)
-    for frame, name in ((games, "games"), (moves, "moves")):
+    for name, frame in tables.items():
         path = user_dir / f"{name}.parquet"
         tmp = path.with_suffix(".parquet.tmp")
         frame.to_parquet(tmp, index=False, compression="zstd")
@@ -89,6 +92,16 @@ def load_games(username: str | None = None) -> pd.DataFrame:
 def load_moves(username: str | None = None) -> pd.DataFrame:
     """The moves table. `username` defaults to the one in config.toml."""
     return _read(username, MOVES_FILE)
+
+
+def load_moves_enriched(username: str | None = None) -> pd.DataFrame:
+    """Moves with board state and time-use columns (standard-rules games only)."""
+    return _read(username, MOVES_ENRICHED_FILE)
+
+
+def load_my_games(username: str | None = None) -> pd.DataFrame:
+    """`my_games()` for the configured player, plus sessions, local time and pool history."""
+    return _read(username, MY_GAMES_FILE)
 
 
 def my_games(games: pd.DataFrame, username: str) -> pd.DataFrame:

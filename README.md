@@ -14,7 +14,7 @@ python -m venv .venv
 
 ## Usage
 
-Set your chess.com username in `config.toml`, then:
+Set your chess.com username and timezone in `config.toml`, then:
 
 ```bash
 .venv/bin/chess-analysis fetch
@@ -25,6 +25,8 @@ This downloads any months not already saved and writes:
 - `data/<username>/raw/YYYY-MM.json`: monthly archives exactly as chess.com returns them
 - `data/<username>/games.parquet`: one row per game, with every field chess.com provides
 - `data/<username>/moves.parquet`: one row per move: move number, colour, move (SAN), clock reading
+- `data/<username>/moves_enriched.parquet`: the moves plus the position faced (FEN), material, game phase, move kind, time spent and both clocks
+- `data/<username>/my_games.parquet`: each game from your side (colour, result, opponent, rating before/after) plus local time, playing session and recent-activity columns
 
 Running it again only downloads new games. Other options:
 
@@ -37,12 +39,14 @@ Running it again only downloads new games. Other options:
 ## In Python
 
 ```python
-from chess_analysis import load_games, load_moves, my_games
+from chess_analysis import load_games, load_moves, load_moves_enriched, load_my_games
 
-games = load_games()                    # username from config.toml
-moves = load_moves()
-mine = my_games(games, "zakihussa1n")   # your colour, result, opponent, rating before/after each game
+games = load_games()              # username from config.toml
+moves = load_moves_enriched()     # or load_moves() for the plain table
+mine = load_my_games()            # your colour, result, opponent, rating before/after, sessions, local time
 ```
+
+See `PLAN.md` for the analyses this is building towards.
 
 Ratings stored by chess.com are each player's rating *after* the game.
 `my_games` works out your rating before each game from the previous rated

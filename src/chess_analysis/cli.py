@@ -4,7 +4,7 @@ import argparse
 import sys
 from pathlib import Path
 
-from . import archive, dataset
+from . import archive, dataset, enrich
 from .api import ApiError, ChessComClient
 from .config import ConfigError, Settings, load_settings
 
@@ -18,8 +18,11 @@ def _fetch(settings: Settings, args: argparse.Namespace) -> None:
 
 def _build(settings: Settings, args: argparse.Namespace) -> None:
     games, moves = dataset.build_tables(settings.raw_dir)
-    dataset.save_tables(games, moves, settings.user_dir, csv=args.csv)
-    print(f"Wrote {len(games)} games and {len(moves)} moves to {settings.user_dir}")
+    moves_enriched = enrich.enrich_moves(games, moves, settings.username)
+    my_games = enrich.enrich_games(dataset.my_games(games, settings.username), settings.timezone, settings.session_gap_minutes)
+    tables = {"games": games, "moves": moves, "moves_enriched": moves_enriched, "my_games": my_games}
+    dataset.save_tables(tables, settings.user_dir, csv=args.csv)
+    print(f"Wrote {len(games)} games, {len(moves)} moves ({len(moves_enriched)} enriched) to {settings.user_dir}")
 
 
 def build_parser() -> argparse.ArgumentParser:
