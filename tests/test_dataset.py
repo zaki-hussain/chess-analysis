@@ -51,7 +51,7 @@ def test_no_games(tmp_path):
 
 def test_save_tables_round_trip(tmp_path, raw_dir):
     games, moves = dataset.build_tables(raw_dir)
-    dataset.save_tables(games, moves, tmp_path, csv=True)
+    dataset.save_tables({"games": games, "moves": moves}, tmp_path, csv=True)
     pd.testing.assert_frame_equal(pd.read_parquet(tmp_path / "games.parquet"), games)
     pd.testing.assert_frame_equal(pd.read_parquet(tmp_path / "moves.parquet"), moves)
     assert (tmp_path / "games.csv").exists() and (tmp_path / "moves.csv").exists()

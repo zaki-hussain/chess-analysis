@@ -12,6 +12,7 @@ dependencies = [
     "requests>=2.31",
     "pandas>=2.1",
     "pyarrow>=14",
+    "chess>=1.10",
 ]
 
 [project.optional-dependencies]

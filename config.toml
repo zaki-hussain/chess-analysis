@@ -6,3 +6,9 @@ username = "zakihussa1n"
 
 # Where downloaded and processed data is kept, relative to this file.
 data_dir = "data"
+
+# Used to work out local time of day for each game.
+timezone = "Europe/London"
+
+# Games separated by a longer pause than this start a new playing session.
+session_gap_minutes = 30
