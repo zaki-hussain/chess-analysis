@@ -4,7 +4,7 @@ import argparse
 import sys
 from pathlib import Path
 
-from . import archive
+from . import archive, dataset
 from .api import ApiError, ChessComClient
 from .config import ConfigError, Settings, load_settings
 
@@ -13,6 +13,13 @@ def _fetch(settings: Settings, args: argparse.Namespace) -> None:
     print(f"Downloading archives for {settings.username} into {settings.raw_dir}")
     count = archive.download(ChessComClient(), settings.username, settings.raw_dir, args.refresh_all)
     print(f"Downloaded {count} month(s)")
+    _build(settings, args)
+
+
+def _build(settings: Settings, args: argparse.Namespace) -> None:
+    games, moves = dataset.build_tables(settings.raw_dir)
+    dataset.save_tables(games, moves, settings.user_dir, csv=args.csv)
+    print(f"Wrote {len(games)} games and {len(moves)} moves to {settings.user_dir}")
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -20,11 +27,14 @@ def build_parser() -> argparse.ArgumentParser:
     common = argparse.ArgumentParser(add_help=False)
     common.add_argument("--username", help="chess.com username (default: username in config.toml)")
     common.add_argument("--config", type=Path, help="path to config.toml (default: search upwards from here)")
+    common.add_argument("--csv", action="store_true", help="also write games.csv and moves.csv")
 
     commands = parser.add_subparsers(dest="command", required=True)
     fetch = commands.add_parser("fetch", parents=[common], help="download new games from chess.com")
     fetch.add_argument("--refresh-all", action="store_true", help="re-download every month, not just new ones")
     fetch.set_defaults(run=_fetch)
+    build = commands.add_parser("build", parents=[common], help="rebuild the tables from downloaded archives (no network)")
+    build.set_defaults(run=_build)
     return parser
 
 
