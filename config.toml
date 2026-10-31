@@ -1,0 +1,8 @@
+# chess-analysis settings. Nothing in here is secret, so this file is committed.
+
+# chess.com account whose games are fetched and analysed.
+# Override for a single run with --username.
+username = "zakihussa1n"
+
+# Where downloaded and processed data is kept, relative to this file.
+data_dir = "data"

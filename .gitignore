@@ -1,0 +1,12 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+build/
+dist/
+
+# Optional CSV exports duplicate the committed Parquet files, so keep them local
+data/**/*.csv
