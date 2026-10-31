@@ -12,8 +12,12 @@ python -m venv .venv && .venv/bin/pip install -e ".[dev]"
 .venv/bin/chess-analysis fetch            # download new months, then rebuild tables
 .venv/bin/chess-analysis build            # rebuild tables from saved archives (no network)
 .venv/bin/chess-analysis fetch --username someone --csv
-.venv/bin/pytest -q                       # offline; no network needed
+.venv/bin/chess-analysis analyse          # Stockfish on every position; resumable; 1M nodes default
+.venv/bin/chess-analysis analyse --limit 300 --workers 4   # quick test run
+.venv/bin/pytest -q                       # offline; one test uses stockfish if on PATH
 ```
+
+Stockfish 17.1 is at /opt/stockfish/stockfish (symlinked to /usr/local/bin/stockfish) in this container; `scripts/ec2-setup.sh` installs it elsewhere.
 
 ## Layout
 
@@ -28,6 +32,8 @@ python -m venv .venv && .venv/bin/pip install -e ".[dev]"
   - `parse.py`: one archived game to a game row plus move rows. Stores only what chess.com gives.
   - `dataset.py`: builds and loads the tables. `my_games()` gives a per-player view.
   - `enrich.py`: engine-free derived columns: board state via python-chess, time spent, sessions, local time.
+  - `engine.py`: Stockfish evaluation of every distinct position into `evals.parquet`; `with_evals()` joins eval before/after onto moves.
+- `scripts/ec2-setup.sh`: prepares an Ubuntu EC2 instance (Python, Stockfish, venv) for the full `analyse` run.
 - `data/<user>/`: committed to the repo (the user's choice). CSV exports are gitignored.
 - `tests/fixtures/games.json`: five real zakihussa1n games (live with accuracies and tournament, daily, crazyhouse, odds chess, no moves).
 
@@ -35,7 +41,8 @@ python -m venv .venv && .venv/bin/pip install -e ".[dev]"
 
 - `games`: one row per game. Every JSON field, flattened (`white_rating`, `accuracies_white`, ...), and every PGN header as `pgn_<snake_case>`, plus `start_datetime`/`end_datetime` (UTC) and the full `pgn`. Optional fields are present only for some games: `accuracies_*` (reviewed games), `tournament`, `match`, `start_time` (daily only), `pgn_set_up`/`pgn_fen`/`pgn_variant` (variants and odds games).
 - `moves`: one row per half-move: `game_uuid, ply, move_number, color, san, clock, clock_seconds`.
-- `moves_enriched`: `moves` plus `fen_before` (position the mover faced), `legal_moves`, `in_check`, `material_white/black` (1/3/3/5/9), `pieces` (non-pawn, non-king pieces), `phase`, `piece`, `is_capture`, `is_castling`, `is_promotion`, `uci`, `gives_check`, `clock_before_seconds`, `time_spent_seconds`, `clock_fraction`, `opponent_clock_seconds`, `clock_diff_seconds`, `time_class`, `base_seconds`, `increment_seconds`, `is_player_move`. Standard-rules games only (34 variant games excluded); daily games have no time columns.
+- `moves_enriched`: `moves` plus `fen_before` (position the mover faced), `fen_after`, `legal_moves`, `in_check`, `material_white/black` (1/3/3/5/9), `pieces` (non-pawn, non-king pieces), `phase`, `piece`, `is_capture`, `is_castling`, `is_promotion`, `uci`, `gives_check`, `clock_before_seconds`, `time_spent_seconds`, `clock_fraction`, `opponent_clock_seconds`, `clock_diff_seconds`, `time_class`, `base_seconds`, `increment_seconds`, `is_player_move`. Standard-rules games only (34 variant games excluded); daily games have no time columns.
+- `evals`: one row per distinct position (`position` = FEN without move counters; 316,076 for the current data), from White's view: `score_cp`, `mate_in` (0 with `terminal=True` means the side to move is checkmated; WDL says who won), `wdl_win/draw/loss` (per mille, Stockfish's model), `best_move`, `second_move`, `second_score_cp`, `second_mate_in` (MultiPV 2), `depth`, `seldepth`, `nodes`, `engine`, `nodes_limit`. Fixed nodes + 1 thread + hash cleared per position: re-evaluation is bit-identical (checked). Rows at a different `nodes_limit` are re-evaluated and replaced.
 - `my_games`: `my_games()` plus `base_seconds`, `increment_seconds`, `local_start` (naive, in the configured timezone), `local_hour`, `weekday`, `session`, `game_in_session`, `session_games`, `minutes_into_session`, `days_since_last_in_pool`, `pool_games_last_30d`.
 - Replaying every standard game with python-chess reproduces chess.com's final `fen` piece placement for all 6,047 games (differences only in en-passant notation and four games where chess.com kept a castling right after the rook was captured). Replay of everything takes ~80 s inside `build`.
 - **Ratings in a game are each player's rating after that game.** Checked 100% consistent across every rating pool. A pool is `rules` + `time_class`. Rating before a game = rating after the previous rated game in the same pool (`my_games()` does this). Unrated games don't change the rating. Opponents' before-game ratings aren't available.
@@ -49,4 +56,6 @@ python -m venv .venv && .venv/bin/pip install -e ".[dev]"
 - Parsing stores only what chess.com gives. Derived values (time spent, ratings before) belong in later stages or views like `my_games()`.
 - Rebuilds are deterministic (sorted by `end_time`, then `uuid`), so unchanged data produces byte-identical Parquet files and no git diff. Keep it that way.
 - Tests must not use the network: use fixtures or a fake client.
-- Variant games (`rules != "chess"`) are excluded from enrichment and will be excluded from engine analysis.
+- Variant games (`rules != "chess"`) are excluded from enrichment and engine analysis.
+- Engine workers are plain `multiprocessing` processes (spawn context) that quit their engine themselves before exiting. Don't switch to `ProcessPoolExecutor`: python-chess's engine thread is non-daemon and a 3.13 child waits for threads before any exit hook runs, so pool workers hang forever. Forked workers can also deadlock on inherited pandas/pyarrow locks.
+- Benchmarks (1 thread, 2.1 GHz Xeon): 1M nodes ≈ 1.07 s/position; 4 workers here ≈ 4.2 positions/s.

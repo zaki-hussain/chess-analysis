@@ -23,6 +23,7 @@ class Settings:
     data_dir: Path
     timezone: str = "UTC"
     session_gap_minutes: float = 30
+    stockfish: str = "stockfish"
 
     @property
     def user_dir(self) -> Path:
@@ -78,4 +79,5 @@ def load_settings(username: str | None = None, config_path: Path | None = None) 
         data_dir=data_dir,
         timezone=timezone,
         session_gap_minutes=float(values.get("session_gap_minutes", 30)),
+        stockfish=str(values.get("stockfish", "stockfish")),
     )

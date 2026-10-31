@@ -4,7 +4,9 @@ import argparse
 import sys
 from pathlib import Path
 
-from . import archive, dataset, enrich
+import os
+
+from . import archive, dataset, engine, enrich
 from .api import ApiError, ChessComClient
 from .config import ConfigError, Settings, load_settings
 
@@ -25,6 +27,18 @@ def _build(settings: Settings, args: argparse.Namespace) -> None:
     print(f"Wrote {len(games)} games, {len(moves)} moves ({len(moves_enriched)} enriched) to {settings.user_dir}")
 
 
+def _analyse(settings: Settings, args: argparse.Namespace) -> None:
+    moves = dataset.load_moves_enriched(settings.username)
+    positions = engine.positions_to_evaluate(moves)
+    if args.limit:
+        positions = positions[: args.limit]
+    path = settings.user_dir / engine.EVALS_FILE
+    command = args.engine or settings.stockfish
+    print(f"Evaluating {len(positions)} distinct positions with {command}, {args.workers or os.cpu_count()} workers -> {path}")
+    evals = engine.run(positions, path, command, nodes=args.nodes, workers=args.workers, checkpoint=args.checkpoint)
+    print(f"{len(evals)} positions in {path}")
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="chess-analysis", description="Download and analyse a chess.com player's games.")
     common = argparse.ArgumentParser(add_help=False)
@@ -38,6 +52,13 @@ def build_parser() -> argparse.ArgumentParser:
     fetch.set_defaults(run=_fetch)
     build = commands.add_parser("build", parents=[common], help="rebuild the tables from downloaded archives (no network)")
     build.set_defaults(run=_build)
+    analyse = commands.add_parser("analyse", parents=[common], help="evaluate every position with Stockfish (resumable)")
+    analyse.add_argument("--nodes", type=int, default=engine.DEFAULT_NODES, help=f"nodes per position (default {engine.DEFAULT_NODES})")
+    analyse.add_argument("--workers", type=int, help="engine processes (default: one per CPU)")
+    analyse.add_argument("--engine", help="Stockfish command or path (default: stockfish in config.toml)")
+    analyse.add_argument("--limit", type=int, help="only evaluate the first N positions (for testing)")
+    analyse.add_argument("--checkpoint", type=int, default=2000, help="save after this many positions")
+    analyse.set_defaults(run=_analyse)
     return parser
 
 
@@ -49,4 +70,7 @@ def main(argv: list[str] | None = None) -> int:
     except (ConfigError, ApiError) as exc:
         print(f"error: {exc}", file=sys.stderr)
         return 1
+    except KeyboardInterrupt:
+        print("\ninterrupted; progress so far is saved", file=sys.stderr)
+        return 130
     return 0
