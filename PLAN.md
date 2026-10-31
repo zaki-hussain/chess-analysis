@@ -43,13 +43,19 @@ Columns: eval (cp or mate-in), best move, second-best move and its eval
 Notes:
 - 371,608 positions, 310,197 unique (17% fewer engine calls). 61% of
   opening positions are unique: even openings don't repeat that much.
-- Budget: ~100k–300k nodes/position is enough to find blunders and mistakes
-  at 700–1,300 rating; estimated ~10–30 core-hours (verify with a benchmark
-  first). This container: 4 cores, background jobs ≤ 2 h, so run in chunks
-  and commit. Deeper passes (1M+ nodes, ~100 core-hours) belong on a laptop
-  overnight or a ~16-vCPU cloud machine (a few dollars).
-- Installing Stockfish needs the official release binary from GitHub; the
-  download was blocked by session permissions once and needs approval.
+- Benchmark (Stockfish 17.1, 1 thread, 2.1 GHz Xeon, 240 random positions
+  from the data): 100k nodes = 0.11 s (median depth 18); 300k = 0.33 s
+  (depth 20); 1M = 1.07 s (depth 23). MultiPV 2 adds no cost at fixed nodes.
+  Four engines on 4 vCPUs gave 3.4× throughput.
+- For 310k unique positions: 100k nodes ≈ 10 core-hours, 300k ≈ 29, 1M ≈ 92.
+  Decision: the full pass runs on EC2 (compute-optimised, many physical
+  cores, e.g. c7a.16xlarge with 64 engines; RAM is irrelevant, ~30 MB per
+  engine). Work is parallel per position, so a bigger instance is faster at
+  the same total cost. Spot instances are fine because the run checkpoints.
+  Incremental upkeep (new games) runs anywhere, including this container.
+- Stockfish here: /opt/stockfish/stockfish (17.1, AVX2 build; the AVX-512
+  build was no faster on this CPU). Installed from the official GitHub
+  release with the user's approval.
 - Derived later, not stored by the engine step: eval before/after from the
   mover's view, centipawn loss, expected-points loss (F3), is_best,
   criticality (best minus second-best).
