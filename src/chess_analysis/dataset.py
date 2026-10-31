@@ -99,6 +99,11 @@ def load_moves_enriched(username: str | None = None) -> pd.DataFrame:
     return _read(username, MOVES_ENRICHED_FILE)
 
 
+def load_evals(username: str | None = None) -> pd.DataFrame:
+    """Stockfish evaluations, one row per distinct position (see engine.py)."""
+    return _read(username, "evals.parquet")
+
+
 def load_my_games(username: str | None = None) -> pd.DataFrame:
     """`my_games()` for the configured player, plus sessions, local time and pool history."""
     return _read(username, MY_GAMES_FILE)

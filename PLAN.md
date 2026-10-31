@@ -26,7 +26,7 @@ Notes:
 - Rating-reliability proxies (days since last game, games in last 30 days)
   stand in for Glicko RD, which chess.com doesn't publish historically.
 
-### F2. Stockfish evaluation of every position — next
+### F2. Stockfish evaluation of every position — built; full run pending on EC2
 
 `chess-analysis analyse` → `data/<user>/evals.parquet`, keyed by FEN
 (ignoring move counters), joined to moves via `fen_before` and the game's
@@ -57,8 +57,14 @@ Notes:
   build was no faster on this CPU). Installed from the official GitHub
   release with the user's approval.
 - Derived later, not stored by the engine step: eval before/after from the
-  mover's view, centipawn loss, expected-points loss (F3), is_best,
-  criticality (best minus second-best).
+  mover's view, centipawn loss, expected-points loss (F3), criticality
+  (best minus second-best). `with_evals()` already joins before/after and
+  `is_best_move`.
+- Implemented as `chess-analysis analyse` (engine.py). Tested here on 700
+  positions at 1M nodes: 4.2 positions/s on 4 workers, bit-identical on
+  re-evaluation, survives Ctrl-C with progress saved and no orphaned engines.
+- Full run: c7a.16xlarge (64 cores) via scripts/ec2-setup.sh, then commit
+  evals.parquet. New accounts need a vCPU quota increase first.
 
 ### F3. Win-probability calibration — planned
 

@@ -36,14 +36,32 @@ Running it again only downloads new games. Other options:
 .venv/bin/chess-analysis build                            # rebuild the tables without downloading
 ```
 
+## Engine evaluation
+
+With [Stockfish](https://stockfishchess.org/) installed (command name or path in `config.toml`):
+
+```bash
+.venv/bin/chess-analysis analyse                 # every distinct position, 1M nodes each, one engine per CPU
+.venv/bin/chess-analysis analyse --nodes 300000 --workers 8
+```
+
+This writes `data/<username>/evals.parquet`, one row per distinct position:
+eval and mate distance, Stockfish's win/draw/loss estimate, the best and
+second-best moves. It saves as it goes and skips positions already done, so
+it can be stopped and resumed, or run on a bigger machine
+(`scripts/ec2-setup.sh` prepares an Ubuntu EC2 instance) and the file
+committed afterwards. `with_evals(moves, evals)` joins the evaluation before
+and after each move onto the moves table.
+
 ## In Python
 
 ```python
-from chess_analysis import load_games, load_moves, load_moves_enriched, load_my_games
+from chess_analysis import load_evals, load_games, load_moves_enriched, load_my_games, with_evals
 
 games = load_games()              # username from config.toml
 moves = load_moves_enriched()     # or load_moves() for the plain table
 mine = load_my_games()            # your colour, result, opponent, rating before/after, sessions, local time
+moves = with_evals(moves, load_evals())   # adds score_cp_before/after, best_move_before, is_best_move, ...
 ```
 
 See `PLAN.md` for the analyses this is building towards.

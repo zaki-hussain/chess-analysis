@@ -12,3 +12,6 @@ timezone = "Europe/London"
 
 # Games separated by a longer pause than this start a new playing session.
 session_gap_minutes = 30
+
+# Engine used by `chess-analysis analyse`: a command on PATH or a full path.
+stockfish = "stockfish"

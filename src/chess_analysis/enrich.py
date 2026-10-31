@@ -72,6 +72,7 @@ def replay(initial_fen: str, sans: list[str], move_numbers: list[int]) -> list[d
         )
         board.push(move)
         rows[-1]["gives_check"] = board.is_check()
+        rows[-1]["fen_after"] = board.fen()
     return rows
 
 
