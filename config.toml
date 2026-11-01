@@ -15,3 +15,7 @@ session_gap_minutes = 30
 
 # Engine used by `chess-analysis analyse`: a command on PATH or a full path.
 stockfish = "stockfish"
+
+# Folder holding Syzygy 3-4-5 piece tablebases (~1 GB, kept outside the repo)
+# for `chess-analysis tablebase`. Leave empty if you don't have them.
+syzygy_dir = "/opt/syzygy"

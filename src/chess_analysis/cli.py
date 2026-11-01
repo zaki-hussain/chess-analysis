@@ -6,7 +6,7 @@ from pathlib import Path
 
 import os
 
-from . import archive, dataset, engine, enrich
+from . import analysed, archive, dataset, engine, enrich, openings, tablebase
 from .api import ApiError, ChessComClient
 from .config import ConfigError, Settings, load_settings
 
@@ -22,9 +22,19 @@ def _build(settings: Settings, args: argparse.Namespace) -> None:
     games, moves = dataset.build_tables(settings.raw_dir)
     moves_enriched = enrich.enrich_moves(games, moves, settings.username)
     my_games = enrich.enrich_games(dataset.my_games(games, settings.username), settings.timezone, settings.session_gap_minutes)
+    if settings.openings_dir.is_dir():
+        book = openings.load_book(settings.openings_dir)
+        moves_enriched["in_book"] = openings.in_book(moves_enriched, book)
+        my_games = my_games.join(openings.game_openings(moves_enriched, book), on="uuid")
+        my_games = my_games.fillna({"opening_eco": "", "opening_name": ""}).astype({"book_ply": "Int64"})
     tables = {"games": games, "moves": moves, "moves_enriched": moves_enriched, "my_games": my_games}
+    evals_path = settings.user_dir / engine.EVALS_FILE
+    if evals_path.exists():
+        tb = tablebase.load_tablebase(settings.user_dir / tablebase.TABLEBASE_FILE)
+        tables["moves_analysed"] = analysed.analyse_moves(moves_enriched, engine.load_evals(evals_path), tb)
     dataset.save_tables(tables, settings.user_dir, csv=args.csv)
-    print(f"Wrote {len(games)} games, {len(moves)} moves ({len(moves_enriched)} enriched) to {settings.user_dir}")
+    extra = f", {len(tables['moves_analysed'])} analysed" if "moves_analysed" in tables else " (no evals.parquet yet: run `analyse` for move quality)"
+    print(f"Wrote {len(games)} games, {len(moves)} moves ({len(moves_enriched)} enriched{extra}) to {settings.user_dir}")
 
 
 def _analyse(settings: Settings, args: argparse.Namespace) -> None:
@@ -37,6 +47,19 @@ def _analyse(settings: Settings, args: argparse.Namespace) -> None:
     print(f"Evaluating {len(positions)} distinct positions with {command}, {args.workers or os.cpu_count()} workers -> {path}", flush=True)
     evals = engine.run(positions, path, command, nodes=args.nodes, workers=args.workers, checkpoint=args.checkpoint)
     print(f"{len(evals)} positions in {path}")
+
+
+def _tablebase(settings: Settings, args: argparse.Namespace) -> None:
+    syzygy_dir = args.syzygy or settings.syzygy_dir
+    if not syzygy_dir or not Path(syzygy_dir).is_dir():
+        raise ConfigError("No Syzygy tablebases: set syzygy_dir in config.toml or pass --syzygy")
+    moves = dataset.load_moves_enriched(settings.username)
+    positions = tablebase.candidate_positions(moves)
+    print(f"Probing {len(positions)} positions with at most {tablebase.MAX_PIECES} pieces using {syzygy_dir}")
+    table = tablebase.probe(positions, Path(syzygy_dir))
+    path = settings.user_dir / tablebase.TABLEBASE_FILE
+    tablebase.save_tablebase(table, path)
+    print(f"{len(table)} positions in {path} (run `build` to add the tb_* columns to moves_analysed)")
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -59,6 +82,9 @@ def build_parser() -> argparse.ArgumentParser:
     analyse.add_argument("--limit", type=int, help="only evaluate the first N positions (for testing)")
     analyse.add_argument("--checkpoint", type=int, default=2000, help="save after this many positions")
     analyse.set_defaults(run=_analyse)
+    tb = commands.add_parser("tablebase", parents=[common], help="exact results for small endgames from Syzygy tablebases")
+    tb.add_argument("--syzygy", help="folder with the 3-4-5 piece tables (default: syzygy_dir in config.toml)")
+    tb.set_defaults(run=_tablebase)
     return parser
 
 

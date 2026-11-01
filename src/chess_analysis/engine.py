@@ -15,14 +15,14 @@ import time
 from collections.abc import Callable, Iterable, Iterator
 from pathlib import Path
 
-def _log(message: str) -> None:
-    """Progress output that appears immediately even when redirected to a file."""
-    print(message, flush=True)
-
-
 import chess
 import chess.engine
 import pandas as pd
+
+
+def _log(message: str) -> None:
+    """Progress output that appears immediately even when redirected to a file."""
+    print(message, flush=True)
 
 EVALS_FILE = "evals.parquet"
 DEFAULT_NODES = 1_000_000
@@ -111,6 +111,20 @@ def _worker(command: str, nodes: int, tasks: multiprocessing.Queue, results: mul
         engine.close()
 
 
+def _warn_if_engine_differs(command: str, existing: pd.DataFrame, log: Callable[[str], None]) -> None:
+    """Mixing engine versions in one table makes evaluations inconsistent; say so loudly."""
+    engine = _open_engine(command)
+    try:
+        name = engine.id.get("name", command)
+    finally:
+        engine.quit()
+        engine.close()
+    previous = sorted(set(existing["engine"].dropna()))
+    if previous and previous != [name]:
+        log(f"WARNING: {command} is {name!r} but existing evaluations are from {previous}; "
+            "results will be inconsistent. Use the same engine build, or re-run everything with --nodes changed.")
+
+
 def _parallel_results(chunks: list[list[str]], command: str, nodes: int, workers: int) -> Iterator[list[dict]]:
     """Yield each chunk's rows as workers finish them (any order)."""
     ctx = multiprocessing.get_context("spawn")  # Forking a process with pandas/pyarrow threads can deadlock.
@@ -173,6 +187,8 @@ def run(
     log(f"{len(todo)} positions to evaluate ({len(done)} already done), {nodes} nodes each")
     if not todo:
         return existing
+    if evaluate_chunk is None and len(existing):
+        _warn_if_engine_differs(engine_command, existing, log)
 
     workers = workers or os.cpu_count() or 1
     chunks = [todo[i : i + chunk_size] for i in range(0, len(todo), chunk_size)]

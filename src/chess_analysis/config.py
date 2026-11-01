@@ -24,10 +24,15 @@ class Settings:
     timezone: str = "UTC"
     session_gap_minutes: float = 30
     stockfish: str = "stockfish"
+    syzygy_dir: Path | None = None
 
     @property
     def user_dir(self) -> Path:
         return self.data_dir / self.username
+
+    @property
+    def openings_dir(self) -> Path:
+        return self.data_dir / "openings"
 
     @property
     def raw_dir(self) -> Path:
@@ -80,4 +85,5 @@ def load_settings(username: str | None = None, config_path: Path | None = None) 
         timezone=timezone,
         session_gap_minutes=float(values.get("session_gap_minutes", 30)),
         stockfish=str(values.get("stockfish", "stockfish")),
+        syzygy_dir=Path(values["syzygy_dir"]).expanduser() if values.get("syzygy_dir") else None,
     )
