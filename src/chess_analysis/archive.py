@@ -9,12 +9,12 @@ import os
 from collections.abc import Callable, Iterator
 from pathlib import Path
 
+from .api import ChessComClient, NotFound
+
+
 def _log(message: str) -> None:
     """Progress output that appears immediately even when redirected to a file."""
     print(message, flush=True)
-
-
-from .api import ChessComClient, NotFound
 
 
 def month_key(archive_url: str) -> str:

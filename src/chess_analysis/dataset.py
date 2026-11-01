@@ -104,6 +104,22 @@ def load_evals(username: str | None = None) -> pd.DataFrame:
     return _read(username, "evals.parquet")
 
 
+def load_moves_analysed(username: str | None = None) -> pd.DataFrame:
+    """Derived move-quality columns only (see analysed.py), keyed by game_uuid and ply."""
+    return _read(username, "moves_analysed.parquet")
+
+
+def load_analysed(username: str | None = None) -> pd.DataFrame:
+    """Enriched moves joined with move quality, plus calibrated expected-points
+    columns when that table exists."""
+    frame = load_moves_enriched(username).merge(load_moves_analysed(username), on=["game_uuid", "ply"], how="left")
+    user_dir = load_settings(username).user_dir
+    path = user_dir / "expected_points.parquet"
+    if path.exists():
+        frame = frame.merge(pd.read_parquet(path), on=["game_uuid", "ply"], how="left")
+    return frame
+
+
 def load_my_games(username: str | None = None) -> pd.DataFrame:
     """`my_games()` for the configured player, plus sessions, local time and pool history."""
     return _read(username, MY_GAMES_FILE)
