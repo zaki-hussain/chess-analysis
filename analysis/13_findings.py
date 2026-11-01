@@ -26,6 +26,8 @@ FINDINGS_DIR = repo_root() / "analysis" / "findings"
 TIME_CLASSES = {"bullet", "blitz", "rapid", "all"}
 KINDS = {"comparison", "effect", "null_result", "description"}
 NUMBER_FIELDS = ("player", "opponents", "difference", "stake")
+OPTIONAL = {"opponents_is"}  # what the second value is: opponents (default), strangers, control
+OPPONENTS_IS = {"opponents", "strangers", "control"}
 REQUIRED = {
     "id", "section", "claim", "metric", "unit", "time_class", "player", "opponents", "difference",
     "n", "kind", "lever", "higher_is_better", "stake", "stake_unit", "stake_note", "caveat",
@@ -87,7 +89,7 @@ def validate_file(path: Path) -> tuple[list[dict], list[str]]:
     for i, f in enumerate(doc["findings"]):
         where = f"{path.name}#{i} ({f.get('id', '?')})"
         missing = REQUIRED - set(f)
-        extra = set(f) - REQUIRED
+        extra = set(f) - REQUIRED - OPTIONAL
         if missing:
             problems.append(f"{where}: missing fields {sorted(missing)}")
         if extra:
@@ -113,6 +115,9 @@ def validate_file(path: Path) -> tuple[list[dict], list[str]]:
         section = normalise(str(f["section"])).lower()
         if section and not any(section in h.lower() for h in report_headings):
             problems.append(f"{where}: section {f['section']!r} is not a heading of {doc['report']}")
+        opponents_is = f.get("opponents_is", "opponents")
+        if opponents_is not in OPPONENTS_IS:
+            problems.append(f"{where}: opponents_is {opponents_is!r} not in {sorted(OPPONENTS_IS)}")
         if f["player"] is None and f["difference"] is None and f["opponents"] is None:
             problems.append(f"{where}: at least one of player / opponents / difference is needed")
         if (f["stake"] is None) != (f["stake_unit"] is None):
@@ -120,7 +125,7 @@ def validate_file(path: Path) -> tuple[list[dict], list[str]]:
         row = {
             "question": doc["question"], "report": doc["report"], "finding_id": f["id"], "section": f["section"],
             "claim": f["claim"], "metric": f["metric"], "unit": f["unit"], "time_class": f["time_class"], "kind": f["kind"],
-            "lever": f["lever"], "higher_is_better": f["higher_is_better"], "n": f["n"],
+            "lever": f["lever"], "higher_is_better": f["higher_is_better"], "n": f["n"], "opponents_is": opponents_is,
             "stake_unit": f["stake_unit"], "stake_note": f["stake_note"], "caveat": f["caveat"],
         }
         for key in NUMBER_FIELDS:
@@ -157,7 +162,7 @@ def validate_file(path: Path) -> tuple[list[dict], list[str]]:
 COLUMNS = [
     "question", "finding_id", "time_class", "kind", "lever", "claim", "metric", "unit", "higher_is_better",
     "player_text", "player_est", "player_lo", "player_hi", "player_is_percent",
-    "opponents_text", "opp_est", "opp_lo", "opp_hi",
+    "opponents_text", "opponents_is", "opp_est", "opp_lo", "opp_hi",
     "difference_text", "diff_est", "diff_lo", "diff_hi", "ci_basis", "ci_excludes_zero",
     "stake_text", "stake_est", "stake_lo", "stake_hi", "stake_unit", "stake_note",
     "n", "section", "report", "caveat",
@@ -188,9 +193,14 @@ def write_report(table: pd.DataFrame, path_out: Path) -> Path:
     counts = table.groupby("question").agg(findings=("finding_id", "size"), levers=("lever", "sum"), ci_excludes_zero=("ci_excludes_zero", lambda s: int(s.fillna(False).sum()))).reset_index()
     report.heading("Per report")
     report.table(counts)
-    levers = table[table["lever"] & table["stake_est"].notna()].sort_values("stake_est", ascending=False, kind="stable")
+    levers = table[table["lever"] & table["stake_est"].notna()]
     report.heading("Levers with a stake in expected points")
-    report.table(levers[["question", "finding_id", "time_class", "stake_text", "stake_unit", "claim"]])
+    for unit in ("points per game", "points per 100 games", "points total"):
+        part = levers[levers["stake_unit"] == unit]
+        part = part.iloc[part["stake_est"].abs().argsort()[::-1], :]  # a tilt contrast is negative; rank by size
+        if len(part):
+            report.heading(unit, level=3)
+            report.table(part[["question", "finding_id", "time_class", "stake_text", "stake_note", "claim"]])
     report.heading("All findings")
     show = table[["question", "finding_id", "time_class", "kind", "lever", "player_text", "opponents_text", "difference_text", "ci_excludes_zero", "unit", "claim"]].copy()
     show["ci_excludes_zero"] = show["ci_excludes_zero"].map({True: "yes", False: "no"}).fillna("")

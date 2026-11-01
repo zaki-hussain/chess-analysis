@@ -51,6 +51,7 @@ and `reports/13_findings.md`. Check one file with
 | `time_class` | string | `bullet`, `blitz`, `rapid` or `all` |
 | `player` | string or null | the player's number **as printed in the report**: `est`, `est [lo, hi]`, `est% [lo, hi]` |
 | `opponents` | string or null | the opponents' (or strangers') number from the same games, as printed |
+| `opponents_is` | string, optional | what the `opponents` value is: `opponents` (default: the opponents in the same games), `strangers` (Q12 step 2), `control` (the player's own control condition in a contrast) |
 | `difference` | string or null | the paired player-minus-opponents (or treatment-minus-control) difference, as printed |
 | `n` | string or null | sample size as printed (`6,027 games`, `788 resignations`) |
 | `kind` | string | `comparison` (player vs opponents), `effect` (a condition or habit vs its baseline), `null_result` (an effect the report rules out), `description` (a fact about the games) |
