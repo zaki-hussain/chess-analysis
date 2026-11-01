@@ -49,8 +49,9 @@ This writes `data/<username>/evals.parquet`, one row per distinct position:
 eval and mate distance, Stockfish's win/draw/loss estimate, the best and
 second-best moves. It saves as it goes and skips positions already done, so
 it can be stopped and resumed, or run on a bigger machine
-(`scripts/ec2-setup.sh` prepares an Ubuntu EC2 instance) and the file
-committed afterwards. `with_evals(moves, evals)` joins the evaluation before
+(`scripts/ec2-setup.sh` prepares an Ubuntu EC2 instance and
+`scripts/ec2-run.sh` runs it and powers the instance off when done) and the
+file committed afterwards. `with_evals(moves, evals)` joins the evaluation before
 and after each move onto the moves table.
 
 ## In Python

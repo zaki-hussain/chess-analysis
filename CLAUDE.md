@@ -33,7 +33,7 @@ Stockfish 17.1 is at /opt/stockfish/stockfish (symlinked to /usr/local/bin/stock
   - `dataset.py`: builds and loads the tables. `my_games()` gives a per-player view.
   - `enrich.py`: engine-free derived columns: board state via python-chess, time spent, sessions, local time.
   - `engine.py`: Stockfish evaluation of every distinct position into `evals.parquet`; `with_evals()` joins eval before/after onto moves.
-- `scripts/ec2-setup.sh`: prepares an Ubuntu EC2 instance (Python, Stockfish, venv) for the full `analyse` run.
+- `scripts/ec2-setup.sh`: prepares an Ubuntu EC2 instance (Python, Stockfish, venv) for the full `analyse` run. `scripts/ec2-run.sh` runs it and powers the instance off afterwards (plus a 6-hour safety-net shutdown).
 - `data/<user>/`: committed to the repo (the user's choice). CSV exports are gitignored.
 - `tests/fixtures/games.json`: five real zakihussa1n games (live with accuracies and tournament, daily, crazyhouse, odds chess, no moves).
 
