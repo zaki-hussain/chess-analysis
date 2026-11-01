@@ -277,7 +277,42 @@ Suggested waves:
 | 3 | Q6, Q12 | Q6 needs Q5's session controls; Q12 needs its download |
 | 4 | Q13 synthesis | single agent, reads all reports |
 
-Rules for every agent: use `load_analysed()` and the toolkit, report
-bullet/blitz/rapid separately, pair every "you" number with the opponents'
-number from the same games, cluster CIs by game, don't use post-game
-ratings as predictors, and update the question's status and notes here.
+Rules for every agent: use `load_data()` from `chess_analysis.toolkit`,
+report bullet/blitz/rapid separately, pair every "you" number with the
+opponents' number from the same games, cluster CIs by game, don't use
+post-game ratings as predictors, and update the question's status and notes
+here.
+
+### How to run the waves (brief for a fresh session)
+
+Nothing below needs Stockfish, tablebases or the network; all inputs are
+committed. Setup is in CLAUDE.md ("Starting in a fresh session").
+
+1. Launch each question of a wave as its own agent in its own git worktree
+   (Agent tool with `isolation: "worktree"`), in parallel. Give each agent:
+   the question's section from this file verbatim; `analysis/README.md`
+   and `analysis/_template.py` as the shape to follow; the data facts in
+   CLAUDE.md; the deliverables: `analysis/<nn>_<slug>.py` (re-runnable,
+   `python analysis/<nn>_<slug>.py` writes the report), `reports/<nn>_<slug>.md`
+   with figures, any reusable per-game table committed as
+   `data/<user>/<name>.parquet` if other questions need it (Q1 writes
+   `games_decomposed.parquet`), and the status/notes update to its section
+   here. Tell it the report must state numbers with CIs, compare with
+   opponents, and end with a short "what this means for the player"
+   paragraph and a list of caveats.
+2. When a wave's agents finish, review each report for sanity (orders of
+   magnitude, CIs present, bullet/blitz/rapid split), merge the worktrees
+   into the branch in question order (resolve the PLAN.md notes edits by
+   keeping all), run `pytest -q`, commit, push.
+3. Start the next wave. Wave 2 agents should read the wave-1 reports they
+   depend on (Q1 for Q2/Q5/Q7/Q8; Q3 for Q4).
+4. The Q12 opponent download (step 2 of Q12) is a serial, rate-limited
+   job: start it in the background at wave 1 with `archive.download()` for
+   ~200 opponents chosen from `my_games.opponent` (most frequent first),
+   into `data/opponents/<name>/raw/`; it needs the network only.
+5. Finish with Q13 as a single agent reading every report.
+
+Slugs: 01_decomposition, 02_trajectory, 03_time_pressure,
+04_clock_allocation, 05_sessions, 06_time_of_day, 07_resignation,
+08_openings, 09_blunder_anatomy, 10_endgames, 11_upsets (may live inside
+02), 12_fingerprint, 13_synthesis.
