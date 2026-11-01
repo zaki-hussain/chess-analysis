@@ -5,6 +5,30 @@ tabulating games is the first part; analysis stages build on the tables it
 produces. `PLAN.md` lists the questions we want to answer, their status and
 notes: update it when plans change or a step finishes.
 
+## Starting in a fresh session or machine
+
+The branch with all the work is `claude/friendly-ramanujan-c7c9wf` (main
+only has the first commit). Everything computed is committed under
+`data/zakihussa1n/`: raw archives, all tables, `evals.parquet` (every
+position evaluated), `tablebase.parquet`, `expected_points.parquet`. So
+**the analysis questions in PLAN.md need no engine, no tablebases and no
+network**: just
+
+```bash
+python -m venv .venv && .venv/bin/pip install -e ".[dev]" && .venv/bin/pytest -q
+```
+
+(84 tests; the two that need Stockfish or Syzygy tables skip when absent.)
+Only re-run `analyse`, `tablebase` or `calibrate` if new games were fetched.
+
+If an engine or tablebases are needed (new games, or a sample re-analysis),
+they are external downloads that need the user's approval in a cloud
+session (the permission classifier blocks them otherwise; the user has
+approved both before):
+- Stockfish 17.1: `https://github.com/official-stockfish/Stockfish/releases/download/sf_17.1/stockfish-ubuntu-x86-64-avx2.tar`, install the binary as `/usr/local/bin/stockfish` (the AVX-512 build was no faster).
+- Syzygy 3-4-5: the URL list is `https://syzygy-tables.info/download.txt` (lines containing `/3-4-5-wdl/` and `/3-4-5-dtz/`, 290 files, 939 MB); `config.toml` expects them in `/opt/syzygy`.
+- Openings TSVs are already in the repo (`data/openings/`).
+
 ## Commands
 
 ```bash
