@@ -1,0 +1,21 @@
+# chess-analysis settings. Nothing in here is secret, so this file is committed.
+
+# chess.com account whose games are fetched and analysed.
+# Override for a single run with --username.
+username = "zakihussa1n"
+
+# Where downloaded and processed data is kept, relative to this file.
+data_dir = "data"
+
+# Used to work out local time of day for each game.
+timezone = "Europe/London"
+
+# Games separated by a longer pause than this start a new playing session.
+session_gap_minutes = 30
+
+# Engine used by `chess-analysis analyse`: a command on PATH or a full path.
+stockfish = "stockfish"
+
+# Folder holding Syzygy 3-4-5 piece tablebases (~1 GB, kept outside the repo)
+# for `chess-analysis tablebase`. Leave empty if you don't have them.
+syzygy_dir = "/opt/syzygy"

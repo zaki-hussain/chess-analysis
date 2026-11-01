@@ -1,0 +1,60 @@
+{
+  "games": [
+    {
+      "url": "https://www.chess.com/game/live/124483757841",
+      "pgn": "[Event \"Live Chess\"]\n[Site \"Chess.com\"]\n[Date \"2024.11.04\"]\n[Round \"-\"]\n[White \"Ibrohim1_2200\"]\n[Black \"zakihussa1n\"]\n[Result \"0-1\"]\n[CurrentPosition \"r3k2N/ppp4Q/6p1/3Bpb2/3q4/2K5/PP1P2PP/nNB4R w q -\"]\n[Timezone \"UTC\"]\n[ECO \"C57\"]\n[ECOUrl \"https://www.chess.com/openings/Italian-Game-Traxler-Knight-Sacrifice-Line-5...Bxf2\"]\n[UTCDate \"2024.11.04\"]\n[UTCTime \"18:25:43\"]\n[WhiteElo \"1174\"]\n[BlackElo \"1177\"]\n[TimeControl \"60\"]\n[Termination \"zakihussa1n won by checkmate\"]\n[StartTime \"18:25:43\"]\n[EndDate \"2024.11.04\"]\n[EndTime \"18:27:06\"]\n[Link \"https://www.chess.com/game/live/124483757841\"]\n\n1. e4 {[%clk 0:01:00]} 1... e5 {[%clk 0:00:57.9]} 2. Nf3 {[%clk 0:00:59.3]} 2... Nc6 {[%clk 0:00:57.4]} 3. Bc4 {[%clk 0:00:58.2]} 3... Nf6 {[%clk 0:00:57]} 4. Ng5 {[%clk 0:00:56.5]} 4... Bc5 {[%clk 0:00:56.5]} 5. Nxf7 {[%clk 0:00:52.4]} 5... Bxf2+ {[%clk 0:00:54.9]} 6. Ke2 {[%clk 0:00:48.4]} 6... Qe7 {[%clk 0:00:52.9]} 7. Nxh8 {[%clk 0:00:47.1]} 7... Nd4+ {[%clk 0:00:51.8]} 8. Kxf2 {[%clk 0:00:45]} 8... Nxe4+ {[%clk 0:00:49.8]} 9. Ke3 {[%clk 0:00:43.5]} 9... Qg5+ {[%clk 0:00:44.1]} 10. Kxe4 {[%clk 0:00:41.7]} 10... Qf4+ {[%clk 0:00:42.6]} 11. Kd3 {[%clk 0:00:39.6]} 11... d5 {[%clk 0:00:39.8]} 12. Bxd5 {[%clk 0:00:37.7]} 12... Bf5+ {[%clk 0:00:38.9]} 13. Kc4 {[%clk 0:00:36.5]} 13... Nxc2+ {[%clk 0:00:30.9]} 14. Kc3 {[%clk 0:00:31.7]} 14... Nxa1 {[%clk 0:00:26]} 15. Qh5+ {[%clk 0:00:29.8]} 15... g6 {[%clk 0:00:22.1]} 16. Qxh7 {[%clk 0:00:28.4]} 16... Qd4# {[%clk 0:00:20.2]} 0-1\n",
+      "time_control": "60",
+      "end_time": 1730744826,
+      "rated": true,
+      "tcn": "mC0Kgv5QfA!TvM9IM1Inem701?QBmnTCnu0MuCMDCtZJAJ6LtABkAskadN2UN3DB",
+      "uuid": "33f2e977-9ada-11ef-9df8-6cfe544c0428",
+      "initial_setup": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+      "fen": "r3k2N/ppp4Q/6p1/3Bpb2/3q4/2K5/PP1P2PP/nNB4R w q -",
+      "time_class": "bullet",
+      "rules": "chess",
+      "white": {
+        "rating": 1174,
+        "result": "checkmated",
+        "@id": "https://api.chess.com/pub/player/ibrohim1_2200",
+        "username": "Ibrohim1_2200",
+        "uuid": "209194ea-9530-11ee-86e0-091382f79a29"
+      },
+      "black": {
+        "rating": 1177,
+        "result": "win",
+        "@id": "https://api.chess.com/pub/player/zakihussa1n",
+        "username": "zakihussa1n",
+        "uuid": "24259a00-0754-11ec-9c07-d7d6a183fbf5"
+      },
+      "eco": "https://www.chess.com/openings/Italian-Game-Traxler-Knight-Sacrifice-Line-5...Bxf2"
+    },
+    {
+      "url": "https://www.chess.com/game/live/124483780405",
+      "pgn": "[Event \"Live Chess\"]\n[Site \"Chess.com\"]\n[Date \"2024.11.04\"]\n[Round \"-\"]\n[White \"zakihussa1n\"]\n[Black \"klm24\"]\n[Result \"0-1\"]\n[CurrentPosition \"R7/p4pk1/1p2p1p1/1BpbP3/2K2q2/2N3p1/PPP5/3R3r w - -\"]\n[Timezone \"UTC\"]\n[ECO \"A04\"]\n[ECOUrl \"https://www.chess.com/openings/Reti-Opening-Kingside-Fianchetto-Variation-2.e4-Bg7\"]\n[UTCDate \"2024.11.04\"]\n[UTCTime \"18:27:28\"]\n[WhiteElo \"1165\"]\n[BlackElo \"1145\"]\n[TimeControl \"60\"]\n[Termination \"klm24 won on time\"]\n[StartTime \"18:27:28\"]\n[EndDate \"2024.11.04\"]\n[EndTime \"18:29:18\"]\n[Link \"https://www.chess.com/game/live/124483780405\"]\n\n1. e4 {[%clk 0:01:00]} 1... g6 {[%clk 0:01:00]} 2. Nf3 {[%clk 0:00:59.3]} 2... Bg7 {[%clk 0:00:59.9]} 3. Bc4 {[%clk 0:00:58.8]} 3... b6 {[%clk 0:00:59.8]} 4. O-O {[%clk 0:00:57.8]} 4... Bb7 {[%clk 0:00:59.7]} 5. d4 {[%clk 0:00:56.9]} 5... e6 {[%clk 0:00:59.2]} 6. d5 {[%clk 0:00:56]} 6... Qe7 {[%clk 0:00:58.5]} 7. dxe6 {[%clk 0:00:54.7]} 7... dxe6 {[%clk 0:00:58.4]} 8. Nc3 {[%clk 0:00:54.1]} 8... Nd7 {[%clk 0:00:57.6]} 9. Bg5 {[%clk 0:00:52.8]} 9... Bf6 {[%clk 0:00:56]} 10. Bxf6 {[%clk 0:00:51.7]} 10... Ngxf6 {[%clk 0:00:55.9]} 11. e5 {[%clk 0:00:50.7]} 11... Ng4 {[%clk 0:00:54.6]} 12. h3 {[%clk 0:00:49.5]} 12... h5 {[%clk 0:00:53.1]} 13. hxg4 {[%clk 0:00:47.8]} 13... hxg4 {[%clk 0:00:52.4]} 14. Nh2 {[%clk 0:00:45.1]} 14... Qh4 {[%clk 0:00:51.5]} 15. f3 {[%clk 0:00:30]} 15... g3 {[%clk 0:00:50.5]} 16. Qxd7+ {[%clk 0:00:18.5]} 16... Kxd7 {[%clk 0:00:43.3]} 17. Bb5+ {[%clk 0:00:16.9]} 17... Ke7 {[%clk 0:00:41.7]} 18. Rfd1 {[%clk 0:00:15.4]} 18... Qxh2+ {[%clk 0:00:39.6]} 19. Kf1 {[%clk 0:00:14.4]} 19... Qh1+ {[%clk 0:00:39]} 20. Ke2 {[%clk 0:00:12.5]} 20... Qxg2+ {[%clk 0:00:38.4]} 21. Ke1 {[%clk 0:00:10.8]} 21... Qxf3 {[%clk 0:00:36.7]} 22. Rd7+ {[%clk 0:00:09.4]} 22... Kf8 {[%clk 0:00:34.5]} 23. Rad1 {[%clk 0:00:07.4]} 23... Rh1+ {[%clk 0:00:34.2]} 24. Kd2 {[%clk 0:00:05.9]} 24... Qf4+ {[%clk 0:00:32]} 25. Kd3 {[%clk 0:00:04.6]} 25... Be4+ {[%clk 0:00:28.9]} 26. Kc4 {[%clk 0:00:04.5]} 26... c5 {[%clk 0:00:26.7]} 27. Rd8+ {[%clk 0:00:03.6]} 27... Kg7 {[%clk 0:00:25]} 28. Rxa8 {[%clk 0:00:02.7]} 28... Bd5+ {[%clk 0:00:24.7]} 0-1\n",
+      "time_control": "60",
+      "end_time": 1730744958,
+      "rated": true,
+      "tcn": "mC2Ugv92fAXPeg6XlB0SBJ70JSZSbs5ZcM2TMT!TCKTEpx3NxENEvp0FnvEwdZ8ZAHZ0fdFpgfphfmhomeovdZ09ad?helvDltXCtAYIZ79274CJ",
+      "uuid": "725a40d2-9ada-11ef-9df8-6cfe544c0428",
+      "initial_setup": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+      "fen": "R7/p4pk1/1p2p1p1/1BpbP3/2K2q2/2N3p1/PPP5/3R3r w - -",
+      "time_class": "bullet",
+      "rules": "chess",
+      "white": {
+        "rating": 1165,
+        "result": "timeout",
+        "@id": "https://api.chess.com/pub/player/zakihussa1n",
+        "username": "zakihussa1n",
+        "uuid": "24259a00-0754-11ec-9c07-d7d6a183fbf5"
+      },
+      "black": {
+        "rating": 1145,
+        "result": "win",
+        "@id": "https://api.chess.com/pub/player/klm24",
+        "username": "klm24",
+        "uuid": "5a373d52-451c-11ea-9df6-adbda255e507"
+      },
+      "eco": "https://www.chess.com/openings/Reti-Opening-Kingside-Fianchetto-Variation-2.e4-Bg7"
+    }
+  ]
+}

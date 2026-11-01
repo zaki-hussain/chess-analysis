@@ -1,0 +1,32 @@
+{
+  "games": [
+    {
+      "url": "https://www.chess.com/game/live/186253081872",
+      "pgn": "[Event \"Live Chess\"]\n[Site \"Chess.com\"]\n[Date \"2026.10.31\"]\n[Round \"-\"]\n[White \"zakihussa1n\"]\n[Black \"avi562\"]\n[Result \"0-1\"]\n[CurrentPosition \"7k/ppp2pp1/6p1/4p3/2P1P3/1P3PNP/P5rr/R4RK1 w - - 4 25\"]\n[Timezone \"UTC\"]\n[ECO \"C55\"]\n[ECOUrl \"https://www.chess.com/openings/Italian-Game-Two-Knights-Defense-4.O-O-Nxe4\"]\n[UTCDate \"2026.10.31\"]\n[UTCTime \"01:02:16\"]\n[WhiteElo \"785\"]\n[BlackElo \"846\"]\n[TimeControl \"60+1\"]\n[Termination \"avi562 won by checkmate\"]\n[StartTime \"01:02:16\"]\n[EndDate \"2026.10.31\"]\n[EndTime \"01:04:19\"]\n[Link \"https://www.chess.com/game/live/186253081872\"]\n\n1. e4 {[%clk 0:01:00.9]} 1... e5 {[%clk 0:00:59.8]} 2. Nf3 {[%clk 0:01:01.3]} 2... Nc6 {[%clk 0:01:00.4]} 3. Bc4 {[%clk 0:01:01.8]} 3... Nf6 {[%clk 0:01:00.9]} 4. O-O {[%clk 0:01:01.4]} 4... Nxe4 {[%clk 0:00:59.9]} 5. Qe2 {[%clk 0:01:01]} 5... d5 {[%clk 0:01:00.1]} 6. d3 {[%clk 0:00:54.8]} 6... dxc4 {[%clk 0:00:52.2]} 7. dxe4 {[%clk 0:00:51.4]} 7... Bc5 {[%clk 0:00:50.4]} 8. Qxc4 {[%clk 0:00:50.6]} 8... O-O {[%clk 0:00:50.9]} 9. Bg5 {[%clk 0:00:47.2]} 9... Be7 {[%clk 0:00:48.7]} 10. Bxe7 {[%clk 0:00:44.6]} 10... Qxe7 {[%clk 0:00:49.6]} 11. Nc3 {[%clk 0:00:43.3]} 11... Be6 {[%clk 0:00:49.6]} 12. Nd5 {[%clk 0:00:42.6]} 12... Rad8 {[%clk 0:00:42.4]} 13. Nxe7+ {[%clk 0:00:41.9]} 13... Kh8 {[%clk 0:00:39.8]} 14. Ng6+ {[%clk 0:00:30]} 14... hxg6 {[%clk 0:00:40.7]} 15. Qe2 {[%clk 0:00:25.4]} 15... Bg4 {[%clk 0:00:40.9]} 16. h3 {[%clk 0:00:24.4]} 16... Nd4 {[%clk 0:00:40.2]} 17. Nxd4 {[%clk 0:00:23.7]} 17... Bxe2 {[%clk 0:00:39.7]} 18. Nxe2 {[%clk 0:00:21.9]} 18... Rd2 {[%clk 0:00:39.4]} 19. Ng3 {[%clk 0:00:20.7]} 19... Rfd8 {[%clk 0:00:39]} 20. c4 {[%clk 0:00:19.6]} 20... Rc2 {[%clk 0:00:39.5]} 21. b3 {[%clk 0:00:20.1]} 21... Rdd2 {[%clk 0:00:39.5]} 22. f3 {[%clk 0:00:16.1]} 22... Rxg2+ {[%clk 0:00:37.5]} 23. Kh1 {[%clk 0:00:15.7]} 23... Rh2+ {[%clk 0:00:38.4]} 24. Kg1 {[%clk 0:00:15.3]} 24... Rcg2# {[%clk 0:00:39.3]} 0-1\n",
+      "time_control": "60+1",
+      "end_time": 1793408659,
+      "rated": true,
+      "tcn": "mC0Kgv5QfA!TegTCdmZJltJAtC9ImA8!cMI0M070bs6SsJ47J0!?0U3UAmSEpxQBvBEmBm7lmw97kAlkjr7lnvloghophgko",
+      "uuid": "b6e21990-d4c6-11f1-ad82-7f235901000f",
+      "initial_setup": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+      "fen": "7k/ppp2pp1/6p1/4p3/2P1P3/1P3PNP/P5rr/R4RK1 w - - 4 25",
+      "time_class": "bullet",
+      "rules": "chess",
+      "white": {
+        "rating": 785,
+        "result": "checkmated",
+        "@id": "https://api.chess.com/pub/player/zakihussa1n",
+        "username": "zakihussa1n",
+        "uuid": "24259a00-0754-11ec-9c07-d7d6a183fbf5"
+      },
+      "black": {
+        "rating": 846,
+        "result": "win",
+        "@id": "https://api.chess.com/pub/player/avi562",
+        "username": "avi562",
+        "uuid": "4832087e-32b7-11eb-bd3e-cb7e9139ecd0"
+      },
+      "eco": "https://www.chess.com/openings/Italian-Game-Two-Knights-Defense-4.O-O-Nxe4"
+    }
+  ]
+}
