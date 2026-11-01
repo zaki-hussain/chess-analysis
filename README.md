@@ -54,6 +54,14 @@ it can be stopped and resumed, or run on a bigger machine
 file committed afterwards. `with_evals(moves, evals)` joins the evaluation before
 and after each move onto the moves table.
 
+## Small endgames and win probability
+
+```bash
+.venv/bin/chess-analysis tablebase     # exact win/draw/loss for every position with <= 5 pieces (Syzygy tables, path in config.toml)
+.venv/bin/chess-analysis build         # adds move quality (moves_analysed.parquet): cp loss, best move, blunder labels, tablebase errors
+.venv/bin/chess-analysis calibrate     # fits win probability on your own games -> expected_points.parquet, reports/calibration.md
+```
+
 ## In Python
 
 ```python
@@ -63,6 +71,9 @@ games = load_games()              # username from config.toml
 moves = load_moves_enriched()     # or load_moves() for the plain table
 mine = load_my_games()            # your colour, result, opponent, rating before/after, sessions, local time
 moves = with_evals(moves, load_evals())   # adds score_cp_before/after, best_move_before, is_best_move, ...
+
+from chess_analysis import load_analysed
+moves = load_analysed()           # everything: enriched moves + move quality + expected points
 ```
 
 See `PLAN.md` for the analyses this is building towards.
