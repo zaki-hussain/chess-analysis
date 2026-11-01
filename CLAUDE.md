@@ -68,6 +68,7 @@ Stockfish 17.1 is at /opt/stockfish/stockfish (symlinked to /usr/local/bin/stock
   - `toolkit.py`: shared helpers for the analysis scripts: `load_data()` (moves with per-game columns joined, daily games dropped), game-clustered bootstrap CIs, `compare_sides()` (player vs opponents in the same games, paired bootstrap of the difference), `binned()`, `mean_with_ci()`, `per_game()`, `elo_expected_score()`, `rating_band()`, `Report` (markdown + figures under `reports/figures/<slug>/`).
 - `analysis/`: one script per question in PLAN.md (`<nn>_<slug>.py`, see `analysis/README.md` and `_template.py`); each writes `reports/<nn>_<slug>.md`.
 - `reports/`: written analysis results (markdown, committed).
+- `scripts/download_opponents.py`: downloads the most frequent opponents' full archives into `data/opponents/<name>/raw/` for Q12 (serial, rate-limited, ~1 h for 200; raw dumps gitignored, resumable). `analysis/12_fingerprint.py --rebuild-features` turns them into the committed `data/opponents/fingerprint_features.parquet` (one row per player-game, engine-free style features; ~17 min).
 - `scripts/ec2-setup.sh`: prepares an Ubuntu EC2 instance (Python, Stockfish, venv) for the full `analyse` run. `scripts/ec2-run.sh` runs it and powers the instance off afterwards (plus a 6-hour safety-net shutdown).
 - `data/<user>/`: committed to the repo (the user's choice). CSV exports are gitignored.
 - `tests/fixtures/games.json`: five real zakihussa1n games (live with accuracies and tournament, daily, crazyhouse, odds chess, no moves).
