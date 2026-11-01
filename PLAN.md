@@ -347,12 +347,25 @@ Notes:
 - Caveats: step 1 is not the honest test (both rows share the game's length and opening line; one opponent, dhruvnair2006, has 205 games); engine features exist only for your games, so steps 1 and 2 are not comparable in level; strangers are matched on their post-game rating in third-party games (a matching variable, never a predictor), you on `my_rating_before`; strangers' games are sampled from their whole history (often 5-10 years) so stranger-vs-stranger pairs may be partly separable by era, yours span 2021-2026; time-control mix confounds the clock features where increment shares differ (blitz), and the band+time-control-matched fit is the check whose clock means to quote; the 20 subsample draws overlap (most in rapid), so that CI is the spread between draws; the pool is your most frequent opponents, not a random chess.com sample; per-pair AUCs rest on 30-120 games per side and only their distribution is interpreted; permutation importance spreads credit across the correlated clock features; a fingerprint describes habits, not causes of results.
 - For Q13: the fingerprint is description, not a lever; nothing here changes expected rating. It says you are an ordinary same-rated player in error profile (engine AUC near 0.5, in line with the toolkit baseline of 0.029-0.032 `ep_loss` per move for both sides) and distinctive only in habits: a narrow repertoire (one first move as White, one reply to e4 and to d4), early short castling, and pacing differences that mostly dissolve once time control is matched. The one reading worth a line in the synthesis: a narrow repertoire is predictable to regular opponents, but Q8 found no cost from it, so this ranks below the time-use, resignation and session findings.
 
-### 13. Synthesis: what to work on — last, single agent
+### 13. Findings as data — done
 
-One report that ranks the findings by expected rating gain: which habit
-(time use, resignation, a specific opening, an endgame type, session
-length) would move your rating most, with the evidence from the reports
-above. Depends on everything.
+Originally a prose synthesis ranking the findings by expected rating gain.
+Changed: the user will not read a prose synthesis and it would not help
+their own writing; what is needed is the findings themselves, in the repo,
+as data to work from. So Q13 is a findings table, not a report.
+
+Deliverables: `analysis/findings/<nn>_<slug>.json`, one file per report,
+each finding a record with its numbers copied *as printed* in the report
+(estimate [lo, hi] strings for the player, the opponents and the paired
+difference, plus the stake in expected points per game where the report
+gives one), the metric, unit, time class, kind (comparison / effect /
+null_result / description), whether it is a lever the player can act on,
+the sign convention and a caveat. `analysis/13_findings.py` validates every
+file (each number string must occur verbatim in its report, CIs must
+bracket their estimate, sections must be report headings), derives numeric
+columns and `ci_excludes_zero`, and writes `data/zakihussa1n/findings.parquet`
+and `reports/13_findings.md` (the same table, no prose). Schema and column
+list in `analysis/findings/README.md`.
 
 ## Part C: How the work is organised
 
@@ -374,7 +387,7 @@ F7 toolkit ─┬→ Q1 decomposition ─┬→ Q2 trajectory (+Q11 upsets)
             ├→ Q9 blunder anatomy
             ├→ Q10 endgame technique
             └→ Q12 fingerprint (step 2 needs the opponent download job)
-Q13 synthesis → all of the above
+Q13 findings table → all of the above
 ```
 
 Suggested waves:
@@ -385,7 +398,7 @@ Suggested waves:
 | 1 | Q1, Q3, Q9, Q10, and start the Q12 opponent download in the background | five independent jobs; Q1 is the one others wait on |
 | 2 | Q2 (+Q11), Q4, Q5, Q7, Q8 | each needs one wave-1 result |
 | 3 | Q6, Q12 | Q6 needs Q5's session controls; Q12 needs its download |
-| 4 | Q13 synthesis | single agent, reads all reports |
+| 4 | Q13 findings table | one extraction agent per report, then one build |
 
 Rules for every agent: use `load_data()` from `chess_analysis.toolkit`,
 report bullet/blitz/rapid separately, pair every "you" number with the
@@ -395,7 +408,7 @@ here.
 
 ### How to run the waves (brief for a fresh session)
 
-Status: waves 1-3 (Q1-Q12) are done; only Q13 remains. The opponent
+Status: all waves (Q1-Q13) are done. The opponent
 download finished (200 opponents, none missing; raw dumps under
 `data/opponents/*/raw/` are gitignored, the derived
 `data/opponents/fingerprint_features.parquet` is committed). In practice the
@@ -428,7 +441,7 @@ committed. Setup is in CLAUDE.md ("Starting in a fresh session").
    job: start it in the background at wave 1 with `archive.download()` for
    ~200 opponents chosen from `my_games.opponent` (most frequent first),
    into `data/opponents/<name>/raw/`; it needs the network only.
-5. Finish with Q13 as a single agent reading every report.
+5. Finish with Q13: one agent per report extracting findings into `analysis/findings/`, then `python analysis/13_findings.py` builds the table.
 
 Slugs: 01_decomposition, 02_trajectory, 03_time_pressure,
 04_clock_allocation, 05_sessions, 06_time_of_day, 07_resignation,
