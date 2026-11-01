@@ -41,6 +41,8 @@ Stockfish 17.1 is at /opt/stockfish/stockfish (symlinked to /usr/local/bin/stock
   - `openings.py`: opening names and book depth from `data/openings/*.tsv` (Lichess chess-openings, CC0).
   - `tablebase.py`: Syzygy probes for every <=5-piece position into `tablebase.parquet`.
   - `calibrate.py`: win-probability model on the player's own games; writes `expected_points.parquet` and `reports/calibration.md`.
+  - `toolkit.py`: shared helpers for the analysis scripts: `load_data()` (moves with per-game columns joined, daily games dropped), game-clustered bootstrap CIs, `compare_sides()` (player vs opponents in the same games, paired bootstrap of the difference), `binned()`, `mean_with_ci()`, `per_game()`, `elo_expected_score()`, `rating_band()`, `Report` (markdown + figures under `reports/figures/<slug>/`).
+- `analysis/`: one script per question in PLAN.md (`<nn>_<slug>.py`, see `analysis/README.md` and `_template.py`); each writes `reports/<nn>_<slug>.md`.
 - `reports/`: written analysis results (markdown, committed).
 - `scripts/ec2-setup.sh`: prepares an Ubuntu EC2 instance (Python, Stockfish, venv) for the full `analyse` run. `scripts/ec2-run.sh` runs it and powers the instance off afterwards (plus a 6-hour safety-net shutdown).
 - `data/<user>/`: committed to the repo (the user's choice). CSV exports are gitignored.
@@ -72,3 +74,4 @@ Stockfish 17.1 is at /opt/stockfish/stockfish (symlinked to /usr/local/bin/stock
 - Engine workers are plain `multiprocessing` processes (spawn context) that quit their engine themselves before exiting. Don't switch to `ProcessPoolExecutor`: python-chess's engine thread is non-daemon and a 3.13 child waits for threads before any exit hook runs, so pool workers hang forever. Forked workers can also deadlock on inherited pandas/pyarrow locks.
 - Benchmarks (1 thread, 2.1 GHz Xeon): 1M nodes ≈ 1.07 s/position; 4 workers here ≈ 4.2 positions/s.
 - Analyses should use `ep_loss` (calibrated expected points) as the main move-quality measure and `cp_loss` as the familiar secondary one; never post-game ratings as predictors.
+- Analysis scripts use the toolkit: bullet/blitz/rapid reported separately, every player number paired with the opponents' number from the same games, CIs clustered by game. Baseline from the toolkit's own check: mean `ep_loss` per move is 0.029–0.032 for both sides in every time class; differences are in the third decimal, so always show CIs.

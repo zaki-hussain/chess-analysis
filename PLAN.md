@@ -31,17 +31,22 @@ Notes:
   as an alternative end-of-opening marker.
 - Daily games (18) have no clock data; variants (34 games) are excluded.
 
-### F7. Analysis toolkit — next, single agent, before any question
+### F7. Analysis toolkit — done
 
-Small shared module (`analysis/common.py`) so the question scripts agree
-with each other: load the joined table once; the standard filters
-(live games, rated, standard rules); bootstrap confidence intervals
-clustered by game; "you vs opponents in the same games" comparison helper;
-rating/time-class stratification helper; a report template (markdown with
-tables; figures saved under `reports/figures/`). Also the conventions:
-every result reported separately for bullet, blitz and rapid; every
-comparison carries a confidence interval; every claim about "you" is
-paired with the same number for your opponents.
+`chess_analysis/toolkit.py` plus `analysis/README.md` and `_template.py`:
+`load_data()` (moves with the per-game view joined; standard live games),
+game-clustered bootstrap CIs, `compare_sides()` (you vs opponents in the
+same games, with a paired bootstrap for the difference), `binned()`,
+`mean_with_ci()`, `per_game()`, Elo expectation, rating bands, and
+`Report` for markdown + figures. Conventions: bullet/blitz/rapid reported
+separately, every player number paired with the opponents', CIs on
+everything, `ep_loss` first, no post-game ratings as predictors.
+
+Notes:
+- Baseline from the template run: mean `ep_loss` per move 0.029–0.032 for
+  both sides in every time class; you lose marginally less than opponents
+  in bullet (−0.0003 [−0.0006, −0.0000]) and rapid (−0.0010 [−0.0018,
+  −0.0002]). Differences will be in the third decimal: CIs matter.
 
 ## Part B: Questions, in execution order
 
@@ -266,7 +271,7 @@ Suggested waves:
 
 | Wave | Parallel agents | Notes |
 |---|---|---|
-| 0 | F7 toolkit | single agent, short; everything else imports it |
+| 0 | F7 toolkit (done) | single agent; everything else imports it |
 | 1 | Q1, Q3, Q9, Q10, and start the Q12 opponent download in the background | five independent jobs; Q1 is the one others wait on |
 | 2 | Q2 (+Q11), Q4, Q5, Q7, Q8 | each needs one wave-1 result |
 | 3 | Q6, Q12 | Q6 needs Q5's session controls; Q12 needs its download |
