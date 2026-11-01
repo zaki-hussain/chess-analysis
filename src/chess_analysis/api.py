@@ -51,7 +51,7 @@ class ChessComClient:
             wait = self.backoff_seconds * 2**attempt
             try:
                 response = self.session.get(url, timeout=self.timeout_seconds)
-            except (requests.ConnectionError, requests.Timeout) as exc:
+            except (requests.ConnectionError, requests.Timeout, requests.exceptions.ChunkedEncodingError) as exc:
                 problem = str(exc)
             else:
                 if response.status_code == 200:
