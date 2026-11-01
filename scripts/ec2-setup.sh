@@ -4,7 +4,7 @@
 # Usage, from the repo folder copied onto the instance:
 #   bash scripts/ec2-setup.sh
 # then:
-#   nohup .venv/bin/chess-analysis analyse > analyse.log 2>&1 &
+#   nohup bash scripts/ec2-run.sh > analyse.log 2>&1 &   # analyse, then power off
 #   tail -f analyse.log
 #
 # Installs Python, picks the fastest Stockfish 17.1 build the CPU supports,
@@ -44,5 +44,5 @@ echo "== Creating virtualenv"
 echo "== Ready. $(nproc) CPUs. Single-core speed:"
 stockfish bench 16 1 13 2>&1 | grep "Nodes/second"
 echo
-echo "Run:  nohup .venv/bin/chess-analysis analyse > analyse.log 2>&1 &"
+echo "Run:   nohup bash scripts/ec2-run.sh > analyse.log 2>&1 &   (analyse, then power off)"
 echo "Watch: tail -f analyse.log"
