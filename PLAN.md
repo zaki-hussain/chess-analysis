@@ -26,7 +26,7 @@ Notes:
 - Rating-reliability proxies (days since last game, games in last 30 days)
   stand in for Glicko RD, which chess.com doesn't publish historically.
 
-### F2. Stockfish evaluation of every position — built; full run pending on EC2
+### F2. Stockfish evaluation of every position — done
 
 `chess-analysis analyse` → `data/<user>/evals.parquet`, keyed by FEN
 (ignoring move counters), joined to moves via `fen_before` and the game's
@@ -63,8 +63,13 @@ Notes:
 - Implemented as `chess-analysis analyse` (engine.py). Tested here on 700
   positions at 1M nodes: 4.2 positions/s on 4 workers, bit-identical on
   re-evaluation, survives Ctrl-C with progress saved and no orphaned engines.
-- Full run: c7a.16xlarge (64 cores) via scripts/ec2-setup.sh, then commit
-  evals.parquet. New accounts need a vCPU quota increase first.
+- Full run done 2026-11-01 on a c7a.8xlarge (32 cores) overnight via
+  scripts/ec2-run.sh: 316,076 positions at 1M nodes, Stockfish 17.1,
+  evals.parquet 7 MB. Verified: no missing positions, median depth 21, 93%
+  of searches used the full budget, 38,956 forced-mate positions.
+- Sanity: best-move rate 36.7% (me) vs 36.5% (opponents); mean capped cp
+  loss 96 vs 95. Per-game cp loss correlates −0.71/−0.73 with chess.com's
+  accuracy on the 300 reviewed games.
 
 ### F3. Win-probability calibration — planned
 
