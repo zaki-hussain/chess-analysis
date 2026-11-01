@@ -7,10 +7,13 @@ notes: update it when plans change or a step finishes.
 
 ## Starting in a fresh session or machine
 
-The branch with all the work is `claude/friendly-ramanujan-c7c9wf` (main
-only has the first commit). Everything computed is committed under
-`data/zakihussa1n/`: raw archives, all tables, `evals.parquet` (every
-position evaluated), `tablebase.parquet`, `expected_points.parquet`. So
+All the work is on `main` (the foundations landed via the first pull
+request; the analysis questions arrive via the pull request from
+`claude/intelligent-brown-ksgmwq`, after which that branch is history too).
+Everything computed is committed under `data/zakihussa1n/`: raw archives,
+all tables, `evals.parquet` (every position evaluated),
+`tablebase.parquet`, `expected_points.parquet`, the per-question tables
+(`games_decomposed.parquet`, `findings.parquet`). So
 **the analysis questions in PLAN.md need no engine, no tablebases and no
 network**: just
 
@@ -66,7 +69,7 @@ Stockfish 17.1 is at /opt/stockfish/stockfish (symlinked to /usr/local/bin/stock
   - `tablebase.py`: Syzygy probes for every <=5-piece position into `tablebase.parquet`.
   - `calibrate.py`: win-probability model on the player's own games; writes `expected_points.parquet` and `reports/calibration.md`.
   - `toolkit.py`: shared helpers for the analysis scripts: `load_data()` (moves with per-game columns joined, daily games dropped), game-clustered bootstrap CIs, `compare_sides()` (player vs opponents in the same games, paired bootstrap of the difference), `binned()`, `mean_with_ci()`, `per_game()`, `elo_expected_score()`, `rating_band()`, `Report` (markdown + figures under `reports/figures/<slug>/`).
-- `analysis/`: one script per question in PLAN.md (`<nn>_<slug>.py`, see `analysis/README.md` and `_template.py`); each writes `reports/<nn>_<slug>.md`.
+- `analysis/`: one script per question in PLAN.md (`<nn>_<slug>.py`, see `analysis/README.md` and `_template.py`); each writes `reports/<nn>_<slug>.md`. `analysis/findings/*.json` holds every report's findings as data (numbers copied as printed, schema in `analysis/findings/README.md`); `13_findings.py` validates them verbatim against the reports and writes `data/zakihussa1n/findings.parquet` plus `reports/13_findings.md` (table only, no prose).
 - `reports/`: written analysis results (markdown, committed).
 - `scripts/download_opponents.py`: downloads the most frequent opponents' full archives into `data/opponents/<name>/raw/` for Q12 (serial, rate-limited, ~1 h for 200; raw dumps gitignored, resumable). `analysis/12_fingerprint.py --rebuild-features` turns them into the committed `data/opponents/fingerprint_features.parquet` (one row per player-game, engine-free style features; ~17 min).
 - `scripts/ec2-setup.sh`: prepares an Ubuntu EC2 instance (Python, Stockfish, venv) for the full `analyse` run. `scripts/ec2-run.sh` runs it and powers the instance off afterwards (plus a 6-hour safety-net shutdown).

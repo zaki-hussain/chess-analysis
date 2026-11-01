@@ -27,3 +27,8 @@ Rules:
 - `ep_loss` is the main move-quality measure, `cp_loss` the secondary one;
 - never use post-game ratings as predictors (`my_rating_before` is fine);
 - finish by updating the question's status and notes in `PLAN.md`.
+
+`13_findings.py` is the exception to the shape: it computes nothing from the
+games. It validates `analysis/findings/*.json` (the findings of every report
+with numbers copied as printed) against the reports and writes
+`data/<user>/findings.parquet` and `reports/13_findings.md`.
