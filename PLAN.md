@@ -181,7 +181,7 @@ Notes:
 - Methodological: a within-session (fixed-effect) regression must not include the previous result (lagged outcome in 2–10 game panels → Nickell bias flips the sign); tilt is estimated from the pooled model and the conditional tables instead. Per-game "you − them" gaps should be move-weighted ratio differences, not means of per-game rates (the two disagree by 3×).
 - For Q6: use `session_features()` from this script for the controls (game_in_session, minutes_into_session, is_last_in_session, prev_outcome / loss_streak); the time-of-day analysis should drop or flag last games of sessions and include a previous-result dummy, since the session position carries a −0.2 score effect through the stopping rule and ~−0.05 through tilt.
 
-### 6. Time of day and day of week — planned
+### 6. Time of day and day of week — done
 
 - Goal: when do you play best, after controlling for session position,
   time class and opponents?
@@ -192,6 +192,15 @@ Notes:
 - Outputs: short report.
 - Depends on: Q1, Q5.
 - Caveats: Europe/London assumed; travel breaks it.
+
+Notes:
+- Status: **done**. Script `analysis/06_time_of_day.py` (~20 s, deterministic; imports `session_features`/`build_games`/`boot_sums`/`cluster_ols` from `analysis/05_sessions.py` via importlib), report `reports/06_time_of_day.md`, four figures. 6,027 games in 1,500 sessions; six bands (night 0-6: 280 games, morning 7-11: 1,055, midday 12-14: 922, afternoon 15-17: 1,624, evening 18-20: 1,403, late 21-23: 743); CIs clustered by session.
+- No time-of-day effect survives the controls. Raw: late 21-23 scores -0.046 [-0.086, 0.001] vs the rest (paired ep gap +0.0007 [-0.0001, 0.0014], flags/loss +0.040 [-0.014, 0.104]), midday +0.038 [0.001, 0.077]; 3 of 46 band-vs-rest contrasts exclude zero (~2 expected by chance); across 19 hourly buckets your and the opponents' ep/move move together (r = 0.91). Regression with Q5's session controls + time class + rating + year: band coefficients on score -0.023 (late) to +0.037 (midday) vs afternoon, only midday × paired ep gap excludes zero (-0.0016 [-0.0029, -0.0001]); session-level permutation test of the band block p = 0.46 (score), 0.19 (ep gap), 0.74 (your ep), 0.90 (lost on time / s per move).
+- The midday candidate does not replicate (2021-23: +0.082 [0.038, 0.124] score, -0.0015 ep gap; 2024-26: -0.012 [-0.066, 0.038], 0.0000); sign of raw band effects agrees in only 2 of 6 bands between halves. Treat it as a chance hit.
+- Weekdays: Thursday +0.047 [0.014, 0.076] is the only day excluding zero (1 of 7); weekend − weekday +0.007 [-0.025, 0.037] score, -0.0001 [-0.0007, 0.0005] ep gap; weekend evenings (464 games) vs weekday nights (815): +0.022 [-0.044, 0.084], ep gap -0.0004 [-0.0015, 0.0007]. 42-cell weekday × band grid is a heat-map of noise around zero.
+- In the same model the session effects dominate: last game of session -0.187 [-0.213, -0.162], previous game lost -0.053 [-0.093, -0.010] (Q5's numbers reproduced with hour controls); seconds per move and flag share are flat across hours within a time class.
+- Night games (01-07h, 165) are episodic (Dec 2025: 90, Apr 2023: 45) with ordinary-hour games the same days, so not obviously travel; night band without Dec 2025 -0.003 [-0.091, 0.062]. Hours are confounded with era (night 52% from 2025-26, morning 67% from 2022-23) and time class (night 80% bullet); year, class and rating are controls.
+- For Q13: time of day and weekday are not levers (nothing to rank); the advice stays "stop after a loss", whatever the hour. Any future hour claim should pass the session-permutation test and replicate across halves.
 
 ### 7. Expected value of not resigning — done
 
