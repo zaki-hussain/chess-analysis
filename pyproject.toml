@@ -15,6 +15,7 @@ dependencies = [
     "chess>=1.10",
     "scikit-learn>=1.4",
     "threadpoolctl>=3",
+    "matplotlib>=3.8",
 ]
 
 [project.optional-dependencies]
