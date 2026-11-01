@@ -78,7 +78,7 @@ Notes:
 - Model caveat for every downstream user of P(win): the pooled model is under-confident at the extremes (model 0.8–0.9 → observed 0.958 for you, 0.920 for opponents) and you out-perform it in every bin while opponents under-perform it; absolute threshold rates are model-relative, you-vs-them comparisons are the robust part. `net_ep` correlates 0.71 with your score. Rating match (opponent post-game rating + your rating change vs your pre-game rating): median |gap| 23, mean |gap| 48, no systematic gap.
 - Downstream (Q2, Q5, Q7, Q8): join `games_decomposed.parquet` on `uuid`; use `my_ep_lost`/`opp_ep_lost` (and per-phase versions), `my_errors_ge_20`, `reached_winning`+outcome for conversion, `reached_losing`+outcome for swindles, `decisive_*` for turning points; never use `my_ep_end`/`my_p_win_end` as predictors (they encode the result).
 
-### 2. Rating trajectory: what changed as you improved — planned (new)
+### 2. Rating trajectory: what changed as you improved — done
 
 - Goal: your blitz went from 252 to 1,050 and bullet from 160 to 1,300.
   Which things improved: fewer blunders, better conversion, faster play,
@@ -92,6 +92,15 @@ Notes:
 - Depends on: Q1.
 - Caveats: 2024 is thin (639 games); rating reliability after breaks
   (`days_since_last_in_pool`) should be a control.
+
+Notes:
+- Status: **done** (Q11 folded in as section 6). Script `analysis/02_trajectory.py` runs in ~12 s, deterministic; report `reports/02_trajectory.md` with three figures. 6,023 games (the first game of each pool has no pre-game rating; one game with rating 0 dropped).
+- The trajectory is not monotone: bullet 160 (Apr 2022) to a 1300 peak (Apr 2025) and back to ~800 by the last game; blitz 252 to 1050 (peak Feb 2024); rapid 526 to 1222. Bands pool games from the climb and the fall; 60+1 games sit mostly in bullet bands 700-900 and 300+x in blitz bands below 700 (time-control confound; main-tc sensitivity in section 4).
+- Absolute accuracy improved with the level, not relative to it: low vs high third of games by rating, cp per move 79 to 70 in bullet for you (-9 [-12, -5]) vs -13 [-16, -9] for opponents (you minus field +3.7 [1.5, 5.5] cp, blunders +0.46 [0.07, 0.77] per 100 moves); blitz -17 for both. In ep per move you match the field at every band (differences within ±0.001) and the >= 0.2 ep error rate fell identically for both sides (bullet 2.65 to 1.69 per 100 moves). Phase ep per move: no band where you differ from the field beyond ±0.003.
+- What is yours: losses on time fell relative to the field (bullet share of losses on time 0.53 to 0.45, you minus field -0.102 [-0.180, -0.018]; blitz 0.25 to 0.16, -0.089 [-0.178, -0.004]; rapid 0.06 to 0); blitz play sped up more than the field's (-0.32 [-0.50, -0.17] s/move) and the end-of-game clock gap closed partly (+0.031 [0.008, 0.056] of base) but you still leave less time than opponents in every blitz band below 1000 (0.42 vs 0.53 at 300-399; 0.46 vs 0.51 at 900-999). Half the bullet seconds-per-move drop is the 60+1 to 60+0 mix (-0.64 overall, -0.30 in 60+0 only).
+- What did not move: the conversion edge (+0.04 to +0.10 over the field from band 700 up in bullet, every band in blitz) did not grow; in bullet your conversion fell 0.937 to 0.895 (-0.042 [-0.073, -0.005]) while the field's stayed flat, and the swindle edge narrowed (-0.056 [-0.110, 0.003]). Losses while still alive stayed at 0.35-0.39 in bullet, above the field's 0.31 in most bands.
+- Game-level regression of rating on your own per-game metrics (standardised, tc + log days-since-last-game controls): % of base time spent per move is the strongest term in every class (-91 [-127, -60] bullet, -51 [-67, -35] blitz, -97 [-128, -70] rapid points per SD), then book depth (+22 / +32 / +50) and cp per move (-20 / -41 / -29); signs survive year dummies at smaller magnitudes. Descriptive only (R2 0.24-0.34 without year).
+- Downstream (Q13): the rating gain came with the level, not from a visible fix in move quality; the player-specific movers are clock habits (fewer flags, faster blitz) and the stable edges are conversion/swindle. Q4 should use the blitz end-of-clock gap by band; Q7 the stable lost-while-alive share.
 
 ### 3. Time pressure: how your play degrades on a low clock, vs others — done
 
@@ -121,7 +130,7 @@ Notes:
 - Rating mapping only works in cp_loss (ep_loss is flat in rating by construction; endgame-only cp curve has no usable slope) and uses a reconstructed pre-game opponent rating (`opponent_rating_after + my_rating_change`, see `opponent_rating_pre()` in the script): bullet play under 10 s resembles a 775 [606, 907] player vs 1050 [1005, 1107] at 30+ s (actual mean 932); indicative only, blitz too wide to quote.
 - For Q4: in blitz you are 30+ s behind on the clock twice as often as opponents (11.7k vs 5.8k moves) and lose more than them when 10-30 s behind (+0.0053 [0.0021, 0.0090]); the lever is spending less time earlier, not playing better when short.
 
-### 4. Clock allocation and losses on time — planned
+### 4. Clock allocation and losses on time — done
 
 - Goal: where extra seconds buy you accuracy and where they don't; whether
   you spend time in the right places; what the 935 losses on time cost.
@@ -137,7 +146,17 @@ Notes:
   mislead; criticality controls help but don't fully fix it. "Optimal"
   allocation is directional, not a policy.
 
-### 5. Sessions: fatigue, warm-up and tilt — planned
+Notes:
+- Status: **done**. Script runs in ~2 min (includes a deterministic refit of F6's win model, which reproduces stored `ep_after` to within 0.0000, used to re-value positions under counterfactual clocks).
+- Flag cost (position after the winner's last move, flagged side to move, valued with the flagged side's clock set equal to the winner's): bullet 0.375 [0.361, 0.388] ep per flag, 305.7 [294.8, 316.9] points over 816 flags (incl. 44 flag draws), 0.0885 [0.0826, 0.0945] per bullet game (opponents 0.1188 [0.1125, 0.1260]); blitz 60.1 [53.9, 66.4] points / 153 flags. As-played (0.14) and board-only Stockfish (0.43) valuations bracket it. Net to you +104.5 points in bullet (+3.0 per 100 games), -5.3 blitz: the clock is a net gift only because opponents flag more often (1,049 vs 772 bullet).
+- The flags are a pace problem: in blitz the opponent had 30+ s in 78.4% [72.5, 84.3] of your flags; your clock at move 20 is already 27.4 vs 34.5 s (bullet, flagged vs other games) and 85.8 vs 125.8 s (blitz); across all blitz games you are -7.8 [-10.0, -5.5] s at move 20 and -11.4 at move 30 (behind by 3+ s in 54-57% of games). Time goes to the opening (bullet 1.50 vs 1.39 s/move, blitz 5.18 vs 4.60) and blitz middlegame (7.54 vs 7.12). Only 5.5% [4.0, 7.2] of your bullet flags came from winning boards (opponents 2.4%).
+- Allocation: in bullet your time follows the stakes less than opponents' (time on high-stakes / no-stakes positions 1.63 [1.58, 1.69] vs 1.96 [1.89, 2.03]), you snap 21.1% vs 18.9% of high-stakes positions; blitz is the reverse (23.8% vs 29.3%). ~35% of bullet long thinks and ~49% of blitz long thinks land on positions where the two best moves are equally good, for both sides.
+- Value of time cannot be identified from time spent: error rises with seconds spent for both sides even after stakes/phase/clock/legal-move/eval controls (selection). Robust part is the side contrast: your fast moves are cleaner than opponents' (<0.5 s bullet 34.3 vs 45.1 cp; pre-moves 8.4% vs 10.0% of bullet moves) and your longest thinks worse (8+ s bullet 153 vs 134 cp, 20+ s blitz 141 vs 127; adjusted gradient steeper by 36.1 [18.8, 54.7] and 25.5 [11.9, 37.7] cp).
+- Clock charge (model price of the seconds, same position re-valued with the clock as if the move were instant): bullet ~1/60 point per second (0.024 ep for a 1-2 s move at 30+ s, 0.12 for 8+ s), blitz 0.004 for 2-5 s at 30+ s; per game bullet 0.935 vs 0.932 (cancels between sides), blitz 0.248 vs 0.211 (you pay 0.038 [0.023, 0.053] more per game for your pace).
+- Accounting fact for Q13 and anyone reading `ep_loss` in bullet: the unfloored change `ep_before - ep_after` averages ~0 per move (bullet +0.0005) because the calibration already prices in typical time use; `ep_loss` is its positive part and its steep rise with seconds spent in bullet is largely the clock charge, not board error. Do not subtract the charge from `ep_loss` (floor artefact favours long thinks). `cp_loss` is the clock-free currency for time-use questions.
+- For Q13: directional advice is pace (opening and no-stakes positions at snap speed, cap long thinks), not low-clock composure; a bullet flag costs nearly as much per game as all under-10 s moves together (0.089 vs 0.123 ep).
+
+### 5. Sessions: fatigue, warm-up and tilt — done
 
 - Goal: does play degrade over a session (fatigue), start poorly (warm-up),
   or collapse after losses (tilt)? Does session length relate to results?
@@ -153,6 +172,15 @@ Notes:
 - Depends on: Q1.
 - Caveats: you choose when to stop; that selection is the main threat.
 
+Notes:
+- Status: **done** (revised after review). Script `analysis/05_sessions.py` (~18 s), report `reports/05_sessions.md`, three figures. Sessions recomputed over standard live games only (`session_features(games, gap_minutes)`), 1,500 at 30 min; median 3 games, bullet median 4 and 14% of bullet sessions reach 10+ games; 7% of sessions mix time classes.
+- The stopping rule is the main effect and the main confounder: P(session ends | loss) 0.329 vs P(ends | win) 0.173 (difference 0.156 [0.137, 0.179]; bullet 0.290 vs 0.114, blitz 0.376 vs 0.254, rapid 0.417 vs 0.243). The hazard is roughly flat across game numbers for both results (after a win 0.09–0.21, after a loss 0.30–0.43) and the loss−win gap persists at every game number; the last game of a session scores 0.199 [0.172, 0.226] below the rest. Long sessions gain rating (+25 [14, 36] per 11+ game session, 73% of them positive) because you keep playing while winning, not because you play better late.
+- No fatigue in move quality: paired game-k-minus-game-1 within sessions that reached k+1 (non-last games) is never significantly positive in any time class (bullet game 10+: +0.0064 [-0.0027, 0.0153] ep/move, opponents +0.0056; all classes 10+: +0.0015 [-0.0085, 0.0098]); within-session regression slope -0.0010 [-0.0028, 0.0005] ep/move per doubling of game number, score − expectation -0.002 [-0.024, 0.024]. The naive/pooled score slope (+0.044 [0.021, 0.070] per doubling) is between-session selection. No warm-up either (game 2 − game 1: -0.0011 [-0.0043, 0.0018] ep/move); in equal-length sessions the opponents' ep/move follows yours position by position, so within-session shape = game composition.
+- Tilt is real but mostly in results: next game after a loss vs after a win scores -0.055 [-0.084, -0.028] vs model expectation (bullet -0.052, blitz -0.047, rapid -0.106); your ep/move +0.0024 [0.0005, 0.0043] but opponents' +0.0017 [-0.0001, 0.0035] in the same games, move-weighted you−them gap only +0.0007 [0.0002, 0.0012]. The resolved contrast is "after a loss vs after a win"; a dose-response in the streak length is NOT resolved (3+ losses vs 0: -0.084 [-0.154, -0.020], but 3+ vs 1: -0.038 [-0.101, 0.034]; LL − WL before a game: -0.028 [-0.073, 0.019]). After a loss you resign a larger share of your losses (+0.084 [0.046, 0.122]), spend +0.16 [-0.04, 0.34] s/move more (opponents +0.01), do not re-queue faster; a blown win (lost after P(win) ≥ 0.8) does not tilt more than an ordinary loss (+0.047 [-0.040, 0.129]).
+- No fixed "stop after N" is supported (after game 3 vs games 1–3 of the same sessions: -0.041 [-0.075, -0.008] score − expectation, -0.0002 ep/move; other N unresolved); if any rule, it is about the previous result. 15/30/60-minute gap definitions agree on all headlines (tilt score -0.054/-0.055/-0.054; your ep/move +0.0022/+0.0024/+0.0025 vs opponents' +0.0016/+0.0017/+0.0019; fatigue 5+ vs 1 within ±0.002 ep/move).
+- Methodological: a within-session (fixed-effect) regression must not include the previous result (lagged outcome in 2–10 game panels → Nickell bias flips the sign); tilt is estimated from the pooled model and the conditional tables instead. Per-game "you − them" gaps should be move-weighted ratio differences, not means of per-game rates (the two disagree by 3×).
+- For Q6: use `session_features()` from this script for the controls (game_in_session, minutes_into_session, is_last_in_session, prev_outcome / loss_streak); the time-of-day analysis should drop or flag last games of sessions and include a previous-result dummy, since the session position carries a −0.2 score effect through the stopping rule and ~−0.05 through tilt.
+
 ### 6. Time of day and day of week — planned
 
 - Goal: when do you play best, after controlling for session position,
@@ -165,7 +193,7 @@ Notes:
 - Depends on: Q1, Q5.
 - Caveats: Europe/London assumed; travel breaks it.
 
-### 7. Expected value of not resigning — planned
+### 7. Expected value of not resigning — done
 
 - Goal: how many points your 791 resignations gave away, and when
   resigning was right.
@@ -182,7 +210,16 @@ Notes:
   the right counterfactual, but opponents who are ahead may play
   differently against someone who hasn't resigned.
 
-### 8. Opening repertoire — planned (new)
+Notes:
+- Status: **done**. Script `analysis/07_resignation.py` (~16 s), report `reports/07_resignation.md`. 788 of your resignations and 810 by opponents among 6,029 games; the resignation position is the position after the last move, flipped to the resigner's view when the opponent moved last (you moved last in 21% of yours).
+- Two valuations: model EV = P(win)+½P(draw) at the position (model view, fitted on all games incl. resigned ones, under-confident at extremes) and the robust played-out valuation: observed score of positions in the same model-EV bin, same side and time class, from games that side did not resign/abandon (board-terminal positions excluded), joint game bootstrap over comparison and resigned games. An all-positions variant (resigned games included) is the model-free lower bound.
+- Cost: your resignations gave away ≈131 points played-out (model 132, lower bound 104), 0.166 per resignation; opponents' resignations handed you ≈97 (0.119 each): net −34 to you. Per 100 games you 1.08 [0.90, 1.25] bullet (≈7 Elo), 2.89 [2.46, 3.36] blitz (≈20 Elo), 6.19 [4.71, 7.81] rapid (≈43 Elo) vs opponents 1.04 / 2.46 / 2.02.
+- Rapid is the leak: you resign 0.656 [0.591, 0.712] of rapid losses vs opponents' 0.521 (diff 0.135 [0.050, 0.213]; bullet/blitz equal), 27% of your rapid resignations from model P(win) ≥ 0.2 vs 11% of theirs, and you out-score the model from bad rapid positions (played-out EV/resignation 0.225 vs model 0.170). 26% of your resignations are from still-playable (≥0.2) positions and carry 65% of the cost; the 26% from clearly lost (<0.05) carry 3%.
+- Bullet: the opponent's clock decides. Your played-out positions with mate/≤ −2000 against you scored 0.32 with the opponent under 10 s (0.09 at ≥30 s), −1000..−500 scored 0.60 vs 0.28; but 82% of your bullet resignations came with the opponent at ≥30 s, so bullet resignations are mostly sound. Rule of thumb (played-out upper CI ≤ 0.05): resign only below model EV 0.05–0.10 in bullet (opponent ≥30 s) and blitz, below 0.02–0.05 in rapid, never with the opponent short on time in bullet; in engine terms no band is free (mate/≤ −2000 scored 0.20/0.08/0.12 bullet/blitz/rapid when played on, −1000..−500 0.37/0.23/0.27).
+- 'Had to go' proxy (playable, ≥25% clock, quick last own move): 65 resignations (8%), 29 points; 49% [37%, 62%] were the session's last game vs 35% [31%, 39%] of lost resignations (+0.14 [+0.01, +0.27]), so the proxy has signal. 13–14% of your resignations followed a ≥0.2 ep blunder on your last own move (opponents 14–16%).
+- Caveat for Q13: the played-out comparison set is itself selected (players who played on may have had reasons), so it is an upper-ish bound; the model view is the lower-ish bound; both agree to within ~10% in bullet/blitz. The plan's "791 resignations" is 788 among standard live games.
+
+### 8. Opening repertoire — done
 
 - Goal: which openings you score and play well in, by colour; whether
   staying in book longer helps; the lines that cost you most.
@@ -195,6 +232,15 @@ Notes:
 - Depends on: Q1.
 - Caveats: opening names at this level describe the first 2–4 moves;
   treat it as repertoire shape, not theory.
+
+Notes:
+- Status: **done**. Script `analysis/08_openings.py` (~50 s), report `reports/08_openings.md`, figures under `reports/figures/08_openings/`. Joins `games_decomposed.parquet` for `my/opp_ep_lost_opening` and `my_ep_start`; families = `opening_name` before the colon (95 families; those with ≥ 20 games cover 93% of each colour).
+- Repertoire shape: 1.e4 in 88% of white games, 1...e5 vs 1.e4 and 1...d5 vs 1.d4; the Sicilian as Black (89 games, score − expected −0.10 [−0.20, −0.00]) is entirely 2022 at rating ~340 and no longer played. Overall score − Elo expectation +0.030 [0.013, 0.047] as White, +0.005 [−0.014, 0.023] as Black; per-family CIs almost all straddle zero. Clear positives: QGD Austrian as Black (+0.085 [0.009, 0.153], 138 games), Bishop's Opening as Black (+0.095 [0.020, 0.161], 148), Tennison Gambit transposition (labelled 'Zukertort Opening') as White (+0.143 [0.025, 0.247], 61). Clear negative still in use: 1.Nf3 lines as Black (−0.21 [−0.31, −0.09], 38 games).
+- Opening-phase quality equals the opponents' in ep per move in 5 of 6 colour × time-class cells; the exception is bullet as Black (+0.0013 [0.0007, 0.0018] ep per move, plies 11–30). In cp you are better as White in every time class (bullet −4.6 [−6.3, −3.0], blitz −6.7, rapid −11.1 cp per move).
+- Book depth is not a lever: score − expected is flat from 1–2 to 9+ book plies in every time class (all CIs overlap), 'book gain' (ep after book − ep at move 1) is within ±0.02; you leave the named lines first in 64% / 65% / 63% of bullet / blitz / rapid games, and your deviating move costs less than the opponents' (bullet −0.004 [−0.006, −0.001] ep; cp 39 vs 57), i.e. you leave book by choice.
+- Fix list (lines ≥ 20 games with the largest deficit vs expectation, with recent games): White: Scandinavian Main Line (36 games, −0.148 [−0.311, 0.004]), Giuoco Piano (145, −0.031 [−0.106, 0.047]), Blackburne-Kostić Gambit (40, −0.085); Black: Scotch Game (62, −0.126 [−0.248, 0.001], you lose 0.058 [0.018, 0.103] ep more than opponents in the opening), QP Chigorin (40, −0.142), Four Knights Scotch Accepted (34, −0.144). The 'years' / 'last 12 mo' columns matter: several deficit lines (Two Knights Modern Bishop's Opening, Smith-Morra as Black, 2.f3 vs the Scandinavian) are 2022 history.
+- Recurring opening mistakes by exact position (≥ 5 times, mean ep_loss ≥ 0.05): 6.Qf3 instead of 6.Nxf7 in the Fried Liver (66 times 2022–25, 0.063 [0.048, 0.077] ep each, 4.1 ep in total), 4.Ng5 in the Giuoco Piano (11×, 0.116), 8.Ba4 in the Polerio Bishop Check line (19×, 0.062), 6...Ke8 in a Scotch line (8×, 0.41 ep, score 0.00), 3...Nf6 in the Bishop's Opening (6×, 0.39 ep). Opponents' most expensive repeated move against you: 7.Ke1 in the Traxler (16×, 0.26 ep, you score 0.94).
+- For Q13: openings are not where the edge or the leak is; the concrete deliverables are the ~5 recurring positions above and the Scotch/Scandinavian-Main-Line deficits. Names are by position (transpositions mislabel: 'Zukertort Opening' as White = 1.e4 d5 2.Nf3).
 
 ### 9. Blunder anatomy — done
 
@@ -248,7 +294,7 @@ Notes:
 - No visible clock-bucket gradient in TB error rate (2.1-3.0 per 100 across all buckets); by DTZ you err less than opponents at every distance and spend slightly less time per move in blitz/rapid when winning.
 - Beyond 5 pieces (121k endgame-phase moves), ep_loss by coarse material class matches opponents in nearly every cell; queen+others endgames are the noisiest class for both (~0.036 per move), pawn/minor/queen-only endings the quietest (~0.02). Reusable helpers inside the script: piece_counts(fen), tb_material_class, big_material_class, canonical_material, termination_reason.
 
-### 11. Performance vs opponent rating and upsets — planned (new, small)
+### 11. Performance vs opponent rating and upsets — done (in 02_trajectory)
 
 - Goal: do you over- or under-perform against stronger/weaker opponents
   relative to rating expectation; what's different in those games?
@@ -256,6 +302,13 @@ Notes:
 - Method: result vs Elo expectation by rating-difference bin; error rates
   by bin, both sides.
 - Depends on: Q1. Can be folded into Q2's report.
+
+Notes:
+- Status: **done**, as section 6 of `reports/02_trajectory.md` (script `analysis/02_trajectory.py`). Opponent pre-game rating = `opponent_rating_after + my_rating_change` in rated games, `opponent_rating_after` in unrated (approximate under Glicko; stated in the report). Pairing is tight: median |difference| 22 points, 82% of rated games within 50.
+- Result vs Elo expectation (rated, pooled): no deficit against weaker opponents (<= -100: 0.704 vs 0.724, excess -0.020 [-0.087, 0.040], 179 games) and a clear excess against stronger ones (> 100: 0.403 vs 0.256, +0.148 [0.087, 0.210], 202 games; 50..100: +0.064 [0.010, 0.121]); bullet +0.187 [0.099, 0.275], blitz +0.108 [0.024, 0.201], rapid has too few wide pairings. The excess holds both below and from a rating of 700 (+0.150 / +0.144).
+- Checks: your rating changes in the outer bins scale as Elo predicts (win +16.4 vs +8.8 against even opponents; Elo ratio 1.44, observed 1.88), so the stronger opponents were not provisional accounts; the reconstruction bias would push results the other way; unrated games (exact ratings) show a smaller, non-significant excess (> 100: +0.067 [-0.039, 0.174], 70 games).
+- Error rates by bin for both sides: ep per move rises symmetrically at both ends (0.036-0.038 in the outer bins vs 0.028 when even); in cp you lose less than weaker opponents (65 vs 77) and more than stronger ones (83 vs 75); your conversion exceeds the opponents' in every bin.
+- Upsets: wins against >= +100 opponents (95 games) came 40% by the opponent flagging (ordinary wins 44%) with opponents losing 0.039 ep per move; upset losses (70 games) are games where you played badly (0.050 ep per move vs 0.032 in ordinary losses), half of them while still alive. Q13: the over-performance against stronger opponents is small in games (about 200) but consistent across bullet and blitz.
 
 ### 12. Style fingerprint — exploratory, last
 

@@ -18,6 +18,8 @@ import sys
 import time
 from pathlib import Path
 
+import requests
+
 from chess_analysis.api import ApiError, ChessComClient, NotFound
 from chess_analysis.archive import download
 from chess_analysis.config import load_settings
@@ -49,9 +51,11 @@ def main() -> None:
         except NotFound:
             print("  not found (account closed?)", flush=True)
             missing.append(name)
-        except ApiError as exc:
+        except (ApiError, requests.RequestException) as exc:
+            # A failed opponent is skipped; months already saved are kept and a re-run resumes from them.
             print(f"  API error: {exc}", flush=True)
             missing.append(name)
+            time.sleep(10)
     (out_root / "missing.txt").write_text("\n".join(missing) + ("\n" if missing else ""), encoding="utf-8")
     print(f"done: {len(opponents) - len(missing)} opponents downloaded, {len(missing)} missing", flush=True)
 
