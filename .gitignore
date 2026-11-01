@@ -10,3 +10,6 @@ dist/
 
 # Optional CSV exports duplicate the committed Parquet files, so keep them local
 data/**/*.csv
+
+# Opponent archives for Q12 are a large, re-downloadable network dump (scripts/download_opponents.py)
+data/opponents/*/raw/

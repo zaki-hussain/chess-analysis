@@ -67,3 +67,5 @@ def test_checkmating_move_has_no_loss():
     out = analysed.analyse_moves(moves, evals).iloc[0]
     assert out["cp_before"] == 9999.0 and out["cp_after"] == 10000.0 and out["cp_loss"] == 0.0
     assert pd.isna(out["criticality"]) and out["label"] == "good"
+    # Delivering the mate is not missing it.
+    assert not out["missed_mate"] and not out["allowed_mate"]
