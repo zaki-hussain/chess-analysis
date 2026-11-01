@@ -52,7 +52,7 @@ Notes:
 
 Each entry: **Goal · Inputs · Method · Outputs · Depends on · Caveats.**
 
-### 1. Where points are won and lost: your mistakes vs your opponents' — planned
+### 1. Where points are won and lost: your mistakes vs your opponents' — done
 
 - Goal: decompose every game into expected points you gave away and
   points they gave away; who made the last decisive mistake; how often you
@@ -69,6 +69,15 @@ Each entry: **Goal · Inputs · Method · Outputs · Depends on · Caveats.**
 - Caveats: engine-perfect baseline; at this level both sides lose ~0.03
   expected points per move, so the story is in the distribution's tail.
 
+Notes:
+- Status: **done** (revised after review). Table `data/zakihussa1n/games_decomposed.parquet` (6,029 rows keyed by `uuid`, same order as `load_data().games`, 62 columns, deterministic); report `reports/01_decomposition.md`; script runs in ~17 s.
+- Budget: both sides give away ~0.9 expected points per game; paired difference in your favour 0.009 [0.000, 0.017] bullet, 0.000 [-0.011, 0.013] blitz, 0.025 [0.003, 0.048] rapid. Score minus move-1 expectation: +0.008 / +0.019 / +0.044. Per-move phase differences are ≤0.001 ep: bullet endgames cleaner than opponents' on every measure, bullet openings slightly worse, blitz middlegame tail slightly fatter (≥0.2: +0.003 [-0.000, 0.006]). Moves losing ≥0.1 are ~10% of moves and 52–57% of all ep lost, for both sides.
+- Decisive mistake: the plan's "last crossing below 10%" rule does not work with the calibrated P(win) (it decays gradually and keeps flag chances alive in bullet); implemented instead: in games that ended with the loser < 10% after their last own move, the loser's costliest move from the last P(win) ≥ 20% position to the end (blunder if ≥ 0.05 ep). Judged over the loser's own moves only (`decisive_by` is always the loser). Found in 85–92% of on-board losses; identical profile for you and opponents (0.18–0.27 ep, mostly endgame, ~20 plies from the end).
+- Lost while still alive (loser ≥ 10% after last own move): 37% / 42% / 48% of your bullet / blitz / rapid losses vs 32% / 39% / 26% of opponents' — flags, resignations and mates (in bullet ~46% of mates count as "alive" because the model's clock term keeps flag chances open); input for Q4 and Q7 (`loser_last_p_win`, `decisive_*` columns).
+- Conversion (win | reached P(win) ≥ 80%): 0.911 vs 0.866 bullet (+0.045 [0.021, 0.066]), 0.920 vs 0.877 blitz, 0.935 vs 0.826 rapid. Swindle (not loss | fell to ≤ 20%): 0.219 vs 0.171 bullet (+0.047 [0.024, 0.071]), 0.229 vs 0.176 blitz, 0.269 vs 0.173 rapid; holds at every threshold. Of the swindle *wins*, 69% [62%, 74%] of yours in bullet came by the opponent flagging vs 58% [51%, 64%] of theirs (blitz 22% vs 22%; as a share of all swindles: 48% vs 37% bullet). You reach ≥80% positions slightly less often than opponents in bullet (0.440 vs 0.452), more often in rapid (0.497 vs 0.412).
+- Model caveat for every downstream user of P(win): the pooled model is under-confident at the extremes (model 0.8–0.9 → observed 0.958 for you, 0.920 for opponents) and you out-perform it in every bin while opponents under-perform it; absolute threshold rates are model-relative, you-vs-them comparisons are the robust part. `net_ep` correlates 0.71 with your score. Rating match (opponent post-game rating + your rating change vs your pre-game rating): median |gap| 23, mean |gap| 48, no systematic gap.
+- Downstream (Q2, Q5, Q7, Q8): join `games_decomposed.parquet` on `uuid`; use `my_ep_lost`/`opp_ep_lost` (and per-phase versions), `my_errors_ge_20`, `reached_winning`+outcome for conversion, `reached_losing`+outcome for swindles, `decisive_*` for turning points; never use `my_ep_end`/`my_p_win_end` as predictors (they encode the result).
+
 ### 2. Rating trajectory: what changed as you improved — planned (new)
 
 - Goal: your blitz went from 252 to 1,050 and bullet from 160 to 1,300.
@@ -84,7 +93,7 @@ Each entry: **Goal · Inputs · Method · Outputs · Depends on · Caveats.**
 - Caveats: 2024 is thin (639 games); rating reliability after breaks
   (`days_since_last_in_pool`) should be a control.
 
-### 3. Time pressure: how your play degrades on a low clock, vs others — planned
+### 3. Time pressure: how your play degrades on a low clock, vs others — done
 
 - Goal: error vs clock left (seconds, fraction of base, relative to the
   opponent), overall and in endgames; whether you degrade more or less
@@ -102,6 +111,15 @@ Each entry: **Goal · Inputs · Method · Outputs · Depends on · Caveats.**
 - Depends on: F7. Independent of Q1.
 - Caveats: time pressure correlates with position type and game length;
   stratify by phase and material. Rating mapping is indicative only.
+
+Notes:
+- Exposure, not composure: you play 11.7% [11.2, 12.1] of bullet moves under 10 s (opponents 11.4%) and reach <10 s in 48.4% [46.5, 50.0] of bullet games (opponents 51.0% [49.0, 52.5]); blitz 2.3% of moves, rapid ~0 (21 moves), so rapid low-clock cells are uninformative and the fraction-of-base curves are the rapid view.
+- Raw ep_loss rises from 0.029 (30-60 s) to 0.040 [0.037, 0.043] under 5 s in bullet, identically for both sides; in no low-clock cell are you worse than opponents (10-30 s bullet: -0.0026 [-0.0040, -0.0011] in your favour); the only cells where you are slightly worse are at 30-60 s (bullet +0.0007 [0.0002, 0.0012]).
+- Low-clock moves are 89-94% endgame moves at roughly double the stakes (bullet 10-30 s: 71%); adjusting for phase/stakes/ply/material/opponent clock removes the ep_loss rise entirely for both sides (bullet <5 s: you -0.0045 [-0.0069, -0.0021], opp -0.0023 [-0.0042, -0.0002]). Susceptibility interaction in ep: bullet -0.0022 [-0.0048, 0.0004], blitz +0.0025 [-0.0072, 0.0126] -> no excess susceptibility in expected points.
+- In centipawns the clock does bite and you degrade more than opponents in bullet under 5 s (gap +7.9 [2.3, 15.6] cp per move); the ep calibration (clocks are features) discounts positional damage when the mover is about to flag, so ep_loss understates low-clock sloppiness and attributes the cost of getting into time pressure to earlier moves (Q4's territory).
+- Moves under 10 s cost 0.123 [0.114, 0.131] ep per bullet game (opp 0.122), 13.6% [12.7, 14.4] of all your bullet ep_loss; blitz 0.026 [0.019, 0.033] vs 0.019.
+- Rating mapping only works in cp_loss (ep_loss is flat in rating by construction; endgame-only cp curve has no usable slope) and uses a reconstructed pre-game opponent rating (`opponent_rating_after + my_rating_change`, see `opponent_rating_pre()` in the script): bullet play under 10 s resembles a 775 [606, 907] player vs 1050 [1005, 1107] at 30+ s (actual mean 932); indicative only, blitz too wide to quote.
+- For Q4: in blitz you are 30+ s behind on the clock twice as often as opponents (11.7k vs 5.8k moves) and lose more than them when 10-30 s behind (+0.0053 [0.0021, 0.0090]); the lever is spending less time earlier, not playing better when short.
 
 ### 4. Clock allocation and losses on time — planned
 
@@ -178,10 +196,10 @@ Each entry: **Goal · Inputs · Method · Outputs · Depends on · Caveats.**
 - Caveats: opening names at this level describe the first 2–4 moves;
   treat it as repertoire shape, not theory.
 
-### 9. Blunder anatomy — planned (new)
+### 9. Blunder anatomy — done
 
 - Goal: what kinds of mistakes you make and miss: hanging pieces, missed
-  mates (5,144 missed, 5,602 allowed), missed captures, one-move vs deeper
+  mates (3,339 missed, 5,602 allowed), missed captures, one-move vs deeper
   tactics, by piece and phase; which types improved over time.
 - Inputs: `label`, `cp_loss`, `best_move`, `missed_mate`, `allowed_mate`,
   `fen_before`, `uci`, `criticality`.
@@ -197,7 +215,17 @@ Each entry: **Goal · Inputs · Method · Outputs · Depends on · Caveats.**
   on a sample is optional.
 - Caveats: taxonomy by rules is approximate; keep categories coarse.
 
-### 10. Endgame technique — planned (new)
+Notes:
+- Blunder rates (cp_loss ≥ 300) equal the matched opponents' in every time class: bullet 6.16 [5.97, 6.35] vs 6.00 [5.80, 6.18] per 100 moves, blitz 5.70 [5.46, 5.95] vs 5.85 [5.64, 6.09], rapid 5.53 [5.15, 5.96] vs 5.72 [5.31, 6.12]; blunders carry 28–34% of each side's total ep_loss, 0.13–0.19 ep each.
+- Taxonomy (rule-based, SEE on python-chess replay) is the same for both sides: 42% of your blunders hand over material (moved en prise 15%, ignored a threatened piece 14%, exposed another piece 8%, losing capture 4%), 13% allow mate, 12% a check tactic, 28% a quiet/deeper refutation (of which 29% from already-won positions, 40% endgame). Queen hung 726 times (12.0 [11.2, 13.0] per 100 games vs 13.7 [12.8, 14.7] for opponents).
+- The two robust differences: you **allow mates more often** (bullet +0.18 [0.11, 0.24] longer, +0.11 [0.07, 0.16] mate-in-1 per 100 moves; holds within every eval band, so not exposure: you spend fewer moves in lost positions than opponents), and your blunders are **less often missed free material** (−0.22 to −0.34 per 100 moves in all time classes) and more often a missed quiet move (+0.4 bullet/blitz). Missing an available mate is identical for both sides (bullet 18% vs 17.5%, blitz 14% vs 13.5%).
+- Refutation depth (game-line proxy, no re-search): of refuted blunders that could be followed, 65% lost material on the next move, 21% within 2–3, 12% mate, 3% deeper. Punishment: 55–58% of your blunders punished (next reply cp_loss < 100) vs 55–65% of theirs by you; losing captures are punished most (75–79%), check tactics and quiet refutations least (45–46%).
+- By piece: queen moves blunder most per move (bullet 9.2 vs 8.2 per 100, +1.03 [0.33, 1.79]); blitz knight moves safer for you (−0.98 [−1.65, −0.36]). Middlegame is the blunder phase (8.2–8.7 per 100) and where you allow mates at ~1.5× the opponents' rate (1.17 vs 0.68 bullet, 1.20 vs 0.79 blitz).
+- Over the years: overall and hung-material rates fell for both sides together (bullet 7.9 → 5.4 per 100 moves: a change in the games, not in you); your bullet check-tactic blunders fell 1.10 → 0.47 (now equal); your allowed-mate rate stayed at 0.7–0.95 while the opponents' fell to 0.4–0.5 (a persistent gap).
+- Data note for F3: the stored `missed_mate` flag is True for the 1,801 moves that delivered mate (mate_after == 0); real missed mates are ~3,336, not 5,137/5,144 as stated in the plan. Corrected inside this script only; `src/analysed.py` should mask `mate_after == 0` (delivered) out of `missed_mate`. Q13 should cite the corrected count.
+- Downstream: Q13 should use "allows mates more often, misses free material less often" as the player-specific pattern; Q3/Q4 might split the allowed-mate gap by clock.
+
+### 10. Endgame technique — done
 
 - Goal: do you convert theoretically won endgames and hold drawn ones?
   Which endgame types go wrong (K+P, rook endings, queen vs pawn)?
@@ -210,6 +238,15 @@ Each entry: **Goal · Inputs · Method · Outputs · Depends on · Caveats.**
 - Depends on: F5.
 - Caveats: only 9,940 moves are in tablebase range; group material types
   coarsely.
+
+Notes:
+- Tablebase layer is small: 9,898 moves / 469 games, 160 errors (72 yours, 88 theirs); all cell CIs are wide, treat differences as unresolved unless the CI excludes zero.
+- Conversion of tablebase wins: you 75.7% [69.5, 81.9] (210 games) vs opponents 72.2% [65.7, 77.8] (198); bullet only 63.4% [52.7, 73.1] vs 84.8% blitz, 88.0% rapid. Hold rate of drawn entries: you 80.3% [70.5, 90.2] (61 games).
+- Per-move tablebase error rate: you 2.6 [1.8, 3.4] vs opponents 3.2 [2.5, 4.0] per 100 at-risk moves. You spoil wins less (win->draw 1.4 vs 2.8 per 100) but lose drawn positions more (draw->loss 7.2 [4.0, 10.2] vs 4.2 [2.0, 6.9]), mainly pawn endings (5.3 vs 1.1) and rook endings. Defending drawn endings is the technique gap.
+- Worst material class for both sides: rook endings, 12.9 [7.7, 18.3] vs 13.6 [7.6, 22.1] errors per 100, almost all KRP vs KR from either side. Q/R vs bare king are near-flawless (<1 per 100).
+- Main leak is the clock, not technique: 33 of your 51 failed conversions had no tablebase error and ended by 'timeout vs insufficient material' (23) or lost on time (10); 29 of those are bullet. Opponents: 19 of 55. Q4 (clock allocation) and Q7 (resignation EV) should note this: in a trivially won bullet ending the task is to mate fast and keep mating material.
+- No visible clock-bucket gradient in TB error rate (2.1-3.0 per 100 across all buckets); by DTZ you err less than opponents at every distance and spend slightly less time per move in blitz/rapid when winning.
+- Beyond 5 pieces (121k endgame-phase moves), ep_loss by coarse material class matches opponents in nearly every cell; queen+others endgames are the noisiest class for both (~0.036 per move), pawn/minor/queen-only endings the quietest (~0.02). Reusable helpers inside the script: piece_counts(fen), tb_material_class, big_material_class, canonical_material, termination_reason.
 
 ### 11. Performance vs opponent rating and upsets — planned (new, small)
 

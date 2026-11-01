@@ -87,7 +87,8 @@ def analyse_moves(moves_enriched: pd.DataFrame, evals: pd.DataFrame, tablebase: 
     out["is_second_move"] = m["uci"] == out["second_move"]
 
     had_mate = out["mate_before"].fillna(0) > 0
-    has_mate = out["mate_after"].fillna(0) > 0
+    # mate_after == 0 (not NA) is a terminal position: the mover has just delivered checkmate.
+    has_mate = out["mate_after"].fillna(-1) >= 0
     out["missed_mate"] = had_mate & ~has_mate
     opponent_had_mate = out["mate_before"].fillna(0) < 0
     opponent_has_mate = out["mate_after"].fillna(0) < 0
