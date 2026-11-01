@@ -9,6 +9,11 @@ import os
 from collections.abc import Callable, Iterator
 from pathlib import Path
 
+def _log(message: str) -> None:
+    """Progress output that appears immediately even when redirected to a file."""
+    print(message, flush=True)
+
+
 from .api import ChessComClient, NotFound
 
 
@@ -56,7 +61,7 @@ def download(
     username: str,
     raw_dir: Path,
     refresh_all: bool = False,
-    log: Callable[[str], None] = print,
+    log: Callable[[str], None] = _log,
 ) -> int:
     """Save any missing or possibly-incomplete months. Returns how many were downloaded."""
     try:

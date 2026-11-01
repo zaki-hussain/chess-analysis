@@ -15,6 +15,11 @@ import time
 from collections.abc import Callable, Iterable, Iterator
 from pathlib import Path
 
+def _log(message: str) -> None:
+    """Progress output that appears immediately even when redirected to a file."""
+    print(message, flush=True)
+
+
 import chess
 import chess.engine
 import pandas as pd
@@ -158,7 +163,7 @@ def run(
     workers: int | None = None,
     checkpoint: int = 2000,
     chunk_size: int = 20,
-    log: Callable[[str], None] = print,
+    log: Callable[[str], None] = _log,
     evaluate_chunk: Callable[[list[str], int], list[dict]] | None = None,
 ) -> pd.DataFrame:
     """Evaluate positions not already in `path` (at this node budget), saving every `checkpoint` positions."""

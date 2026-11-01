@@ -34,7 +34,7 @@ def _analyse(settings: Settings, args: argparse.Namespace) -> None:
         positions = positions[: args.limit]
     path = settings.user_dir / engine.EVALS_FILE
     command = args.engine or settings.stockfish
-    print(f"Evaluating {len(positions)} distinct positions with {command}, {args.workers or os.cpu_count()} workers -> {path}")
+    print(f"Evaluating {len(positions)} distinct positions with {command}, {args.workers or os.cpu_count()} workers -> {path}", flush=True)
     evals = engine.run(positions, path, command, nodes=args.nodes, workers=args.workers, checkpoint=args.checkpoint)
     print(f"{len(evals)} positions in {path}")
 
