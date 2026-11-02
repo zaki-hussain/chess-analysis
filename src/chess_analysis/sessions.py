@@ -18,7 +18,9 @@ What lives here:
   games bootstraps in milliseconds;
 - `cell_stats` / `score_columns`: the tidy columns every table uses (score,
   model expectation, score minus expectation with CI and Elo-equivalents,
-  move quality for both sides).
+  move quality for both sides);
+- `subset` / `by_level` / `thin_cell`: the cells of a table (a time-control
+  group or pool x a level of some column) with counts and a `thin` flag.
 """
 
 from __future__ import annotations
@@ -32,6 +34,13 @@ from .toolkit import OUTCOME_SCORE, elo_expected_score, excess_to_elo, opponent_
 
 N_BOOT = 500  # resamples per CI: the CI ends of a score move by under 0.005 between seeds at this size
 SEED = 5
+ALL = "all games"  # pooled row/panel over every reported control (thin controls excluded)
+# A cell resting on fewer games than this has a score CI wider than about +-0.18 (a fifth of the whole
+# win-to-loss range): it is computed and kept, but flagged thin and not drawn.
+MIN_CELL_GAMES = 30
+# Every CI resamples whole sessions: with fewer sessions than this the bootstrap has too few clusters to give
+# a trustworthy interval, so a cell is also thin under this many sessions.
+MIN_SESSIONS = 30
 
 
 # --- session features -----------------------------------------------------------------------------
@@ -283,3 +292,41 @@ def diff_stats(a: pd.DataFrame, b: pd.DataFrame, names: Iterable[str], cluster: 
 def outcome_score(outcome: pd.Series) -> pd.Series:
     """win/draw/loss -> 1/0.5/0."""
     return outcome.map(OUTCOME_SCORE)
+
+
+# --- table cells -------------------------------------------------------------------------------------
+
+
+def groups_with_all(data) -> list[str]:
+    """The reported time-control groups, then the `ALL` pool."""
+    return [*data.tc_groups, ALL]
+
+
+def subset(games: pd.DataFrame, group: str) -> pd.DataFrame:
+    """The games of a group: `ALL`, a pooled time class ("all bullet") or one time-control group."""
+    if group == ALL:
+        return games
+    if group.startswith("all "):
+        return games[games["time_class"] == group[4:]]
+    return games[games["tc_group"] == group]
+
+
+def counts(part: pd.DataFrame, cluster: str = "session_id") -> dict:
+    """{games, sessions} of a cell."""
+    return {"games": int(len(part)), "sessions": int(part[cluster].nunique())}
+
+
+def thin_cell(part: pd.DataFrame, min_games: int = MIN_CELL_GAMES, cluster: str = "session_id") -> bool:
+    """Too few games, or too few sessions (`MIN_SESSIONS`) for the session bootstrap."""
+    return len(part) < min_games or part[cluster].nunique() < MIN_SESSIONS
+
+
+def by_level(games: pd.DataFrame, groups: Sequence[str], column: str, levels: Sequence, names: Iterable[str], label: str = "tc_group", min_games: int = MIN_CELL_GAMES, cluster: str = "session_id", seed: int = SEED) -> pd.DataFrame:
+    """`cell_stats` per (group, level of `column`), tidy: one row per cell with its counts and `thin` flag; the group goes in column `label`."""
+    rows = []
+    for group in groups:
+        part_g = subset(games, group)
+        for level in levels:
+            part = part_g[part_g[column] == level]
+            rows.append({label: group, column: level, **cell_stats(part, names, cluster=cluster, seed=seed), **counts(part, cluster), "thin": thin_cell(part, min_games, cluster)})
+    return pd.DataFrame(rows)

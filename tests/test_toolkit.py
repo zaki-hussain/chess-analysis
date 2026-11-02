@@ -113,3 +113,69 @@ def test_results_writes_csv_svg_and_index(tmp_path):
     assert results.figure(fig, "1_example").read_bytes() == first  # deterministic SVG
     index = pd.read_csv(results.finish())
     assert list(index["table"]) == ["1_example.csv"] and index.loc[0, "rows"] == 1
+
+
+def test_iid_bootstrap_helpers_and_ci_cols():
+    v = np.array([0.0, 1.0, np.nan, 1.0, 0.0, 1.0])
+    est, lo, hi = toolkit.boot_mean(v, n_boot=200, seed=1)
+    assert est == 0.6 and 0 <= lo < est < hi <= 1  # NaN dropped
+    assert toolkit.boot_mean(v, n_boot=200, seed=1) == (est, lo, hi)  # seeded
+    assert np.isnan(toolkit.boot_mean([2.0])[1]) and all(np.isnan(toolkit.boot_mean([])))
+    d, dlo, dhi = toolkit.boot_mean_diff(pd.Series([1.0, 1.0, 0.0, 1.0]), [0.0, 0.0, 1.0, np.nan], n_boot=200)
+    assert abs(d - (0.75 - 1 / 3)) < 1e-12 and dlo < d < dhi
+    assert all(np.isnan(toolkit.boot_mean_diff([1.0], [0.0, 1.0])))
+    assert toolkit.ci_cols("x", (1.0, 0.5, 1.5, 7)) == {"x": 1.0, "x_lo": 0.5, "x_hi": 1.5}
+
+
+def test_chart_helpers():
+    import matplotlib.pyplot as plt
+
+    from chess_analysis import charts
+
+    charts.style()
+    frame = pd.DataFrame({"g": ["a", "b", "c"], "estimate": [0.1, 0.2, 0.3], "estimate_lo": [0.0, 0.1, 0.2], "estimate_hi": [0.2, 0.3, 0.4], "thin": [False, True, False]})
+    # several horizontal series on one axes (or on axes sharing y): first level on top, whatever the number of calls
+    fig, (left, right) = plt.subplots(1, 2, sharey=True)
+    for ax in (left, right):
+        charts.estimate(ax, frame, "g", lo="estimate_lo", hi="estimate_hi", horizontal=True)
+    assert left.yaxis_inverted() and right.yaxis_inverted()
+    plt.close(fig)
+
+    shown = charts.blank_thin(frame, ["estimate", "estimate_lo", "missing"])
+    assert np.isnan(shown.loc[1, "estimate"]) and np.isnan(shown.loc[1, "estimate_lo"]) and shown.loc[1, "estimate_hi"] == 0.3 and frame.loc[1, "estimate"] == 0.2
+
+    fig, axes = charts.group_grid(["bullet 1+0", "bullet 1+1", "blitz 3+2"], sharey=True)
+    drawn = {g: charts.panel_estimates(ax, frame if g != "bullet 1+1" else frame.assign(thin=True), "g", ["a", "b", "c"]) for g, ax in axes.items()}
+    assert drawn == {"bullet 1+0": True, "bullet 1+1": False, "blitz 3+2": True}
+    assert axes["bullet 1+0"].get_xlim() == (-0.5, 2.5)
+    charts.finish_grid(fig, axes, drawn, "score", "level", rotate=45)
+    assert [ax.get_ylabel() for ax in axes.values()] == ["score", "", "score"]  # first panel of each row
+    assert axes["bullet 1+1"].texts[0].get_text() == "too few games"
+    assert axes["bullet 1+0"].yaxis.get_tick_params()["labelleft"]  # a thin neighbour leaves the shared y labels alone
+    assert axes["blitz 3+2"].get_xticklabels()[0].get_rotation() == 45
+    plt.close(fig)
+
+    fig, ax = charts.single()
+    charts.thin_note(ax, "none")
+    params = ax.yaxis.get_tick_params()
+    assert not params["left"] and not params["labelleft"]
+    fig2, ax2 = charts.single()
+    charts.thin_note(ax2, keep_y=True)
+    assert ax2.yaxis.get_tick_params().get("labelleft", True) and not ax2.xaxis.get_tick_params()["labelbottom"]
+    plt.close(fig)
+    plt.close(fig2)
+
+    fig, ax = charts.single()
+    totals = charts.stacked_bars(ax, [0, 1], [[0.2, np.nan], [0.3, 0.5]], ["red", "blue"], labels=["x", "y"], horizontal=True)
+    assert list(totals) == [0.5, 0.5]
+    bars = ax.patches
+    assert len(bars) == 4 and bars[2].get_x() == 0.2 and bars[3].get_x() == 0.0  # the NaN segment adds nothing
+    assert ax.get_legend_handles_labels()[1] == ["x", "y"]
+    plt.close(fig)
+
+    fig, ax = charts.single()
+    image = charts.heatmap(ax, np.array([[0.1, np.nan], [0.9, 0.5]]), plt.get_cmap(charts.SEQUENTIAL), None, texts=[["a", None], ["b", "c"]], text_colours=[["k", "k"], ["w", "k"]], fontsize=7, xlabels=["x1", "x2"], ylabels=["r1", "r2"])
+    assert image.get_array().shape == (2, 2)
+    assert [(t.get_text(), t.get_position(), t.get_color()) for t in ax.texts] == [("a", (0, 0), "k"), ("b", (0, 1), "w"), ("c", (1, 1), "k")]
+    assert [t.get_text() for t in ax.get_yticklabels()] == ["r1", "r2"] and not any(s.get_visible() for s in ax.spines.values())
+    plt.close(fig)

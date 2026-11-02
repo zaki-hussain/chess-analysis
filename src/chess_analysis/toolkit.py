@@ -225,6 +225,38 @@ def _bootstrap_difference(part: pd.DataFrame, column: str, n_boot: int, seed: in
     return float(est), float(lo), float(hi)
 
 
+def boot_mean(values, n_boot: int = 1000, seed: int = 0) -> tuple[float, float, float]:
+    """Mean of one value per game (NaNs dropped) with a 95% CI from resampling the values (games)."""
+    v = np.asarray(values, dtype="float64")
+    v = v[~np.isnan(v)]
+    if len(v) == 0:
+        return np.nan, np.nan, np.nan
+    if len(v) < 2:
+        return float(v.mean()), np.nan, np.nan
+    rng = np.random.default_rng(seed)
+    boot = v[rng.integers(0, len(v), size=(n_boot, len(v)))].mean(axis=1)
+    lo, hi = np.quantile(boot, [0.025, 0.975])
+    return float(v.mean()), float(lo), float(hi)
+
+
+def boot_mean_diff(a, b, n_boot: int = 1000, seed: int = 0) -> tuple[float, float, float]:
+    """mean(a) - mean(b) for two disjoint sets of games (one value per game, NaNs dropped), each resampled independently; 95% CI."""
+    a, b = (np.asarray(x, dtype="float64") for x in (a, b))
+    a, b = a[~np.isnan(a)], b[~np.isnan(b)]
+    if len(a) < 2 or len(b) < 2:
+        return np.nan, np.nan, np.nan
+    rng = np.random.default_rng(seed)
+    ba = a[rng.integers(0, len(a), size=(n_boot, len(a)))].mean(axis=1)
+    bb = b[rng.integers(0, len(b), size=(n_boot, len(b)))].mean(axis=1)
+    lo, hi = np.quantile(ba - bb, [0.025, 0.975])
+    return float(a.mean() - b.mean()), float(lo), float(hi)
+
+
+def ci_cols(name: str, values: Sequence[float]) -> dict:
+    """{name: estimate, name_lo: lower, name_hi: upper} from (estimate, lower, upper, ...) (anything after the third is ignored)."""
+    return {name: values[0], f"{name}_lo": values[1], f"{name}_hi": values[2]}
+
+
 def binned(moves: pd.DataFrame, x: str, bins: Sequence[float], column: str, by: Sequence[str] = (), labels: Sequence[str] | None = None, n_boot: int = 500) -> pd.DataFrame:
     """`compare_sides` for `column` within bins of `x` (plus any extra `by` columns)."""
     frame = moves.copy()

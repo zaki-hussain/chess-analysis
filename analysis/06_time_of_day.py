@@ -37,22 +37,19 @@ import pandas as pd
 
 from chess_analysis import charts
 from chess_analysis import sessions as S
+from chess_analysis.charts import blank_thin, finish_grid, panel_estimates
 from chess_analysis.config import load_settings
+from chess_analysis.sessions import ALL, MIN_CELL_GAMES, MIN_SESSIONS, counts, groups_with_all, subset, thin_cell
 from chess_analysis.toolkit import Results, cluster_ols, dummies, excess_to_elo, load_data, repo_root
 
 SLUG = "06_time_of_day"
-ALL = "all games"  # pooled row/panel over every reported control (thin controls excluded)
 N_BOOT = S.N_BOOT
 SEED = 6
 N_PERM = 300  # permutations of the band labels: resolves a p-value near 0.05 to about +-0.013
 CLUSTER = "session_id"
 
-# A cell resting on fewer games than this has a score CI wider than about +-0.18: computed, flagged thin, not drawn.
-MIN_CELL_GAMES = 30
-MIN_CELL_LOSSES = 30  # the same floor for shares of losses (flag share)
-# Every CI resamples whole sessions: with fewer sessions than this the bootstrap has too few clusters to give a
-# trustworthy interval, so a cell is also thin under this many sessions.
-MIN_SESSIONS = 30
+# A cell is thin (sessions.thin_cell) under MIN_CELL_GAMES games or MIN_SESSIONS sessions.
+MIN_CELL_LOSSES = MIN_CELL_GAMES  # the same floor for shares of losses (flag share)
 MIN_GAMES_PER_COEF = 10  # OLS needs about this many games per coefficient before its estimates settle
 
 # Hour bands (local time). Hours 1-6 hold under 60 games each, so they are merged with midnight into "night";
@@ -77,79 +74,9 @@ QUALITY = ["excess", "my_ep", "opp_ep", "ep_gap"]
 # --- helpers ------------------------------------------------------------------------------------------
 
 
-def groups_with_all(data) -> list[str]:
-    return [*data.tc_groups, ALL]
-
-
-def subset(games: pd.DataFrame, group: str) -> pd.DataFrame:
-    if group == ALL:
-        return games
-    if group.startswith("all "):  # pooled time class, e.g. "all bullet"
-        return games[games["time_class"] == group[4:]]
-    return games[games["tc_group"] == group]
-
-
-def counts(part: pd.DataFrame) -> dict:
-    return {"games": int(len(part)), "sessions": int(part[CLUSTER].nunique())}
-
-
-def thin_cell(part: pd.DataFrame) -> bool:
-    """Too few games, or too few sessions for the session bootstrap."""
-    return len(part) < MIN_CELL_GAMES or part[CLUSTER].nunique() < MIN_SESSIONS
-
-
-def by_level(games: pd.DataFrame, groups: list[str], column: str, levels: list[str], names: list[str], label: str = "tc_group") -> pd.DataFrame:
-    rows = []
-    for group in groups:
-        part_g = subset(games, group)
-        for level in levels:
-            part = part_g[part_g[column] == level]
-            rows.append({label: group, column: level, **S.cell_stats(part, names, cluster=CLUSTER, seed=SEED), **counts(part), "thin": thin_cell(part)})
-    return pd.DataFrame(rows)
-
-
-def blank_thin(frame: pd.DataFrame, columns: list[str]) -> pd.DataFrame:
-    out = frame.copy()
-    for c in columns:
-        if c in out:
-            out.loc[out["thin"], c] = np.nan
-    return out
-
-
-def thin_panel(ax, text: str = "too few games") -> None:
-    """charts.thin_note without clearing ticks (on shared axes that would clear every panel's ticks)."""
-    ax.text(0.5, 0.5, text, transform=ax.transAxes, ha="center", va="center", color=charts.INK_MUTED, fontsize=8.5)
-    ax.tick_params(axis="x", labelbottom=False, length=0)  # y labels stay: with shared axes they may be the row's only ones
-
-
-def panel_estimates(ax, frame: pd.DataFrame, x: str, order: list[str], y: str = "excess", colour: str = charts.PLAYER, label: str | None = None, offset: float = 0.0) -> bool:
-    part = blank_thin(frame, [y, f"{y}_lo", f"{y}_hi"])
-    if part[y].notna().sum() == 0:
-        return False
-    charts.estimate(ax, part, x, y=y, lo=f"{y}_lo", hi=f"{y}_hi", order=order, colour=colour, label=label, offset=offset)
-    ax.set_xlim(-0.5, len(order) - 0.5)
-    return True
-
-
-def finish_grid(fig, axes: dict, drawn: dict, ylabel: str, xlabel: str | None = None, rotate: int = 0, zero: bool = True) -> None:
-    for group, ax in axes.items():
-        if not drawn.get(group):
-            thin_panel(ax)
-            continue
-        if zero:
-            charts.zero_line(ax)
-        if rotate:
-            labels = [t.get_text() for t in ax.get_xticklabels()]
-            ax.set_xticks(ax.get_xticks(), labels, rotation=rotate, ha="right", rotation_mode="anchor")
-    first = {}
-    for ax in axes.values():
-        first.setdefault(round(ax.get_position().y0, 3), ax)
-    for ax in first.values():
-        ax.set_ylabel(ylabel)
-    if xlabel:
-        for ax in axes.values():
-            ax.set_xlabel(xlabel)
-    fig.tight_layout()
+def by_level(games: pd.DataFrame, groups: list[str], column: str, levels: list[str], names: list[str]) -> pd.DataFrame:
+    """sessions.by_level with this question's cluster and seed."""
+    return S.by_level(games, groups, column, levels, names, cluster=CLUSTER, seed=SEED)
 
 
 def clear_cells(table: pd.DataFrame, level: str, controls: list[str]) -> pd.DataFrame:
@@ -222,7 +149,7 @@ def q1_hours(results: Results, games: pd.DataFrame, data) -> None:
     drawn = {}
     for group, ax in axes.items():
         part = table[table["tc_group"] == group].assign(hours=lambda f: f["band"].map(short_band))
-        drawn[group] = panel_estimates(ax, part, "hours", labels)
+        drawn[group] = panel_estimates(ax, part, "hours", labels, y="excess")
     finish_grid(fig, axes, drawn, "score minus expectation", "local hour")
     charts.footnote(fig, f"Score minus the calibration model's pre-game expectation, by the hour the game started (local time). 95% CIs resample sessions; cells under {MIN_CELL_GAMES} games or {MIN_SESSIONS} sessions left out.")
     results.figure(fig, "1_hour_band")
@@ -248,7 +175,7 @@ def q2_weekdays(results: Results, games: pd.DataFrame, data) -> None:
     drawn = {}
     for group, ax in axes.items():
         part = table[table["tc_group"] == group].assign(day=lambda f: f["weekday"].str[:3])
-        drawn[group] = panel_estimates(ax, part, "day", labels)
+        drawn[group] = panel_estimates(ax, part, "day", labels, y="excess")
     finish_grid(fig, axes, drawn, "score minus expectation")
     charts.footnote(fig, f"Score minus the calibration model's pre-game expectation, by local weekday. 95% CIs resample sessions; cells under {MIN_CELL_GAMES} games or {MIN_SESSIONS} sessions left out.")
     results.figure(fig, "2_weekday")
@@ -295,19 +222,11 @@ def q3_grid(results: Results, games: pd.DataFrame, data) -> None:
         n = part.pivot(index="weekday", columns="band", values="games").reindex(index=WEEKDAYS, columns=BAND_LABELS)
         thin = part.pivot(index="weekday", columns="band", values="thin").reindex(index=WEEKDAYS, columns=BAND_LABELS).astype(bool)
         masked = np.ma.masked_array(values.to_numpy(dtype=float), mask=thin.to_numpy() | values.isna().to_numpy())
-        image = ax.imshow(masked, cmap=cmap, norm=norm, aspect="auto")
-        for i in range(len(WEEKDAYS)):
-            for j in range(len(BAND_LABELS)):
-                v, count = values.iat[i, j], int(n.iat[i, j])
-                text = f"n={count}" if thin.iat[i, j] else f"{v:+.2f}\nn={count}"
-                dark = not thin.iat[i, j] and abs(v) > 0.6 * lim
-                ax.text(j, i, text, ha="center", va="center", fontsize=6.5, color=charts.SURFACE if dark else charts.INK_SECONDARY)
-        ax.set_xticks(range(len(BAND_LABELS)), [short_band(b) for b in BAND_LABELS])
-        ax.set_yticks(range(len(WEEKDAYS)), [d[:3] for d in WEEKDAYS])
-        ax.grid(False)
+        texts = [[f"n={int(n.iat[i, j])}" if thin.iat[i, j] else f"{values.iat[i, j]:+.2f}\nn={int(n.iat[i, j])}" for j in range(len(BAND_LABELS))] for i in range(len(WEEKDAYS))]
+        dark = ~thin.to_numpy() & (values.abs().to_numpy() > 0.6 * lim)
+        image = charts.heatmap(ax, masked, cmap, norm, texts=texts, text_colours=np.where(dark, charts.SURFACE, charts.INK_SECONDARY), fontsize=6.5,
+                               xlabels=[short_band(b) for b in BAND_LABELS], ylabels=[d[:3] for d in WEEKDAYS])  # fmt: skip
         ax.set_title(pool)
-        for spine in ax.spines.values():
-            spine.set_visible(False)
     for k in range(len(pools), nrows * ncols):
         grid[k // ncols][k % ncols].set_visible(False)
     fig.suptitle("Is there a best hour on a particular day?", x=0.01, ha="left", fontweight="bold", fontsize=11, color=charts.INK)
@@ -469,7 +388,7 @@ def q5_halves(results: Results, games: pd.DataFrame, data) -> None:
     drawn = {}
     for group, ax in axes.items():
         part = table[table["tc_group"] == group].assign(hours=lambda f: f["band"].map(short_band))
-        ok = [panel_estimates(ax, part[part["period"] == p], "hours", labels, colour=c, label=p, offset=o) for p, c, o in zip(periods, colours, (-0.14, 0.14))]
+        ok = [panel_estimates(ax, part[part["period"] == p], "hours", labels, y="excess", colour=c, label=p, offset=o) for p, c, o in zip(periods, colours, (-0.14, 0.14))]
         drawn[group] = any(ok)
     finish_grid(fig, axes, drawn, "score minus expectation", "local hour")
     charts.legend(fig, loc="upper right", bbox_to_anchor=(1.0, 1.0))

@@ -39,7 +39,7 @@ import numpy as np
 import pandas as pd
 
 from chess_analysis import charts, clocks
-from chess_analysis.toolkit import MIN_GROUP_GAMES, Results, cluster_bootstrap_mean, dummies, excess_to_elo, load_data, ratio_bootstrap
+from chess_analysis.toolkit import MIN_GROUP_GAMES, Results, ci_cols, cluster_bootstrap_mean, dummies, excess_to_elo, load_data, ratio_bootstrap
 
 SLUG = "04_clock_allocation"
 SEED = 4
@@ -136,25 +136,8 @@ def share(frame: pd.DataFrame, numerator: pd.Series, denominator: pd.Series | No
     return ratio_bootstrap((numerator.astype(bool) & den).astype(float), den.astype(float), frame["game_uuid"], n_boot=N_BOOT, seed=SEED)
 
 
-def ci_cols(name: str, values: tuple[float, float, float]) -> dict:
-    return {name: values[0], f"{name}_lo": values[1], f"{name}_hi": values[2]}
-
-
 def sides(frame: pd.DataFrame) -> list[tuple[str, pd.DataFrame]]:
     return [("player", frame[frame["is_player_move"]]), ("opponent", frame[~frame["is_player_move"]])]
-
-
-def thin_panel(ax, text: str) -> None:
-    """charts.thin_note for a panel in a shared-axis grid (thin_note clears the shared ticks of every panel)."""
-    ax.text(0.5, 0.5, text, transform=ax.transAxes, ha="center", va="center", color=charts.INK_MUTED, fontsize=8.5)
-    ax.tick_params(left=False, labelleft=False, bottom=False, labelbottom=False)
-    ax.grid(False)
-
-
-def rotate(ax) -> None:
-    for tick in ax.get_xticklabels():
-        tick.set_rotation(45)
-        tick.set_ha("right")
 
 
 def budget_seconds(base: float, increment: float) -> float:
@@ -447,11 +430,11 @@ def main() -> None:
     for g, ax in axes.items():
         part = curves["cp_loss"][(curves["cp_loss"]["tc_group"] == g) & ~curves["cp_loss"]["thin"]]
         if part.empty:
-            thin_panel(ax, "too few moves")
+            charts.thin_note(ax, "too few moves")
             continue
         charts.side_lines(ax, part, "think_bucket", order=THINK_MULTIPLE_LABELS)
         ax.set_xticks(range(len(THINK_MULTIPLE_LABELS)), [labels.loc[(g, b), "seconds_label"] for b in THINK_MULTIPLE_LABELS])
-        rotate(ax)
+        charts.rotate_labels(ax)
     axes[groups[0]].set_ylabel("centipawns lost per move")
     charts.legend(fig, bbox_to_anchor=(1.0, 1.02))
     charts.footnote(fig, f"Seconds spent on the move, in buckets of 1/4, 1/2, 1, 2 and 4 times the control's per-move budget ((base + {EXPECTED_MOVES} x increment) / {EXPECTED_MOVES}). Centipawns: the clock-free measure. Bands: 95% CI, resampling games; buckets under 30 moves a side left out.")
@@ -585,7 +568,7 @@ def main() -> None:
     for g, ax in axes.items():
         part = board[board["tc_group"] == g]
         if part["thin"].all():
-            thin_panel(ax, "too few flags")
+            charts.thin_note(ax, "too few flags")
             continue
         wide = pd.DataFrame({"state": states})
         for flagged in ("player", "opponent"):
@@ -636,7 +619,7 @@ def main() -> None:
             continue
         charts.side_bars(ax, wide, "game_end", order=ends)
         ax.set_ylim(bottom=0)
-        rotate(ax)
+        charts.rotate_labels(ax)
     axes[groups[0]].set_ylabel("seconds left")
     charts.legend(fig, bbox_to_anchor=(1.0, 1.02))
     charts.footnote(fig, f"Blue: your clock before your move {FLAG_CHECK_MOVE} in games you went on to lose on time, win on time, or neither; grey: the same for your opponents. Bars from fewer than {MIN_FLAG_GAMES} games left out. Bottom row: controls of a class pooled. Each panel has its own scale. Whiskers: 95% CI.")

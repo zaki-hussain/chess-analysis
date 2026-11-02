@@ -552,13 +552,6 @@ def ordered(frame: pd.DataFrame, columns: list[str]) -> pd.DataFrame:
     return out.sort_values(columns, kind="stable").reset_index(drop=True)
 
 
-def blank_thin(frame: pd.DataFrame, columns: list[str] = RATE_COLS) -> pd.DataFrame:
-    """Estimates of thin cells set to NaN, so charts leave them out."""
-    out = frame.copy()
-    out.loc[out["thin"].astype(bool), columns] = np.nan
-    return out
-
-
 # --- charts -------------------------------------------------------------------------------------
 
 
@@ -571,23 +564,15 @@ def chart_rate_by_group(table: pd.DataFrame, groups: list[str]):
     return fig
 
 
-def thin_panel(ax, text: str) -> None:
-    """charts.thin_note without clearing the y ticks, which panels sharing a y axis would all lose."""
-    ax.text(0.5, 0.5, text, transform=ax.transAxes, ha="center", va="center", color=charts.INK_MUTED, fontsize=8.5)
-    ax.set_xticks([])
-    ax.tick_params(axis="y", labelleft=False, left=False)
-    ax.grid(False)
-
-
 def chart_panels(table: pd.DataFrame, panels: list[str], x: str, order: list[str], title: str, ylabel: str, note: str, sharey=True, panel=(2.9, 2.3), rotate: int = 0, thin_text: str = "too few games"):
     """group_grid of you-vs-opponents bars, one panel per group; thin cells left out, all-thin panels noted."""
     fig, axes = charts.group_grid(panels, panel=panel, sharey=sharey, title=title)
     for g, ax in axes.items():
         part = table[table["tc_group"].astype(str) == g]
         if part.empty or part["thin"].all():
-            thin_panel(ax, thin_text)
+            charts.thin_note(ax, thin_text)
             continue
-        charts.side_bars(ax, blank_thin(part), x, order=order)
+        charts.side_bars(ax, charts.blank_thin(part, RATE_COLS), x, order=order)
         charts.zero_line(ax)
         ax.set_xlim(-0.5, len(order) - 0.5)  # keep every slot, so a thin one at the edge still shows its n/a
         thin_levels = set(part.loc[part["thin"].astype(bool), x].astype(str)) | (set(order) - set(part[x].astype(str)))
@@ -598,9 +583,7 @@ def chart_panels(table: pd.DataFrame, panels: list[str], x: str, order: list[str
         if rotate:
             for label in ax.get_xticklabels():
                 label.set_ha("right")
-    for g, ax in axes.items():
-        if ax.get_subplotspec().is_first_col():
-            ax.set_ylabel(ylabel)
+    charts.label_first_column(axes, ylabel)
     charts.legend(fig, loc="upper right")
     charts.footnote(fig, note)
     fig.tight_layout()
@@ -620,13 +603,10 @@ def chart_taxonomy(table: pd.DataFrame, groups: list[str]):
         y += 0.6
     for g, side, pos in positions:
         part = table[table["tc_group"].astype(str) == g].set_index("category")
-        left = 0.0
         thin = bool(part["thin_composition"].any()) if "thin_composition" in part else False
-        for cat in WHAT_PLAYED:
-            share = float(part.loc[cat, f"share_{side}"]) if cat in part.index else 0.0
-            share = 0.0 if np.isnan(share) else share
-            ax.barh(pos, share, left=left, height=0.85, color=TAXONOMY_COLOURS[cat], label=cat, alpha=0.45 if thin else 1.0, edgecolor=charts.SURFACE, linewidth=0.5)
-            left += share
+        shares = [float(part.loc[cat, f"share_{side}"]) if cat in part.index else 0.0 for cat in WHAT_PLAYED]
+        shares = [[0.0 if np.isnan(share) else share] for share in shares]
+        charts.stacked_bars(ax, [pos], shares, [TAXONOMY_COLOURS[c] for c in WHAT_PLAYED], labels=WHAT_PLAYED, width=0.85, horizontal=True, alpha=0.45 if thin else 1.0, edgecolor=charts.SURFACE, linewidth=0.5)
     ax.set_yticks([p for _, _, p in positions], labels)
     ax.invert_yaxis()
     ax.set_xlim(0, 1)

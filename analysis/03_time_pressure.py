@@ -94,29 +94,15 @@ def by_group(frame: pd.DataFrame, order: list[str]) -> pd.DataFrame:
     return frame.sort_values("tc_group", key=lambda s: s.map(rank).fillna(len(rank)), kind="stable").reset_index(drop=True)
 
 
-def thin(ax, text: str) -> None:
-    """charts.thin_note for a panel in a shared-axis grid: hides this panel's ticks only (thin_note's
-    set_yticks([]) would clear the shared axis of every panel)."""
-    ax.text(0.5, 0.5, text, transform=ax.transAxes, ha="center", va="center", color=charts.INK_MUTED, fontsize=8.5)
-    ax.tick_params(left=False, labelleft=False, bottom=False, labelbottom=False)
-    ax.grid(False)
-
-
-def rotate(ax) -> None:
-    for tick in ax.get_xticklabels():
-        tick.set_rotation(45)
-        tick.set_ha("right")
-
-
 def curve_chart(table: pd.DataFrame, bucket: str, labels: list[str], groups: list[str], ylabel: str, title: str, note: str):
     fig, axes = charts.group_grid(groups, sharey=True, title=title, panel=(2.9, 2.5))
     for g, ax in axes.items():
         part = table[(table["tc_group"] == g) & ~table["thin"]]
         if part.empty:
-            thin(ax, "too few low-clock moves")
+            charts.thin_note(ax, "too few low-clock moves")
             continue
         charts.side_lines(ax, part, bucket, order=labels)
-        rotate(ax)
+        charts.rotate_labels(ax)
     axes[groups[0]].set_ylabel(ylabel)
     charts.legend(fig, loc="upper right", bbox_to_anchor=(1.0, 1.02))
     charts.footnote(fig, note)
@@ -129,7 +115,7 @@ def gap_chart(table: pd.DataFrame, labels: list[str], groups: list[str], title: 
     for g, ax in axes.items():
         part = table[(table["tc_group"] == g) & ~table["thin"]]
         if part.empty:
-            thin(ax, "too few low-clock moves")
+            charts.thin_note(ax, "too few low-clock moves")
             continue
         charts.zero_line(ax)
         charts.estimate(ax, part, "clock", y="diff", lo="diff_lo", hi="diff_hi", order=labels, label="you minus opponents")
@@ -204,7 +190,7 @@ def main() -> None:
         part = ever[ever["tc_group"] == g]
         charts.side_bars(ax, part, "line", order=[c for c in chart_lines if c in set(part["line"])])
         ax.yaxis.set_major_formatter(_percent())
-        rotate(ax)
+        charts.rotate_labels(ax)
     charts.legend(fig, bbox_to_anchor=(1.0, 1.02))
     charts.footnote(fig, "Buffer = seconds left minus one increment (shown for increment controls only). 10% of base is 6 s in 1+0, 18 s in 3+0, 60 s in 10+0.")
     fig.tight_layout()
@@ -309,7 +295,7 @@ def main() -> None:
         ok = part[part["slope_clear"] & ~part["thin"]]
         rating = part["your_mean_rating"].iloc[0]
         if ok.empty:
-            thin(ax, "rating curve not identified")
+            charts.thin_note(ax, "rating curve not identified")
             continue
         ax.axhline(rating, color=charts.INK_MUTED, linewidth=1, linestyle="--", label="your mean rating")
         shown = part.set_index("your_moves").reindex(targets_order).reset_index()
@@ -325,7 +311,7 @@ def main() -> None:
             edge = RATING_PLOT_RANGE[0] + 0.04 * span if low else RATING_PLOT_RANGE[1] - 0.04 * span  # just inside the frame
             ax.plot([k], [edge], marker="v" if low else "^", markersize=8, markerfacecolor="none", markeredgecolor=charts.PLAYER, markeredgewidth=1.5, linestyle="none", label="outside the opponents' rating range")
         ax.set_ylim(*RATING_PLOT_RANGE)
-        rotate(ax)
+        charts.rotate_labels(ax)
     axes[panels[0]].set_ylabel("rating")
     charts.legend(fig, bbox_to_anchor=(1.0, 1.02))
     charts.footnote(fig, "Your mean centipawn loss on those moves, placed on the opponents' cp-loss-by-rating line in the same games. 95% CI, resampling games; whiskers cut at 0 and 2000. Hollow triangle: the estimate lies outside the opponents' rating range (an extrapolation, not drawn). Missing panel: the line has no clear slope.")

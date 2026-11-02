@@ -70,3 +70,20 @@ def test_cell_stats_gives_the_elo_formula_excess_its_own_elo_equivalent():
     out = S.cell_stats(frame, ["excess_rating"])
     assert list(out)[:7] == ["elo_expected", "excess_rating", "excess_rating_lo", "excess_rating_hi", "excess_rating_elo", "excess_rating_elo_lo", "excess_rating_elo_hi"]
     assert abs(out["excess_rating_elo"] - 400 * np.log10(1.5)) < 1e-9
+
+
+def test_cells_by_level_with_counts_and_thin_flags():
+    rng = np.random.default_rng(0)
+    n = 240
+    games = pd.DataFrame({
+        "session_id": np.arange(n) // 2, "time_class": np.where(np.arange(n) < 200, "bullet", "blitz"),
+        "tc_group": np.where(np.arange(n) < 200, "bullet 1+0", "blitz 3+2"), "level": np.tile(["x", "y"], n // 2),
+        "my_score": rng.integers(0, 2, n).astype(float), "my_ep_start": 0.5, "excess_model": rng.uniform(-0.5, 0.5, n),
+    })  # fmt: skip
+    assert len(S.subset(games, S.ALL)) == n and len(S.subset(games, "all blitz")) == 40 and len(S.subset(games, "bullet 1+0")) == 200
+    assert S.groups_with_all(type("D", (), {"tc_groups": ["bullet 1+0"]})()) == ["bullet 1+0", S.ALL]
+    table = S.by_level(games, ["bullet 1+0", "blitz 3+2", S.ALL], "level", ["x", "y"], ["excess"])
+    assert list(table.columns[:2]) == ["tc_group", "level"] and list(table.columns[-3:]) == ["games", "sessions", "thin"]
+    assert list(table["games"]) == [100, 100, 20, 20, 120, 120] and list(table["thin"]) == [False, False, True, True, False, False]
+    assert S.thin_cell(games.iloc[:100]) is False and S.thin_cell(games.iloc[:100], min_games=101) is True
+    assert S.counts(games.iloc[:10]) == {"games": 10, "sessions": 5}

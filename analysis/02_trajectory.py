@@ -40,6 +40,7 @@ import numpy as np
 import pandas as pd
 
 from chess_analysis import charts
+from chess_analysis.clocks import LOW_CLOCK_SECONDS  # "under 10 seconds": the plain-seconds low-clock line readers think in
 from chess_analysis.toolkit import (
     TIME_CLASSES,
     Results,
@@ -63,7 +64,6 @@ MIN_REGRESSION_MONTHS = 20  # its bootstrap resamples calendar months; with fewe
 MIN_HABIT_GAMES = MIN_CELL_CASES  # a habit that departs from its usual value in fewer games (e.g. moves under 10 s in rapid) is left out: its coefficient explodes in resamples
 BAND = 100  # rating-band width: a 100-point band is roughly a dozen net wins at chess.com's ~8 points per game
 BREAK_DAYS = 7  # a gap of more than a week in a rating pool makes the rating a weaker measure of current strength
-LOW_CLOCK_SECONDS = 10.0  # "under 10 seconds": the plain-seconds low-clock line readers think in
 LOW_CLOCK_BASE_FRACTION = 0.1  # the same idea relative to the time control: under 10% of the base time (6 s in 1+0, 60 s in 10+0)
 LOW_ALIVE = 0.1  # Q1's "lost while still alive": the loser's last calibrated P(win) was at least 10%
 UPSET_GAP = 100  # an upset: a win against an opponent at least 100 points stronger, or a loss to one at least 100 weaker (Elo: 36% / 64% expected)
@@ -291,13 +291,6 @@ def cell(frame: pd.DataFrame, m: dict, w: np.ndarray) -> dict:
     return out
 
 
-def thin_panel(ax, text: str = "too few games") -> None:
-    """charts.thin_note without clearing the ticks: clearing them would also clear every panel sharing the y axis."""
-    ax.text(0.5, 0.5, text, transform=ax.transAxes, ha="center", va="center", color=charts.INK_MUTED, fontsize=8.5)
-    ax.tick_params(labelleft=False, labelbottom=False, length=0)
-    ax.grid(False)
-
-
 def metric_columns(m: dict) -> dict:
     return {"metric": m["key"], "label": m["label"], "unit": m["unit"], "better": m["better"]}
 
@@ -457,7 +450,7 @@ def chart_band_lines(band: pd.DataFrame, groups: list[str], key: str, ylabel: st
     for g, ax in axes.items():
         part = band[(band["tc_group"] == g) & (band["metric"] == key)].copy()
         if (~part["thin"]).sum() < 2:
-            thin_panel(ax, "too few games per band")
+            charts.thin_note(ax, "too few games per band")
             continue
         for col in ("player", "player_lo", "player_hi", "opponent", "opponent_lo", "opponent_hi"):
             part.loc[part["thin"], col] = np.nan
@@ -485,7 +478,7 @@ def chart_thirds_bars(thirds_table: pd.DataFrame, groups: list[str], key: str, y
     for g, ax in axes.items():
         part = thirds_table[(thirds_table["tc_group"] == g) & (thirds_table["metric"] == key)].copy()
         if part.empty or part["thin"].all():
-            thin_panel(ax)
+            charts.thin_note(ax)
             continue
         for col in ("player", "player_lo", "player_hi", "opponent", "opponent_lo", "opponent_hi"):
             part.loc[part["thin"], col] = np.nan
@@ -682,7 +675,7 @@ def chart_score_vs_gap(table: pd.DataFrame, panels: list[str], title: str, grid:
     for p, ax in axes.items():
         part = table[(table["tc_group"] == p) & ~table["thin"]]
         if len(part) < 2:
-            thin_panel(ax)
+            charts.thin_note(ax)
             continue
         x = part["rating_gap"].map(pos).to_numpy(dtype=float)
         ax.plot(x, part["expected"], color=charts.OPPONENT, ls="--", marker="s", ms=3.5, lw=1.2, label="Elo-expected score")
@@ -752,11 +745,9 @@ def chart_upsets(table: pd.DataFrame, panels: list[str]):
     for ax, p in zip(row[0], panels):
         part = table[table["tc_group"] == p].set_index("category").reindex(UPSET_CATEGORIES)
         y = np.arange(len(UPSET_CATEGORIES))
-        left = np.zeros(len(y))
-        for ending in ENDINGS:
-            vals = np.where(part["thin"].fillna(True).to_numpy(dtype=bool), 0.0, part[f"loser_{ending}"].fillna(0).to_numpy(dtype=float))
-            ax.barh(y, vals, left=left, color=colours[ending], height=0.7, label=f"loser: {ending}")
-            left += vals
+        thin = part["thin"].fillna(True).to_numpy(dtype=bool)
+        shares = [np.where(thin, 0.0, part[f"loser_{ending}"].fillna(0).to_numpy(dtype=float)) for ending in ENDINGS]
+        charts.stacked_bars(ax, y, shares, [colours[e] for e in ENDINGS], labels=[f"loser: {e}" for e in ENDINGS], width=0.7, horizontal=True)
         for yi, (n, thin) in enumerate(zip(part["games"].fillna(0).astype(int), part["thin"].fillna(True))):
             ax.text(1.02, yi, f"{n}" if not thin else f"{n}: too few", va="center", fontsize=7, color=charts.INK_MUTED if thin else charts.INK_SECONDARY, transform=ax.get_yaxis_transform())
         ax.set_yticks(y, UPSET_CATEGORIES)

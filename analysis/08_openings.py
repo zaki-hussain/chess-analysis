@@ -43,6 +43,7 @@ from chess_analysis import charts
 from chess_analysis.toolkit import (
     Results,
     add_elo,
+    boot_mean_diff,
     cluster_bootstrap_mean,
     cluster_ols,
     compare_sides,
@@ -108,15 +109,7 @@ def mean_ci(frame: pd.DataFrame, column: str) -> tuple[float, float, float]:
 
 def independent_diff(a: pd.Series, b: pd.Series) -> tuple[float, float, float]:
     """mean(a) - mean(b) for two disjoint sets of games (independent bootstraps of each)."""
-    a = a.astype("float64").dropna().to_numpy()
-    b = b.astype("float64").dropna().to_numpy()
-    if len(a) < 2 or len(b) < 2:
-        return float("nan"), float("nan"), float("nan")
-    rng = np.random.default_rng(SEED)
-    ba = a[rng.integers(0, len(a), size=(N_BOOT, len(a)))].mean(axis=1)
-    bb = b[rng.integers(0, len(b), size=(N_BOOT, len(b)))].mean(axis=1)
-    lo, hi = np.quantile(ba - bb, [0.025, 0.975])
-    return float(a.mean() - b.mean()), float(lo), float(hi)
+    return boot_mean_diff(a, b, n_boot=N_BOOT, seed=SEED)
 
 
 def vs_colour(mine: pd.DataFrame, key: str) -> dict:
@@ -199,13 +192,6 @@ def move_label(fen: str, san: str) -> str:
     """'7. Ng5' or '7... Nf6' from the position the mover faced."""
     parts = fen.split()
     return f"{parts[5]}. {san}" if parts[1] == "w" else f"{parts[5]}... {san}"
-
-
-def thin_panel(ax, text: str = "too few games") -> None:
-    """charts.thin_note without clearing ticks (on shared axes that would clear every panel's ticks)."""
-    ax.text(0.5, 0.5, text, transform=ax.transAxes, ha="center", va="center", color=charts.INK_MUTED, fontsize=8.5)
-    ax.tick_params(labelleft=False, labelbottom=False, length=0)
-    ax.grid(False)
 
 
 def short_family(name: str) -> str:
@@ -369,22 +355,15 @@ def chart_line_starts(table: pd.DataFrame, groups: list[str], tc_class: dict[str
         rows = list(dict.fromkeys(part["line_start"]))
         grid = part.pivot(index="line_start", columns="tc_group", values="share").reindex(index=rows, columns=cols)
         totals = part.drop_duplicates("tc_group").set_index("tc_group")["colour_games"].reindex(cols)
-        ax.imshow(grid.to_numpy(dtype=float), cmap=cmap, norm=norm, aspect="auto")
-        for i in range(len(rows)):
-            for j in range(len(cols)):
-                v = grid.iloc[i, j]
-                if pd.notna(v):
-                    ax.text(j, i, f"{v:.0%}", ha="center", va="center", fontsize=7.5, color="white" if v > DARK_CELL else charts.INK)
-        ax.set_yticks(range(len(rows)), rows)
+        values = grid.to_numpy(dtype=float)
+        texts = [[f"{v:.0%}" if pd.notna(v) else None for v in row] for row in values]
+        charts.heatmap(ax, values, cmap, norm, texts=texts, text_colours=np.where(values > DARK_CELL, "white", charts.INK), ylabels=rows)
         ax.set_xticks(
             range(len(cols)),
             [f"{c.removeprefix(tc_class.get(c, '') + ' ')}\n({int(n)})" for c, n in zip(cols, totals)],
             fontsize=7.5,
         )
-        ax.grid(False)
         ax.set_title(f"You as {colour}: share of games by how the game started")
-        for spine in ax.spines.values():
-            spine.set_visible(False)
     fig.suptitle("What do you play as White and as Black?", x=0.01, ha="left", fontweight="bold", fontsize=11)
     fig.tight_layout()
     charts.footnote(
@@ -742,7 +721,7 @@ def chart_book_depth(table: pd.DataFrame, groups: list[str]):
         part = table[(table["tc_group"] == group) & ~table["thin"]]
         charts.zero_line(ax)
         if part.empty:
-            thin_panel(ax)
+            charts.thin_note(ax)
             continue
         charts.estimate(ax, part, "book_moves", y="excess", lo="excess_lo", hi="excess_hi", order=BOOK_MOVE_LABELS, line=True)
         ax.grid(axis="x", visible=False)
@@ -896,7 +875,7 @@ def chart_costly(mine: pd.DataFrame, theirs: pd.DataFrame):
         (axes[1], theirs, charts.OPPONENT, "Your opponents' costliest repeated moves against you"),
     ):
         if table.empty:
-            thin_panel(ax, "none")
+            charts.thin_note(ax, "none")
             continue
         labels = [f"{r.move} ({short_family(r.family)}, you {r.your_colour[0].upper()}); engine {r.engine_move}" for r in table.itertuples()]
         pos = np.arange(len(table))

@@ -34,12 +34,13 @@ Run: .venv/bin/python analysis/10_endgames.py   (about 30 s)
 from __future__ import annotations
 
 import time
+from functools import partial
 
 import numpy as np
 import pandas as pd
 
-from chess_analysis import charts
-from chess_analysis.toolkit import Results, add_elo, compare_sides, load_data
+from chess_analysis import charts, toolkit
+from chess_analysis.toolkit import Results, add_elo, ci_cols, compare_sides, load_data
 
 SLUG = "10_endgames"
 SEED = 10
@@ -223,35 +224,9 @@ def canonical_material(pc: pd.DataFrame, color: pd.Series) -> pd.Series:
 # --- bootstrap helpers (rows are games) ----------------------------------------------------------------------
 
 
-def boot_mean(values, seed: int = SEED) -> tuple[float, float, float]:
-    """Mean of one value per game with a bootstrap CI (games resampled)."""
-    v = np.asarray(values, dtype="float64")
-    v = v[~np.isnan(v)]
-    if len(v) == 0:
-        return np.nan, np.nan, np.nan
-    if len(v) < 2:
-        return float(v.mean()), np.nan, np.nan
-    rng = np.random.default_rng(seed)
-    boot = v[rng.integers(0, len(v), size=(N_BOOT, len(v)))].mean(axis=1)
-    lo, hi = np.quantile(boot, [0.025, 0.975])
-    return float(v.mean()), float(lo), float(hi)
-
-
-def boot_diff(a, b, seed: int = SEED) -> tuple[float, float, float]:
-    """mean(a) - mean(b) for two disjoint sets of games, each resampled."""
-    a, b = (np.asarray(x, dtype="float64") for x in (a, b))
-    a, b = a[~np.isnan(a)], b[~np.isnan(b)]
-    if len(a) < 2 or len(b) < 2:
-        return np.nan, np.nan, np.nan
-    rng = np.random.default_rng(seed)
-    ba = a[rng.integers(0, len(a), size=(N_BOOT, len(a)))].mean(axis=1)
-    bb = b[rng.integers(0, len(b), size=(N_BOOT, len(b)))].mean(axis=1)
-    lo, hi = np.quantile(ba - bb, [0.025, 0.975])
-    return float(a.mean() - b.mean()), float(lo), float(hi)
-
-
-def put(row: dict, name: str, triple: tuple[float, float, float]) -> None:
-    row[name], row[f"{name}_lo"], row[f"{name}_hi"] = triple
+# Means of one value per game (and differences between two disjoint sets of games), games resampled.
+boot_mean = partial(toolkit.boot_mean, n_boot=N_BOOT, seed=SEED)
+boot_diff = partial(toolkit.boot_mean_diff, n_boot=N_BOOT, seed=SEED)
 
 
 def wilson(k: int, n: int) -> tuple[float, float]:
@@ -447,11 +422,8 @@ def q1_reached(results: Results, views, data, ending, big) -> None:
     for label in order:
         ax = axes[label]
         part = table[table["tc_group"] == label].set_index("tb_class").reindex(TB_CLASS_ORDER)
-        left = np.zeros(len(TB_CLASS_ORDER))
-        for state in ("won", "drawn", "lost"):
-            width = part[f"{state}_for_you_share"].to_numpy(dtype=float)
-            ax.barh(ypos, width, left=left, color=colours[state], height=0.7, label=f"{state} for you")
-            left = left + np.nan_to_num(width)
+        states = ("won", "drawn", "lost")
+        left = charts.stacked_bars(ax, ypos, [part[f"{state}_for_you_share"].to_numpy(dtype=float) for state in states], [colours[state] for state in states], labels=[f"{state} for you" for state in states], width=0.7, horizontal=True)
         n = int(part["tablebase_games"].iloc[0])
         ax.set_title(f"{label} ({n} games)")
         ax.set_yticks(ypos, TB_CLASS_ORDER)
@@ -494,12 +466,12 @@ def q2_conversion(results: Results, views, won, tb) -> pd.DataFrame:
         p, o = (w[w["side"] == s] for s in SIDES)
         row = view_row(v)
         for name, col in (("conversion", "converted"), ("score", "score")):
-            put(row, f"{name}_player", boot_mean(p[col].astype(float)))
-            put(row, f"{name}_opponent", boot_mean(o[col].astype(float), seed=SEED + 1))
-            put(row, f"{name}_diff", boot_diff(p[col].astype(float), o[col].astype(float)))
+            row.update(ci_cols(f"{name}_player", boot_mean(p[col].astype(float))))
+            row.update(ci_cols(f"{name}_opponent", boot_mean(o[col].astype(float), seed=SEED + 1)))
+            row.update(ci_cols(f"{name}_diff", boot_diff(p[col].astype(float), o[col].astype(float))))
         for side, part in zip(SIDES, (p, o)):
             row[f"expected_{side}"] = float(part["expected"].mean()) if len(part) else np.nan
-            put(row, f"excess_{side}", boot_mean((part["score"] - part["expected"]).astype(float), seed=SEED + 2))
+            row.update(ci_cols(f"excess_{side}", boot_mean((part["score"] - part["expected"]).astype(float), seed=SEED + 2)))
             row[f"points_dropped_per_100_{side}"] = 100 * float(1 - part["score"].mean()) if len(part) else np.nan
             row[f"entry_clock_median_{side}"] = float(part["clock"].median()) if len(part) else np.nan
             row[f"entry_buffer_median_{side}"] = float(part["buffer"].median()) if len(part) else np.nan
@@ -550,12 +522,12 @@ def q3_hold(results: Results, views, ending, kinds: pd.DataFrame) -> None:
         hp = (d["outcome"] != "loss").astype(float)
         ho = (d["outcome"] != "win").astype(float)
         row = view_row(v)
-        put(row, "hold_player", boot_mean(hp))
-        put(row, "hold_opponent", boot_mean(ho))
-        put(row, "hold_diff", boot_mean(hp - ho))  # same games: paired
+        row.update(ci_cols("hold_player", boot_mean(hp)))
+        row.update(ci_cols("hold_opponent", boot_mean(ho)))
+        row.update(ci_cols("hold_diff", boot_mean(hp - ho)))  # same games: paired
         row["expected_player"] = float(d["my_expected"].mean()) if len(d) else np.nan
-        put(row, "score_player", boot_mean(d["my_score"].astype(float)))
-        put(row, "excess_player", boot_mean((d["my_score"] - d["my_expected"]).astype(float)))
+        row.update(ci_cols("score_player", boot_mean(d["my_score"].astype(float))))
+        row.update(ci_cols("excess_player", boot_mean((d["my_score"] - d["my_expected"]).astype(float))))
         row.update({
             "drawn_endings": len(d), "player_held": int(hp.sum()), "opponent_held": int(ho.sum()),
             "ended_drawn": int((d["outcome"] == "draw").sum()), "you_won": int((d["outcome"] == "win").sum()), "you_lost": int((d["outcome"] == "loss").sum()),
@@ -748,9 +720,9 @@ def q5_failures(results: Results, views, won, tb) -> None:
         fp, fo = cause_flags(p), cause_flags(o)
         for cause in CAUSES:
             row = {**view_row(v), "cause": cause}
-            put(row, "per_100_player", tuple(100 * x for x in boot_mean(fp[cause].astype(float))))
-            put(row, "per_100_opponent", tuple(100 * x for x in boot_mean(fo[cause].astype(float), seed=SEED + 1)))
-            put(row, "per_100_diff", tuple(100 * x for x in boot_diff(fp[cause].astype(float), fo[cause].astype(float))))
+            row.update(ci_cols("per_100_player", tuple(100 * x for x in boot_mean(fp[cause].astype(float)))))
+            row.update(ci_cols("per_100_opponent", tuple(100 * x for x in boot_mean(fo[cause].astype(float), seed=SEED + 1))))
+            row.update(ci_cols("per_100_diff", tuple(100 * x for x in boot_diff(fp[cause].astype(float), fo[cause].astype(float)))))
             failed_p, failed_o = int((~p["converted"]).sum()), int((~o["converted"]).sum())
             row.update({
                 "share_of_failures_player": fp[cause].sum() / failed_p if failed_p else np.nan, "share_of_failures_opponent": fo[cause].sum() / failed_o if failed_o else np.nan,
@@ -774,9 +746,9 @@ def q5_failures(results: Results, views, won, tb) -> None:
             for cause in ("on the clock, no wrong move", "wrong move", "any failure"):
                 fa, fb = cause_flags(a)[cause].astype(float), cause_flags(b)[cause].astype(float)
                 row = {"tc_group": v_no["tc_group"], "compared_with": v_inc["tc_group"], "side": side, "cause": cause}
-                put(row, "per_100_no_increment", tuple(100 * x for x in boot_mean(fa)))
-                put(row, "per_100_with_increment", tuple(100 * x for x in boot_mean(fb, seed=SEED + 1)))
-                put(row, "per_100_diff", tuple(100 * x for x in boot_diff(fa, fb)))
+                row.update(ci_cols("per_100_no_increment", tuple(100 * x for x in boot_mean(fa))))
+                row.update(ci_cols("per_100_with_increment", tuple(100 * x for x in boot_mean(fb, seed=SEED + 1))))
+                row.update(ci_cols("per_100_diff", tuple(100 * x for x in boot_diff(fa, fb))))
                 ka, kb = int(fa.sum()), int(fb.sum())
                 row["wilson_no_increment_lo"], row["wilson_no_increment_hi"] = (100 * x for x in wilson(ka, len(a)))
                 row["wilson_with_increment_lo"], row["wilson_with_increment_hi"] = (100 * x for x in wilson(kb, len(b)))
@@ -808,8 +780,8 @@ def q5_failures(results: Results, views, won, tb) -> None:
                     part = w[(w["side"] == side) & (w["band"] == band)]
                     flags = cause_flags(part)
                     row = {**view_row(v), "measure": measure, "side": side, "winner_clock": band}
-                    put(row, "conversion", boot_mean(part["converted"].astype(float)))
-                    put(row, "clock_failure_per_100", tuple(100 * x for x in boot_mean(flags["on the clock, no wrong move"].astype(float))))
+                    row.update(ci_cols("conversion", boot_mean(part["converted"].astype(float))))
+                    row.update(ci_cols("clock_failure_per_100", tuple(100 * x for x in boot_mean(flags["on the clock, no wrong move"].astype(float)))))
                     row.update({"clock_failures": int(flags["on the clock, no wrong move"].sum()), "wrong_moves": int(flags["wrong move"].sum()), "endings": len(part), "thin": len(part) < MIN_ENDINGS})
                     entry_rows.append(row)
     results.table("5d_entry_clock", pd.DataFrame(entry_rows), "Won tablebase endings by the winner's clock at entry into tablebase range (seconds left and buffer beyond one increment): share converted and failures on the clock without a wrong move per 100, per side.")

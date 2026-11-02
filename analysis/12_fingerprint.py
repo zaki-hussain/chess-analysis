@@ -63,7 +63,7 @@ from chess_analysis.dataset import build_tables
 from chess_analysis.enrich import PIECE_NAMES, _time_columns, parse_time_control, phase
 from chess_analysis.openings import game_openings, load_book
 from chess_analysis.parse import parse_game
-from chess_analysis.toolkit import MIN_GROUP_GAMES, TIME_CLASSES, Results, compare_sides, load_data, rating_band, repo_root, tc_group
+from chess_analysis.toolkit import MIN_GROUP_GAMES, TIME_CLASSES, Results, compare_sides, load_data, opponent_rating_pre, rating_band, repo_root, tc_group
 
 SLUG = "12_fingerprint"
 SEED = 12
@@ -303,9 +303,7 @@ def step1_features(data) -> pd.DataFrame:
     g = games.reindex(feats["game_uuid"])
     is_me = feats["color"].to_numpy() == g["my_color"].to_numpy()
     rated = g["rated"].to_numpy(dtype=bool)
-    # Opponent's pre-game rating proxy: post-game rating + your change (rated), post-game rating (unrated).
-    opp_after = g["opponent_rating_after"].astype("float64").to_numpy()
-    opp_pre = np.where(rated, opp_after + g["my_rating_change"].astype("float64").to_numpy(), opp_after)
+    opp_pre = opponent_rating_pre(g).to_numpy()  # post-game rating + your change (rated), post-game rating (unrated)
     feats["player"] = np.where(is_me, data.username, "opp:" + g["opponent"].astype(str).str.lower().to_numpy())
     feats["time_class"] = g["time_class"].to_numpy()
     feats["tc_group"] = g["tc_group"].astype(str).to_numpy()

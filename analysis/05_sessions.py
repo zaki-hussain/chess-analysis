@@ -32,20 +32,16 @@ import pandas as pd
 
 from chess_analysis import charts
 from chess_analysis import sessions as S
+from chess_analysis.charts import blank_thin, finish_grid, label_first_column, panel_estimates
 from chess_analysis.config import load_settings
+from chess_analysis.sessions import ALL, MIN_CELL_GAMES, MIN_SESSIONS, by_level, counts, groups_with_all, subset, thin_cell
 from chess_analysis.toolkit import Results, cluster_ols, dummies, excess_to_elo, load_data, repo_root
 
 SLUG = "05_sessions"
-ALL = "all games"  # pooled row/panel over every reported control (thin controls excluded)
 N_BOOT = S.N_BOOT
 SEED = 5
 
-# A cell resting on fewer games than this has a score CI wider than about +-0.18 (a fifth of the whole
-# win-to-loss range): it is computed and kept, but flagged thin and not drawn.
-MIN_CELL_GAMES = 30
-# Every CI resamples whole sessions: with fewer sessions than this the bootstrap has too few clusters to give
-# a trustworthy interval, so a cell is also thin under this many sessions (and paired comparisons count sessions).
-MIN_SESSIONS = 30
+# A cell is thin (sessions.thin_cell) under MIN_CELL_GAMES games or MIN_SESSIONS sessions; paired comparisons count sessions.
 # OLS needs about this many games per coefficient before the estimates stop jumping between resamples.
 MIN_GAMES_PER_COEF = 10
 
@@ -86,82 +82,8 @@ BREAK_LABELS_AFTER_GAP = ["gap-3 h", "3-24 h", "1-3 days", "3+ days"]
 # --- helpers ------------------------------------------------------------------------------------------
 
 
-def groups_with_all(data) -> list[str]:
-    return [*data.tc_groups, ALL]
-
-
-def subset(games: pd.DataFrame, group: str) -> pd.DataFrame:
-    return games if group == ALL else games[games["tc_group"] == group]
-
-
-def counts(part: pd.DataFrame) -> dict:
-    return {"games": int(len(part)), "sessions": int(part["session_id"].nunique())}
-
-
-def thin_cell(part: pd.DataFrame, min_games: int = MIN_CELL_GAMES) -> bool:
-    """Too few games, or too few sessions for the session bootstrap."""
-    return len(part) < min_games or part["session_id"].nunique() < MIN_SESSIONS
-
-
 def label_bins(values: pd.Series, edges, labels) -> pd.Series:
     return pd.cut(values, edges, labels=labels, right=False).astype(str).replace("nan", np.nan)
-
-
-def by_level(games: pd.DataFrame, groups: list[str], column: str, levels: list[str], names: list[str], min_games: int = MIN_CELL_GAMES) -> pd.DataFrame:
-    """Metrics per (group, level of `column`), tidy, with counts and a thin flag."""
-    rows = []
-    for group in groups:
-        part_g = subset(games, group)
-        for level in levels:
-            part = part_g[part_g[column] == level]
-            rows.append({"tc_group": group, column: level, **S.cell_stats(part, names), **counts(part), "thin": thin_cell(part, min_games)})
-    return pd.DataFrame(rows)
-
-
-def blank_thin(frame: pd.DataFrame, columns: list[str]) -> pd.DataFrame:
-    """Copy for drawing: thin rows' estimates set to NaN so they are not drawn as confident points."""
-    out = frame.copy()
-    for c in columns:
-        if c in out:
-            out.loc[out["thin"], c] = np.nan
-    return out
-
-
-def thin_panel(ax, text: str = "too few games") -> None:
-    """charts.thin_note without clearing ticks (on shared axes that would clear every panel's ticks)."""
-    ax.text(0.5, 0.5, text, transform=ax.transAxes, ha="center", va="center", color=charts.INK_MUTED, fontsize=8.5)
-    ax.tick_params(axis="x", labelbottom=False, length=0)  # y labels stay: with shared axes they may be the row's only ones
-
-
-def panel_estimates(ax, frame: pd.DataFrame, x: str, order: list[str], y: str = "excess", colour: str = charts.PLAYER, label: str | None = None, offset: float = 0.0) -> bool:
-    """Dots + CIs for one series in one panel; thin cells left out. Returns False when nothing could be drawn."""
-    part = blank_thin(frame, [y, f"{y}_lo", f"{y}_hi"])
-    if part[y].notna().sum() == 0:
-        return False
-    charts.estimate(ax, part, x, y=y, lo=f"{y}_lo", hi=f"{y}_hi", order=order, colour=colour, label=label, offset=offset)
-    ax.set_xlim(-0.5, len(order) - 0.5)
-    return True
-
-
-def finish_grid(fig, axes: dict, drawn: dict, ylabel: str, xlabel: str | None = None, rotate: int = 0, thin_text: str = "too few games") -> None:
-    for group, ax in axes.items():
-        if not drawn.get(group):
-            thin_panel(ax, thin_text)
-            continue
-        charts.zero_line(ax)
-        if rotate:
-            plt_labels = ax.get_xticklabels()
-            ax.set_xticks(ax.get_xticks(), [t.get_text() for t in plt_labels], rotation=rotate, ha="right", rotation_mode="anchor")
-    first_col = {}
-    for group, ax in axes.items():
-        row = round(ax.get_position().y0, 3)
-        first_col.setdefault(row, ax)
-    for ax in first_col.values():
-        ax.set_ylabel(ylabel)
-    if xlabel:
-        for ax in axes.values():
-            ax.set_xlabel(xlabel)
-    fig.tight_layout()
 
 
 def contrast_figure(frame: pd.DataFrame, labels: list[str], title: str, contrast: str, ep_cols: tuple[str, str], thin_text: str = "too few games"):
@@ -173,8 +95,6 @@ def contrast_figure(frame: pd.DataFrame, labels: list[str], title: str, contrast
     charts.estimate(left, shown, "tc_group", y="excess_diff", lo="excess_diff_lo", hi="excess_diff_hi", order=labels, horizontal=True, colour=charts.PLAYER)
     charts.estimate(right, shown, "tc_group", y=ep_cols[0], lo=f"{ep_cols[0]}_lo", hi=f"{ep_cols[0]}_hi", order=labels, horizontal=True, colour=charts.PLAYER, label="you", offset=-0.15)
     charts.estimate(right, shown, "tc_group", y=ep_cols[1], lo=f"{ep_cols[1]}_lo", hi=f"{ep_cols[1]}_hi", order=labels, horizontal=True, colour=charts.OPPONENT, label="opponents", offset=0.15)
-    if not left.yaxis_inverted():  # estimate() flips the shared axis on every call: first control on top
-        left.invert_yaxis()
     for ax in (left, right):
         charts.zero_line(ax, horizontal=False)
         ax.grid(axis="y", visible=False)
@@ -232,7 +152,7 @@ def q1_length(results: Results, games: pd.DataFrame, all_games: pd.DataFrame, da
     for group, ax in axes.items():
         h = hist[hist["tc_group"] == group]
         if h["thin"].all():
-            thin_panel(ax, "too few sessions")
+            charts.thin_note(ax, "too few sessions", keep_y=True)
             continue
         ax.bar(range(len(SESSION_GAMES_LABELS)), h["share"].to_numpy(), color=charts.PLAYER, width=0.75)
         ax.set_xticks(range(len(SESSION_GAMES_LABELS)), SESSION_GAMES_LABELS)
@@ -242,11 +162,7 @@ def q1_length(results: Results, games: pd.DataFrame, all_games: pd.DataFrame, da
         ax.text(0.97, 0.93, f"{int(med['sessions'])} sessions\nmedian {med['minutes_median']:.0f} min", transform=ax.transAxes, ha="right", va="top", fontsize=7.5, color=charts.INK_SECONDARY)
     for ax in axes.values():
         ax.set_xlabel("games in the session")
-    first = {}
-    for ax in axes.values():
-        first.setdefault(round(ax.get_position().y0, 3), ax)
-    for ax in first.values():
-        ax.set_ylabel("share of sessions")
+    label_first_column(axes, "share of sessions")
     fig.tight_layout()
     charts.footnote(fig, "Each session counted once, under the control it has most games of; a session can mix controls.")
     results.figure(fig, "1_session_length")
@@ -293,12 +209,8 @@ def q2_stopping(results: Results, games: pd.DataFrame, data) -> None:
     for group, ax in axes.items():
         drawn[group] = panel_estimates(ax, by_result[by_result["tc_group"] == group], "result", RESULTS, y="p_stop")
         if not drawn[group]:
-            thin_panel(ax)
-    first = {}
-    for ax in axes.values():
-        first.setdefault(round(ax.get_position().y0, 3), ax)
-    for ax in first.values():
-        ax.set_ylabel("chance it was your last game")
+            charts.thin_note(ax, keep_y=True)
+    label_first_column(axes, "chance it was your last game")
     next(iter(axes.values())).set_ylim(bottom=0)  # shared axis: a share starts at zero
     fig.tight_layout()
     charts.footnote(fig, "95% CIs resample whole sessions. Draws are rare; cells with too few games are left out.")
@@ -500,7 +412,7 @@ def q6_streaks(results: Results, games: pd.DataFrame, data) -> None:
     results.table("6d_streak_contrasts", pd.DataFrame(rows), "Contrasts between streak levels (first minus second, same resampled sessions): score minus expectation (Elo at the first level's expectation) and your expected points lost per move.")
 
     fig, axes = charts.group_grid(groups, sharey=True, title="After a losing streak, how do you score?")
-    drawn = {g: panel_estimates(ax, losing[losing["tc_group"] == g], "losses_before", levels) for g, ax in axes.items()}
+    drawn = {g: panel_estimates(ax, losing[losing["tc_group"] == g], "losses_before", levels, y="excess") for g, ax in axes.items()}
     finish_grid(fig, axes, drawn, "score minus expectation", "losses in a row before the game")
     charts.footnote(fig, f"Games 2+ of a session; 0 = the previous game was a win or a draw. 95% CIs resample sessions; cells under {MIN_CELL_GAMES} games or {MIN_SESSIONS} sessions left out.")
     results.figure(fig, "6_loss_streak")
@@ -542,7 +454,7 @@ def q7_breaks(results: Results, games: pd.DataFrame, data, gap: float) -> None:
 
     groups = groups_with_all(data)
     fig, axes = charts.group_grid(groups, sharey=True, title="Does a long break between games matter?")
-    drawn = {g: panel_estimates(ax, table[table["tc_group"] == g], "break_before", labels) for g, ax in axes.items()}
+    drawn = {g: panel_estimates(ax, table[table["tc_group"] == g], "break_before", labels, y="excess") for g, ax in axes.items()}
     finish_grid(fig, axes, drawn, "score minus expectation", None, rotate=60)
     for ax in axes.values():
         ax.tick_params(axis="x", labelsize=7)

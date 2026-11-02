@@ -28,11 +28,15 @@ Run: .venv/bin/python analysis/07_resignation.py   (about 40 seconds)
 from __future__ import annotations
 
 import time
+from functools import partial
 
 import numpy as np
 import pandas as pd
 
-from chess_analysis import charts
+from chess_analysis import charts, toolkit
+from chess_analysis.charts import label_first_column
+from chess_analysis.clocks import CLOCK_MEASURES as CLOCK_MEASURE_COLUMNS
+from chess_analysis.clocks import COMFORT_SECONDS, LOW_CLOCK_SECONDS
 from chess_analysis.toolkit import OUTCOME_SCORE, Results, cluster_bootstrap_mean, excess_to_elo, load_data, repo_root
 
 SLUG = "07_resignation"
@@ -52,13 +56,13 @@ EV_LABELS = ["0-2%", "2-5%", "5-10%", "10-15%", "15-20%", "20-30%", "30-50%", "5
 # queen+ / a rook / a piece / a pawn or two down, and close to level. Mates count as beyond -20 pawns.
 CP_EDGES = [-np.inf, -2000, -1000, -500, -300, -100, np.inf]
 CP_LABELS = ["mate or -20", "-20 to -10", "-10 to -5", "-5 to -3", "-3 to -1", "-1 or better"]
-# Clock bands of the other side (and the resigner) at the position: under 10 s is where flagging becomes a
-# real threat in bullet, 10-30 s is a few seconds a move for a bullet ending, 30+ s is comfortable. Applied to
-# both plain seconds left and the buffer beyond one increment (in 1+1 an opponent on 5 s still gets a second
-# back every move, in 1+0 they do not).
-CLOCK_EDGES = [-np.inf, 10.0, 30.0, np.inf]
+# Clock bands of the other side (and the resigner) at the position: under 10 s (clocks.LOW_CLOCK_SECONDS) is
+# where flagging becomes a real threat in bullet, 10-30 s is a few seconds a move for a bullet ending, 30+ s
+# (clocks.COMFORT_SECONDS) is comfortable. Applied to both plain seconds left and the buffer beyond one
+# increment (in 1+1 an opponent on 5 s still gets a second back every move, in 1+0 they do not).
+CLOCK_EDGES = [-np.inf, LOW_CLOCK_SECONDS, COMFORT_SECONDS, np.inf]
 CLOCK_LABELS = ["<10 s", "10-30 s", "30+ s"]
-CLOCK_MEASURES = ("seconds left", "buffer beyond increment")
+CLOCK_MEASURES = tuple(CLOCK_MEASURE_COLUMNS)  # "seconds left", "buffer beyond increment"
 MAIN_MEASURE = "buffer beyond increment"  # the measure the charts use: comparable across increments
 
 # Resignation classes by the model's P(win) at the resignation, from the resigner's view.
@@ -121,31 +125,9 @@ def pool_note(data) -> str:
 # --- small bootstrap helpers (rows are games) ----------------------------------------------------------
 
 
-def boot_mean(values, seed: int = SEED) -> tuple[float, float, float]:
-    """Mean of one value per game with a bootstrap CI."""
-    v = np.asarray(values, dtype="float64")
-    v = v[~np.isnan(v)]
-    if len(v) == 0:
-        return np.nan, np.nan, np.nan
-    if len(v) < 2:
-        return float(v.mean()), np.nan, np.nan
-    rng = np.random.default_rng(seed)
-    boot = v[rng.integers(0, len(v), size=(N_BOOT, len(v)))].mean(axis=1)
-    lo, hi = np.quantile(boot, [0.025, 0.975])
-    return float(v.mean()), float(lo), float(hi)
-
-
-def boot_mean_diff(a, b, seed: int = SEED) -> tuple[float, float, float]:
-    """mean(a) - mean(b) for two disjoint sets of games, each resampled."""
-    a, b = (np.asarray(x, dtype="float64") for x in (a, b))
-    a, b = a[~np.isnan(a)], b[~np.isnan(b)]
-    if len(a) < 2 or len(b) < 2:
-        return np.nan, np.nan, np.nan
-    rng = np.random.default_rng(seed)
-    ba = a[rng.integers(0, len(a), size=(N_BOOT, len(a)))].mean(axis=1)
-    bb = b[rng.integers(0, len(b), size=(N_BOOT, len(b)))].mean(axis=1)
-    lo, hi = np.quantile(ba - bb, [0.025, 0.975])
-    return float(a.mean() - b.mean()), float(lo), float(hi)
+# Means of one value per game (and differences between two disjoint sets of games), games resampled.
+boot_mean = partial(toolkit.boot_mean, n_boot=N_BOOT, seed=SEED)
+boot_mean_diff = partial(toolkit.boot_mean_diff, n_boot=N_BOOT, seed=SEED)
 
 
 def boot_rate_diff(y1, c1, y2, c2, seed: int = SEED) -> tuple[tuple[float, float, float], tuple[float, float, float], tuple[float, float, float]]:
@@ -486,14 +468,6 @@ def wide_sides(table: pd.DataFrame, keys: list[str]) -> pd.DataFrame:
     return out.reset_index()
 
 
-def label_first_column(axes: dict, text: str) -> None:
-    first = {}
-    for ax in axes.values():
-        first.setdefault(round(ax.get_position().y0, 3), ax)
-    for ax in first.values():
-        ax.set_ylabel(text)
-
-
 def q3_played_out(results: Results, pos: pd.DataFrame, res: pd.DataFrame, data) -> None:
     view_list = views(data)
     ev_table = played_out_table(pos, res, "ev_bin", [], view_list)
@@ -675,8 +649,6 @@ def q5_cost(results: Results, per_group: dict, res: pd.DataFrame, games: pd.Data
     left.set_xlabel("expected points per 100 games")
     right.set_xlabel("Elo")
     net_ax.set_xlabel("expected points per 100 games")
-    if not left.yaxis_inverted():
-        left.invert_yaxis()
     fig.suptitle("How much has resigning cost you?", x=0.01, ha="left", fontweight="bold", fontsize=11, color=charts.INK)
     fig.tight_layout()
     fig.subplots_adjust(top=0.82)
@@ -746,22 +718,13 @@ def q6_safe(results: Results, pos: pd.DataFrame, res: pd.DataFrame, cp_clock: pd
                     grid[i, j] = cell["score"].iloc[0]
                     thin[i, j] = bool(cell["thin"].iloc[0])
         shown = np.where(thin, np.nan, grid)
-        ax.imshow(np.ma.masked_invalid(shown), cmap=cmap, norm=norm, aspect="auto")
-        for i in range(grid.shape[0]):
-            for j in range(grid.shape[1]):
-                if thin[i, j]:
-                    ax.add_patch(plt.Rectangle((j - 0.5, i - 0.5), 1, 1, facecolor=charts.GRID, edgecolor=charts.SURFACE))
-                    ax.text(j, i, "few", ha="center", va="center", fontsize=7, color=charts.INK_MUTED)
-                else:
-                    v = shown[i, j]
-                    ax.text(j, i, f"{v:.2f}", ha="center", va="center", fontsize=8, color="white" if v > MAP_VMAX * 0.6 else charts.INK)
-        ax.set_xticks(range(len(CLOCK_LABELS)), CLOCK_LABELS)
-        ax.set_yticks(range(len(CP_LABELS)), CP_LABELS)
+        texts = np.where(thin, "few", np.char.mod("%.2f", shown))
+        colours = np.where(thin, charts.INK_MUTED, np.where(shown > MAP_VMAX * 0.6, "white", charts.INK))
+        charts.heatmap(ax, np.ma.masked_invalid(shown), cmap, norm, texts=texts, text_colours=colours, fontsize=np.where(thin, 7, 8), xlabels=CLOCK_LABELS, ylabels=CP_LABELS)
+        for i, j in zip(*np.nonzero(thin)):
+            ax.add_patch(plt.Rectangle((j - 0.5, i - 0.5), 1, 1, facecolor=charts.GRID, edgecolor=charts.SURFACE))
         ax.set_xlabel("opponent's clock beyond increment", fontsize=7.5)
         ax.set_title(label)
-        ax.grid(False)
-        for spine in ax.spines.values():
-            spine.set_visible(False)
     axs[0].set_ylabel("engine eval, your view (pawns)")
     sm = plt.cm.ScalarMappable(norm=norm, cmap=cmap)
     fig.subplots_adjust(top=0.84, bottom=0.2, right=0.88, wspace=0.12)
