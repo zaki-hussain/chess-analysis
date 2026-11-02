@@ -1,11 +1,38 @@
 """Q1: where points are won and lost - your mistakes vs your opponents'.
 
-Per game: expected points each side gave away (sum of `ep_loss`), who made
-the last decisive mistake, whether a winning position was converted and a
-lost one swindled, and the size distribution of errors by phase. Writes the
-per-game table data/<user>/games_decomposed.parquet for later questions.
+Every move gives away some expected points (`ep_loss`: the calibrated
+expected score before the move minus after it, from the mover's view). Per
+game and per exact time control, this script computes:
 
-Run: .venv/bin/python analysis/01_decomposition.py
+1. the expected points each side gives away per game, you vs opponents in
+   the same games (paired difference, Elo-equivalent), the score budget
+   (score vs the model's expectation at move 1, residual) and a sanity check
+   that the net difference predicts results;
+2. how concentrated the damage is: the share of all expected points lost
+   that comes from the costliest 1%, 5%, 10% ... of moves, and from moves
+   losing at least 0.1 / 0.2 / 0.3;
+3. how often a lost game was decided by one identifiable move of the loser
+   (the decisive mistake), lost without one, or lost while the model still
+   gave the loser chances; and what the decisive move looks like (size,
+   phase, clock in seconds, beyond the increment and as a share of the base
+   time), with the you-minus-opponents difference of the clock measures;
+4. expected points given away by phase (per game and per move);
+5. conversion: the actual score from positions the model rated winning,
+   against the model's expected score there, you vs opponents; the
+   threshold sensitivity; and whether the model is even-handed between the
+   sides (observed win rate by model P(win));
+6. saves: how often each side avoids losing a position the model rated
+   lost, against expectation, and how (opponent flagged, on the board, draw);
+7. losses that came while the loser still had chances, by how they ended.
+
+Also writes the per-game table data/<user>/games_decomposed.parquet (one row
+per standard live game, independent of grouping), which Q2, Q5, Q6, Q7 and
+Q8 read: its content must not change unless its definition does.
+
+Writes CSVs to presentation/data/01_decomposition/ and SVGs to
+presentation/figures/01_decomposition/ (no prose).
+
+Run: .venv/bin/python analysis/01_decomposition.py  (about 40 seconds)
 """
 
 from __future__ import annotations
@@ -16,32 +43,73 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
+from chess_analysis import charts
 from chess_analysis.toolkit import (
-    SIDE_COLOURS,
-    TIME_CLASSES,
-    Report,
-    ci_column,
+    Results,
+    add_elo,
+    ci_cols,
     cluster_bootstrap_mean,
     compare_sides,
-    figure_style,
     load_data,
+    opponent_rating_pre,
+    ratio_bootstrap,
     repo_root,
 )
 
 SLUG = "01_decomposition"
 PHASES = ["opening", "middlegame", "endgame"]
-WIN_T, LOSE_T = 0.8, 0.2  # "winning" / "losing" P(win) thresholds for conversion and swindles
-DECISIVE_LO, DECISIVE_HI = 0.1, 0.2  # the loser is "lost" below LO after their last own move; "playable" means P(win) >= HI
-DECISIVE_ALT = (0.15, 0.3)  # stricter pair, as a sensitivity check
-MIN_DECISIVE_EP = 0.05  # the costliest move of the final slide must lose at least this to count as a blunder
-TAIL = [0.1, 0.2, 0.3]  # ep_loss sizes used for the error-size tables
-MIN_CELL_N = 20  # conditional shares resting on fewer games than this are left blank
+# "Winning" / "losing" model P(win) for conversion and saves: 80% is where a human calls a position won
+# (about +3 in a level blitz game), and the model's observed win rate there is already above 90%.
+WIN_T, LOSE_T = 0.8, 0.2
+# Decisive mistake: the loser is "lost on the board" below LO after their last own move; "playable" means
+# P(win) >= HI before a move. 10% / 20% keep the slide short enough to name one move (see _decisive).
+DECISIVE_LO, DECISIVE_HI = 0.1, 0.2
+DECISIVE_ALT = (0.15, 0.3)  # a stricter pair (lost < 15%, playable >= 30%), as a sensitivity check
+# The costliest move of the final slide counts as the decisive blunder only if it lost at least this much: a
+# twentieth of a game, well above the 0.03 an average move loses.
+MIN_DECISIVE_EP = 0.05
+# Error sizes for the tail tables: a tenth, a fifth and almost a third of a game (an average move loses 0.03).
+TAIL = [0.1, 0.2, 0.3]
+# Shares of the costliest moves for the concentration curve (1% of moves ~ one move in three games).
+TOP_SHARES = [0.01, 0.02, 0.05, 0.1, 0.2, 0.3, 0.5]
+TOP_SHARE_TICKS = [0.01, 0.02, 0.05, 0.1, 0.2, 0.5]  # labelled on the log axis (20% and 30% would collide)
+# A share conditional on cases (losses, winning positions, ...) needs this many cases: a share from 30 cases has
+# a 95% CI of about +-0.18 at 50%, wide but still able to tell 20% from 80%.
+MIN_CASES = 30
+# A phase cell needs this many games in which the side played a move in that phase (same reasoning).
+MIN_PHASE_GAMES = 30
+# Thresholds for the conversion / save sensitivity table: from just above even to near-certain. The save
+# threshold is the mirror image, 1 - t (rounded, so 1 - 0.8 is exactly LOSE_T and 5c matches 5_conversion).
+SENSITIVITY_THRESHOLDS = [0.6, 0.7, 0.8, 0.9]
+# Net expected points (opponents' lost minus yours) bins for the sanity check: a tenth of a game is the smallest
+# swing worth separating; beyond +-0.5 a game is nearly always decided.
+NET_EP_EDGES = [-10.0, -0.5, -0.2, -0.1, 0.0, 0.1, 0.2, 0.5, 10.0]
+NET_EP_LABELS = ["< -0.5", "-0.5 to -0.2", "-0.2 to -0.1", "-0.1 to 0", "0 to 0.1", "0.1 to 0.2", "0.2 to 0.5", "> 0.5"]
+# Model P(win) bins for the even-handedness check: deciles.
+CALIBRATION_EDGES = np.round(np.linspace(0, 1, 11), 1)
+# The conversion chart's y axis starts here: every non-thin score is above 80%, and a zero baseline would hide
+# the gaps between the sides.
+CONVERSION_AXIS_FLOOR = 0.5
+# Elo-equivalents of per-game point differences are taken around an even score (pairings are rating-matched).
+EVEN_SCORE = 0.5
+# The Elo-equivalent of a score within this distance of 0 or 1 is unbounded (a CI end at a score of 1.0 maps to
+# 900+ Elo in the small controls), so such Elo cells are left blank rather than printed as meaningless numbers.
+ELO_SCORE_MARGIN = 0.001
+# Segment shades in the stacked bars run from solid to this alpha: pale enough to separate four shades, dark
+# enough that the palest still shows on the light surface.
+MIN_SEGMENT_ALPHA = 0.2
 N_BOOT = 500
+N_BOOT_CURVE = 300  # resamples for the concentration curve (each one walks every move)
 SEED = 1
 SIDE_PREFIX = (("player", "my"), ("opponent", "opp"))
+ALIVE_TERMINATIONS = ["timeout", "resigned", "checkmated", "abandoned"]
+# How a save ended, from the saving side's result and the other side's result.
+SAVE_KINDS = ["won on time", "won on the board", "drawn on time", "drawn by stalemate", "drawn otherwise"]
+# The chart merges the rarer board draws (stalemate, repetition, agreement, ...) so four shades stay readable.
+SAVE_CHART_KINDS = {"won on time": "won on time", "won on the board": "won on the board", "drawn on time": "drawn on time", "drawn by stalemate": "drawn on the board", "drawn otherwise": "drawn on the board"}
 
 
-# --- per-game decomposition -------------------------------------------------------------
+# --- per-game decomposition (writes games_decomposed.parquet; keep its content stable) ---------------
 
 
 def _decisive(decided: pd.DataFrame, lo: float, hi: float) -> pd.DataFrame:
@@ -59,7 +127,9 @@ def _decisive(decided: pd.DataFrame, lo: float, hi: float) -> pd.DataFrame:
     error (`lost_without_blunder`). Games where the loser was still at or above
     `lo` after their last own move have no decisive mistake: flags,
     resignations and abandonments from positions the model still considered
-    alive.
+    alive. (A plain "last crossing below 10%" rule was tried first: the model's
+    P(win) decays gradually in bullet and a quarter of games were "decided" by
+    the winner's routine recapture nudging the loser from 12% to 7%.)
     """
     lm = decided[decided["loser_moved"]].copy()
     last_own = lm.groupby("game_uuid").tail(1).set_index("game_uuid")
@@ -87,8 +157,8 @@ def _decisive(decided: pd.DataFrame, lo: float, hi: float) -> pd.DataFrame:
     return out
 
 
-def decompose_games(moves: pd.DataFrame, games: pd.DataFrame) -> pd.DataFrame:
-    """One row per game in `games`, keyed by uuid, in the order of `games`."""
+def with_player_view(moves: pd.DataFrame) -> pd.DataFrame:
+    """Moves sorted by game and ply with the player's and the opponent's P(win) / expected points before and after."""
     m = moves.sort_values(["game_uuid", "ply"]).reset_index(drop=True)
     mine = m["is_player_move"].to_numpy()
     # Player's P(win) / expected points after every move: mover's p_win if the player moved, else the mover's p_loss.
@@ -98,6 +168,12 @@ def decompose_games(moves: pd.DataFrame, games: pd.DataFrame) -> pd.DataFrame:
     m["opp_p_win_before"] = np.where(mine, m["p_loss_before"], m["p_win_before"])
     m["my_ep_after"] = np.where(mine, m["ep_after"], 1 - m["ep_after"])
     m["my_ep_before"] = np.where(mine, m["ep_before"], 1 - m["ep_before"])
+    return m
+
+
+def decompose_games(moves: pd.DataFrame, games: pd.DataFrame) -> pd.DataFrame:
+    """One row per game in `games`, keyed by uuid, in the order of `games`."""
+    m = with_player_view(moves)
     m["ep_gain"] = (m["ep_after"] - m["ep_before"]).clip(lower=0)
     for t in TAIL:
         m[f"big{int(t * 100)}"] = m["ep_loss"] >= t
@@ -165,448 +241,22 @@ def decompose_games(moves: pd.DataFrame, games: pd.DataFrame) -> pd.DataFrame:
     return out.reset_index()
 
 
-# --- game-level bootstrap helpers (each game is its own cluster) -------------------------------
+def first_reach(m: pd.DataFrame) -> pd.DataFrame:
+    """Per game, each side's expected points at the first position where its P(win) reached >= WIN_T / <= LOSE_T.
 
-
-def boot_rate(y: np.ndarray, cond: np.ndarray, n_boot: int = N_BOOT, seed: int = SEED) -> tuple[float, float, float, int]:
-    """P(y | cond) with a bootstrap CI over games; returns (est, lo, hi, n_cond)."""
-    y, cond = np.asarray(y, dtype="float64"), np.asarray(cond, dtype="float64")
-    n = int(cond.sum())
-    if n == 0:
-        return float("nan"), float("nan"), float("nan"), 0
-    est = float((y * cond).sum() / n)
-    if len(y) < 2:
-        return est, float("nan"), float("nan"), n
-    rng = np.random.default_rng(seed)
-    idx = rng.integers(0, len(y), size=(n_boot, len(y)))
-    boot = (y[idx] * cond[idx]).sum(axis=1) / np.maximum(cond[idx].sum(axis=1), 1)
-    lo, hi = np.quantile(boot, [0.025, 0.975])
-    return est, float(lo), float(hi), n
-
-
-def boot_rate_diff(y1, c1, y2, c2, n_boot: int = N_BOOT, seed: int = SEED) -> tuple[float, float, float]:
-    """P(y1|c1) - P(y2|c2) with both rates computed on the same resampled games."""
-    y1, c1, y2, c2 = (np.asarray(a, dtype="float64") for a in (y1, c1, y2, c2))
-    if c1.sum() == 0 or c2.sum() == 0:
-        return float("nan"), float("nan"), float("nan")
-    est = float((y1 * c1).sum() / c1.sum() - (y2 * c2).sum() / c2.sum())
-    rng = np.random.default_rng(seed)
-    idx = rng.integers(0, len(y1), size=(n_boot, len(y1)))
-    r1 = (y1[idx] * c1[idx]).sum(axis=1) / np.maximum(c1[idx].sum(axis=1), 1)
-    r2 = (y2[idx] * c2[idx]).sum(axis=1) / np.maximum(c2[idx].sum(axis=1), 1)
-    lo, hi = np.quantile(r1 - r2, [0.025, 0.975])
-    return est, float(lo), float(hi)
-
-
-def boot_paired_mean_diff(a: np.ndarray, b: np.ndarray, n_boot: int = N_BOOT, seed: int = SEED) -> tuple[float, float, float]:
-    """mean(a) - mean(b) over the same games, bootstrapped by game."""
-    d = np.asarray(a, dtype="float64") - np.asarray(b, dtype="float64")
-    d = d[~np.isnan(d)]
-    rng = np.random.default_rng(seed)
-    idx = rng.integers(0, len(d), size=(n_boot, len(d)))
-    boot = d[idx].mean(axis=1)
-    lo, hi = np.quantile(boot, [0.025, 0.975])
-    return float(d.mean()), float(lo), float(hi)
-
-
-def game_mean(frame: pd.DataFrame, column: str, n_boot: int = N_BOOT) -> tuple[float, float, float]:
-    return cluster_bootstrap_mean(frame[column].astype("float64"), frame["uuid"], n_boot=n_boot, seed=SEED)
-
-
-def share(frame: pd.DataFrame, mask, f: str = ".3f") -> str:
-    """Share of rows of `frame` satisfying `mask`, with a game-bootstrap CI."""
-    return fmt(*boot_rate(np.asarray(mask, dtype=float), np.ones(len(frame)))[:3], f=f)
-
-
-def fmt(est: float, lo: float, hi: float, f: str = ".3f") -> str:
-    return f"{est:{f}} [{lo:{f}}, {hi:{f}}]" if pd.notna(lo) else f"{est:{f}}"
-
-
-# --- report sections --------------------------------------------------------------------
-
-
-def section_budget(report: Report, games: pd.DataFrame) -> dict:
-    report.heading("1. The expected-points budget per game")
-    report.text(
-        "For every game, the expected points (calibrated win probability + half the draw probability) each side gave away "
-        "is the sum of its moves' `ep_loss`. The per-game numbers below are means over games (CIs bootstrapped by game); "
-        "the difference is paired within the same games (opponents minus you; positive = opponents gave away more). "
-        "Totals are the sums over all games of that time class, i.e. points handed over in total."
-    )
-    rows, out = [], {}
-    for tc in TIME_CLASSES:
-        part = games[games["time_class"] == tc]
-        me, opp = game_mean(part, "my_ep_lost"), game_mean(part, "opp_ep_lost")
-        diff = boot_paired_mean_diff(part["opp_ep_lost"], part["my_ep_lost"])
-        me_cp, opp_cp = game_mean(part, "my_cp_lost"), game_mean(part, "opp_cp_lost")
-        out[tc] = diff
-        rows.append(
-            {
-                "time class": tc, "games": len(part),
-                "your ep lost / game": fmt(*me), "their ep lost / game": fmt(*opp), "theirs − yours": fmt(*diff),
-                "your total": f"{part['my_ep_lost'].sum():.0f}", "their total": f"{part['opp_ep_lost'].sum():.0f}",
-                "your cp lost / game": fmt(*me_cp, f=".0f"), "their cp lost / game": fmt(*opp_cp, f=".0f"),
-            }  # fmt: skip
-        )
-    report.table(pd.DataFrame(rows))
-
-    report.text(
-        "Where the score comes from. Your score in a game is approximately `my_ep_start − my_ep_lost + opp_ep_lost + residual`, "
-        "where `my_ep_start` is the model's expectation at move 1 (it knows both pre-game ratings and the time control), "
-        "and the residual collects what the engine-based decomposition cannot see: the result of resignations, flag falls, "
-        "the model's end-of-game error, and small 'gains' where the engine's deeper search after a move rates the position better "
-        "than before it (`*_ep_gained`, stored separately; they roughly cancel between the sides). Means per game:"
-    )
-    rows = []
-    for tc in TIME_CLASSES:
-        part = games[games["time_class"] == tc].copy()
-        part["residual"] = part["my_score"] - (part["my_ep_start"] - part["my_ep_lost"] + part["opp_ep_lost"])
-        part["end_gap"] = part["my_score"] - part["my_ep_end"]
-        part["over"] = part["my_score"] - part["my_ep_start"]
-        row = {"time class": tc}
-        for name, col in [("score", "my_score"), ("ep at move 1", "my_ep_start"), ("score − ep at move 1", "over"), ("− your ep lost", "my_ep_lost"), ("+ their ep lost", "opp_ep_lost"), ("residual", "residual"), ("score − ep at last move", "end_gap")]:
-            row[name] = fmt(*game_mean(part, col))
-        rows.append(row)
-    report.table(pd.DataFrame(rows))
-    report.text(
-        "Read: in every time class you and your opponents each give away close to a full point per game "
-        "(a ~0.03 ep loss per move over ~30 moves each); the net difference is a few hundredths of a point, and your score "
-        "exceeds the model's move-1 expectation by about one to four hundredths. The residual is small and, where it is positive, "
-        "reflects games that ended (resignation, flag, abandonment) before the board said so, plus the clipping of `ep_loss` at zero."
-    )
-    return out
-
-
-def section_errors(report: Report, moves: pd.DataFrame) -> pd.DataFrame:
-    report.heading("2. Error sizes: you vs your opponents, by phase")
-    report.text(
-        "Mean `ep_loss` per move (both sides lose ~0.03), then the share of moves that lose at least 0.1, 0.2 and 0.3 "
-        "expected points (the tail where games are decided). Differences are you minus opponents in the same games; "
-        "negative = you err less. `cp_loss` means and blunder rates (cp_loss ≥ 300) are the secondary measures."
-    )
-    frame = moves.copy()
-    for t in TAIL:
-        frame[f"ge{int(t * 100)}"] = (frame["ep_loss"] >= t).astype("float64")
-    frame["blunder"] = (frame["label"] == "blunder").astype("float64")
-    tables = {}
-    for column, f in [("ep_loss", ".4f"), ("ge10", ".3f"), ("ge20", ".3f"), ("ge30", ".4f"), ("cp_loss", ".1f"), ("blunder", ".3f")]:
-        tbl = compare_sides(frame, column, by=["time_class", "phase"], n_boot=N_BOOT)
-        tbl = tbl[tbl["time_class"].isin(TIME_CLASSES)].copy()
-        tbl["time_class"] = pd.Categorical(tbl["time_class"], TIME_CLASSES)
-        tbl["phase"] = pd.Categorical(tbl["phase"], PHASES)
-        tbl = tbl.sort_values(["time_class", "phase"])
-        tbl["you"] = ci_column(tbl, "player", "player_lo", "player_hi", f)
-        tbl["opponents"] = ci_column(tbl, "opponent", "opponent_lo", "opponent_hi", f)
-        tbl["you − them"] = ci_column(tbl, "diff", "diff_lo", "diff_hi", f)
-        tables[column] = tbl
-    for column, title in [("ep_loss", "Mean ep_loss per move"), ("ge10", "Share of moves losing ≥ 0.1 expected points"), ("ge20", "Share of moves losing ≥ 0.2"), ("ge30", "Share of moves losing ≥ 0.3"), ("cp_loss", "Mean cp_loss per move (secondary)"), ("blunder", "Blunder rate (cp_loss ≥ 300, secondary)")]:
-        report.heading(title, level=3)
-        report.table(tables[column][["time_class", "phase", "you", "opponents", "you − them", "games", "n"]])
-    report.text(
-        "Reading across the tables: the differences are at most a thousandth of a point per move. Your bullet endgames are the one "
-        "cell that is cleaner than the opponents' on every measure (mean ep_loss, ≥0.1, ≥0.2); your bullet openings lose slightly more "
-        "(mean ep_loss) and your blitz middlegames have a slightly fatter tail (≥0.2 and ≥0.3, CIs touching zero). In cp terms you lose "
-        "more centipawns than opponents in bullet middlegames but not more expected points: those are big swings in positions already decided."
-    )
-
-    # Concentration: share of all ep lost that comes from moves >= 0.1
-    rows = []
-    for tc in TIME_CLASSES:
-        part = frame[frame["time_class"] == tc]
-        row = {"time class": tc}
-        for side, name in (("player", "you"), ("opponent", "opponents")):
-            s = part[part["side"] == side]
-            total = s["ep_loss"].sum()
-            row[f"{name}: share of ep lost from moves ≥ 0.1"] = f"{s.loc[s['ep_loss'] >= 0.1, 'ep_loss'].sum() / total:.2f}"
-            row[f"{name}: share of moves ≥ 0.1"] = f"{(s['ep_loss'] >= 0.1).mean():.3f}"
-        rows.append(row)
-    report.heading("How concentrated the damage is", level=3)
-    report.text("Share of all expected points given away that came from moves losing at least 0.1, next to the share of moves those were (descriptive ratios over the whole class, no CI).")
-    report.table(pd.DataFrame(rows))
-
-    import matplotlib.pyplot as plt
-
-    fig, axes = plt.subplots(1, 3, figsize=(12, 3.8), sharey=True)
-    xs = np.linspace(0.02, 0.5, 49)
-    styles = {"opening": ":", "middlegame": "--", "endgame": "-"}
-    for ax, tc in zip(axes, TIME_CLASSES):
-        part = frame[frame["time_class"] == tc]
-        for side in ("player", "opponent"):
-            for phase in PHASES:
-                v = np.sort(part.loc[(part["side"] == side) & (part["phase"] == phase), "ep_loss"].to_numpy())
-                surv = 1 - np.searchsorted(v, xs, side="left") / len(v)
-                ax.plot(xs, surv, styles[phase], color=SIDE_COLOURS[side], lw=1.8, label=f"{'you' if side == 'player' else 'opponents'}, {phase}")
-        ax.set_yscale("log")
-        ax.set_title(tc)
-        ax.set_xlabel("ep_loss at least")
-    axes[0].set_ylabel("share of moves (log)")
-    axes[-1].legend(fontsize=7, loc="upper right")
-    fig.suptitle("Error-size survival curves: share of moves losing at least x expected points", fontsize=11)
-    fig.tight_layout()
-    report.figure(fig, "error_sizes", "Share of moves losing at least x expected points, by phase (line style) and side (colour). Log scale.")
-    plt.close(fig)
-    return tables["ge20"]
-
-
-def section_decisive(report: Report, games: pd.DataFrame) -> dict:
-    """Writes section 3; returns the shares the closing paragraph quotes, keyed (time class, 'you'/'opponents')."""
-    report.heading("3. The decisive mistake: the loser's costliest move of the final slide")
-    report.text(
-        "Who made the decisive mistake is answered over the loser's own moves only: by construction the decisive move is always the loser's "
-        "(`decisive_by` is the loser's side), so the winner's moves never count as 'decisive', and the question becomes whether the loser signed "
-        "their own defeat with an identifiable move or lost without one. "
-        f"For every decided game, the loser's P(win) is read before and after each of the loser's own moves. A game counts as lost on the board "
-        f"if the loser's P(win) after their last own move was below {DECISIVE_LO:.0%}. The final slide starts at the last move the loser made from a "
-        f"playable position (P(win) ≥ {DECISIVE_HI:.0%} before the move); the decisive mistake is the loser's costliest move from there to the end, "
-        f"and it counts as a blunder if it lost at least {MIN_DECISIVE_EP:.2f} expected points. (A plain 'last crossing below 10%' rule was tried first: "
-        "the model's P(win) decays gradually in bullet and a quarter of games were 'decided' by the winner's routine recapture nudging the loser from 12% to 7%, "
-        "so the crossing move was not the mistake.) 'Lost without a blunder' means the loser slid from the last playable position to a lost one without any single move "
-        f"costing {MIN_DECISIVE_EP:.2f}. 'Lost while still alive' means the loser's last own move still left P(win) ≥ {DECISIVE_LO:.0%}: the game ended by flag, resignation, "
-        "abandonment or a mate the model still gave chances against (in bullet the model keeps a real flag chance alive even at +10). "
-        f"The stricter pair (playable ≥ {DECISIVE_ALT[1]:.0%}, lost < {DECISIVE_ALT[0]:.0%}) is a sensitivity check."
-    )
-    decided = games[games["outcome"].isin(["win", "loss"])]
-    rows, out = [], {}
-    for tc in TIME_CLASSES:
-        part = decided[decided["time_class"] == tc]
-        for outcome, who in (("loss", "you"), ("win", "opponents")):
-            p = part[part["outcome"] == outcome]
-            found, between = p["decisive_found"].fillna(False).to_numpy(bool), p["lost_without_blunder"].fillna(False).to_numpy(bool)
-            on_board = found | between
-            out[(tc, who)] = {
-                "alive": float((~on_board).mean()),
-                "found_given_on_board": float(found.sum() / max(on_board.sum(), 1)),
-                "decisive_ep": float(p.loc[found, "decisive_ep_loss"].mean()),
-            }
-            rows.append(
-                {
-                    "time class": tc, "loser": who, "games": len(p),
-                    "loser's own decisive blunder": share(p, found), "lost without a blunder": share(p, between),
-                    "lost while still alive (≥ 10%)": share(p, ~on_board),
-                    "own decisive blunder, strict": share(p, p["decisive_strict_found"].fillna(False).to_numpy(bool)),
-                }  # fmt: skip
-            )
-    report.table(pd.DataFrame(rows))
-    report.text("'Loser = you' are your losses; 'loser = opponents' are your wins. Each pair of rows compares the same thing from both sides: how often the losing side signs its own defeat with an identifiable move.")
-
-    report.heading("Games lost while still alive, by how they ended", level=3)
-    report.text(
-        "Share of decided games in which the loser's P(win) after their last own move was still ≥ 10%, split by the loser's termination, with the loser's P(win) "
-        f"after that last move in those games. Cells resting on fewer than {MIN_CELL_N} games are left blank (n shown). A checkmate counted as 'still alive' is not a "
-        "contradiction: the bullet model's clock term keeps a real flag chance alive for the side about to be mated (even at −10 with the opponent short of time), "
-        "so in bullet almost half the mated losers were still 'alive' by the model's reckoning."
-    )
-    rows = []
-    for tc in TIME_CLASSES:
-        part = decided[decided["time_class"] == tc]
-        for outcome, who, column in (("loss", "you", "my_result"), ("win", "opponents", "opponent_result")):
-            p = part[part["outcome"] == outcome]
-            none = ~p["decisive_found"].fillna(False).to_numpy(bool) & ~p["lost_without_blunder"].fillna(False).to_numpy(bool)
-            row = {"time class": tc, "loser": who, "games": len(p)}
-            for term in ("checkmated", "timeout", "resigned", "abandoned"):
-                mask = (p[column] == term).to_numpy()
-                row[f"{term}: share of games"] = f"{mask.mean():.2f}"
-                est, lo, hi, n = boot_rate(none.astype(float), mask.astype(float))
-                row[f"{term}: still alive"] = fmt(est, lo, hi, f=".2f") if n >= MIN_CELL_N else f"— (n={n})"
-            row["loser's P(win) after last own move, when alive"] = fmt(*game_mean(p[none], "loser_last_p_win"), f=".2f")
-            rows.append(row)
-    report.table(pd.DataFrame(rows))
-
-    report.heading("What the decisive blunders look like", level=3)
-    report.text("Only games with a loser's own decisive blunder. Yours (in your losses) vs the opponents' (in your wins). 'P(win) before/after' are the loser's around the decisive move; 'from last playable' is the share where the decisive move is the very move played from the last playable position (the rest came later in the slide).")
-    rows = []
-    for tc in TIME_CLASSES:
-        part = decided[(decided["time_class"] == tc) & decided["decisive_found"].fillna(False).astype(bool)]
-        for outcome, who in (("loss", "you"), ("win", "opponents")):
-            p = part[part["outcome"] == outcome]
-            row = {"time class": tc, "decisive blunder by": who, "games": len(p)}
-            row["ep_loss of the move"] = fmt(*game_mean(p, "decisive_ep_loss"))
-            row["P(win) before"] = fmt(*game_mean(p, "decisive_p_win_before"), f=".2f")
-            row["P(win) after"] = fmt(*game_mean(p, "decisive_p_win_after"), f=".2f")
-            row["from last playable"] = share(p, p["decisive_is_last_playable"].fillna(False).to_numpy(bool), f=".2f")
-            row["plies before the end"] = fmt(*game_mean(p, "decisive_plies_from_end"), f=".1f")
-            row["clock before (s)"] = fmt(*game_mean(p, "decisive_clock_before"), f=".0f")
-            for phase in PHASES:
-                row[phase] = share(p, (p["decisive_phase"] == phase).to_numpy(), f=".2f")
-            rows.append(row)
-    report.table(pd.DataFrame(rows))
-    ep_means = [v["decisive_ep"] for v in out.values()]
-    report.text(
-        "The phase columns are the share of decisive blunders made in that phase (material heuristic). The profile is the same for you and for your opponents: "
-        f"the decisive blunder is mostly an endgame move in bullet and blitz, costs about {min(ep_means):.2f}–{max(ep_means):.2f} expected points on average, and comes some 20 plies before the end."
-    )
-
-    import matplotlib.pyplot as plt
-
-    fig, axes = plt.subplots(1, 2, figsize=(10, 3.8), sharey=True)
-    for ax, outcome, title in zip(axes, ("loss", "win"), ("Your losses (loser = you)", "Your wins (loser = opponent)")):
-        x = np.arange(len(TIME_CLASSES))
-        bottoms = np.zeros(len(TIME_CLASSES))
-        found = decided["decisive_found"].fillna(False).astype(bool)
-        between = decided["lost_without_blunder"].fillna(False).astype(bool)
-        cats = [("loser's own decisive blunder", found), ("lost without a blunder", between), ("lost while still alive (≥ 10%)", ~found & ~between)]
-        colours = [SIDE_COLOURS["player"] if outcome == "loss" else SIDE_COLOURS["opponent"], "#8a8a8a", "#d5d5d5"]
-        for (name, mask), colour in zip(cats, colours):
-            vals = np.array([mask[(decided["time_class"] == tc) & (decided["outcome"] == outcome)].mean() for tc in TIME_CLASSES])
-            ax.bar(x, vals, bottom=bottoms, color=colour, width=0.6, edgecolor="white", linewidth=2, label=name)
-            for xi, v, b in zip(x, vals, bottoms):
-                if v > 0.08:
-                    ax.text(xi, b + v / 2, f"{v:.0%}", ha="center", va="center", fontsize=8, color="white" if colour != "#d5d5d5" else "#333")
-            bottoms += vals
-        ax.set_xticks(x, TIME_CLASSES)
-        ax.set_title(title)
-        ax.set_ylim(0, 1)
-    axes[0].set_ylabel("share of decided games")
-    handles, labels = axes[1].get_legend_handles_labels()
-    fig.legend(handles, labels, fontsize=8, loc="lower center", ncol=3, bbox_to_anchor=(0.5, -0.04))
-    fig.suptitle("Who signed the defeat: the loser's costliest move of the final slide", fontsize=11)
-    fig.tight_layout()
-    report.figure(fig, "decisive_mistake", "Share of decided games with a loser's own decisive blunder, by time class, in your losses (left, blue = you) and wins (right, orange = opponents).")
-    plt.close(fig)
-    return out
-
-
-def section_conversion(report: Report, games: pd.DataFrame) -> tuple[pd.DataFrame, dict]:
-    report.heading("4. Converting winning positions and swindling lost ones")
-    report.text(
-        f"Conversion rate = P(you win | your P(win) reached ≥ {WIN_T:.0%} at some point); swindle rate = P(you did not lose | your P(win) "
-        f"fell to ≤ {LOSE_T:.0%} at some point). The opponents' rates are the same quantities from their side in the same games "
-        "(their P(win) is your P(loss)). Differences are you minus opponents, bootstrapped over games. Also shown: how often each side "
-        "reached those positions at all."
-    )
-    rows = []
-    for tc in TIME_CLASSES:
-        part = games[games["time_class"] == tc]
-        win, loss = (part["outcome"] == "win").to_numpy(float), (part["outcome"] == "loss").to_numpy(float)
-        ones = np.ones(len(part))
-        rw, orw = part["reached_winning"].to_numpy(float), part["opp_reached_winning"].to_numpy(float)
-        rl, orl = part["reached_losing"].to_numpy(float), part["opp_reached_losing"].to_numpy(float)
-        conv, oconv, dconv = boot_rate(win, rw), boot_rate(loss, orw), boot_rate_diff(win, rw, loss, orw)
-        swin, oswin, dswin = boot_rate(1 - loss, rl), boot_rate(1 - win, orl), boot_rate_diff(1 - loss, rl, 1 - win, orl)
-        rows.append(
-            {
-                "time class": tc, "games": len(part),
-                "you reached ≥80%": fmt(*boot_rate(rw, ones)[:3]), "they reached ≥80%": fmt(*boot_rate(orw, ones)[:3]),
-                "your conversion": fmt(*conv[:3]) + f" (n={conv[3]})", "their conversion": fmt(*oconv[:3]) + f" (n={oconv[3]})", "conv. you − them": fmt(*dconv),
-                "your swindle": fmt(*swin[:3]) + f" (n={swin[3]})", "their swindle": fmt(*oswin[:3]) + f" (n={oswin[3]})", "swindle you − them": fmt(*dswin),
-            }  # fmt: skip
-        )
-    report.table(pd.DataFrame(rows))
-
-    report.heading("How the swindles ended", level=3)
-    report.text(
-        "Among games where a side fell to ≤ 20% and did not lose (the swindles): how the game ended, as shares of all swindles (descriptive, n given). "
-        "'Won on time' is the share of the swindle *wins* in which the other side flagged (with a game-bootstrap CI, since the headline paragraph quotes it); "
-        "'won on time, share of all swindles' is the same games as a share of every swindle."
-    )
-    rows, on_time = [], {}
-    for tc in TIME_CLASSES:
-        part = games[games["time_class"] == tc]
-        for who, mask, column, other in (("you", part["reached_losing"] & (part["outcome"] != "loss"), "my_result", "opponent_result"), ("opponents", part["opp_reached_losing"] & (part["outcome"] != "win"), "opponent_result", "my_result")):
-            p = part[mask]
-            r = p[column]
-            won = (r == "win").to_numpy(float)
-            flagged = (p[other] == "timeout").to_numpy(float)
-            est, lo, hi, n_won = boot_rate(flagged, won)
-            on_time[(tc, who)] = est
-            rows.append(
-                {
-                    "time class": tc, "swindler": who, "n": len(p), "won": f"{won.mean():.2f}",
-                    "won on time (share of swindle wins)": fmt(est, lo, hi, f=".2f") + f" (n={n_won})",
-                    "won on time, share of all swindles": f"{flagged.mean():.2f}",
-                    "draw by timeout vs insufficient": f"{(r == 'timevsinsufficient').mean():.2f}", "stalemate": f"{(r == 'stalemate').mean():.2f}",
-                    "repetition/agreed/insufficient": f"{r.isin(['repetition', 'agreed', 'insufficient']).mean():.2f}",
-                }  # fmt: skip
-            )
-    report.table(pd.DataFrame(rows))
-
-    import matplotlib.pyplot as plt
-
-    thresholds = np.round(np.arange(0.55, 0.96, 0.05), 2)
-    fig, axes = plt.subplots(2, 3, figsize=(12, 6.5), sharey="row")
-    curve_rows = []
-    for j, tc in enumerate(TIME_CLASSES):
-        part = games[games["time_class"] == tc]
-        win, loss = (part["outcome"] == "win").to_numpy(float), (part["outcome"] == "loss").to_numpy(float)
-        for side, colour, label in (("player", SIDE_COLOURS["player"], "you"), ("opponent", SIDE_COLOURS["opponent"], "opponents")):
-            conv, swin = [], []
-            for t in thresholds:
-                if side == "player":
-                    c = boot_rate(win, (part["my_p_win_max"] >= t).to_numpy(float))
-                    s = boot_rate(1 - loss, (part["my_p_win_min"] <= 1 - t).to_numpy(float))
-                else:
-                    c = boot_rate(loss, (part["opp_p_win_max"] >= t).to_numpy(float))
-                    s = boot_rate(1 - win, (part["opp_p_win_min"] <= 1 - t).to_numpy(float))
-                conv.append(c)
-                swin.append(s)
-                curve_rows.append({"time_class": tc, "side": side, "threshold": t, "conversion": c[0], "conv_lo": c[1], "conv_hi": c[2], "n_conv": c[3], "swindle": s[0], "swin_lo": s[1], "swin_hi": s[2], "n_swin": s[3]})
-            conv, swin = np.array(conv), np.array(swin)
-            axes[0, j].plot(thresholds, conv[:, 0], "-o", color=colour, ms=4, lw=1.8, label=label)
-            axes[0, j].fill_between(thresholds, conv[:, 1], conv[:, 2], color=colour, alpha=0.15, lw=0)
-            axes[1, j].plot(1 - thresholds, swin[:, 0], "-o", color=colour, ms=4, lw=1.8, label=label)
-            axes[1, j].fill_between(1 - thresholds, swin[:, 1], swin[:, 2], color=colour, alpha=0.15, lw=0)
-        axes[0, j].set_title(tc)
-        axes[0, j].set_xlabel("reached P(win) ≥ t")
-        axes[1, j].set_xlabel("fell to P(win) ≤ t")
-    axes[0, 0].set_ylabel("P(win) - conversion")
-    axes[1, 0].set_ylabel("P(not loss) - swindle")
-    axes[0, 0].legend(fontsize=8, loc="lower right")
-    fig.suptitle("Conversion and swindle rates against the threshold (shaded: 95% CI)", fontsize=11)
-    fig.tight_layout()
-    report.figure(fig, "conversion_swindle", "Conversion (top) and swindle (bottom) rates as a function of the threshold, you vs opponents, per time class.")
-    plt.close(fig)
-    return pd.DataFrame(curve_rows), on_time
-
-
-def section_sanity(report: Report, games: pd.DataFrame, moves: pd.DataFrame) -> None:
-    report.heading("5. Sanity checks")
-    report.text("The decomposition should predict results: your score by `net_ep` bin (their ep lost minus yours), all time classes together, with the model's expectation at move 1 and after the last move.")
-    bins = [-10, -1.0, -0.5, -0.2, 0, 0.2, 0.5, 1.0, 10]
-    labels = ["< −1", "−1 to −0.5", "−0.5 to −0.2", "−0.2 to 0", "0 to 0.2", "0.2 to 0.5", "0.5 to 1", "> 1"]
-    frame = games.assign(bin=pd.cut(games["net_ep"], bins=bins, labels=labels))
-    rows = []
-    for b, part in frame.groupby("bin", observed=True):
-        rows.append({"net ep (them − you)": b, "games": len(part), "your score": fmt(*game_mean(part, "my_score")), "ep at move 1": fmt(*game_mean(part, "my_ep_start")), "ep at last move": fmt(*game_mean(part, "my_ep_end"))})
-    report.table(pd.DataFrame(rows))
-    empty = [b for b in labels if (frame["bin"] == b).sum() == 0]
-    corr = np.corrcoef(games["net_ep"].to_numpy(float), games["my_score"].to_numpy(float))[0, 1]
-    report.text(
-        (f"Bins {', '.join(repr(b) for b in empty)} hold no games (net ep ranges from {games['net_ep'].min():.2f} to {games['net_ep'].max():.2f}) and are not shown. " if empty else "")
-        + f"Correlation between `net_ep` and your score over all {len(games):,} games: {corr:.2f}; monotone and steep, as it should be if `ep_loss` measures what matters."
-    )
-
-    report.heading("Is the P(win) model even-handed between you and your opponents?", level=3)
-    report.text(
-        "The thresholds in sections 3 and 4 are model probabilities. Here every position after a move is binned by the model's P(win) for one side, "
-        "and the observed win rate of that side is shown (CIs by game; all time classes pooled, standard live games). If the model were symmetric and "
-        "perfectly calibrated, both observed columns would equal the bin centre. Two things show: the model is under-confident at the extremes "
-        "(a model 80–90% is observed above 90%), and in every bin you win more often than opponents do from positions the model rates the same, "
-        "which is the same fact as the conversion and swindle gaps in section 4."
-    )
-    mine = moves["is_player_move"].to_numpy()
-    f = pd.DataFrame({"g": moves["game_uuid"], "my_p": np.where(mine, moves["p_win_after"], moves["p_loss_after"]), "opp_p": np.where(mine, moves["p_loss_after"], moves["p_win_after"]), "my_win": (moves["outcome"] == "win").astype(float), "opp_win": (moves["outcome"] == "loss").astype(float)})
-    edges = np.round(np.arange(0, 1.01, 0.1), 1)
-    rows = []
-    for lo, hi in zip(edges[:-1], edges[1:]):
-        row = {"model P(win) after the move": f"{lo:.1f}–{hi:.1f}"}
-        for who, p, w in (("you", "my_p", "my_win"), ("opponents", "opp_p", "opp_win")):
-            part = f[(f[p] >= lo) & (f[p] < hi + (1e-9 if hi == 1 else 0))]
-            row[f"{who}: positions"] = len(part)
-            row[f"{who}: observed win rate"] = fmt(*cluster_bootstrap_mean(part[w], part["g"], n_boot=N_BOOT, seed=SEED))
-        rows.append(row)
-    report.table(pd.DataFrame(rows))
-
-
-def calibration_brier() -> str:
-    """Cross-validated expected-points Brier of the P(win) model, read from reports/calibration.md (so it cannot go stale here)."""
-    import re
-
-    path = repo_root() / "reports" / "calibration.md"
-    if path.exists():
-        hit = re.search(r"Expected points Brier \| ([0-9.]+)", path.read_text())
-        if hit:
-            return f"cross-validated expected-points Brier {float(hit.group(1)):.3f}, see `reports/calibration.md`"
-    return "see `reports/calibration.md` for its cross-validated Brier score"
+    Uses the same positions as the reached_* flags (the start plus after each
+    move), so the expected score belongs to exactly the games those flags select.
+    """
+    first = m.groupby("game_uuid", sort=False).head(1)
+    start = pd.DataFrame({"game_uuid": first["game_uuid"].to_numpy(), "ply": 0, "my_p": first["my_p_win_before"].to_numpy(), "opp_p": first["opp_p_win_before"].to_numpy(), "my_ep": first["my_ep_before"].to_numpy()})
+    after = pd.DataFrame({"game_uuid": m["game_uuid"].to_numpy(), "ply": m["ply"].to_numpy(), "my_p": m["my_p_win_after"].to_numpy(), "opp_p": m["opp_p_win_after"].to_numpy(), "my_ep": m["my_ep_after"].to_numpy()})
+    track = pd.concat([start, after], ignore_index=True).sort_values(["game_uuid", "ply"], kind="stable")
+    out = pd.DataFrame(index=pd.Index(track["game_uuid"].unique(), name="uuid"))
+    out["my_ep_at_winning"] = track[track["my_p"] >= WIN_T].groupby("game_uuid")["my_ep"].first()
+    out["opp_ep_at_winning"] = 1 - track[track["opp_p"] >= WIN_T].groupby("game_uuid")["my_ep"].first()
+    out["my_ep_at_losing"] = track[track["my_p"] <= LOSE_T].groupby("game_uuid")["my_ep"].first()
+    out["opp_ep_at_losing"] = 1 - track[track["opp_p"] <= LOSE_T].groupby("game_uuid")["my_ep"].first()
+    return out.reset_index()
 
 
 def write_table(table: pd.DataFrame, username: str) -> Path:
@@ -615,88 +265,799 @@ def write_table(table: pd.DataFrame, username: str) -> Path:
     return path
 
 
+# --- game-level bootstrap helpers (each game is its own cluster) -------------------------------
+
+
+def boot_rate(y, cond, n_boot: int = N_BOOT, seed: int = SEED) -> tuple[float, float, float, int]:
+    """Mean of y over the games where cond holds, with a bootstrap CI over games; returns (est, lo, hi, n_cond)."""
+    y, cond = np.asarray(y, dtype="float64"), np.asarray(cond, dtype="float64")
+    y = np.where(cond > 0, y, 0.0)
+    n = int(cond.sum())
+    if n == 0:
+        return float("nan"), float("nan"), float("nan"), 0
+    est = float((y * cond).sum() / n)
+    if n < 2:
+        return est, float("nan"), float("nan"), n
+    rng = np.random.default_rng(seed)
+    idx = rng.integers(0, len(y), size=(n_boot, len(y)))
+    with np.errstate(invalid="ignore"):
+        boot = (y[idx] * cond[idx]).sum(axis=1) / cond[idx].sum(axis=1)
+    lo, hi = np.nanquantile(boot, [0.025, 0.975])
+    return est, float(lo), float(hi), n
+
+
+def boot_rate_diff(y1, c1, y2, c2, n_boot: int = N_BOOT, seed: int = SEED) -> tuple[float, float, float]:
+    """mean(y1 | c1) - mean(y2 | c2) with both computed on the same resampled games."""
+    y1, c1, y2, c2 = (np.asarray(a, dtype="float64") for a in (y1, c1, y2, c2))
+    y1, y2 = np.where(c1 > 0, y1, 0.0), np.where(c2 > 0, y2, 0.0)
+    if c1.sum() < 2 or c2.sum() < 2:
+        return float("nan"), float("nan"), float("nan")
+    est = float((y1 * c1).sum() / c1.sum() - (y2 * c2).sum() / c2.sum())
+    rng = np.random.default_rng(seed)
+    idx = rng.integers(0, len(y1), size=(n_boot, len(y1)))
+    with np.errstate(invalid="ignore"):
+        r1 = (y1[idx] * c1[idx]).sum(axis=1) / c1[idx].sum(axis=1)
+        r2 = (y2[idx] * c2[idx]).sum(axis=1) / c2[idx].sum(axis=1)
+    lo, hi = np.nanquantile(r1 - r2, [0.025, 0.975])
+    return est, float(lo), float(hi)
+
+
+def add_points(frame: pd.DataFrame, prefix: str) -> pd.DataFrame:
+    """Adds <prefix>_pp(_lo/_hi): a difference of two shares in percentage points (100 x the share difference)."""
+    for c in ("", "_lo", "_hi"):
+        frame[f"{prefix}_pp{c}"] = 100 * frame[f"{prefix}{c}"]
+    return frame
+
+
+def blank_unbounded_elo(frame: pd.DataFrame, expected: str, columns: list[str]) -> pd.DataFrame:
+    """Blanks <column>_elo where expected + column is within ELO_SCORE_MARGIN of 0 or 1 (unbounded Elo)."""
+    for column in columns:
+        score = frame[expected] + frame[column]
+        frame.loc[(score >= 1 - ELO_SCORE_MARGIN) | (score <= ELO_SCORE_MARGIN), f"{column}_elo"] = np.nan
+    return frame
+
+
+def mean_ci(values, n_boot: int = N_BOOT) -> tuple[float, float, float, int]:
+    v = np.asarray(values, dtype="float64")
+    ok = ~np.isnan(v)
+    return boot_rate(np.where(ok, v, 0.0), ok.astype(float), n_boot=n_boot)
+
+
+# --- grouping ----------------------------------------------------------------------------
+
+
+def class_members(groups: list[str], tc_class: dict[str, str]) -> dict[str, list[str]]:
+    """Time class -> its reported controls, in the order of `groups` (from the data's tc_class map)."""
+    classes: dict[str, list[str]] = {}
+    for g in groups:
+        classes.setdefault(tc_class[g], []).append(g)
+    return classes
+
+
+def pooled_label(time_class: str) -> str:
+    return f"all {time_class}"
+
+
+def group_frames(frame: pd.DataFrame, groups: list[str], tc_class: dict[str, str] | None = None):
+    """(label, rows) per reported time control; with `tc_class`, also "all <class>" for classes with several controls."""
+    for g in groups:
+        yield g, frame[frame["tc_group"] == g]
+    if tc_class is not None:
+        for c, members in class_members(groups, tc_class).items():
+            if len(members) > 1:
+                yield pooled_label(c), frame[frame["tc_group"].isin(members)]
+
+
+def panel_order(groups: list[str], tc_class: dict[str, str]) -> tuple[list[str], set[str]]:
+    """Controls in order, each class followed by its pooled label when there is one; plus the set of pooled labels."""
+    out: list[str] = []
+    pooled: set[str] = set()
+    for c, members in class_members(groups, tc_class).items():
+        out += members
+        if len(members) > 1:
+            out.append(pooled_label(c))
+            pooled.add(pooled_label(c))
+    return out, pooled
+
+
+# --- charts ------------------------------------------------------------------------------
+
+
+def stacked_sides(ax, table: pd.DataFrame, order: list[str], segments: list[str], value: str, n_col: str, total: pd.DataFrame | None = None, pooled: set[str] | None = None) -> None:
+    """Two stacked bars per level of `order` (you, opponents), one segment per entry of `segments`.
+
+    `table` is long: tc_group, side, segment, value. Side sets the colour (you
+    blue, opponents grey); segments are shaded from solid to pale. Bars whose
+    case count is below MIN_CASES are not drawn; a 'thin' label marks them.
+    `total` (optional, a frame with tc_group, side, est, lo, hi) adds a CI
+    whisker at height `est` (the full bar, or the bottom segment). Levels in
+    `pooled` (the "all <class>" bars) are set apart by a dotted divider and an
+    italic label, so they are not read as one more control.
+    """
+    import matplotlib.colors as mcolors
+
+    alphas = np.linspace(1.0, MIN_SEGMENT_ALPHA, len(segments))
+    width = 0.38
+    for k, side in enumerate(("player", "opponent")):
+        base = charts.SIDE_COLOURS[side]
+        offset = (k - 0.5) * width
+        for i, level in enumerate(order):
+            part = table[(table["tc_group"] == level) & (table["side"] == side)]
+            if part.empty:
+                continue
+            if int(part[n_col].iloc[0]) < MIN_CASES:
+                ax.text(i + offset, 0.01, "thin", rotation=90, ha="center", va="bottom", fontsize=7, color=charts.INK_MUTED)
+                continue
+            values = [[float(part.loc[part["segment"] == seg, value].sum())] for seg in segments]
+            charts.stacked_bars(ax, [i + offset], values, [mcolors.to_rgba(base, alpha) for alpha in alphas], width=width * 0.92, edgecolor=charts.SURFACE, linewidth=0.6)
+            if total is not None:
+                t = total[(total["tc_group"] == level) & (total["side"] == side)]
+                if not t.empty:
+                    est, lo, hi = (float(t[c].iloc[0]) for c in ("est", "lo", "hi"))
+                    ax.errorbar(i + offset, est, yerr=[[est - lo], [hi - est]], fmt="none", ecolor=charts.INK_SECONDARY, elinewidth=1)
+    ax.set_xticks(np.arange(len(order)), order)
+    ax.grid(axis="x", visible=False)
+    pooled = pooled or set()
+    for i, level in enumerate(order):
+        if level in pooled:
+            ax.axvline(i - 0.5, color=charts.INK_MUTED, linewidth=0.8, linestyle=":", zorder=0)
+    for tick in ax.get_xticklabels():
+        if tick.get_text() in pooled:
+            tick.set_fontstyle("italic")
+
+
+def stacked_legend(fig, segments: list[str], **kwargs) -> None:
+    """Legend: the two sides by colour, the segments by shade (in neutral grey)."""
+    import matplotlib.colors as mcolors
+    from matplotlib.patches import Patch
+
+    alphas = np.linspace(1.0, MIN_SEGMENT_ALPHA, len(segments))
+    handles = [Patch(color=charts.PLAYER, label="you"), Patch(color=charts.OPPONENT, label="opponents")]
+    handles += [Patch(color=mcolors.to_rgba(charts.INK_SECONDARY, a), label=s) for s, a in zip(segments, alphas)]
+    fig.legend(handles=handles, ncol=len(handles), **kwargs)
+
+
+def percent_axis(ax) -> None:
+    from matplotlib.ticker import PercentFormatter
+
+    ax.yaxis.set_major_formatter(PercentFormatter(1.0, decimals=0))
+
+
+# --- 1. points per game ------------------------------------------------------------------------
+
+
+def points_per_game(g: pd.DataFrame, groups: list[str]) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
+    rows, budget, check = [], [], []
+    for label, part in group_frames(g, groups):
+        ones = np.ones(len(part))
+        me, opp = part["my_ep_lost"].to_numpy(float), part["opp_ep_lost"].to_numpy(float)
+        diff = boot_rate(me - opp, ones)
+        row = {"tc_group": label, **ci_cols("player", boot_rate(me, ones)), **ci_cols("opponent", boot_rate(opp, ones)), **ci_cols("diff", diff)}
+        row["diff_per_100_games"] = 100 * diff[0]
+        row["margin"], row["margin_lo"], row["margin_hi"] = -diff[0], -diff[2], -diff[1]
+        row["expected"] = EVEN_SCORE
+        row.update(ci_cols("player_cp", boot_rate(part["my_cp_lost"].to_numpy(float), ones)))
+        row.update(ci_cols("opponent_cp", boot_rate(part["opp_cp_lost"].to_numpy(float), ones)))
+        row["player_moves_per_game"] = float(part["my_moves"].astype(float).mean())
+        row["opponent_moves_per_game"] = float(part["opp_moves"].astype(float).mean())
+        row["player_total"] = float(me.sum())
+        row["opponent_total"] = float(opp.sum())
+        row["games"] = len(part)
+        rows.append(row)
+
+        score, start, end = part["my_score"].to_numpy(float), part["my_ep_start"].to_numpy(float), part["my_ep_end"].to_numpy(float)
+        residual = score - (start - me + opp)
+        b = {"tc_group": label, **ci_cols("score", boot_rate(score, ones)), **ci_cols("expected", boot_rate(start, ones))}
+        b.update(ci_cols("excess", boot_rate(score - start, ones)))
+        b.update(ci_cols("player_ep_lost", boot_rate(me, ones)))
+        b.update(ci_cols("opponent_ep_lost", boot_rate(opp, ones)))
+        b.update(ci_cols("residual", boot_rate(residual, ones)))
+        b.update(ci_cols("score_minus_ep_at_end", boot_rate(score - end, ones)))
+        b["corr_net_ep_score"] = float(np.corrcoef(part["net_ep"].to_numpy(float), score)[0, 1])
+        b["games"] = len(part)
+        budget.append(b)
+
+        binned = part.assign(bin=pd.cut(part["net_ep"], bins=NET_EP_EDGES, labels=NET_EP_LABELS, right=False))
+        for lab in NET_EP_LABELS:
+            cell = binned[binned["bin"] == lab]
+            c = {"tc_group": label, "net_ep_bin": lab}
+            ones_c = np.ones(len(cell))
+            c.update(ci_cols("score", boot_rate(cell["my_score"].to_numpy(float), ones_c)))
+            c.update(ci_cols("ep_at_move_1", boot_rate(cell["my_ep_start"].to_numpy(float), ones_c)))
+            c.update(ci_cols("ep_at_end", boot_rate(cell["my_ep_end"].to_numpy(float), ones_c)))
+            c["games"] = len(cell)
+            c["thin"] = len(cell) < MIN_CASES
+            check.append(c)
+    table = add_elo(pd.DataFrame(rows), "expected", ["margin", "margin_lo", "margin_hi"])
+    table["thin"] = table["games"] < MIN_CASES
+    budget = add_elo(pd.DataFrame(budget), "expected", ["excess", "excess_lo", "excess_hi"])
+    budget["thin"] = budget["games"] < MIN_CASES
+    return table, budget, pd.DataFrame(check)
+
+
+def chart_points(table: pd.DataFrame, groups: list[str]):
+    import matplotlib.pyplot as plt
+
+    fig, (top, bottom) = plt.subplots(2, 1, figsize=(9.5, 5.6), sharex=True, gridspec_kw={"height_ratios": [1.6, 1]})
+    charts.side_bars(top, table, "tc_group", order=groups)
+    top.set_ylabel("expected points given\naway per game")
+    top.set_title("How many points does each side give away per game?", fontsize=11, color=charts.INK)
+    top.legend(loc="upper left", ncol=2)
+    charts.zero_line(bottom)
+    charts.estimate(bottom, table, "tc_group", y="diff", lo="diff_lo", hi="diff_hi", order=groups, colour=charts.PLAYER)
+    bottom.set_ylabel("you minus opponents\n(below 0: you give away less)")
+    charts.rotate_labels(bottom, 35)
+    charts.footnote(fig, "Expected points = calibrated win probability + half the draw probability; each move's loss is summed per game. Whiskers: 95% CI, resampling games.")
+    fig.tight_layout()
+    return fig
+
+
+# --- 2. concentration ------------------------------------------------------------------------
+
+
+def _curve(e_desc: np.ndarray, weights: np.ndarray, shares: np.ndarray) -> np.ndarray:
+    cw = np.concatenate([[0.0], np.cumsum(weights)])
+    ce = np.concatenate([[0.0], np.cumsum(weights * e_desc)])
+    return np.interp(shares, cw / cw[-1], ce / ce[-1])
+
+
+def concentration(moves: pd.DataFrame, groups: list[str]) -> tuple[pd.DataFrame, pd.DataFrame]:
+    """Share of all expected points lost that comes from the costliest x% of moves, per side, with a paired CI."""
+    shares = np.asarray(TOP_SHARES)
+    rows, tail = [], []
+    for label, part in group_frames(moves, groups):
+        part = part[part["ep_loss"].notna()]
+        codes, inverse = np.unique(part["game_uuid"].to_numpy(), return_inverse=True)
+        sides = {}
+        for side in ("player", "opponent"):
+            mask = (part["side"] == side).to_numpy()
+            e, gi = part["ep_loss"].to_numpy(float)[mask], inverse[mask]
+            order = np.argsort(-e, kind="stable")
+            sides[side] = (e[order], gi[order])
+        est = {s: _curve(e, np.ones(len(e)), shares) for s, (e, _) in sides.items()}
+        rng = np.random.default_rng(SEED)
+        draws = {s: np.empty((N_BOOT_CURVE, len(shares))) for s in sides}
+        for b in range(N_BOOT_CURVE):
+            w = np.bincount(rng.integers(0, len(codes), len(codes)), minlength=len(codes)).astype(float)
+            for s, (e, gi) in sides.items():
+                draws[s][b] = _curve(e, w[gi], shares)
+        diff = draws["player"] - draws["opponent"]
+        for k, q in enumerate(shares):
+            row = {"tc_group": label, "top_share_of_moves": q}
+            for s in sides:
+                row[s] = est[s][k]
+                row[f"{s}_lo"], row[f"{s}_hi"] = np.quantile(draws[s][:, k], [0.025, 0.975])
+            row["diff"] = est["player"][k] - est["opponent"][k]
+            row["diff_lo"], row["diff_hi"] = np.quantile(diff[:, k], [0.025, 0.975])
+            row["games"] = len(codes)
+            row["player_moves"] = len(sides["player"][0])
+            row["opponent_moves"] = len(sides["opponent"][0])
+            rows.append(row)
+
+        for t in TAIL:
+            frame = part.assign(big=(part["ep_loss"] >= t).astype(float), big_loss=np.where(part["ep_loss"] >= t, part["ep_loss"], 0.0))
+            cmp = compare_sides(frame, "big", n_boot=N_BOOT).iloc[0]
+            row = {"tc_group": label, "min_ep_loss": t}
+            for s in ("player", "opponent", "diff"):
+                row[f"move_share_{s}"], row[f"move_share_{s}_lo"], row[f"move_share_{s}_hi"] = cmp[s], cmp[f"{s}_lo"], cmp[f"{s}_hi"]
+            row["per_100_moves_player"] = 100 * cmp["player"]
+            row["per_100_moves_opponent"] = 100 * cmp["opponent"]
+            for s in ("player", "opponent"):
+                sub = frame[frame["side"] == s]
+                d = ratio_bootstrap(sub["big_loss"], sub["ep_loss"], sub["game_uuid"], n_boot=N_BOOT, seed=SEED)
+                row[f"damage_share_{s}"], row[f"damage_share_{s}_lo"], row[f"damage_share_{s}_hi"] = d
+            row["games"] = int(cmp["games"])
+            row["moves"] = int(cmp["n"])
+            tail.append(row)
+    table = pd.DataFrame(rows)
+    table["thin"] = table["games"] < MIN_CASES
+    tail = pd.DataFrame(tail)
+    tail["thin"] = tail["games"] < MIN_CASES
+    return table, tail
+
+
+def chart_concentration(table: pd.DataFrame, groups: list[str]):
+    fig, axes = charts.group_grid(groups, sharey=True, title="How much of the damage comes from the costliest moves?", panel=(2.9, 2.4))
+    for g, ax in axes.items():
+        part = table[(table["tc_group"] == g) & ~table["thin"]]
+        if part.empty:
+            charts.thin_note(ax)
+            continue
+        # y = x drawn through every tick so it curves correctly on the log x axis
+        ax.plot(TOP_SHARE_TICKS, TOP_SHARE_TICKS, color=charts.AXIS, linewidth=1, linestyle="--", zorder=1)
+        charts.side_lines(ax, part, "top_share_of_moves", markers=True)
+        ax.set_xscale("log")
+        ax.set_xticks(TOP_SHARE_TICKS, [f"{100 * q:g}%" for q in TOP_SHARE_TICKS])
+        ax.minorticks_off()
+        percent_axis(ax)
+        ax.set_ylim(0, 1)
+    charts.label_first_column(axes, "share of all expected\npoints given away")
+    for ax in axes.values():
+        ax.set_xlabel("costliest share of moves")
+    charts.legend(fig, bbox_to_anchor=(1.0, 1.02))
+    charts.footnote(fig, "Each side's moves sorted from costliest down; dashed line: damage spread evenly. Bands: 95% CI, resampling games.")
+    fig.tight_layout()
+    return fig
+
+
+# --- 3. decisive mistake ------------------------------------------------------------------------
+
+
+DECISIVE_CATEGORIES = {
+    "decisive blunder": "decisive_found",
+    "lost without a blunder": "lost_without_blunder",
+    "lost while still alive": "alive",
+    "decisive blunder (strict thresholds)": "decisive_strict_found",
+}
+
+
+# Clock measures of the decisive blunder compared between the sides (3c).
+DECISIVE_CLOCK = {
+    "clock_seconds": "seconds left before the decisive blunder",
+    "clock_buffer_seconds": "seconds left beyond one increment",
+    "clock_share_of_base": "seconds left as a share of the base time",
+}
+
+
+def decisive_tables(g: pd.DataFrame, groups: list[str]) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
+    decided = g[g["outcome"].isin(["win", "loss"])].copy()
+    for col in ("decisive_found", "lost_without_blunder", "decisive_strict_found"):
+        decided[col] = decided[col].fillna(False).astype(bool)
+    decided["alive"] = ~decided["decisive_found"] & ~decided["lost_without_blunder"]
+    decided["on_board"] = ~decided["alive"]
+    decided["clock_seconds"] = decided["decisive_clock_before"].astype(float)
+    decided["clock_buffer_seconds"] = decided["clock_seconds"] - decided["increment_seconds"].astype(float)
+    decided["clock_share_of_base"] = decided["clock_seconds"] / decided["base_seconds"].astype(float)
+    rows, profile, clock = [], [], []
+    for label, part in group_frames(decided, groups):
+        lost, won = (part["outcome"] == "loss").to_numpy(float), (part["outcome"] == "win").to_numpy(float)
+        for column, measure in DECISIVE_CLOCK.items():
+            y = part[column].to_numpy(float)
+            known = part["decisive_found"].to_numpy(float) * (~np.isnan(y)).astype(float)
+            y = np.nan_to_num(y)
+            p, o = boot_rate(y, lost * known), boot_rate(y, won * known)
+            c = {"tc_group": label, "measure": column, "description": measure, **ci_cols("player", p), **ci_cols("opponent", o), **ci_cols("diff", boot_rate_diff(y, lost * known, y, won * known))}
+            c["player_games"], c["opponent_games"] = p[3], o[3]
+            clock.append(c)
+        for category, col in DECISIVE_CATEGORIES.items():
+            y = part[col].to_numpy(float)
+            p, o = boot_rate(y, lost), boot_rate(y, won)
+            row = {"tc_group": label, "category": category, "base": "lost games", **ci_cols("player", p), **ci_cols("opponent", o), **ci_cols("diff", boot_rate_diff(y, lost, y, won))}
+            row["player_losses"], row["opponent_losses"] = p[3], o[3]
+            rows.append(row)
+        # Among games lost on the board: how often one move can be named.
+        y = part["decisive_found"].to_numpy(float)
+        ob = part["on_board"].to_numpy(float)
+        p, o = boot_rate(y, lost * ob), boot_rate(y, won * ob)
+        row = {"tc_group": label, "category": "decisive blunder", "base": "games lost on the board", **ci_cols("player", p), **ci_cols("opponent", o), **ci_cols("diff", boot_rate_diff(y, lost * ob, y, won * ob))}
+        row["player_losses"], row["opponent_losses"] = p[3], o[3]
+        rows.append(row)
+
+        found = part[part["decisive_found"]]
+        for outcome, side in (("loss", "player"), ("win", "opponent")):
+            f = found[found["outcome"] == outcome]
+            r = {"tc_group": label, "side": side}
+            r.update(ci_cols("ep_loss", mean_ci(f["decisive_ep_loss"])))
+            r.update(ci_cols("cp_loss", mean_ci(f["decisive_cp_loss"])))
+            r.update(ci_cols("p_win_before", mean_ci(f["decisive_p_win_before"])))
+            r.update(ci_cols("p_win_after", mean_ci(f["decisive_p_win_after"])))
+            r.update(ci_cols("from_last_playable", mean_ci(f["decisive_is_last_playable"].astype(float))))
+            r.update(ci_cols("plies_from_end", mean_ci(f["decisive_plies_from_end"].astype(float))))
+            r.update(ci_cols("clock_seconds", mean_ci(f["decisive_clock_before"])))
+            r.update(ci_cols("clock_buffer_seconds", mean_ci(f["decisive_clock_before"] - f["increment_seconds"])))
+            r.update(ci_cols("clock_share_of_base", mean_ci(f["decisive_clock_before"] / f["base_seconds"])))
+            for phase in PHASES:
+                r.update(ci_cols(f"share_{phase}", mean_ci((f["decisive_phase"] == phase).astype(float))))
+            r["games"] = len(f)
+            r["thin"] = len(f) < MIN_CASES
+            profile.append(r)
+    table = add_points(pd.DataFrame(rows), "diff")
+    table["thin"] = (table["player_losses"] < MIN_CASES) | (table["opponent_losses"] < MIN_CASES)
+    clock = pd.DataFrame(clock)
+    clock["thin"] = (clock["player_games"] < MIN_CASES) | (clock["opponent_games"] < MIN_CASES)
+    return table, pd.DataFrame(profile), clock
+
+
+def chart_decisive(table: pd.DataFrame, groups: list[str]):
+    segs = ["decisive blunder", "lost without a blunder", "lost while still alive"]
+    part = table[(table["base"] == "lost games") & table["category"].isin(segs)]
+    long = []
+    for _, r in part.iterrows():
+        long.append({"tc_group": r["tc_group"], "side": "player", "segment": r["category"], "value": r["player"], "n": r["player_losses"]})
+        long.append({"tc_group": r["tc_group"], "side": "opponent", "segment": r["category"], "value": r["opponent"], "n": r["opponent_losses"]})
+    long = pd.DataFrame(long)
+    first = part[part["category"] == segs[0]]
+    total = pd.concat([first.assign(side=side, est=first[side], lo=first[f"{side}_lo"], hi=first[f"{side}_hi"]) for side in ("player", "opponent")])
+    fig, ax = charts.single("How often does one move decide a lost game?", size=(9.5, 3.8))
+    stacked_sides(ax, long, groups, segs, "value", "n", total=total[["tc_group", "side", "est", "lo", "hi"]])
+    percent_axis(ax)
+    ax.set_ylim(0, 1)
+    ax.set_ylabel("share of the side's lost games")
+    charts.rotate_labels(ax, 35)
+    stacked_legend(fig, segs, loc="upper center", bbox_to_anchor=(0.5, 0.0), fontsize=8)
+    charts.footnote(fig, "\n\nBlue: your losses; grey: your opponents' losses (your wins). Decisive blunder: the loser's costliest move after their last playable position (P(win) >= 20%) lost >= 0.05 expected points; still alive: the loser's P(win) was still >= 10% after their last move. Whisker: 95% CI of the decisive-blunder share, resampling games.")
+    fig.tight_layout()
+    return fig
+
+
+# --- 4. phase ------------------------------------------------------------------------------
+
+
+def phase_tables(g: pd.DataFrame, moves: pd.DataFrame, groups: list[str]) -> tuple[pd.DataFrame, pd.DataFrame]:
+    played = moves.groupby(["game_uuid", "side", "phase"], observed=True).size().unstack(["side", "phase"]).notna()
+    rows = []
+    for label, part in group_frames(g, groups):
+        ones = np.ones(len(part))
+        total_me, total_opp = part["my_ep_lost"].sum(), part["opp_ep_lost"].sum()
+        for phase in PHASES:
+            me, opp = part[f"my_ep_lost_{phase}"].to_numpy(float), part[f"opp_ep_lost_{phase}"].to_numpy(float)
+            row = {"tc_group": label, "phase": phase, **ci_cols("player", boot_rate(me, ones)), **ci_cols("opponent", boot_rate(opp, ones)), **ci_cols("diff", boot_rate(me - opp, ones))}
+            row["player_share_of_total"] = float(me.sum() / total_me)
+            row["opponent_share_of_total"] = float(opp.sum() / total_opp)
+            idx = part["uuid"]
+            row["player_games_in_phase"] = int(played.get(("player", phase), pd.Series(dtype=bool)).reindex(idx).fillna(False).sum())
+            row["opponent_games_in_phase"] = int(played.get(("opponent", phase), pd.Series(dtype=bool)).reindex(idx).fillna(False).sum())
+            row["games"] = len(part)
+            rows.append(row)
+    per_game = pd.DataFrame(rows)
+    per_game["thin"] = (per_game["player_games_in_phase"] < MIN_PHASE_GAMES) | (per_game["opponent_games_in_phase"] < MIN_PHASE_GAMES)
+
+    frame = moves.assign(
+        big=(moves["ep_loss"] >= TAIL[1]).astype(float),
+        blunder_cp=(moves["label"] == "blunder").astype(float),
+        phase_all="all",
+    )
+    measures = {"ep_loss": "expected points lost per move", "big": f"share of moves losing >= {TAIL[1]:g} expected points", "cp_loss": "centipawns lost per move", "blunder_cp": "share of moves losing >= 300 centipawns"}
+    rows = []
+    for label, part in group_frames(frame, groups):
+        for column, measure in measures.items():
+            t = pd.concat([compare_sides(part, column, by=["phase_all"], n_boot=N_BOOT).rename(columns={"phase_all": "phase"}), compare_sides(part, column, by=["phase"], n_boot=N_BOOT)], ignore_index=True)
+            t.insert(0, "measure", measure)
+            t.insert(0, "tc_group", label)
+            rows.append(t)
+    per_move = pd.concat(rows, ignore_index=True).rename(columns={"n": "moves"})
+    per_move["phase"] = pd.Categorical(per_move["phase"].astype(str), ["all", *PHASES], ordered=True)
+    per_move = per_move.sort_values(["measure", "phase"], kind="stable")
+    per_move["_g"] = per_move["tc_group"].map({g: i for i, g in enumerate(groups)})
+    per_move = per_move.sort_values(["_g", "measure", "phase"], kind="stable").drop(columns="_g")
+    per_move["thin"] = per_move["games"] < MIN_PHASE_GAMES
+    return per_game, per_move
+
+
+def chart_phase(table: pd.DataFrame, groups: list[str]):
+    fig, axes = charts.group_grid(groups, sharey=True, title="In which phase do you give away the most?", panel=(2.9, 2.4))
+    for g, ax in axes.items():
+        part = table[table["tc_group"] == g].copy()
+        for side in ("player", "opponent"):
+            for c in ("", "_lo", "_hi"):
+                part.loc[part["thin"], f"{side}{c}"] = np.nan
+        charts.side_bars(ax, part, "phase", order=PHASES)
+    charts.label_first_column(axes, "expected points given\naway per game")
+    charts.legend(fig, bbox_to_anchor=(1.0, 1.02))
+    charts.footnote(fig, "Sum over each side's moves in that phase (material heuristic), averaged over all games of the control (0 for games that never reached the phase). Whiskers: 95% CI, resampling games.")
+    fig.tight_layout()
+    return fig
+
+
+# --- 5. conversion and 6. saves -------------------------------------------------------------
+
+
+def outcome_arrays(part: pd.DataFrame) -> dict[str, np.ndarray]:
+    score = part["my_score"].to_numpy(float)
+    return {"player_win": (part["outcome"] == "win").to_numpy(float), "opponent_win": (part["outcome"] == "loss").to_numpy(float), "player_score": score, "opponent_score": 1 - score}
+
+
+def conversion_tables(g: pd.DataFrame, groups: list[str], tc_class: dict[str, str]) -> tuple[pd.DataFrame, pd.DataFrame]:
+    """Conversion (reached >= WIN_T) and saves (reached <= LOSE_T) per side; plus you-minus-opponents differences."""
+    rows, diffs = [], []
+    specs = {
+        "conversion": {"player": ("reached_winning", "my_ep_at_winning"), "opponent": ("opp_reached_winning", "opp_ep_at_winning")},
+        "save": {"player": ("reached_losing", "my_ep_at_losing"), "opponent": ("opp_reached_losing", "opp_ep_at_losing")},
+    }
+    for label, part in group_frames(g, groups, tc_class):
+        a = outcome_arrays(part)
+        ones = np.ones(len(part))
+        for kind, sides in specs.items():
+            per_side = {}
+            for side, (flag, ep_col) in sides.items():
+                cond = part[flag].fillna(False).to_numpy(float)
+                win = a[f"{side}_win"]
+                other_win = a["opponent_win" if side == "player" else "player_win"]
+                score = a[f"{side}_score"]
+                expected = part[ep_col].fillna(0.0).to_numpy(float)
+                rate_y = win if kind == "conversion" else 1 - other_win  # conversion: won; save: did not lose
+                row = {"tc_group": label, "situation": kind, "side": side}
+                row.update(ci_cols("reached", boot_rate(cond, ones)))
+                rate = boot_rate(rate_y, cond)
+                row.update(ci_cols("rate", rate))
+                row.update(ci_cols("score", boot_rate(score, cond)))
+                row["expected"] = boot_rate(expected, cond)[0]
+                row.update(ci_cols("excess", boot_rate(score - expected, cond)))
+                row["cases"] = rate[3]
+                row["games"] = len(part)
+                rows.append(row)
+                per_side[side] = (rate_y, score, expected, cond)
+            (py, ps, pe, pc), (oy, os_, oe, oc) = per_side["player"], per_side["opponent"]
+            d = {"tc_group": label, "situation": kind}
+            d.update(ci_cols("rate_diff", boot_rate_diff(py, pc, oy, oc)))
+            d.update(ci_cols("score_diff", boot_rate_diff(ps, pc, os_, oc)))
+            d.update(ci_cols("excess_diff", boot_rate_diff(ps - pe, pc, os_ - oe, oc)))
+            d["player_cases"], d["opponent_cases"] = int(pc.sum()), int(oc.sum())
+            d["games"] = len(part)
+            diffs.append(d)
+    table = add_elo(pd.DataFrame(rows), "expected", ["excess", "excess_lo", "excess_hi"])
+    table = blank_unbounded_elo(table, "expected", ["excess", "excess_lo", "excess_hi"])
+    table["thin"] = table["cases"] < MIN_CASES
+    diffs = add_points(pd.DataFrame(diffs), "rate_diff")
+    diffs["thin"] = (diffs["player_cases"] < MIN_CASES) | (diffs["opponent_cases"] < MIN_CASES)
+    return table, diffs
+
+
+def threshold_sensitivity(g: pd.DataFrame, groups: list[str], tc_class: dict[str, str]) -> pd.DataFrame:
+    rows = []
+    for label, part in group_frames(g, groups, tc_class):
+        a = outcome_arrays(part)
+        for t in SENSITIVITY_THRESHOLDS:
+            for side, prefix in SIDE_PREFIX:
+                win = a[f"{side}_win"]
+                other_win = a["opponent_win" if side == "player" else "player_win"]
+                conv = boot_rate(win, (part[f"{prefix}_p_win_max"] >= t).to_numpy(float))
+                save = boot_rate(1 - other_win, (part[f"{prefix}_p_win_min"] <= round(1 - t, 6)).to_numpy(float))
+                rows.append({"tc_group": label, "threshold": t, "side": side, **ci_cols("conversion", conv), "conversion_cases": conv[3], **ci_cols("save", save), "save_cases": save[3], "games": len(part)})
+    out = pd.DataFrame(rows)
+    out["thin"] = (out["conversion_cases"] < MIN_CASES) | (out["save_cases"] < MIN_CASES)
+    return out
+
+
+def model_by_side(m: pd.DataFrame, groups: list[str]) -> pd.DataFrame:
+    """Observed win rate of each side by the model's P(win) for that side after every move (even-handedness check)."""
+    frame = pd.DataFrame(
+        {
+            "tc_group": m["tc_group"].to_numpy(),
+            "game_uuid": m["game_uuid"].to_numpy(),
+            "player_p": m["my_p_win_after"].to_numpy(),
+            "opponent_p": m["opp_p_win_after"].to_numpy(),
+            "player_won": (m["outcome"] == "win").to_numpy(float),
+            "opponent_won": (m["outcome"] == "loss").to_numpy(float),
+        }
+    )
+    rows = []
+    labelled = [*group_frames(frame, groups), ("all games", frame)]
+    for label, part in labelled:
+        for lo, hi in zip(CALIBRATION_EDGES[:-1], CALIBRATION_EDGES[1:]):
+            row = {"tc_group": label, "p_win_bin": f"{lo:.1f}-{hi:.1f}", "bin_mid": (lo + hi) / 2}
+            for side in ("player", "opponent"):
+                p = part[f"{side}_p"]
+                cell = part[(p >= lo) & ((p < hi) if hi < 1 else (p <= hi))]
+                est = cluster_bootstrap_mean(cell[f"{side}_won"], cell["game_uuid"], n_boot=N_BOOT, seed=SEED)
+                row.update(ci_cols(f"{side}_observed", est))
+                row[f"{side}_positions"] = len(cell)
+                row[f"{side}_games"] = int(cell["game_uuid"].nunique())
+            rows.append(row)
+    out = pd.DataFrame(rows)
+    out["diff"] = out["player_observed"] - out["opponent_observed"]
+    out["thin"] = (out["player_games"] < MIN_CASES) | (out["opponent_games"] < MIN_CASES)
+    return out
+
+
+def chart_conversion(table: pd.DataFrame, groups: list[str]):
+    part = table[(table["situation"] == "conversion") & table["tc_group"].isin(groups)]
+    wide = part.pivot(index="tc_group", columns="side", values=["score", "score_lo", "score_hi", "expected", "thin"])
+    frame = pd.DataFrame({"tc_group": wide.index})
+    for side in ("player", "opponent"):
+        thin = wide[("thin", side)].astype(bool).to_numpy()
+        for c in ("", "_lo", "_hi"):
+            frame[f"{side}{c}"] = np.where(thin, np.nan, wide[(f"score{c}", side)].to_numpy(float))
+        frame[f"{side}_expected"] = np.where(thin, np.nan, wide[("expected", side)].to_numpy(float))
+    fig, ax = charts.single("How often do you convert a winning position?", size=(9.5, 3.6))
+    charts.side_bars(ax, frame, "tc_group", order=groups)
+    rank = {g: i for i, g in enumerate(groups)}
+    for k, side in enumerate(("player", "opponent")):
+        xs = frame["tc_group"].map(rank).to_numpy(float) + (k - 0.5) * 0.38
+        ax.scatter(xs, frame[f"{side}_expected"], marker="_", s=180, color=charts.INK, linewidths=1.6, zorder=4, label="model's expected score" if k == 0 else None)
+    for k, side in enumerate(("player", "opponent")):
+        for i, g in enumerate(groups):
+            if np.isnan(frame.loc[frame["tc_group"] == g, side]).all():
+                ax.text(i + (k - 0.5) * 0.38, CONVERSION_AXIS_FLOOR + 0.01, "thin", rotation=90, ha="center", va="bottom", fontsize=7, color=charts.INK_MUTED)
+    ax.set_ylim(CONVERSION_AXIS_FLOOR, 1.0)
+    percent_axis(ax)
+    ax.set_ylabel("score from positions\nrated >= 80% to win")
+    charts.rotate_labels(ax, 35)
+    charts.legend(fig, loc="upper center", bbox_to_anchor=(0.5, 0.0))
+    charts.footnote(fig, "\n\nScore (win 1, draw 0.5) in games where the side's model P(win) reached 80% at some point; black tick: the model's expected score at that first moment. Whiskers: 95% CI, resampling games.")
+    fig.tight_layout()
+    return fig
+
+
+def how_saved(g: pd.DataFrame, groups: list[str], tc_class: dict[str, str]) -> pd.DataFrame:
+    rows = []
+    for label, part in group_frames(g, groups, tc_class):
+        for side, flag, own, other in (("player", "reached_losing", "my_result", "opponent_result"), ("opponent", "opp_reached_losing", "opponent_result", "my_result")):
+            cond = part[flag].fillna(False).to_numpy(float)
+            r, o = part[own], part[other]
+            kinds = {
+                "won on time": (r == "win") & (o == "timeout"),
+                "won on the board": (r == "win") & (o != "timeout"),
+                "drawn on time": r == "timevsinsufficient",
+                "drawn by stalemate": r == "stalemate",
+                "drawn otherwise": r.isin(["repetition", "agreed", "insufficient", "50move"]),
+            }
+            saved = sum(k.to_numpy(float) for k in kinds.values()) * cond
+            for kind in SAVE_KINDS:
+                y = kinds[kind].to_numpy(float)
+                est = boot_rate(y, cond)
+                rows.append({"tc_group": label, "side": side, "how": kind, **ci_cols("share_of_lost_positions", est), "share_of_saves": float((y * cond).sum() / saved.sum()) if saved.sum() else np.nan, "saves_of_this_kind": int((y * cond).sum()), "saves": int(saved.sum()), "cases": est[3]})
+    out = pd.DataFrame(rows)
+    out["thin"] = out["cases"] < MIN_CASES  # share_of_lost_positions rests on cases
+    out["thin_share_of_saves"] = out["saves"] < MIN_CASES  # share_of_saves rests on the (often few) saves
+    return out
+
+
+def chart_saves(how: pd.DataFrame, saves: pd.DataFrame, groups: list[str], tc_class: dict[str, str]):
+    order, pooled = panel_order(groups, tc_class)
+    long = how.assign(segment=how["how"].map(SAVE_CHART_KINDS)).groupby(["tc_group", "side", "segment"], sort=False, as_index=False).agg(value=("share_of_lost_positions", "sum"), cases=("cases", "first"))
+    segments = list(dict.fromkeys(SAVE_CHART_KINDS.values()))
+    s = saves[saves["situation"] == "save"].rename(columns={"rate": "est", "rate_lo": "lo", "rate_hi": "hi"})
+    fig, ax = charts.single("How often do you save a lost position, and how?", size=(10.5, 3.8))
+    stacked_sides(ax, long, order, segments, "value", "cases", total=s, pooled=pooled)
+    percent_axis(ax)
+    ax.set_ylabel("share of positions rated\n<= 20% to win not lost")
+    charts.rotate_labels(ax, 35)
+    stacked_legend(fig, segments, loc="upper center", bbox_to_anchor=(0.5, 0.0), fontsize=8)
+    charts.footnote(fig, "\n\nGames in which the side's model P(win) fell to 20% or less at some point; bar height: share not lost (whisker: 95% CI, resampling games), split by how the game ended. 'all ...': the controls of a class pooled.")
+    fig.tight_layout()
+    return fig
+
+
+# --- 7. lost while still alive -------------------------------------------------------------
+
+
+def alive_tables(g: pd.DataFrame, groups: list[str], tc_class: dict[str, str]) -> pd.DataFrame:
+    decided = g[g["outcome"].isin(["win", "loss"])].copy()
+    decided["alive"] = ~decided["decisive_found"].fillna(False).astype(bool) & ~decided["lost_without_blunder"].fillna(False).astype(bool)
+    rows = []
+    for label, part in group_frames(decided, groups, tc_class):
+        lost, won = (part["outcome"] == "loss").to_numpy(float), (part["outcome"] == "win").to_numpy(float)
+        alive = part["alive"].to_numpy(float)
+        # loser's termination: your result in your losses, the opponent's in your wins
+        term = np.where(part["outcome"] == "loss", part["my_result"], part["opponent_result"])
+        for t in ["any", *ALIVE_TERMINATIONS]:
+            is_t = np.ones(len(part)) if t == "any" else (term == t).astype(float)
+            y = alive * is_t
+            p, o = boot_rate(y, lost), boot_rate(y, won)
+            row = {"tc_group": label, "termination": t, **ci_cols("player", p), **ci_cols("opponent", o), **ci_cols("diff", boot_rate_diff(y, lost, y, won))}
+            pw, ow = boot_rate(alive, lost * is_t), boot_rate(alive, won * is_t)
+            row.update(ci_cols("player_within", pw))
+            row.update(ci_cols("opponent_within", ow))
+            row["player_term_share"] = float((is_t * lost).sum() / lost.sum())
+            row["opponent_term_share"] = float((is_t * won).sum() / won.sum())
+            # the loser's P(win) after their last own move (missing when the loser never moved)
+            pl = part["loser_last_p_win"].to_numpy(float)
+            known = (~np.isnan(pl)).astype(float)
+            row.update(ci_cols("player_last_p_win", boot_rate(pl, lost * is_t * alive * known)))
+            row.update(ci_cols("opponent_last_p_win", boot_rate(pl, won * is_t * alive * known)))
+            row["player_cases"], row["opponent_cases"] = pw[3], ow[3]
+            row["player_losses"], row["opponent_losses"] = p[3], o[3]
+            rows.append(row)
+    out = add_points(pd.DataFrame(rows), "diff")
+    out["thin"] = (out["player_cases"] < MIN_CASES) | (out["opponent_cases"] < MIN_CASES)
+    return out
+
+
+def chart_alive(table: pd.DataFrame, groups: list[str], tc_class: dict[str, str]):
+    order, pooled = panel_order(groups, tc_class)
+    long, total = [], []
+    for _, r in table.iterrows():
+        for side in ("player", "opponent"):
+            if r["termination"] == "any":
+                total.append({"tc_group": r["tc_group"], "side": side, "est": r[side], "lo": r[f"{side}_lo"], "hi": r[f"{side}_hi"]})
+            else:
+                long.append({"tc_group": r["tc_group"], "side": side, "segment": r["termination"], "value": r[side], "n": r[f"{side}_losses"]})
+    fig, ax = charts.single("How many of your losses came while you still had chances?", size=(10.5, 3.8))
+    stacked_sides(ax, pd.DataFrame(long), order, ALIVE_TERMINATIONS, "value", "n", total=pd.DataFrame(total), pooled=pooled)
+    percent_axis(ax)
+    ax.set_ylabel("share of the side's lost games\nended with P(win) >= 10%")
+    charts.rotate_labels(ax, 35)
+    stacked_legend(fig, ["lost on time", "resigned", "checkmated", "abandoned"], loc="upper center", bbox_to_anchor=(0.5, 0.0), fontsize=8)
+    charts.footnote(fig, "\n\nBlue: your losses; grey: your opponents' losses (your wins). Still alive: the loser's model P(win) after their own last move was 10% or more; split by how the game ended. Whisker: 95% CI, resampling games. 'all ...': the controls of a class pooled.")
+    fig.tight_layout()
+    return fig
+
+
+# --- data counts ---------------------------------------------------------------------------
+
+
+def data_counts(games: pd.DataFrame, g: pd.DataFrame, groups: list[str], noted: dict[str, int]) -> pd.DataFrame:
+    rows = []
+    gap = opponent_rating_pre(g) - g["my_rating_before"].astype(float)
+    for label in groups:
+        all_g = games[games["tc_group"] == label]
+        part = g[g["tc_group"] == label]
+        gp = gap[g["tc_group"] == label]
+        rows.append(
+            {
+                "tc_group": label, "reported": True, "games": len(all_g), "games_with_moves": len(part),
+                "wins": int((part["outcome"] == "win").sum()), "draws": int((part["outcome"] == "draw").sum()), "losses": int((part["outcome"] == "loss").sum()),
+                "player_moves": int(part["my_moves"].sum()), "opponent_moves": int(part["opp_moves"].sum()),
+                "median_abs_rating_gap": float(gp.abs().median()), "mean_rating_gap": float(gp.mean()),
+            }  # fmt: skip
+        )
+    for label, n in noted.items():
+        rows.append({"tc_group": label, "reported": False, "games": n})
+    out = pd.DataFrame(rows)
+    counts = ["games_with_moves", "wins", "draws", "losses", "player_moves", "opponent_moves"]
+    out[counts] = out[counts].astype("Int64")
+    return out
+
+
+# --- main ----------------------------------------------------------------------------------
+
+
 def main() -> None:
     t0 = time.time()
+    charts.style()
     data = load_data()
-    figure_style()
     games = data.games.copy()
     decomposed = decompose_games(data.moves, games)
     table_path = write_table(decomposed, data.username)
     print(f"wrote {table_path} ({len(decomposed):,} rows, {len(decomposed.columns)} columns)")
 
-    g = games.merge(decomposed, on="uuid", how="left")
-    g = g[g["n_plies"].notna() & g["time_class"].isin(TIME_CLASSES)]
-    moves = data.moves[data.moves["time_class"].isin(TIME_CLASSES)]
+    groups, tc_class = data.tc_groups, data.tc_class
+    moves = data.moves[data.moves["tc_group"].isin(groups)].copy()
+    moves["tc_group"] = moves["tc_group"].astype(str)
+    m = with_player_view(moves)
+    reach = first_reach(m)
+    games["tc_group"] = games["tc_group"].astype(str)
+    g = games.merge(decomposed, on="uuid", how="left").merge(reach, on="uuid", how="left")
+    g = g[g["n_plies"].notna() & g["tc_group"].isin(groups)].reset_index(drop=True)
+    results = Results(SLUG)
 
-    report = Report(SLUG, "Where points are won and lost: your mistakes vs your opponents'")
-    report.text(
-        f"Data: {len(g):,} standard live games with at least one move ({(g['time_class'] == 'bullet').sum():,} bullet, "
-        f"{(g['time_class'] == 'blitz').sum():,} blitz, {(g['time_class'] == 'rapid').sum():,} rapid) and {len(moves):,} analysed moves "
-        f"({int(moves['is_player_move'].sum()):,} yours), player {data.username}. Numbers are estimate [95% CI], CIs bootstrapped by game "
-        f"({N_BOOT} resamples). `ep_loss` is the calibrated expected points a move gives away; `cp_loss` is the secondary measure. "
-        "Every number about you sits next to the opponents' number from the same games."
-    )
-    budget = section_budget(report, g)
-    tail20 = section_errors(report, moves)
-    decisive = section_decisive(report, g)
-    curves, on_time = section_conversion(report, g)
-    section_sanity(report, g, moves)
+    points, budget, check = points_per_game(g, groups)
+    results.table("1_points_per_game", points, "Expected points each side gave away per game (sum of its moves' ep_loss), you (player) vs opponents in the same games; diff = you minus opponents (paired, CIs resample games); margin = opponents minus you with its Elo-equivalent around an even score; centipawns per game as the secondary measure.")
+    results.table("1b_score_budget", budget, "Score vs the model's expected score at move 1 (expected), with Elo-equivalent; score ~ expected - your ep lost + their ep lost + residual (resignations, flags, end-of-game model error, clipping at 0); correlation of net ep with score.")
+    results.table("1c_net_ep_check", check, "Sanity check: your score by net expected points (opponents' lost minus yours) per game, with the model's expected points at move 1 and after the last move.")
+    results.figure(chart_points(points, groups), "1_points_per_game")
+    print(f"1 done at {time.time() - t0:.0f} s")
 
-    report.heading("Output table")
-    report.text(
-        f"`data/{data.username}/games_decomposed.parquet`: one row per standard live game ({len(decomposed):,} rows, same order as `load_data().games`), "
-        "keyed by `uuid`. Columns: `n_plies`; `my_ep_start`/`my_ep_end`/`my_p_win_start`/`my_p_win_end` (your expected points and P(win) before move 1 and after the last move); "
-        "per side (`my_`/`opp_`): `ep_lost`, `cp_lost`, `ep_gained`, `moves`, `blunders`, `mistakes`, `inaccuracies`, `errors_ge_10/20/30` (moves with ep_loss ≥ 0.1/0.2/0.3), "
-        "`ep_lost_opening/middlegame/endgame`, `max_ep_loss`, `p_win_max`, `p_win_min`; `net_ep` = opp_ep_lost − my_ep_lost; "
-        "`reached_winning`/`reached_losing`/`opp_reached_winning`/`opp_reached_losing` (P(win) ≥ 0.8 / ≤ 0.2 at some point); "
-        "decided games only (null for draws): `loser_last_p_win` (loser's P(win) after their last own move); for games that ended lost on the board (< 0.1): `slide_start_ply` (last own move from P(win) ≥ 0.2), "
-        "`decisive_ply` (the loser's costliest move from there to the end), `decisive_found` (that move lost ≥ 0.05 ep), `lost_without_blunder` (it did not), `decisive_is_last_playable`, `decisive_by` (the loser's side: player/opponent), "
-        "`decisive_ep_loss`, `decisive_cp_loss`, `decisive_label`, `decisive_phase`, `decisive_p_win_before`/`decisive_p_win_after` (loser's P(win) around it), `decisive_clock_before` (mover's clock, s), `decisive_plies_from_end`, "
-        "and the stricter (playable ≥ 0.3, lost < 0.15) versions `decisive_strict_found/ply/ep_loss/phase`. Games lost while still alive have `decisive_found` and `lost_without_blunder` both False with outcome win/loss and null decisive columns."
-    )
+    conc, tail = concentration(moves, groups)
+    results.table("2_concentration", conc, "Share of all expected points a side gave away that came from its costliest x% of moves (top_share_of_moves), you vs opponents; diff = you minus opponents; CIs resample games.")
+    results.table("2b_big_errors", tail, "Moves losing at least min_ep_loss expected points: share of moves (and per 100 moves) and share of all expected points lost that they carry (damage_share), you vs opponents; CIs resample games.")
+    results.figure(chart_concentration(conc, groups), "2_concentration")
+    print(f"2 done at {time.time() - t0:.0f} s")
 
-    # Numbers for the closing paragraph and caveats, all computed from the tables above or the data (nothing hardcoded).
-    conv_b = curves[(curves["time_class"] == "bullet") & (curves["threshold"] == 0.8)].set_index("side")
-    swin_b = conv_b
-    worst = tail20.loc[tail20["diff"].idxmax()]
-    found_rates = [v["found_given_on_board"] for v in decisive.values()]
-    ep_means = [v["decisive_ep"] for v in decisive.values()]
-    alive = lambda who: " / ".join(f"{decisive[(tc, who)]['alive']:.0%}" for tc in TIME_CLASSES)  # noqa: E731
-    n_draws = int((g["outcome"] == "draw").sum())
-    n_no_moves = int((games["time_class"].isin(TIME_CLASSES) & ~games["uuid"].isin(g["uuid"])).sum())
-    n_rapid = int((g["time_class"] == "rapid").sum())
-    # Opponent pre-game rating reconstructed as in the calibration step (post-game rating + your rating change); a descriptor only, never a predictor.
-    gap = (g["opponent_rating_after"] + g["my_rating_change"]) - g["my_rating_before"]
-    brier = calibration_brier()
-    report.heading("What this means for the player")
-    report.text(
-        "At this level games are not won by playing better than the opponent on average: both sides leak about a point of expected score per game "
-        f"and the paired difference is a few hundredths (bullet {fmt(*budget['bullet'])}, blitz {fmt(*budget['blitz'])}, rapid {fmt(*budget['rapid'])} in your favour). "
-        f"Games are decided by the tail: the ~10% of moves that lose 0.1 or more carry more than half the damage, and in {min(found_rates):.0%}–{max(found_rates):.0%} of games lost on the board a single "
-        f"move of the loser costing 0.05 or more can be named, typically an endgame move costing {min(ep_means):.2f}–{max(ep_means):.2f}. Your edge over the field is not fewer mistakes; it is what happens after the position is clear: from positions the model rates the same "
-        f"you convert more (bullet {conv_b.loc['player', 'conversion']:.0%} vs {conv_b.loc['opponent', 'conversion']:.0%} from ≥ 80%) and escape more "
-        f"(bullet {swin_b.loc['player', 'swindle']:.0%} vs {swin_b.loc['opponent', 'swindle']:.0%} from ≤ 20%), largely by winning on time: "
-        f"{on_time[('bullet', 'you')]:.0%} of your bullet swindle wins came by the opponent flagging, against {on_time[('bullet', 'opponents')]:.0%} of theirs "
-        f"(blitz {on_time[('blitz', 'you')]:.0%} vs {on_time[('blitz', 'opponents')]:.0%}). "
-        f"The cell where your own big errors are most frequent relative to opponents is {worst['time_class']} {worst['phase']} moves losing ≥ 0.2 "
-        f"({worst['player']:.3f} vs {worst['opponent']:.3f} per move, difference {fmt(worst['diff'], worst['diff_lo'], worst['diff_hi'])}); your bullet endgames are your cleanest phase relative to the field. "
-        f"The other visible leak is games lost while the model still gave you chances ({alive('you')} of your bullet / blitz / rapid losses, against {alive('opponents')} for opponents): "
-        "flags, resignations and mates the clock might have averted, which Q4 and Q7 take up."
-    )
-    report.heading("Caveats")
-    report.text(
-        "- The baseline is engine-perfect play (Stockfish 17.1, 1M nodes): `ep_loss` is relative to the best move, so a 'loss' can be a move no human would find.\n"
-        "- `ep_loss` is clipped at zero and each position is evaluated separately, so per-game sums do not telescope exactly to the result; the residual in section 1 absorbs resignations, flag falls and end-of-game model error.\n"
-        f"- P(win) comes from a model calibrated on these same games ({brier}) that is under-confident at the extremes (section 5): 'reached ≥ 80%' positions are won about 90–95% of the time, and 'lost while still alive' is judged by a model that keeps flag chances alive in bullet even at +10. The strict column in section 3 shows how the shares move with the thresholds.\n"
-        "- The P(win) model is pooled over both sides; you out-perform it in every probability bin and opponents under-perform it, so absolute conversion rates are model-relative; the you-vs-them comparison is the robust part.\n"
-        f"- The decisive-mistake rule credits a game to one move: the costliest of the loser's final slide from the last playable (≥ {DECISIVE_HI:.0%}) position; slides with several comparable mistakes are credited to the largest, and slides with no move costing {MIN_DECISIVE_EP:.2f} are counted separately. Only the loser's moves are candidates, so 'who made it' is always the loser.\n"
-        "- Phase is the material heuristic; 'opening' includes many moves beyond book.\n"
-        f"- Opponents are matched by rating: reconstructing the opponent's pre-game rating as their post-game rating plus your rating change (a rough descriptor, not used as a predictor anywhere), the gap to your pre-game rating has median |gap| {gap.abs().median():.0f} points, mean |gap| {gap.abs().mean():.0f}, mean signed gap {gap.mean():+.1f}, so you-vs-them differences describe how you differ from the field at your level, not an absolute standard. Rapid has only {n_rapid:,} games.\n"
-        f"- {n_no_moves} standard live game(s) ended before the first move and are excluded from the report (they are in the table with null decomposition); draws ({n_draws:,}) have no decisive mistake by construction.\n"
-        f"- Bootstrap CIs use {N_BOOT} resamples by game; per-game numbers treat each game as one cluster."
-    )
-    path = report.write()
-    print(f"wrote {path} in {time.time() - t0:.0f}s")
+    decisive, profile, decisive_clock = decisive_tables(g, groups)
+    results.table("3_decisive", decisive, "Decided games by how the loser lost: player = share of your losses, opponent = share of your opponents' losses (your wins); diff = you minus opponents (diff_pp in percentage points); base 'games lost on the board' restricts to games where the loser's P(win) after their last move was < 10%. CIs resample games.")
+    results.table("3b_decisive_profile", profile, "What the decisive blunder looks like (games with one): its expected points and centipawns lost, the loser's P(win) before/after, share played from the last playable position, plies before the end, clock before it (seconds, beyond one increment, share of base) and phase shares; player = in your losses.")
+    results.table("3c_decisive_clock", decisive_clock, "Clock before the decisive blunder (games with one), you (in your losses) vs opponents (in your wins), in seconds left, seconds beyond one increment and share of the base time; diff = you minus opponents, both computed on the same resampled games.")
+    results.figure(chart_decisive(decisive, groups), "3_decisive")
+    print(f"3 done at {time.time() - t0:.0f} s")
+
+    per_game_phase, per_move_phase = phase_tables(g, moves, groups)
+    results.table("4_phase", per_game_phase, "Expected points given away per game in each phase (0 for games that never reached it), you vs opponents; diff = you minus opponents (paired); share_of_total = the phase's share of all expected points the side gave away.")
+    results.table("4b_phase_per_move", per_move_phase, "Per-move measures by phase (and 'all'), you vs opponents in the same games (compare_sides): expected points lost per move, share of moves losing >= 0.2, centipawns lost per move, share of moves losing >= 300 cp.")
+    results.figure(chart_phase(per_game_phase, groups), "4_phase")
+    print(f"4 done at {time.time() - t0:.0f} s")
+
+    conv, conv_diff = conversion_tables(g, groups, tc_class)
+    results.table("5_conversion", conv, "Conversion (side's model P(win) reached >= 0.8: rate = share won) and saves (fell to <= 0.2: rate = share not lost), per side: actual score vs the model's expected score at the first such position (excess, with Elo-equivalent); reached = share of games. 'all <class>' rows pool the controls of a class.")
+    results.table("5b_conversion_diff", conv_diff, "You minus opponents for the rates, scores and excess over the model in 5_conversion, computed on the same resampled games; rate_diff_pp = the rate difference in percentage points.")
+    results.table("5c_threshold_sensitivity", threshold_sensitivity(g, groups, tc_class), "Conversion (P(win) reached >= threshold: share won) and save (fell to <= 1 - threshold: share not lost) rates for other thresholds, per side.")
+    results.table("5d_model_by_side", model_by_side(m.merge(g[["uuid"]], left_on="game_uuid", right_on="uuid"), groups), "Even-handedness check of the P(win) model: observed win rate of each side by the model's P(win) for that side after every move (bin_mid = what a calibrated, side-blind model would give); CIs resample games.")
+    results.figure(chart_conversion(conv, groups), "5_conversion")
+    print(f"5 done at {time.time() - t0:.0f} s")
+
+    how = how_saved(g, groups, tc_class)
+    results.table("6_saves_how", how, "Games where a side's model P(win) fell to <= 0.2: share that ended in each kind of save (won on time = the other side flagged; drawn on time = timeout vs insufficient material), as a share of those games (with CI) and of all saves; thin = fewer than 30 such games, thin_share_of_saves = fewer than 30 saves. 'all <class>' rows pool the controls of a class.")
+    results.figure(chart_saves(how, conv, groups, tc_class), "6_saves")
+    print(f"6 done at {time.time() - t0:.0f} s")
+
+    alive = alive_tables(g, groups, tc_class)
+    results.table("7_lost_with_chances", alive, "Decided games the loser lost while the model still gave them P(win) >= 0.1 after their own last move, by the loser's termination ('any' = all): player/opponent = share of the side's losses (diff = you minus opponents, diff_pp in percentage points); *_within = share among losses with that termination; *_last_p_win = loser's P(win) after their last move in those games; *_term_share = share of losses with that termination. 'all <class>' rows pool controls.")
+    results.figure(chart_alive(alive, groups, tc_class), "7_lost_with_chances")
+
+    results.table("8_data", data_counts(games, g, groups, data.tc_noted), "Games per time control: reported controls with games, games with at least one move, results, moves per side and the rating gap to the opponent (pre-game proxy: opponent's post-game rating plus your change, minus your pre-game rating); thin controls are listed with reported = False.")
+    results.finish()
+    print(f"done in {time.time() - t0:.0f} s")
 
 
 if __name__ == "__main__":

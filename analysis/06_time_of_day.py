@@ -1,676 +1,465 @@
 """Q6: time of day and day of week.
 
-When do you play best, after controlling for session position, time class
-and the opponents? Hours are `local_hour` (Europe/London) and `weekday` from
-`my_games`. The analysis reuses Q5's session features and per-game metric
-machinery (imported from analysis/05_sessions.py via importlib): hourly
-buckets and six hour bands with session-clustered CIs, the opponents' error
-in the same games as the pool control, weekday and weekday x band cells,
-and a per-game regression with the session controls Q5 recommends
-(last game of the session, previous result, game number, minutes), time
-class, year and pre-game rating, with a session-level permutation test of
-the hour-band terms.
+Do you score better at some hours or on some days, once the sessions, your
+rating and the year are accounted for? Hours are `local_hour` (the configured
+timezone) and `weekday` from `my_games`. The per-game frame and session
+machinery come from `chess_analysis.sessions` (shared with Q5). Computed per
+exact time control (`data.tc_groups`) plus an "all games" pool:
 
-Run: .venv/bin/python analysis/06_time_of_day.py
+- score minus the calibration model's pre-game expectation (with Elo-equivalents)
+  and both sides' expected points lost per move, by hour band (and pooled by
+  hour) and by weekday; weekend minus weekday;
+- hour band x weekday, pooled by time class (per control nearly every cell
+  is thin);
+- raw band differences next to the same differences from a per-game
+  regression with pre-game session controls (previous result, game number,
+  minutes into the session), weekend, pre-game rating, year (and the
+  control, in the pool), with a session-level permutation test of the
+  hour-band block;
+- the raw band numbers in 2021-23 and 2024-26 separately;
+- the share of your (and your opponents') losses that were on time, by band.
+
+CIs resample whole sessions throughout: the games of one session share an
+hour, a mood and a pool of opponents. Writes CSVs to
+presentation/data/06_time_of_day/ and SVGs to
+presentation/figures/06_time_of_day/ (no prose).
+
+Run: .venv/bin/python analysis/06_time_of_day.py   (about a minute; the regressions and the 300-shuffle test dominate)
 """
 
 from __future__ import annotations
 
-import importlib.util
 import time
-from collections.abc import Callable, Sequence
+import warnings
 
 import numpy as np
 import pandas as pd
 
-from chess_analysis.toolkit import SIDE_COLOURS, TIME_CLASSES, Report, figure_style, load_data, repo_root
+from chess_analysis import charts
+from chess_analysis import sessions as S
+from chess_analysis.charts import blank_thin, finish_grid, panel_estimates
+from chess_analysis.config import load_settings
+from chess_analysis.sessions import ALL, MIN_CELL_GAMES, MIN_SESSIONS, counts, groups_with_all, subset, thin_cell
+from chess_analysis.toolkit import Results, cluster_ols, dummies, excess_to_elo, load_data, repo_root
 
 SLUG = "06_time_of_day"
-N_BOOT = 500
+N_BOOT = S.N_BOOT
 SEED = 6
-N_PERM = 300
-MIN_GAMES = 20
-CLUSTER = "session_id"  # games of one session share an hour, a mood and a pool: CIs are clustered by session throughout
+N_PERM = 300  # permutations of the band labels: resolves a p-value near 0.05 to about +-0.013
+CLUSTER = "session_id"
 
-# Hour bands (local time, Europe/London). Hours 1-6 are thin (<60 games each) and are merged with 0 into "night".
+# A cell is thin (sessions.thin_cell) under MIN_CELL_GAMES games or MIN_SESSIONS sessions.
+MIN_CELL_LOSSES = MIN_CELL_GAMES  # the same floor for shares of losses (flag share)
+MIN_GAMES_PER_COEF = 10  # OLS needs about this many games per coefficient before its estimates settle
+
+# Hour bands (local time). Hours 1-6 hold under 60 games each, so they are merged with midnight into "night";
+# the day is cut where your playing pattern changes (morning before lunch, the afternoon block, evening, late).
 BAND_EDGES = [0, 7, 12, 15, 18, 21, 24]
 BAND_LABELS = ["night 0-6", "morning 7-11", "midday 12-14", "afternoon 15-17", "evening 18-20", "late 21-23"]
-REF_BAND = "afternoon 15-17"  # the busiest band is the regression reference
-HOUR_ORDER = ["0", "1-6"] + [str(h) for h in range(7, 24)]
+LATE_BANDS = ["late 21-23", "night 0-6"]  # "late at night": from 21:00 to 06:59
+THIN_HOURS = range(1, 7)  # pooled as one bucket in the hour-by-hour table, for the same reason
 WEEKDAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
-WEEKEND = {"Saturday", "Sunday"}
+WEEKEND = ["Saturday", "Sunday"]
+SPLIT_YEAR = 2024  # 2021-23 vs 2024-26: two roughly equal halves of the history, the split the question asks for
 
-_spec = importlib.util.spec_from_file_location("q5", repo_root() / "analysis" / "05_sessions.py")
-q5 = importlib.util.module_from_spec(_spec)
-_spec.loader.exec_module(q5)
+MINUTES_SCALE = 30  # regression coefficient per half hour into the session
+RATING_SCALE = 100  # and per 100 rating points
 
-# Per-game metrics: Q5's plus the opponents' flag share and the cp pair difference.
-METRICS = {
-    **q5.METRICS,
-    "opp_timeout_share": ("their flags / their losses", "opp_lost_on_time", "opp_is_loss", 1.0),
-    "cp_gap": ("your − their cp / move", ("my_cp_lost", "my_moves", "opp_cp_lost", "opp_moves"), "pairdiff", 1.0),
-}
-FMT = {
-    "excess_model": ".3f", "excess_elo": ".3f", "score": ".3f", "my_ep": ".4f", "opp_ep": ".4f", "ep_gap": ".4f", "my_err20": ".2f",
-    "my_cp": ".1f", "opp_cp": ".1f", "cp_gap": ".1f", "timeout_share": ".3f", "opp_timeout_share": ".3f", "lost_on_time": ".3f",
-    "resign_share": ".3f", "my_sec": ".2f", "opp_sec": ".2f",
-}  # fmt: skip
-HEADLINE = ["excess_model", "my_ep", "opp_ep", "ep_gap", "timeout_share"]
-FULL = ["excess_model", "my_ep", "opp_ep", "ep_gap", "my_cp", "opp_cp", "timeout_share", "opp_timeout_share", "resign_share", "my_sec", "opp_sec"]
+CHANCE_LEVEL = 0.05  # share of cells whose 95% CI excludes zero when nothing is going on
+CONTROLS_SUMMED = "all controls, cells summed"  # row of the clear-cell counts that adds up the per-control cells
+
+QUALITY = ["excess", "my_ep", "opp_ep", "ep_gap"]
 
 
-# --- metrics (Q5's bootstrap over per-cluster sums, with the extended metric table) --------------
+# --- helpers ------------------------------------------------------------------------------------------
 
 
-def _metric_spec(name: str) -> tuple[list[str], Callable[[np.ndarray], np.ndarray], float]:
-    _, num, den, scale = METRICS[name]
-    if den == "pairdiff":
-        return list(num), q5._ratio_diff, scale
-    return [num, den or "_one"], q5._ratio, scale
+def by_level(games: pd.DataFrame, groups: list[str], column: str, levels: list[str], names: list[str]) -> pd.DataFrame:
+    """sessions.by_level with this question's cluster and seed."""
+    return S.by_level(games, groups, column, levels, names, cluster=CLUSTER, seed=SEED)
 
 
-def metric(frame: pd.DataFrame, name: str, cluster: str = CLUSTER, n_boot: int = N_BOOT) -> tuple[float, float, float]:
-    cols, stat, scale = _metric_spec(name)
-    est, lo, hi = q5.boot_sums(frame.assign(_one=1.0), cols, cluster, stat, n_boot=n_boot, seed=SEED)
-    return est * scale, lo * scale, hi * scale
+def clear_cells(table: pd.DataFrame, level: str, controls: list[str]) -> pd.DataFrame:
+    """Per group, and summed over the single controls: usable (not thin) cells, cells whose 95% CI excludes zero, and how many chance alone would give."""
+    rows = []
+    for group in [*controls, CONTROLS_SUMMED, ALL]:
+        part = table[table["tc_group"].isin(controls)] if group == CONTROLS_SUMMED else table[table["tc_group"] == group]
+        usable = part[~part["thin"]]
+        clear = usable[(usable["excess_lo"] > 0) | (usable["excess_hi"] < 0)]
+        rows.append({"tc_group": group, "level": level, "cells": len(part), "cells_thin": int(part["thin"].sum()), "cells_usable": len(usable),
+                     "cells_ci_clear_of_zero": len(clear), "cells_clear_above_zero": int((clear["excess"] > 0).sum()), "cells_clear_below_zero": int((clear["excess"] < 0).sum()),
+                     "cells_clear_expected_by_chance": CHANCE_LEVEL * len(usable)})  # fmt: skip
+    return pd.DataFrame(rows)
 
 
-def metric_diff(a: pd.DataFrame, b: pd.DataFrame, name: str, cluster: str = CLUSTER, n_boot: int = N_BOOT) -> tuple[float, float, float]:
-    """metric(a) − metric(b) on the same resampled clusters (a and b may share sessions)."""
-    cols, stat, scale = _metric_spec(name)
-    m = len(cols)
-    both = pd.concat([a.assign(_one=1.0, _a=1.0), b.assign(_one=1.0, _a=0.0)])
-    for c in cols:
-        both[f"{c}__a"] = both[c] * both["_a"]
-        both[f"{c}__b"] = both[c] * (1 - both["_a"])
-    all_cols = [f"{c}__a" for c in cols] + [f"{c}__b" for c in cols]
-    est, lo, hi = q5.boot_sums(both, all_cols, cluster, lambda s: stat(s[:, :m]) - stat(s[:, m:]), n_boot=n_boot, seed=SEED)
-    return est * scale, lo * scale, hi * scale
+def short_band(label: str) -> str:
+    return label.split(" ", 1)[1]
 
 
-def fmt(est: float, lo: float, hi: float, f: str = ".3f") -> str:
-    return q5.fmt(est, lo, hi, f=f)
+# --- frame -----------------------------------------------------------------------------------------------
 
 
-def cell(frame: pd.DataFrame, name: str, min_games: int = MIN_GAMES) -> str:
-    if len(frame) < min_games:
-        return ""
-    return fmt(*metric(frame, name), f=FMT[name])
-
-
-def excludes_zero(lo: float, hi: float) -> bool:
-    return q5.excludes_zero(lo, hi)
-
-
-def pct(x: float) -> str:
-    return f"{100 * x:.0f}%"
-
-
-# --- frame --------------------------------------------------------------------------------------
-
-
-def build(data, decomposed: pd.DataFrame) -> pd.DataFrame:
-    games = q5.build_games(data, decomposed)
-    games = q5.add_move_metrics(games, data.moves)
-    games["opp_is_loss"] = (games["outcome"] == "win").astype(float)
-    games["band"] = pd.cut(games["local_hour"], BAND_EDGES, labels=BAND_LABELS, right=False)
-    games["hour_bucket"] = np.where(games["local_hour"].between(1, 6), "1-6", games["local_hour"].astype(str))
+def build(data, decomposed: pd.DataFrame, gap: float) -> pd.DataFrame:
+    games = S.build_games(data, decomposed, gap)
+    games = games[games["tc_group"].isin(data.tc_groups)].reset_index(drop=True)
+    games["band"] = pd.cut(games["local_hour"], BAND_EDGES, labels=BAND_LABELS, right=False).astype(str)
+    first_thin, last_thin = min(THIN_HOURS), max(THIN_HOURS)
+    games["hour"] = np.where(games["local_hour"].isin(THIN_HOURS), f"{first_thin}-{last_thin}", games["local_hour"].astype(int).astype(str))
     games["is_weekend"] = games["weekday"].isin(WEEKEND)
-    games["daytype"] = np.where(games["is_weekend"], "weekend", "weekday")
-    games["prev_loss"] = (games["prev_outcome"] == "loss").astype(float)
-    games["prev_win"] = (games["prev_outcome"] == "win").astype(float)
-    games["date"] = games["local_start"].dt.date
+    games["period"] = np.where(games["year"] < SPLIT_YEAR, f"{games['year'].min()}-{SPLIT_YEAR - 1}", f"{SPLIT_YEAR}-{games['year'].max()}")
     return games
 
 
-def metric_table(games: pd.DataFrame, by: str, order: Sequence, names: Sequence[str], label: str, extra_counts: bool = True) -> pd.DataFrame:
-    rows = []
-    for level in order:
-        part = games[games[by].astype(str) == str(level)]
-        row = {label: str(level), "games": len(part)}
-        if extra_counts:
-            row["sessions"] = int(part[CLUSTER].nunique())
-        for name in names:
-            row[METRICS[name][0]] = cell(part, name)
-        rows.append(row)
-    return pd.DataFrame(rows)
+def hour_order() -> list[str]:
+    thin = f"{min(THIN_HOURS)}-{max(THIN_HOURS)}"
+    return [str(h) for h in range(0, min(THIN_HOURS))] + [thin] + [str(h) for h in range(max(THIN_HOURS) + 1, 24)]
 
 
-def values_table(games: pd.DataFrame, by: str, order: Sequence, name: str, min_games: int = MIN_GAMES) -> pd.DataFrame:
-    rows = []
-    for level in order:
-        part = games[games[by].astype(str) == str(level)]
-        est, lo, hi = metric(part, name) if len(part) >= min_games else (np.nan, np.nan, np.nan)
-        rows.append({"level": str(level), "games": len(part), "est": est, "lo": lo, "hi": hi})
-    return pd.DataFrame(rows)
+# --- 6.1 hour bands --------------------------------------------------------------------------------------
 
 
-# --- sections -----------------------------------------------------------------------------------
+def q1_hours(results: Results, games: pd.DataFrame, data) -> None:
+    groups = groups_with_all(data)
+    table = by_level(games, groups, "band", BAND_LABELS, QUALITY)
+    totals = {g: len(subset(games, g)) for g in groups}
+    table.insert(2, "share_of_games", table["games"] / table["tc_group"].map(totals))
+    results.table("1_hour_band", table, "By hour band of the game's local start: score minus model expectation (with Elo), both sides' expected points lost per move and their difference. CIs resample sessions.")
+    results.table("1b_hour", by_level(games, [ALL], "hour", hour_order(), QUALITY), "The same hour by hour, all games pooled (hours 1-6 merged: too few games each).")
+    results.table("1e_clear_cells", clear_cells(table, "hour band", list(data.tc_groups)), f"How many control x hour-band cells of 1_hour_band have a score CI clear of zero, against the number expected by chance ({CHANCE_LEVEL:g} of usable cells).")
 
-
-def section_when(report: Report, games: pd.DataFrame) -> dict:
-    report.heading("1. When you play, and what differs between the hours")
-    report.text(
-        f"Hours are the local start time in Europe/London (`local_hour`), the configured timezone; the six bands merge the thin night hours "
-        f"(hours 1–6 hold {int(games['local_hour'].between(1, 6).sum())} games together). Before comparing play across the hours it matters what else differs "
-        "between them: the time-class mix, your rating (an era proxy), where in a session the game falls, and whether the previous game was lost — the "
-        "things Q5 showed carry score effects of their own (last game of a session −0.2, after a loss −0.05). These are the controls of section 5."
-    )
     rows = []
     for band in BAND_LABELS:
         g = games[games["band"] == band]
         rows.append({
-            "band": band, "games": len(g), "sessions": g[CLUSTER].nunique(), "share of games": pct(len(g) / len(games)),
-            "bullet": pct((g["time_class"] == "bullet").mean()), "blitz": pct((g["time_class"] == "blitz").mean()), "rapid": pct((g["time_class"] == "rapid").mean()),
-            "mean rating before": f"{g['my_rating_before'].mean():.0f}", "median game in session": f"{g['game_in_session'].median():.0f}",
-            "last of session": pct(g["is_last_in_session"].mean()), "after a loss": pct((g["prev_outcome"] == "loss").mean()),
-            "2022–23": pct(g["year"].le(2023).mean()), "2025–26": pct(g["year"].ge(2025).mean()),
+            "band": band, "mean_rating_before": float(g["my_rating_before"].mean()), "share_last_of_session": float(g["is_last_in_session"].mean()),
+            "share_after_a_loss": float((g["prev_outcome"] == "loss").mean()), "median_game_in_session": float(g["game_in_session"].median()),
+            **{f"share_{c}": float((g["time_class"] == c).mean()) for c in dict.fromkeys(data.tc_class.values())},
+            **{f"share_{p}": float((g["period"] == p).mean()) for p in sorted(games["period"].unique())},
+            **counts(g),
         })  # fmt: skip
-    table = pd.DataFrame(rows)
-    report.table(table)
-    spanning = games.groupby(CLUSTER)["band"].nunique()
-    night = games[games["local_hour"].between(1, 6)]
-    night_days = night.groupby("date").size().sort_values(ascending=False)
-    episodes = night.groupby(night["local_start"].dt.to_period("M")).size().sort_values(ascending=False)
-    top = ", ".join(f"{str(p)} ({n})" for p, n in episodes.head(3).items())
-    report.text(
-        f"{int((spanning > 1).sum())} of {len(spanning):,} sessions span more than one band ({int(games[CLUSTER].isin(spanning[spanning > 1].index).sum()):,} games); "
-        "every game is assigned to the band of its own start time. "
-        f"The {len(night)} games started between 01:00 and 06:59 are concentrated in a few episodes — by month: {top} — and on those days you also played "
-        f"at ordinary hours (busiest night date: {night_days.index[0]} with {int(night_days.iloc[0])} night games), so they look like late nights rather than a "
-        "trip to another timezone; a sensitivity check without the largest episode is in section 6. If you did travel, the hour labels of those games are wrong."
-    )
-    wd = games.groupby("weekday").size().reindex(WEEKDAYS)
-    report.text("Games by weekday: " + ", ".join(f"{d[:3]} {int(n):,}" for d, n in wd.items()) + f" (weekend share {pct(games['is_weekend'].mean())}).")
-    comp = table.set_index("band")
-    return {
-        "night_episode_month": episodes.index[0], "night_episode_n": int(episodes.iloc[0]),
-        "spanning": int((spanning > 1).sum()), "n_sessions": len(spanning),
-        "night_bullet": comp.loc[BAND_LABELS[0], "bullet"], "night_recent": comp.loc[BAND_LABELS[0], "2025–26"], "morning_early": comp.loc[BAND_LABELS[1], "2022–23"],
-    }
+    results.table("1c_band_profile", pd.DataFrame(rows), "What else differs between the bands (all games): your rating, the session position, the time-class mix and the era. These are the controls of 6.4.")
+    mix = games.groupby(["band", "tc_group"]).size().rename("games").reset_index()
+    mix["share_of_band"] = mix["games"] / mix["band"].map(games["band"].value_counts())
+    mix["band"] = pd.Categorical(mix["band"], BAND_LABELS, ordered=True)
+    mix["tc_group"] = pd.Categorical(mix["tc_group"], data.tc_groups, ordered=True)
+    results.table("1d_band_control_mix", mix.sort_values(["band", "tc_group"])[["band", "tc_group", "share_of_band", "games"]], "Share of each band's games in each control.")
+
+    fig, axes = charts.group_grid(groups, sharey=True, title="Do you score better at some hours?")
+    labels = [short_band(b) for b in BAND_LABELS]
+    drawn = {}
+    for group, ax in axes.items():
+        part = table[table["tc_group"] == group].assign(hours=lambda f: f["band"].map(short_band))
+        drawn[group] = panel_estimates(ax, part, "hours", labels, y="excess")
+    finish_grid(fig, axes, drawn, "score minus expectation", "local hour")
+    charts.footnote(fig, f"Score minus the calibration model's pre-game expectation, by the hour the game started (local time). 95% CIs resample sessions; cells under {MIN_CELL_GAMES} games or {MIN_SESSIONS} sessions left out.")
+    results.figure(fig, "1_hour_band")
 
 
-def section_hourly(report: Report, games: pd.DataFrame) -> dict:
-    report.heading("2. Hour by hour, all time classes pooled")
-    report.text(
-        "Per-game metrics by the hour the game started (hours 1–6 pooled), CIs bootstrapped by session. `your ep lost / move` and `their ep lost / move` are "
-        "move-weighted ratios of sums over the games of the hour; `your − their ep / move` is the paired difference within the same games (negative = you "
-        "erred less than your opponents at that hour) and is the comparison that survives a changing pool; `score − model expectation` is the result minus the "
-        "calibration model's move-1 expectation (it knows both pre-game ratings and the time control); `flags / your losses` is the share of your losses that "
-        "were on time."
-    )
-    table = metric_table(games, "hour_bucket", HOUR_ORDER, HEADLINE, "hour")
-    report.table(table)
-    curves = {name: values_table(games, "hour_bucket", HOUR_ORDER, name) for name in ["my_ep", "opp_ep", "ep_gap", "excess_model"]}
-
-    import matplotlib.pyplot as plt
-
-    fig, axes = plt.subplots(3, 1, figsize=(8.5, 9), sharex=True)
-    x = np.arange(len(HOUR_ORDER))
-    ax = axes[0]
-    for name, side, marker in [("my_ep", "player", "o"), ("opp_ep", "opponent", "s")]:
-        c = curves[name]
-        ax.errorbar(x, c["est"], yerr=[c["est"] - c["lo"], c["hi"] - c["est"]], fmt=marker + "-", color=SIDE_COLOURS[side], lw=2, ms=5, capsize=2, label="you" if side == "player" else "opponents")
-    ax.set_ylabel("ep lost / move")
-    ax.set_title("Expected points lost per move by hour of day (all time classes)")
-    ax.legend(loc="upper right")
-    ax = axes[1]
-    c = curves["ep_gap"]
-    ax.axhline(0, color="grey", lw=1)
-    ax.errorbar(x, c["est"], yerr=[c["est"] - c["lo"], c["hi"] - c["est"]], fmt="o-", color=SIDE_COLOURS["player"], lw=2, ms=5, capsize=2)
-    ax.set_ylabel("you − opponents, ep / move")
-    ax.set_title("Paired difference in the same games (negative = you erred less)")
-    ax = axes[2]
-    c = curves["excess_model"]
-    ax.axhline(0, color="grey", lw=1)
-    ax.errorbar(x, c["est"], yerr=[c["est"] - c["lo"], c["hi"] - c["est"]], fmt="o-", color="#444444", lw=2, ms=5, capsize=2)
-    ax.set_ylabel("score − expectation")
-    ax.set_title("Result minus the model's move-1 expectation")
-    ax.set_xticks(x)
-    ax.set_xticklabels(HOUR_ORDER)
-    ax.set_xlabel("hour of day (Europe/London), hours 1–6 pooled")
-    for a in axes:
-        a.grid(True, axis="y", alpha=0.25)
-    fig.tight_layout()
-    report.figure(fig, "hourly", "Hour-by-hour curves with 95% CIs (sessions resampled); thin night hours pooled.")
-    plt.close(fig)
-
-    gap = curves["ep_gap"].set_index("level")
-    excess = curves["excess_model"].set_index("level")
-    sig_gap = [h for h, r in gap.iterrows() if excludes_zero(r["lo"], r["hi"])]
-    sig_excess = [h for h, r in excess.iterrows() if excludes_zero(r["lo"], r["hi"])]
-    spread = excess["est"].max() - excess["est"].min()
-    report.text(
-        f"Across the {len(HOUR_ORDER)} hour buckets the score − expectation ranges from {excess['est'].min():.3f} (hour {excess['est'].idxmin()}) to "
-        f"{excess['est'].max():.3f} (hour {excess['est'].idxmax()}), a spread of {spread:.3f}; "
-        + (f"its CI excludes zero at {len(sig_excess)} bucket(s): {', '.join(sig_excess)}. " if sig_excess else "no bucket's CI excludes zero. ")
-        + f"The paired you − opponents ep gap excludes zero at {len(sig_gap)} bucket(s)"
-        + (f" ({', '.join(f'{h}: {gap.loc[h, 'est']:+.4f}' for h in sig_gap)})" if sig_gap else "")
-        + f"; with {len(HOUR_ORDER)} buckets, about one such cell is expected by chance. Your ep per move and the opponents' move together hour by hour "
-        f"(correlation across buckets {np.corrcoef(curves['my_ep']['est'], curves['opp_ep']['est'])[0, 1]:.2f}): the hour changes the games, not you alone."
-    )
-    return {"curves": curves, "sig_gap": sig_gap, "sig_excess": sig_excess, "spread": spread}
+# --- 6.2 weekdays ---------------------------------------------------------------------------------------
 
 
-def section_bands(report: Report, games: pd.DataFrame) -> dict:
-    report.heading("3. Hour bands by time class")
-    report.text(
-        "The same metrics in six bands, separately by time class, plus cp per move, the opponents' flag share, your resignation share of losses and seconds "
-        f"per move for both sides. Cells with fewer than {MIN_GAMES} games are blank. The 'band − other bands' rows give the contrast of each band against all other "
-        "games of the time class with a CI on the difference (sessions resampled jointly)."
-    )
-    out = {}
-    for tc in ["all", *TIME_CLASSES]:
-        g = games if tc == "all" else games[games["time_class"] == tc]
-        report.heading(f"{tc}", level=3)
-        table = metric_table(g, "band", BAND_LABELS, FULL, "band")
-        report.table(table)
-        rows = []
-        for band in BAND_LABELS:
-            a, b = g[g["band"] == band], g[g["band"] != band]
-            row = {"band − other bands": band, "games": len(a)}
-            for name in ["excess_model", "ep_gap", "my_ep", "opp_ep", "timeout_share", "my_sec"]:
-                if len(a) >= MIN_GAMES:
-                    est, lo, hi = metric_diff(a, b, name)
-                    row[METRICS[name][0]] = fmt(est, lo, hi, f=FMT[name])
-                    out[(tc, band, name)] = (est, lo, hi)
-                else:
-                    row[METRICS[name][0]] = ""
-            rows.append(row)
-        report.table(pd.DataFrame(rows))
-
-    import matplotlib.pyplot as plt
-
-    fig, axes = plt.subplots(2, 3, figsize=(11, 6.5), sharex=True)
-    x = np.arange(len(BAND_LABELS))
-    short = [b.split(" ")[1] for b in BAND_LABELS]
-    for j, tc in enumerate(TIME_CLASSES):
-        g = games[games["time_class"] == tc]
-        for i, (name, colour, ylabel) in enumerate([("ep_gap", SIDE_COLOURS["player"], "you − opponents, ep / move"), ("excess_model", "#444444", "score − expectation")]):
-            ax = axes[i, j]
-            c = values_table(g, "band", BAND_LABELS, name)
-            ax.axhline(0, color="grey", lw=1)
-            ax.errorbar(x, c["est"], yerr=[c["est"] - c["lo"], c["hi"] - c["est"]], fmt="o", color=colour, ms=6, capsize=3, lw=2)
-            for xi, n in zip(x, c["games"]):
-                ax.annotate(f"n={n}", (xi, ax.get_ylim()[0]), xytext=(0, 4), textcoords="offset points", ha="center", fontsize=7, color="#666666")
-            if i == 0:
-                ax.set_title(tc)
-            if j == 0:
-                ax.set_ylabel(ylabel)
-            ax.set_xticks(x)
-            ax.set_xticklabels(short, rotation=0, fontsize=8)
-    axes[1, 1].set_xlabel("hour band (Europe/London)")
-    fig.suptitle("Hour bands by time class: paired ep gap (top) and score − expectation (bottom), 95% CIs", fontweight="bold")
-    fig.tight_layout()
-    report.figure(fig, "bands_by_class", "Six hour bands by time class; cell sizes under each point.")
-    plt.close(fig)
-
-    sig = [(tc, band, name, v) for (tc, band, name), v in out.items() if excludes_zero(v[1], v[2]) and name in ("excess_model", "ep_gap")]
-    n_tests = sum(1 for (tc, band, name) in out if name in ("excess_model", "ep_gap"))
-    if sig:
-        listed = "; ".join(f"{tc} {band}, {METRICS[name][0]} {fmt(*v, f=FMT[name])}" for tc, band, name, v in sig)
-        report.text(f"Of the {n_tests} band-vs-rest contrasts on score − expectation and the paired ep gap, {len(sig)} exclude zero (about {0.05 * n_tests:.0f} expected by chance): {listed}.")
-    else:
-        report.text(f"None of the {n_tests} band-vs-rest contrasts on score − expectation and the paired ep gap excludes zero.")
-    return {"contrasts": out, "sig": sig, "n_tests": n_tests}
-
-
-def section_weekday(report: Report, games: pd.DataFrame) -> dict:
-    report.heading("4. Day of the week, and weekday × hour band")
-    report.text("By weekday (all time classes, then the headline metrics per time class), CIs by session.")
-    report.table(metric_table(games, "weekday", WEEKDAYS, HEADLINE, "weekday"))
-    for tc in TIME_CLASSES:
-        report.heading(f"{tc}", level=3)
-        report.table(metric_table(games[games["time_class"] == tc], "weekday", WEEKDAYS, ["excess_model", "ep_gap", "timeout_share"], "weekday"))
-    wk = {}
+def q2_weekdays(results: Results, games: pd.DataFrame, data) -> None:
+    groups = groups_with_all(data)
+    table = by_level(games, groups, "weekday", WEEKDAYS, QUALITY)
+    results.table("2_weekday", table, "By weekday: score minus model expectation (with Elo) and both sides' expected points lost per move. CIs resample sessions.")
+    results.table("2c_clear_cells", clear_cells(table, "weekday", list(data.tc_groups)), f"How many control x weekday cells of 2_weekday have a score CI clear of zero, against the number expected by chance ({CHANCE_LEVEL:g} of usable cells).")
     rows = []
-    for name in ["excess_model", "ep_gap", "my_ep", "opp_ep", "timeout_share", "my_sec"]:
-        est, lo, hi = metric_diff(games[games["is_weekend"]], games[~games["is_weekend"]], name)
-        wk[name] = (est, lo, hi)
-        rows.append({"weekend − weekday (all classes)": METRICS[name][0], "estimate": fmt(est, lo, hi, f=FMT[name])})
-    report.table(pd.DataFrame(rows))
+    for group in groups:
+        g = subset(games, group)
+        a, b = g[g["is_weekend"]], g[~g["is_weekend"]]
+        rows.append({"tc_group": group, **S.diff_stats(a, b, ["excess", "ep_gap"], cluster=CLUSTER, seed=SEED), "games_weekend": len(a), "games_weekday": len(b), "thin": thin_cell(a) or thin_cell(b)})
+    results.table("2b_weekend_minus_weekday", pd.DataFrame(rows), "Weekend (Saturday, Sunday) minus weekdays: score minus expectation (Elo at the weekend expectation) and your-minus-opponents' expected points lost per move.")
 
-    report.heading("Weekday × hour band", level=3)
-    report.text(
-        f"Cells are weekday (Mon–Fri) or weekend (Sat–Sun) by hour band; the full 7 × 6 grid is in the figure with cell counts. Cells under {MIN_GAMES} games are blank."
-    )
-    rows = []
-    for daytype in ["weekday", "weekend"]:
-        for band in BAND_LABELS:
-            part = games[(games["daytype"] == daytype) & (games["band"] == band)]
-            row = {"day type": daytype, "band": band, "games": len(part), "sessions": part[CLUSTER].nunique()}
-            for name in HEADLINE:
-                row[METRICS[name][0]] = cell(part, name)
-            rows.append(row)
-    report.table(pd.DataFrame(rows))
+    fig, axes = charts.group_grid(groups, sharey=True, title="Do you score better on some days?")
+    labels = [d[:3] for d in WEEKDAYS]
+    drawn = {}
+    for group, ax in axes.items():
+        part = table[table["tc_group"] == group].assign(day=lambda f: f["weekday"].str[:3])
+        drawn[group] = panel_estimates(ax, part, "day", labels, y="excess")
+    finish_grid(fig, axes, drawn, "score minus expectation")
+    charts.footnote(fig, f"Score minus the calibration model's pre-game expectation, by local weekday. 95% CIs resample sessions; cells under {MIN_CELL_GAMES} games or {MIN_SESSIONS} sessions left out.")
+    results.figure(fig, "2_weekday")
 
-    # Named contrast: weekend evenings vs weekday nights.
-    we_eve = games[games["is_weekend"] & games["local_hour"].ge(18)]
-    wd_night = games[~games["is_weekend"] & (games["local_hour"].ge(21) | games["local_hour"].le(6))]
-    rows = []
-    contrast = {}
-    for name in ["excess_model", "ep_gap", "my_ep", "opp_ep", "timeout_share", "my_sec"]:
-        a, b = metric(we_eve, name), metric(wd_night, name)
-        d = metric_diff(we_eve, wd_night, name)
-        contrast[name] = d
-        rows.append({"metric": METRICS[name][0], f"weekend evening 18–23 ({len(we_eve)} games)": fmt(*a, f=FMT[name]), f"weekday night 21–06 ({len(wd_night)} games)": fmt(*b, f=FMT[name]), "difference": fmt(*d, f=FMT[name])})
-    report.table(pd.DataFrame(rows))
 
-    # Heatmaps: 7 x 6 grid of score - expectation and the paired ep gap, counts annotated.
+# --- 6.3 band x weekday, pooled -----------------------------------------------------------------------
+
+
+def q3_grid(results: Results, games: pd.DataFrame, data) -> None:
     import matplotlib.pyplot as plt
     from matplotlib.colors import TwoSlopeNorm
 
-    grids = {}
-    for name in ["excess_model", "ep_gap"]:
-        grid = np.full((len(WEEKDAYS), len(BAND_LABELS)), np.nan)
-        counts = np.zeros((len(WEEKDAYS), len(BAND_LABELS)), dtype=int)
-        for i, day in enumerate(WEEKDAYS):
-            for j, band in enumerate(BAND_LABELS):
-                part = games[(games["weekday"] == day) & (games["band"] == band)]
-                counts[i, j] = len(part)
-                if len(part) >= MIN_GAMES:
-                    grid[i, j] = metric(part, name, n_boot=2)[0]  # point estimate only: the CIs for these cells are in the tables above
-        grids[name] = (grid, counts)
-    fig, axes = plt.subplots(1, 2, figsize=(12, 5))
-    for ax, (name, title) in zip(axes, [("excess_model", "score − model expectation"), ("ep_gap", "you − opponents, ep / move")]):
-        grid, counts = grids[name]
-        lim = np.nanmax(np.abs(grid))
-        im = ax.imshow(np.ma.masked_invalid(grid), cmap="RdBu" if name == "excess_model" else "RdBu_r", norm=TwoSlopeNorm(0, -lim, lim), aspect="auto")
-        ax.set_xticks(range(len(BAND_LABELS)))
-        ax.set_xticklabels([b.split(" ")[1] for b in BAND_LABELS])
-        ax.set_yticks(range(len(WEEKDAYS)))
-        ax.set_yticklabels([d[:3] for d in WEEKDAYS])
-        ax.grid(False)
-        for i in range(len(WEEKDAYS)):
-            for j in range(len(BAND_LABELS)):
-                v = grid[i, j]
-                label = f"n={counts[i, j]}" if np.isnan(v) else (f"{v:+.3f}\nn={counts[i, j]}" if name == "excess_model" else f"{v:+.4f}\nn={counts[i, j]}")
-                dark = (not np.isnan(v)) and abs(v) > 0.55 * lim
-                ax.text(j, i, label, ha="center", va="center", fontsize=7, color="#f5f5f5" if dark else "#222222")
-        ax.set_title(title + (" (blue = better for you)"))
-        fig.colorbar(im, ax=ax, shrink=0.8)
-    axes[0].set_xlabel("hour band")
-    axes[1].set_xlabel("hour band")
-    fig.suptitle(f"Weekday × hour band, point estimates (cells under {MIN_GAMES} games blank)", fontweight="bold")
+    pools = [ALL, *[f"all {c}" for c in dict.fromkeys(data.tc_class.values())]]
+    rows = []
+    for pool in pools:
+        g = subset(games, pool)
+        for day in WEEKDAYS:
+            for band in BAND_LABELS:
+                part = g[(g["weekday"] == day) & (g["band"] == band)]
+                rows.append({"pool": pool, "weekday": day, "band": band, **S.cell_stats(part, ["excess"], cluster=CLUSTER, seed=SEED), **counts(part), "thin": thin_cell(part)})
+    table = pd.DataFrame(rows)
+    results.table("3_band_weekday", table, "Hour band x weekday, pooled over the controls of each time class and over all games (per control almost every cell is thin): score minus model expectation with Elo, CIs resample sessions.")
+    rows = []
+    for pool in pools:
+        part = table[table["pool"] == pool]
+        usable = part[~part["thin"]]
+        clear = usable[(usable["excess_lo"] > 0) | (usable["excess_hi"] < 0)]
+        rows.append({"pool": pool, "cells": len(part), "cells_thin": int(part["thin"].sum()), "cells_usable": len(usable), "cells_ci_clear_of_zero": len(clear),
+                     "cells_clear_expected_by_chance": CHANCE_LEVEL * len(usable), "games": int(part["games"].sum())})  # fmt: skip
+    results.table("3b_grid_summary", pd.DataFrame(rows), f"Per pool: how many hour band x weekday cells are thin, how many usable cells have a 95% CI clear of zero, and how many would be by chance alone ({CHANCE_LEVEL:g} of usable cells).")
+
+    shown = table[~table["thin"]]
+    lim = float(np.nanmax(np.abs(shown["excess"]))) if len(shown) else 0.1
+    ncols = 2
+    nrows = int(np.ceil(len(pools) / ncols))
+    fig, grid = plt.subplots(nrows, ncols, figsize=(11, 3.4 * nrows + 0.6), squeeze=False)
+    norm = TwoSlopeNorm(0, -lim, lim)
+    cmap = plt.get_cmap(charts.DIVERGING).with_extremes(bad=charts.GRID)
+    image = None
+    for k, pool in enumerate(pools):
+        ax = grid[k // ncols][k % ncols]
+        part = table[table["pool"] == pool]
+        values = part.pivot(index="weekday", columns="band", values="excess").reindex(index=WEEKDAYS, columns=BAND_LABELS)
+        n = part.pivot(index="weekday", columns="band", values="games").reindex(index=WEEKDAYS, columns=BAND_LABELS)
+        thin = part.pivot(index="weekday", columns="band", values="thin").reindex(index=WEEKDAYS, columns=BAND_LABELS).astype(bool)
+        masked = np.ma.masked_array(values.to_numpy(dtype=float), mask=thin.to_numpy() | values.isna().to_numpy())
+        texts = [[f"n={int(n.iat[i, j])}" if thin.iat[i, j] else f"{values.iat[i, j]:+.2f}\nn={int(n.iat[i, j])}" for j in range(len(BAND_LABELS))] for i in range(len(WEEKDAYS))]
+        dark = ~thin.to_numpy() & (values.abs().to_numpy() > 0.6 * lim)
+        image = charts.heatmap(ax, masked, cmap, norm, texts=texts, text_colours=np.where(dark, charts.SURFACE, charts.INK_SECONDARY), fontsize=6.5,
+                               xlabels=[short_band(b) for b in BAND_LABELS], ylabels=[d[:3] for d in WEEKDAYS])  # fmt: skip
+        ax.set_title(pool)
+    for k in range(len(pools), nrows * ncols):
+        grid[k // ncols][k % ncols].set_visible(False)
+    fig.suptitle("Is there a best hour on a particular day?", x=0.01, ha="left", fontweight="bold", fontsize=11, color=charts.INK)
     fig.tight_layout()
-    report.figure(fig, "weekday_band", "Weekday × hour band grid; cell counts shown; blue is better for you in both panels.")
-    plt.close(fig)
-
-    wd_excess = values_table(games, "weekday", WEEKDAYS, "excess_model").set_index("level")
-    wd_gap = values_table(games, "weekday", WEEKDAYS, "ep_gap").set_index("level")
-    sig_days = [d for d, r in wd_excess.iterrows() if excludes_zero(r["lo"], r["hi"])]
-    sig_gap_days = [d for d, r in wd_gap.iterrows() if excludes_zero(r["lo"], r["hi"])]
-    report.text(
-        f"Weekdays: score − expectation runs from {wd_excess['est'].min():.3f} ({wd_excess['est'].idxmin()}) to {wd_excess['est'].max():.3f} ({wd_excess['est'].idxmax()}); "
-        + (f"CI excludes zero on {', '.join(sig_days)}. " if sig_days else "no weekday's CI excludes zero. ")
-        + (f"The paired ep gap excludes zero on {', '.join(sig_gap_days)}. " if sig_gap_days else "No weekday's paired ep gap excludes zero. ")
-        + f"Weekend − weekday: score − expectation {fmt(*wk['excess_model'])}, ep gap {fmt(*wk['ep_gap'], f='.4f')}. "
-        f"Weekend evenings vs weekday nights: score − expectation {fmt(*contrast['excess_model'])}, ep gap {fmt(*contrast['ep_gap'], f='.4f')}."
-    )
-    return {"weekend": wk, "contrast": contrast, "wd_excess": wd_excess, "wd_gap": wd_gap, "sig_days": sig_days, "sig_gap_days": sig_gap_days, "n_we_eve": len(we_eve), "n_wd_night": len(wd_night)}
+    cbar = fig.colorbar(image, ax=grid.ravel().tolist(), shrink=0.6, pad=0.02)
+    cbar.set_label("score minus expectation (blue = better for you)")
+    cbar.outline.set_visible(False)
+    charts.footnote(fig, f"Pooled over the controls of each time class. Grey cells: under {MIN_CELL_GAMES} games or {MIN_SESSIONS} sessions (game count shown). Colour and number = score minus the model's expectation.")
+    results.figure(fig, "3_band_weekday")
 
 
-def design(games: pd.DataFrame) -> pd.DataFrame:
-    X = pd.DataFrame({"intercept": 1.0}, index=games.index)
-    for band in BAND_LABELS:
-        if band != REF_BAND:
-            X[band] = (games["band"] == band).astype(float)
-    X["weekend"] = games["is_weekend"].astype(float)
-    X["last game of session"] = games["is_last_in_session"].astype(float)
-    X["previous game lost"] = games["prev_loss"]
-    X["previous game won"] = games["prev_win"]
-    X["log2(game number)"] = np.log2(games["game_in_session"].astype(float))
-    X["minutes / 30"] = games["minutes_into_session"] / 30
-    X["blitz"] = (games["time_class"] == "blitz").astype(float)
-    X["rapid"] = (games["time_class"] == "rapid").astype(float)
-    X["rating before / 100"] = games["my_rating_before"].astype(float) / 100
-    for y in sorted(games["year"].unique()):
-        if y != 2024:
-            X[f"year {y}"] = (games["year"] == y).astype(float)
+# --- 6.4 regression and permutation ---------------------------------------------------------------------
+
+
+def design(sub: pd.DataFrame, group: str, ref_band: str) -> pd.DataFrame:
+    X = pd.DataFrame({"intercept": 1.0}, index=sub.index)
+    X = X.join(dummies(sub["band"], drop=ref_band, prefix="band"))
+    X["weekend"] = sub["is_weekend"].astype(float)
+    # Not "last game of the session": you stop because of this game's result (Q5), so it is an outcome, not a control.
+    X["previous game lost"] = (sub["prev_outcome"] == "loss").astype(float)
+    X["previous game won"] = (sub["prev_outcome"] == "win").astype(float)
+    X["log2(game number)"] = np.log2(sub["game_in_session"].astype(float))
+    X[f"minutes into session / {MINUTES_SCALE}"] = sub["minutes_into_session"] / MINUTES_SCALE
+    X[f"rating before / {RATING_SCALE}"] = sub["my_rating_before"].astype(float) / RATING_SCALE
+    years = sub["year"].astype(str)
+    X = X.join(dummies(years, drop=years.value_counts().idxmax(), prefix="year"))
+    if group == ALL:
+        X = X.join(dummies(sub["tc_group"], drop=sub["tc_group"].value_counts().idxmax(), prefix="control"))
     return X
 
 
-def section_regression(report: Report, games: pd.DataFrame) -> dict:
-    report.heading("5. Regression with session, time-class and era controls")
-    report.text(
-        f"Per-game OLS, CIs bootstrapped by session ({N_BOOT} resamples): outcome ~ hour band (reference {REF_BAND}) + weekend + last game of the session + "
-        "previous game lost + previous game won + log2(game number) + minutes into the session / 30 + time class + pre-game rating / 100 + year dummies "
-        "(reference 2024, not shown). This is the pooled, between-session model Q5 recommends for anything involving the previous result (a within-session model "
-        "cannot identify the hour: sessions rarely cross a band). The outcomes: score − model expectation, your and their ep per move, their paired difference, "
-        "whether you lost on time (all games), your seconds per move and your cp per move. The joint test below asks whether the five band coefficients are "
-        f"larger than they would be if the hour carried no information: the band labels are shuffled across sessions (whole sessions keep their games) {N_PERM} times "
-        "and the largest absolute band coefficient and the sum of their squares are compared with the observed ones."
-    )
-    sub = games[games["my_rating_before"].notna() & games["my_rating_before"].gt(0)].copy()
-    X = design(sub)
-    groups = sub[CLUSTER].to_numpy()
-    outcomes = {
-        "excess_model": (sub["excess_model"], ".3f", "score − model exp."),
-        "my_ep_rate": (sub["my_ep_rate"], ".4f", "your ep / move"),
-        "opp_ep_rate": (sub["opp_ep_rate"], ".4f", "their ep / move"),
-        "ep_rate_gap": (sub["ep_rate_gap"], ".4f", "your − their ep / move"),
-        "lost_on_time": (sub["lost_on_time"], ".3f", "you lost on time"),
-        "my_sec_per_move": (sub["my_sec_per_move"], ".2f", "your s / move"),
-        "my_cp_rate": (sub["my_cp_lost"] / sub["my_moves"].replace(0, np.nan), ".1f", "your cp / move"),
-    }  # fmt: skip
-    band_terms = [b for b in BAND_LABELS if b != REF_BAND]
-    band_idx = [list(X.columns).index(b) for b in band_terms]
-    rows = {}
-    results = {}
-    perm_rows = []
+OUTCOMES = {"excess": "excess_model", "ep_gap": "ep_rate_gap", "my_ep": "my_ep_rate", "lost_on_time": "lost_on_time"}
+
+
+def q4_adjusted(results: Results, games: pd.DataFrame, data) -> None:
+    ref_band = games["band"].value_counts().idxmax()  # the busiest band is the reference
     rng = np.random.default_rng(SEED)
-    # Session-level band labels for the permutation: the band of the session's first game.
-    first_band = sub.groupby(CLUSTER)["band"].first()
-    session_ids = first_band.index.to_numpy()
-    for name, (y, f, label) in outcomes.items():
-        ok = y.notna().to_numpy()
-        Xm, ym, gm = X.to_numpy(float)[ok], y.to_numpy(float)[ok], groups[ok]
-        beta, draws = q5.cluster_ols(Xm, ym, gm, n_boot=N_BOOT, seed=SEED)
-        lo, hi = np.nanquantile(draws, [0.025, 0.975], axis=0)
-        rows[label] = [fmt(b, l, h, f=f) for b, l, h in zip(beta, lo, hi)]
-        results[name] = dict(zip(X.columns, zip(beta, lo, hi)))
-        # permutation test of the band block
-        obs_max = np.max(np.abs(beta[band_idx]))
-        obs_ss = float(np.sum(beta[band_idx] ** 2))
-        Xp = Xm.copy()
-        sub_ok = sub[ok]
-        session_of_game = sub_ok[CLUSTER].to_numpy()
-        pos = pd.Index(session_ids).get_indexer(session_of_game)
-        perm_max, perm_ss = np.empty(N_PERM), np.empty(N_PERM)
-        for p in range(N_PERM):
-            shuffled = first_band.to_numpy()[rng.permutation(len(session_ids))]
-            game_band = shuffled[pos]
-            for k, b in zip(band_idx, band_terms):
-                Xp[:, k] = (game_band == b).astype(float)
-            bp = np.linalg.lstsq(Xp, ym, rcond=None)[0]
-            perm_max[p] = np.max(np.abs(bp[band_idx]))
-            perm_ss[p] = np.sum(bp[band_idx] ** 2)
-        p_max = float((perm_max >= obs_max).mean())
-        p_ss = float((perm_ss >= obs_ss).mean())
-        results[name]["perm_p_max"], results[name]["perm_p_ss"] = p_max, p_ss
-        perm_rows.append({"outcome": label, "largest |band coef.|": f"{obs_max:{f}}", "permutation p (max)": f"{p_max:.2f}", "permutation p (sum of squares)": f"{p_ss:.2f}"})
-    table = pd.DataFrame({"term": list(X.columns), **rows})
-    table = table[~table["term"].str.startswith("year")]
-    report.table(table)
-    report.text(f"{len(sub):,} games in {sub[CLUSTER].nunique():,} sessions ({len(games) - len(sub)} games without a pre-game rating dropped).")
-    report.text("Joint test of the five hour-band terms (session-level permutation of the band labels):")
-    report.table(pd.DataFrame(perm_rows))
+    raw_rows, coef_rows, perm_rows = [], [], []
+    for group in groups_with_all(data):
+        g = subset(games, group)
+        sub = g[g["my_rating_before"].notna() & g["my_rating_before"].gt(0)]
+        ref = sub[sub["band"] == ref_band]
+        X = design(sub, group, ref_band)
+        band_terms = [f"band={b}" for b in BAND_LABELS if b != ref_band and f"band={b}" in X]
+        band_idx = [list(X.columns).index(t) for t in band_terms]
+        sessions = sub[CLUSTER].to_numpy()
+        thin_model = len(sub) < MIN_GAMES_PER_COEF * X.shape[1] or sub[CLUSTER].nunique() < MIN_SESSIONS
+        # session-level band labels for the permutation: the band of each session's first game
+        first_band = sub.sort_values("start_datetime").groupby(CLUSTER)["band"].first()
+        pos = pd.Index(first_band.index).get_indexer(sessions)
+        expected_all = float(sub["my_ep_start"].mean())
+        for name, column in OUTCOMES.items():
+            y = sub[column]
+            ok = y.notna().to_numpy()
+            Xm, ym = X.to_numpy(float)[ok], y.to_numpy(float)[ok]
+            beta, draws = cluster_ols(Xm, ym, sessions[ok], n_boot=N_BOOT, seed=SEED)
+            with warnings.catch_warnings():  # a dummy absent from every resample of a thin group has no CI
+                warnings.simplefilter("ignore", RuntimeWarning)
+                lo, hi = np.nanquantile(draws, [0.025, 0.975], axis=0)
+            for term, b, l, h in zip(X.columns, beta, lo, hi):
+                if term == "intercept" or term.startswith(("year=", "control=")):
+                    continue
+                row = {"tc_group": group, "outcome": name, "term": term, "estimate": b, "lo": l, "hi": h}
+                if name == "excess":
+                    row["expected"] = expected_all
+                    for k, v in (("estimate_elo", b), ("lo_elo", l), ("hi_elo", h)):
+                        row[k] = float(excess_to_elo(expected_all, v)) if pd.notna(v) else np.nan
+                coef_rows.append({**row, "games": int(ok.sum()), "sessions": int(len(np.unique(sessions[ok]))), "thin": thin_model})
+            # Permutation test of the band block. The unit shuffled is the session, so the test labels every game with
+            # its session's band (that of the session's first game) both in the observed fit and in the shuffles.
+            Xp = Xm.copy()
+            pos_ok = pos[ok]
+            session_bands = first_band.to_numpy()
 
-    import matplotlib.pyplot as plt
+            def band_fit(labels: np.ndarray) -> np.ndarray:
+                for k, term in zip(band_idx, band_terms):
+                    Xp[:, k] = (labels == term.split("=", 1)[1]).astype(float)
+                return np.linalg.lstsq(Xp.T @ Xp, Xp.T @ ym, rcond=None)[0][band_idx]  # normal equations: same fit, k x k solve
 
-    fig, axes = plt.subplots(1, 3, figsize=(12, 4))
-    terms = band_terms + ["weekend", "last game of session", "previous game lost"]
-    for ax, (name, title) in zip(axes, [("excess_model", "score − expectation"), ("ep_rate_gap", "you − opponents, ep / move"), ("my_ep_rate", "your ep / move")]):
-        r = results[name]
-        est = [r[t][0] for t in terms]
-        lo = [r[t][1] for t in terms]
-        hi = [r[t][2] for t in terms]
-        yy = np.arange(len(terms))[::-1]
-        colours = [SIDE_COLOURS["player"] if t in band_terms else "#888888" for t in terms]
-        ax.axvline(0, color="grey", lw=1)
-        for e, l, h, y_, colour in zip(est, lo, hi, yy, colours):
-            ax.errorbar([e], [y_], xerr=[[e - l], [h - e]], fmt="o", color=colour, elinewidth=2, capsize=3, ms=6)
-        ax.set_yticks(yy)
-        ax.set_yticklabels(terms if ax is axes[0] else [""] * len(terms))
-        ax.set_title(title)
-        ax.grid(True, axis="x", alpha=0.25)
-        ax.grid(False, axis="y")
-    fig.suptitle(f"Regression coefficients (hour bands vs {REF_BAND} in blue; session controls in grey), 95% session-bootstrap CIs", fontweight="bold")
-    fig.tight_layout()
-    report.figure(fig, "regression", "Hour-band coefficients next to the session controls they are estimated with.")
-    plt.close(fig)
+            obs = band_fit(session_bands[pos_ok])
+            obs_max, obs_ss = float(np.max(np.abs(obs))), float(np.sum(obs**2))
+            perm_max, perm_ss = np.empty(N_PERM), np.empty(N_PERM)
+            for p in range(N_PERM):
+                bp = band_fit(session_bands[rng.permutation(len(session_bands))][pos_ok])
+                perm_max[p], perm_ss[p] = np.max(np.abs(bp)), np.sum(bp**2)
+            p_largest = (1 + int((perm_max >= obs_max).sum())) / (1 + N_PERM)  # the observed labelling counts as one draw: p is never 0
+            p_ss = (1 + int((perm_ss >= obs_ss).sum())) / (1 + N_PERM)
+            tests = 1 if group == ALL else len(data.tc_groups)  # one test per control: Bonferroni over the controls
+            perm_rows.append({"tc_group": group, "outcome": name, "largest_band_coefficient": obs_max, "p_largest": p_largest, "p_sum_of_squares": p_ss,
+                              "tests_in_family": tests, "p_largest_bonferroni": min(1.0, p_largest * tests), "p_sum_of_squares_bonferroni": min(1.0, p_ss * tests),
+                              "permutations": N_PERM, "reference_band": ref_band, "games": int(ok.sum()), "sessions": int(len(np.unique(sessions[ok]))), "thin": thin_model})  # fmt: skip
+            if name == "excess":
+                coefs = dict(zip(X.columns, zip(beta, lo, hi)))
+                for band in BAND_LABELS:
+                    if band == ref_band:
+                        continue
+                    part = sub[sub["band"] == band]
+                    raw = S.diff_stats(part, ref, ["excess"], cluster=CLUSTER, seed=SEED)
+                    base = {"tc_group": group, "band": band, "reference_band": ref_band, "expected": raw["expected"]}
+                    n = {**counts(part), "thin": thin_cell(part) or thin_cell(ref)}
+                    raw_rows.append({**base, "version": "raw", "estimate": raw["excess_diff"], "lo": raw["excess_diff_lo"], "hi": raw["excess_diff_hi"], **n})
+                    b, l, h = coefs.get(f"band={band}", (np.nan, np.nan, np.nan))
+                    raw_rows.append({**base, "version": "adjusted", "estimate": b, "lo": l, "hi": h, **n, "thin": n["thin"] or thin_model})
+    raw = pd.DataFrame(raw_rows)
+    for col in ("estimate", "lo", "hi"):
+        raw[f"{col}_elo"] = [float(excess_to_elo(e, v)) if pd.notna(v) and pd.notna(e) else np.nan for e, v in zip(raw["expected"], raw[col])]
+    raw = raw[["tc_group", "band", "reference_band", "version", "estimate", "lo", "hi", "expected", "estimate_elo", "lo_elo", "hi_elo", "games", "sessions", "thin"]]
+    results.table("4_raw_vs_adjusted", raw, "Each band minus the busiest band in score minus expectation: raw, and adjusted by the per-game regression (game number, minutes into the session, previous result, weekend, rating, year; control in the pool). Elo at the band's expectation.")
+    results.table("4b_permutation", pd.DataFrame(perm_rows), "Joint test of the hour-band terms: each game labelled with its session's band (the band of the session's first game), labels shuffled across whole sessions, regression refitted; p = (1 + shuffles with a band effect at least as large as observed) / (1 + shuffles); Bonferroni columns multiply each control's p by the number of controls tested.")
+    results.table("4c_regression", pd.DataFrame(coef_rows), "All regression coefficients except intercept, year and control dummies (outcomes: score minus expectation, your-minus-opponents' and your expected points lost per move, lost on time), CIs by session.")
 
-    sig = [(name, t) for name in ("excess_model", "ep_rate_gap", "my_ep_rate") for t in band_terms if excludes_zero(results[name][t][1], results[name][t][2])]
-    ex = results["excess_model"]
-    report.text(
-        f"With the controls, the hour-band coefficients on score − expectation run from {min(ex[t][0] for t in band_terms):+.3f} to {max(ex[t][0] for t in band_terms):+.3f} "
-        f"relative to {REF_BAND}; " + (f"CIs exclude zero for: {', '.join(f'{n} × {t}' for n, t in sig)}. " if sig else "no band coefficient's CI excludes zero on score, the paired ep gap or your ep per move. ")
-        + f"The permutation p-values for the band block are {results['excess_model']['perm_p_max']:.2f} (score), {results['ep_rate_gap']['perm_p_max']:.2f} (paired ep gap) and "
-        f"{results['my_ep_rate']['perm_p_max']:.2f} (your ep per move). For scale, the session controls in the same model: last game of the session {fmt(*ex['last game of session'])}, "
-        f"previous game lost {fmt(*ex['previous game lost'])}, previous game won {fmt(*ex['previous game won'])} on score − expectation."
-    )
-    return results
+    groups = groups_with_all(data)
+    fig, axes = charts.group_grid(groups, sharey=True, title="Does any hour effect survive accounting for sessions, rating and year?")
+    order = [short_band(b) for b in BAND_LABELS if b != ref_band]
+    drawn = {}
+    for group, ax in axes.items():
+        part = raw[raw["tc_group"] == group].assign(hours=lambda f: f["band"].map(short_band)).rename(columns={"lo": "estimate_lo", "hi": "estimate_hi"})
+        a = panel_estimates(ax, part[part["version"] == "raw"], "hours", order, y="estimate", colour=charts.INK_MUTED, label="raw", offset=-0.14)
+        b = panel_estimates(ax, part[part["version"] == "adjusted"], "hours", order, y="estimate", colour=charts.PLAYER, label="adjusted", offset=0.14)
+        drawn[group] = a or b
+    finish_grid(fig, axes, drawn, f"vs {short_band(ref_band)}, score", "local hour")
+    charts.legend(fig, loc="upper right", bbox_to_anchor=(1.0, 1.0))
+    charts.footnote(fig, f"Each band minus {ref_band} (the busiest), score minus the model's expectation. Adjusted: per-game regression with game number, minutes into the session, previous result, weekend, rating and year. 95% CIs resample sessions.")
+    results.figure(fig, "4_raw_vs_adjusted")
 
 
-def section_sensitivity(report: Report, games: pd.DataFrame, when: dict) -> dict:
-    report.heading("6. Stability checks")
-    report.text(
-        "A real time-of-day effect should show the same sign in both halves of the history and should not hinge on one episode of late nights. "
-        "Left: score − expectation and the paired ep gap by band for 2021–2023 and 2024–2026. Right: the night band without its largest episode."
-    )
+# --- 6.5 halves -----------------------------------------------------------------------------------------
+
+
+def q5_halves(results: Results, games: pd.DataFrame, data) -> None:
+    groups = groups_with_all(data)
+    periods = sorted(games["period"].unique())
     rows = []
-    halves = {"2021–2023": games[games["year"] <= 2023], "2024–2026": games[games["year"] >= 2024]}
-    for band in BAND_LABELS:
-        row = {"band": band}
-        for label, g in halves.items():
-            part = g[g["band"] == band]
-            row[f"games {label}"] = len(part)
-            row[f"score − exp. {label}"] = cell(part, "excess_model")
-            row[f"ep gap {label}"] = cell(part, "ep_gap")
-        rows.append(row)
-    report.table(pd.DataFrame(rows))
-    month = when["night_episode_month"]
-    night = games[games["band"] == BAND_LABELS[0]]
-    night_wo = night[night["local_start"].dt.to_period("M") != month]
+    for group in groups:
+        g = subset(games, group)
+        for band in BAND_LABELS:
+            for period in periods:
+                part = g[(g["band"] == band) & (g["period"] == period)]
+                rows.append({"tc_group": group, "band": band, "period": period, **S.cell_stats(part, ["excess", "ep_gap"], cluster=CLUSTER, seed=SEED), **counts(part), "thin": thin_cell(part)})
+    table = pd.DataFrame(rows)
+    results.table("5_halves", table, f"Hour bands in {periods[0]} and {periods[1]} separately: score minus expectation (with Elo) and your-minus-opponents' expected points lost per move.")
     rows = []
-    for label, part in [("night 0-6, all", night), (f"night 0-6 without {month}", night_wo), ("other bands", games[games["band"] != BAND_LABELS[0]])]:
-        row = {"games": label, "n": len(part)}
-        for name in HEADLINE:
-            row[METRICS[name][0]] = cell(part, name)
-        rows.append(row)
-    report.table(pd.DataFrame(rows))
-    # Sign agreement between halves, and the two halves' estimates per band for the summary
-    agree = 0
-    n = 0
-    by_half = {}
-    for band in BAND_LABELS:
-        for label, g in halves.items():
+    for group in groups:
+        part = table[table["tc_group"] == group]
+        wide = part.pivot(index="band", columns="period", values="excess")
+        thin = part.pivot(index="band", columns="period", values="thin").astype(bool)
+        both = ~thin.any(axis=1)
+        same = (np.sign(wide.loc[both, periods[0]]) == np.sign(wide.loc[both, periods[1]])).sum()
+        lo = part.pivot(index="band", columns="period", values="excess_lo")
+        hi = part.pivot(index="band", columns="period", values="excess_hi")
+        clear = ((lo > 0) | (hi < 0)) & ~thin
+        rows.append({"tc_group": group, "bands_compared": int(both.sum()), "bands_same_sign": int(same), "bands_clear_in_first": int(clear[periods[0]].sum()), "bands_clear_in_second": int(clear[periods[1]].sum()),
+                     "bands_clear_in_both_same_sign": int((clear[periods[0]] & clear[periods[1]] & (np.sign(wide[periods[0]]) == np.sign(wide[periods[1]]))).sum()), "thin": int(both.sum()) == 0})  # fmt: skip
+    results.table("5b_sign_agreement", pd.DataFrame(rows), "Per control: bands with enough games in both periods, how many keep the sign of score minus expectation, and how many have a CI clear of zero in each period and in both.")
+
+    fig, axes = charts.group_grid(groups, sharey=True, title="Does any hour effect repeat across the years?")
+    labels = [short_band(b) for b in BAND_LABELS]
+    colours = [charts.SERIES[1], charts.SERIES[2]]
+    drawn = {}
+    for group, ax in axes.items():
+        part = table[table["tc_group"] == group].assign(hours=lambda f: f["band"].map(short_band))
+        ok = [panel_estimates(ax, part[part["period"] == p], "hours", labels, y="excess", colour=c, label=p, offset=o) for p, c, o in zip(periods, colours, (-0.14, 0.14))]
+        drawn[group] = any(ok)
+    finish_grid(fig, axes, drawn, "score minus expectation", "local hour")
+    charts.legend(fig, loc="upper right", bbox_to_anchor=(1.0, 1.0))
+    charts.footnote(fig, f"Score minus the model's expectation by hour band, each half of the history separately. 95% CIs resample sessions; cells under {MIN_CELL_GAMES} games or {MIN_SESSIONS} sessions left out.")
+    results.figure(fig, "5_halves")
+
+
+# --- 6.6 flags ------------------------------------------------------------------------------------------
+
+
+def q6_flags(results: Results, games: pd.DataFrame, data) -> None:
+    groups = groups_with_all(data)
+    rows = []
+    for group in groups:
+        g = subset(games, group)
+        for band in BAND_LABELS:
             part = g[g["band"] == band]
-            by_half[(band, label, "excess_model")] = metric(part, "excess_model") if len(part) >= MIN_GAMES else (np.nan, np.nan, np.nan)
-            by_half[(band, label, "ep_gap")] = metric(part, "ep_gap") if len(part) >= MIN_GAMES else (np.nan, np.nan, np.nan)
-        a, b = by_half[(band, "2021–2023", "excess_model")][0], by_half[(band, "2024–2026", "excess_model")][0]
-        if pd.notna(a) and pd.notna(b):
-            n += 1
-            agree += int(np.sign(a) == np.sign(b))
-    report.text(f"The sign of score − expectation agrees between the two halves in {agree} of {n} bands with enough games in both.")
-    return {"agree": agree, "n_bands": n, "night_wo": len(night_wo), "by_half": by_half}
+            losses, opp_losses = int(part["is_loss"].sum()), int(part["opp_is_loss"].sum())
+            stats = S.cell_stats(part, ["timeout_share", "opp_timeout_share", "lost_on_time"], cluster=CLUSTER, seed=SEED)
+            rows.append({"tc_group": group, "band": band, **stats, "lost_on_time_per_100_games": 100 * stats["lost_on_time"], "losses": losses, "opponent_losses": opp_losses, **counts(part),
+                         "thin": min(losses, opp_losses) < MIN_CELL_LOSSES or part[CLUSTER].nunique() < MIN_SESSIONS})  # fmt: skip
+    table = pd.DataFrame(rows)
+    results.table("6_flags_by_band", table, "By hour band: share of your losses that were on time, the same for your opponents' losses, and games you lost on time (share and per 100 games). CIs resample sessions.")
+    rows = []
+    classes = list(dict.fromkeys(data.tc_class.values()))
+    for group in groups:
+        g = subset(games, group)
+        late, rest = g[g["band"].isin(LATE_BANDS)], g[~g["band"].isin(LATE_BANDS)]
+        d = S.diff_stats(late, rest, ["timeout_share", "opp_timeout_share", "lost_on_time"], cluster=CLUSTER, seed=SEED)
+        mix = {f"share_{c}_{name}": float((part["time_class"] == c).mean()) if len(part) else np.nan for c in classes for name, part in (("late", late), ("rest", rest))}
+        rows.append({"tc_group": group, "late_bands": " + ".join(LATE_BANDS), **d, **mix, "losses_late": int(late["is_loss"].sum()), "losses_rest": int(rest["is_loss"].sum()), "games_late": len(late), "games_rest": len(rest),
+                     "thin": min(int(late["is_loss"].sum()), int(rest["is_loss"].sum())) < MIN_CELL_LOSSES or min(late[CLUSTER].nunique(), rest[CLUSTER].nunique()) < MIN_SESSIONS})  # fmt: skip
+    results.table("6b_late_minus_rest", pd.DataFrame(rows), "Late (21:00-06:59) minus the rest of the day: share of your losses on time, share of opponents' losses on time, share of games you lost on time; plus the time-class mix of the late games and of the rest.")
+
+    wide = table.rename(columns={"timeout_share": "player", "timeout_share_lo": "player_lo", "timeout_share_hi": "player_hi", "opp_timeout_share": "opponent", "opp_timeout_share_lo": "opponent_lo", "opp_timeout_share_hi": "opponent_hi"})
+    wide = blank_thin(wide, ["player", "player_lo", "player_hi", "opponent", "opponent_lo", "opponent_hi"])
+    fig, axes = charts.group_grid(groups, sharey=True, title="Do you lose on time more late at night?")
+    labels = [short_band(b) for b in BAND_LABELS]
+    drawn = {}
+    for group, ax in axes.items():
+        part = wide[wide["tc_group"] == group].assign(hours=lambda f: f["band"].map(short_band))
+        drawn[group] = part["player"].notna().any()
+        if drawn[group]:
+            charts.side_bars(ax, part, "hours", order=labels)
+            ax.set_xlim(-0.5, len(labels) - 0.5)
+            ax.tick_params(axis="x", labelsize=7)
+    finish_grid(fig, axes, drawn, "share of losses on time", "local hour", zero=False)
+    charts.legend(fig, loc="upper right", bbox_to_anchor=(1.0, 1.0))
+    charts.footnote(fig, f"Of the games each side lost, the share lost on time. 95% CIs resample sessions; bands with under {MIN_CELL_LOSSES} losses on either side or {MIN_SESSIONS} sessions left out.")
+    results.figure(fig, "6_flags_by_band")
 
 
-# --- main ---------------------------------------------------------------------------------------
+# --- main ---------------------------------------------------------------------------------------------
 
 
 def main() -> None:
     t0 = time.time()
-    figure_style()
+    charts.style()
     data = load_data()
+    gap = float(load_settings().session_gap_minutes)
     decomposed = pd.read_parquet(repo_root() / "data" / data.username / "games_decomposed.parquet")
-    games = build(data, decomposed)
-
-    report = Report(SLUG, "Time of day and day of week")
-    n_by_tc = games["time_class"].value_counts()
-    report.text(
-        f"Data: {len(games):,} standard live games with at least one move ({n_by_tc.get('bullet', 0):,} bullet, {n_by_tc.get('blitz', 0):,} blitz, "
-        f"{n_by_tc.get('rapid', 0):,} rapid) in {games[CLUSTER].nunique():,} sessions (Q5's 30-minute gap over standard live games), {len(data.moves):,} analysed moves, "
-        f"player {data.username}, {games['local_start'].min():%Y-%m-%d} to {games['local_start'].max():%Y-%m-%d}. Hours and weekdays are local (Europe/London). "
-        "Per-game quality comes from Q1's `games_decomposed.parquet`; session variables and the metric machinery are Q5's. Numbers are estimate [95% CI], "
-        f"CIs bootstrapped by session ({N_BOOT} resamples), since the games of a session share the hour. `ep_loss` (calibrated expected points lost per move) is the "
-        "main quality measure, `cp_loss` secondary, and every number about you sits next to the opponents' number from the same games."
-    )
-    when = section_when(report, games)
-    hourly = section_hourly(report, games)
-    bands = section_bands(report, games)
-    weekday = section_weekday(report, games)
-    regression = section_regression(report, games)
-    stability = section_sensitivity(report, games, when)
-
-    # --- summary from the results ---
-    ex = regression["excess_model"]
-    gap = regression["ep_rate_gap"]
-    band_terms = [b for b in BAND_LABELS if b != REF_BAND]
-    worst_band = min(band_terms, key=lambda t: ex[t][0])
-    best_band = max(band_terms, key=lambda t: ex[t][0])
-    sig_terms = [(label, t) for label, r in (("score", ex), ("paired ep gap", gap)) for t in band_terms if excludes_zero(r[t][1], r[t][2])]
-    p_score, p_gap = ex["perm_p_max"], gap["perm_p_max"]
-    bh = stability["by_half"]
-    candidate = ""
-    if sig_terms:
-        label, t = sig_terms[0]
-        key = "excess_model" if label == "score" else "ep_gap"
-        f = ".3f" if key == "excess_model" else ".4f"
-        h1, h2 = bh[(t, "2021–2023", key)], bh[(t, "2024–2026", key)]
-        replicates = pd.notna(h1[0]) and pd.notna(h2[0]) and np.sign(h1[0]) == np.sign(h2[0]) and excludes_zero(h1[1], h1[2]) and excludes_zero(h2[1], h2[2])
-        candidate = (
-            f"The one band coefficient whose CI excludes zero ({t}, {label}: {fmt(*(ex if key == 'excess_model' else gap)[t], f=f)}) is "
-            + ("present in both halves of the history " if replicates else "not stable: ")
-            + f"{fmt(*h1, f=f)} in 2021–2023 vs {fmt(*h2, f=f)} in 2024–2026, "
-            + ("so it is a candidate worth re-checking with more games. " if replicates else "so it is best read as one of the chance hits a 46-contrast table produces. ")
-        )
-    late = bands["contrasts"].get(("all", "late 21-23", "excess_model"))
-    late_gap = bands["contrasts"].get(("all", "late 21-23", "ep_gap"))
-    late_flag = bands["contrasts"].get(("all", "late 21-23", "timeout_share"))
-    night = bands["contrasts"].get(("all", "night 0-6", "excess_model"))
-    midday = bands["contrasts"].get(("all", "midday 12-14", "excess_model"))
-    wk = weekday["weekend"]
-    report.heading("What this means for the player")
-    if p_score < 0.05 or p_gap < 0.05:
-        verdict = (
-            f"There is a time-of-day signal after the session controls: the {worst_band} band is the weakest ({fmt(*ex[worst_band])} on score − expectation vs {REF_BAND}) "
-            f"and {best_band} the strongest ({fmt(*ex[best_band])}); permutation p {p_score:.2f} on score and {p_gap:.2f} on the paired ep gap. "
-        )
-    else:
-        verdict = (
-            f"The hour of the day is not where your points go. Raw late-evening games (21–23) score {fmt(*late)} relative to the rest and night games {fmt(*night)}, midday games "
-            f"{fmt(*midday)}, but once the session controls, time class, rating and year are in the model no band differs from the afternoon beyond its CI "
-            f"(range {min(ex[t][0] for t in band_terms):+.3f} to {max(ex[t][0] for t in band_terms):+.3f}; permutation p {p_score:.2f} on score, {p_gap:.2f} on the paired ep gap), "
-            f"and your opponents' error moves with yours hour by hour (late 21–23 paired ep gap {fmt(*late_gap, f='.4f')}, flags / your losses {fmt(*late_flag)} vs the rest). "
-            + candidate
-            + f"The sign of the raw band effects on score agrees between the two halves of the history in only {stability['agree']} of {stability['n_bands']} bands. "
-        )
-    report.text(
-        verdict
-        + f"Weekend − weekday is {fmt(*wk['excess_model'])} in score − expectation and {fmt(*wk['ep_gap'], f='.4f')} in the paired ep gap; weekend evenings vs weekday nights "
-        f"{fmt(*weekday['contrast']['excess_model'])}. The session effects dwarf anything the clock on the wall does: last game of the session {fmt(*ex['last game of session'])}, "
-        f"previous game lost {fmt(*ex['previous game lost'])}. Pick the hour you like; what matters is stopping after a loss, not the time it happens."
-    )
-    report.heading("Caveats")
-    report.text(
-        "- Hours are Europe/London from UTC start times; travel breaks the labels. The 01:00–06:59 games cluster in a few episodes "
-        f"({when['night_episode_month']}: {when['night_episode_n']} games); the night band without that episode has {stability['night_wo']} games (section 6).\n"
-        f"- You choose when to play. Hours are not assigned at random: the night band is {when['night_bullet']} bullet and {when['night_recent']} from 2025–26, "
-        f"the morning band is {when['morning_early']} from 2022–23, and the sessions "
-        "that run late are the ones that were going well (or badly) enough to continue. Time class, rating, year and the session position are controlled; the "
-        "reason you were still playing at 23:00 is not.\n"
-        "- Score − expectation in late-session games is positively selected between sessions (Q5); the regression includes the last-game and previous-result "
-        "dummies but is a pooled, between-session model. The paired you − opponents ep gap is the measure least exposed to this and to the pool changing by hour.\n"
-        f"- Many cells: {len(HOUR_ORDER)} hourly buckets, {len(BAND_LABELS)} bands × 4 classes, 7 weekdays, 42 weekday × band cells; a few CIs excluding zero are "
-        "expected by chance, which is why the permutation test of the band block is the headline test. Cells under 20 games are blank; the heat-map shows point estimates only.\n"
-        f"- Sessions can span bands ({when['spanning']} of {when['n_sessions']:,} do); each game carries the band of its own start. CIs are clustered by session, which is conservative for between-band comparisons.\n"
-        "- The opponents' approximate pre-game rating and the model's move-1 expectation inherit Q1's caveats (pooled calibration, under-confident at the extremes); "
-        "`my_ep_start` already prices in the pre-game ratings and the time control, so a weaker night-time pool is not mistaken for better play.\n"
-        "- Seconds per move pool time controls within a class; compare within a time class only."
-    )
-    path = report.write()
-    print(f"wrote {path} in {time.time() - t0:.0f} s")
+    games = build(data, decomposed, gap)
+    results = Results(SLUG)
+    q1_hours(results, games, data)
+    q2_weekdays(results, games, data)
+    q3_grid(results, games, data)
+    q4_adjusted(results, games, data)
+    q5_halves(results, games, data)
+    q6_flags(results, games, data)
+    results.finish()
+    print(f"done in {time.time() - t0:.0f} s")
 
 
 if __name__ == "__main__":

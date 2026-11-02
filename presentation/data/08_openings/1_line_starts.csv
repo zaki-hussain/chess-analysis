@@ -1,0 +1,141 @@
+tc_group,colour,line_start,games,colour_games,share,recent_games,thin
+all games,white,1.e4,2665,3016,0.883621,211,False
+all games,white,1.d4,346,3016,0.114721,1,False
+all games,white,other,5,3016,0.001658,0,False
+bullet 1+0,white,1.e4,1422,1474,0.964722,75,False
+bullet 1+0,white,1.d4,49,1474,0.033243,0,False
+bullet 1+0,white,other,3,1474,0.002035,0,False
+bullet 1+1,white,1.e4,193,211,0.914692,133,False
+bullet 1+1,white,1.d4,18,211,0.085308,0,False
+bullet 1+1,white,other,0,211,0.0,0,False
+bullet 2+1,white,1.e4,40,41,0.97561,0,False
+bullet 2+1,white,1.d4,0,41,0.0,0,False
+bullet 2+1,white,other,1,41,0.02439,0,False
+blitz 3+0,white,1.e4,104,105,0.990476,0,False
+blitz 3+0,white,1.d4,1,105,0.009524,0,False
+blitz 3+0,white,other,0,105,0.0,0,False
+blitz 3+2,white,1.e4,516,719,0.717663,2,False
+blitz 3+2,white,1.d4,202,719,0.280946,0,False
+blitz 3+2,white,other,1,719,0.001391,0,False
+blitz 5+0,white,1.e4,30,44,0.681818,0,False
+blitz 5+0,white,1.d4,14,44,0.318182,0,False
+blitz 5+0,white,other,0,44,0.0,0,False
+blitz 5+2,white,1.e4,56,57,0.982456,0,False
+blitz 5+2,white,1.d4,1,57,0.017544,0,False
+blitz 5+2,white,other,0,57,0.0,0,False
+blitz 5+5,white,1.e4,30,71,0.422535,0,False
+blitz 5+5,white,1.d4,41,71,0.577465,0,False
+blitz 5+5,white,other,0,71,0.0,0,False
+rapid 10+0,white,1.e4,274,294,0.931973,1,False
+rapid 10+0,white,1.d4,20,294,0.068027,1,False
+rapid 10+0,white,other,0,294,0.0,0,False
+all games,black,1.e4 e5,1672,2991,0.55901,115,False
+all games,black,1.d4 d5,654,2991,0.218656,57,False
+all games,black,1.e3 e5,103,2991,0.034437,3,False
+all games,black,1.e4 c5,87,2991,0.029087,0,False
+all games,black,1.g3 e5,63,2991,0.021063,6,False
+all games,black,1.d4 e5,44,2991,0.014711,2,False
+all games,black,1.b3 e5,43,2991,0.014376,6,False
+all games,black,1.Nf3 d5,39,2991,0.013039,5,False
+all games,black,1.e4 d5,36,2991,0.012036,0,False
+all games,black,1.d3 e5,35,2991,0.011702,2,False
+all games,black,other,215,2991,0.071882,9,False
+bullet 1+0,black,1.e4 e5,804,1462,0.549932,35,False
+bullet 1+0,black,1.d4 d5,305,1462,0.208618,20,False
+bullet 1+0,black,1.e3 e5,68,1462,0.046512,1,False
+bullet 1+0,black,1.e4 c5,6,1462,0.004104,0,False
+bullet 1+0,black,1.g3 e5,46,1462,0.031464,3,False
+bullet 1+0,black,1.d4 e5,38,1462,0.025992,1,False
+bullet 1+0,black,1.b3 e5,30,1462,0.02052,0,False
+bullet 1+0,black,1.Nf3 d5,18,1462,0.012312,3,False
+bullet 1+0,black,1.e4 d5,8,1462,0.005472,0,False
+bullet 1+0,black,1.d3 e5,33,1462,0.022572,2,False
+bullet 1+0,black,other,106,1462,0.072503,5,False
+bullet 1+1,black,1.e4 e5,109,201,0.542289,80,False
+bullet 1+1,black,1.d4 d5,50,201,0.248756,33,False
+bullet 1+1,black,1.e3 e5,5,201,0.024876,2,False
+bullet 1+1,black,1.e4 c5,10,201,0.049751,0,False
+bullet 1+1,black,1.g3 e5,4,201,0.0199,3,False
+bullet 1+1,black,1.d4 e5,2,201,0.00995,1,False
+bullet 1+1,black,1.b3 e5,6,201,0.029851,6,False
+bullet 1+1,black,1.Nf3 d5,3,201,0.014925,2,False
+bullet 1+1,black,1.e4 d5,1,201,0.004975,0,False
+bullet 1+1,black,1.d3 e5,0,201,0.0,0,False
+bullet 1+1,black,other,11,201,0.054726,3,False
+bullet 2+1,black,1.e4 e5,8,44,0.181818,0,False
+bullet 2+1,black,1.d4 d5,8,44,0.181818,0,False
+bullet 2+1,black,1.e3 e5,1,44,0.022727,0,False
+bullet 2+1,black,1.e4 c5,19,44,0.431818,0,False
+bullet 2+1,black,1.g3 e5,0,44,0.0,0,False
+bullet 2+1,black,1.d4 e5,0,44,0.0,0,False
+bullet 2+1,black,1.b3 e5,0,44,0.0,0,False
+bullet 2+1,black,1.Nf3 d5,0,44,0.0,0,False
+bullet 2+1,black,1.e4 d5,1,44,0.022727,0,False
+bullet 2+1,black,1.d3 e5,1,44,0.022727,0,False
+bullet 2+1,black,other,6,44,0.136364,0,False
+blitz 3+0,black,1.e4 e5,66,104,0.634615,0,False
+blitz 3+0,black,1.d4 d5,17,104,0.163462,0,False
+blitz 3+0,black,1.e3 e5,3,104,0.028846,0,False
+blitz 3+0,black,1.e4 c5,1,104,0.009615,0,False
+blitz 3+0,black,1.g3 e5,1,104,0.009615,0,False
+blitz 3+0,black,1.d4 e5,2,104,0.019231,0,False
+blitz 3+0,black,1.b3 e5,2,104,0.019231,0,False
+blitz 3+0,black,1.Nf3 d5,2,104,0.019231,0,False
+blitz 3+0,black,1.e4 d5,1,104,0.009615,0,False
+blitz 3+0,black,1.d3 e5,0,104,0.0,0,False
+blitz 3+0,black,other,9,104,0.086538,0,False
+blitz 3+2,black,1.e4 e5,429,719,0.596662,0,False
+blitz 3+2,black,1.d4 d5,163,719,0.226704,3,False
+blitz 3+2,black,1.e3 e5,13,719,0.018081,0,False
+blitz 3+2,black,1.e4 c5,28,719,0.038943,0,False
+blitz 3+2,black,1.g3 e5,7,719,0.009736,0,False
+blitz 3+2,black,1.d4 e5,1,719,0.001391,0,False
+blitz 3+2,black,1.b3 e5,5,719,0.006954,0,False
+blitz 3+2,black,1.Nf3 d5,9,719,0.012517,0,False
+blitz 3+2,black,1.e4 d5,14,719,0.019471,0,False
+blitz 3+2,black,1.d3 e5,0,719,0.0,0,False
+blitz 3+2,black,other,50,719,0.069541,0,False
+blitz 5+0,black,1.e4 e5,16,46,0.347826,0,False
+blitz 5+0,black,1.d4 d5,9,46,0.195652,0,False
+blitz 5+0,black,1.e3 e5,2,46,0.043478,0,False
+blitz 5+0,black,1.e4 c5,9,46,0.195652,0,False
+blitz 5+0,black,1.g3 e5,1,46,0.021739,0,False
+blitz 5+0,black,1.d4 e5,0,46,0.0,0,False
+blitz 5+0,black,1.b3 e5,0,46,0.0,0,False
+blitz 5+0,black,1.Nf3 d5,0,46,0.0,0,False
+blitz 5+0,black,1.e4 d5,3,46,0.065217,0,False
+blitz 5+0,black,1.d3 e5,0,46,0.0,0,False
+blitz 5+0,black,other,6,46,0.130435,0,False
+blitz 5+2,black,1.e4 e5,35,56,0.625,0,False
+blitz 5+2,black,1.d4 d5,15,56,0.267857,0,False
+blitz 5+2,black,1.e3 e5,0,56,0.0,0,False
+blitz 5+2,black,1.e4 c5,0,56,0.0,0,False
+blitz 5+2,black,1.g3 e5,1,56,0.017857,0,False
+blitz 5+2,black,1.d4 e5,0,56,0.0,0,False
+blitz 5+2,black,1.b3 e5,0,56,0.0,0,False
+blitz 5+2,black,1.Nf3 d5,1,56,0.017857,0,False
+blitz 5+2,black,1.e4 d5,0,56,0.0,0,False
+blitz 5+2,black,1.d3 e5,0,56,0.0,0,False
+blitz 5+2,black,other,4,56,0.071429,0,False
+blitz 5+5,black,1.e4 e5,32,66,0.484848,0,False
+blitz 5+5,black,1.d4 d5,14,66,0.212121,0,False
+blitz 5+5,black,1.e3 e5,1,66,0.015152,0,False
+blitz 5+5,black,1.e4 c5,4,66,0.060606,0,False
+blitz 5+5,black,1.g3 e5,1,66,0.015152,0,False
+blitz 5+5,black,1.d4 e5,0,66,0.0,0,False
+blitz 5+5,black,1.b3 e5,0,66,0.0,0,False
+blitz 5+5,black,1.Nf3 d5,1,66,0.015152,0,False
+blitz 5+5,black,1.e4 d5,7,66,0.106061,0,False
+blitz 5+5,black,1.d3 e5,0,66,0.0,0,False
+blitz 5+5,black,other,6,66,0.090909,0,False
+rapid 10+0,black,1.e4 e5,173,293,0.590444,0,False
+rapid 10+0,black,1.d4 d5,73,293,0.249147,1,False
+rapid 10+0,black,1.e3 e5,10,293,0.03413,0,False
+rapid 10+0,black,1.e4 c5,10,293,0.03413,0,False
+rapid 10+0,black,1.g3 e5,2,293,0.006826,0,False
+rapid 10+0,black,1.d4 e5,1,293,0.003413,0,False
+rapid 10+0,black,1.b3 e5,0,293,0.0,0,False
+rapid 10+0,black,1.Nf3 d5,5,293,0.017065,0,False
+rapid 10+0,black,1.e4 d5,1,293,0.003413,0,False
+rapid 10+0,black,1.d3 e5,1,293,0.003413,0,False
+rapid 10+0,black,other,17,293,0.05802,1,False

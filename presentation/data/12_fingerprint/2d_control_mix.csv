@@ -1,0 +1,39 @@
+tc_group,matching,time_class,control,you_share,strangers_share
+bullet 1+0,band and control,bullet,1+0,1.0,1.0
+bullet 1+1,band and control,bullet,1+1,1.0,1.0
+blitz 3+0,band and control,blitz,3+0,1.0,1.0
+blitz 3+2,band and control,blitz,3+2,1.0,1.0
+rapid 10+0,band and control,rapid,10+0,1.0,1.0
+all bullet,band and control,bullet,1+0,0.86209,0.86209
+all bullet,band and control,bullet,1+1,0.115128,0.115128
+all bullet,band and control,bullet,2+1,0.022783,0.022783
+all bullet,band only,bullet,1+0,0.861828,0.765867
+all bullet,band only,bullet,1+1,0.115396,0.142423
+all bullet,band only,bullet,2+1,0.022776,0.077437
+all bullet,band only,bullet,0.5+0,0.0,0.012754
+all bullet,band only,bullet,0.166667+0,0.0,0.000911
+all bullet,band only,bullet,0.333333+1,0.0,0.000607
+all blitz,band and control,blitz,3+2,0.762337,0.762337
+all blitz,band and control,blitz,3+0,0.114577,0.114577
+all blitz,band and control,blitz,5+5,0.067499,0.067499
+all blitz,band and control,blitz,5+0,0.04878,0.04878
+all blitz,band and control,blitz,5+2,0.006807,0.006807
+all blitz,band only,blitz,3+2,0.720643,0.268633
+all blitz,band only,blitz,3+0,0.108311,0.360858
+all blitz,band only,blitz,5+0,0.046113,0.30134
+all blitz,band only,blitz,5+5,0.068097,0.042895
+all blitz,band only,blitz,5+2,0.056836,0.002681
+all blitz,band only,blitz,10+0,0.0,0.02252
+all blitz,band only,blitz,5+1,0.0,0.000536
+all blitz,band only,blitz,7+0,0.0,0.000536
+all rapid,band and control,rapid,10+0,1.0,1.0
+all rapid,band only,rapid,10+0,1.0,0.865421
+all rapid,band only,rapid,15+10,0.0,0.059813
+all rapid,band only,rapid,15+0,0.0,0.028037
+all rapid,band only,rapid,10+5,0.0,0.016822
+all rapid,band only,rapid,30+0,0.0,0.014953
+all rapid,band only,rapid,20+0,0.0,0.005607
+all rapid,band only,rapid,15+2,0.0,0.003738
+all rapid,band only,rapid,10+15,0.0,0.001869
+all rapid,band only,rapid,10+2,0.0,0.001869
+all rapid,band only,rapid,10+3,0.0,0.001869

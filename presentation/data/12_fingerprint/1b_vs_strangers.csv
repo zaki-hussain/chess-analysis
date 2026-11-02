@@ -1,0 +1,23 @@
+tc_group,matching,time_class,model,auc,auc_lo,auc_hi,accuracy,accuracy_lo,accuracy_hi,you_games,stranger_games,strangers,thin
+bullet 1+0,band and control,bullet,boosting,0.918539,0.903194,0.932952,0.840557,0.822455,0.857949,2838,2838,159,False
+bullet 1+0,band and control,bullet,logistic,0.893708,0.873501,0.911552,0.825934,0.801969,0.84774,2838,2838,159,False
+bullet 1+1,band and control,bullet,boosting,0.805251,0.762765,0.846662,0.741425,0.700904,0.783192,379,379,50,False
+bullet 1+1,band and control,bullet,logistic,0.791202,0.738345,0.83251,0.736148,0.692051,0.784927,379,379,50,False
+blitz 3+0,band and control,blitz,boosting,0.780977,0.733335,0.826711,0.710396,0.659753,0.760115,202,202,70,False
+blitz 3+0,band and control,blitz,logistic,0.822468,0.77641,0.866122,0.742574,0.697202,0.797858,202,202,70,False
+blitz 3+2,band and control,blitz,boosting,0.822945,0.794491,0.847875,0.741815,0.71944,0.770463,1344,1344,100,False
+blitz 3+2,band and control,blitz,logistic,0.770966,0.732479,0.807007,0.707217,0.677203,0.737801,1344,1344,100,False
+rapid 10+0,band and control,rapid,boosting,0.80747,0.777609,0.834916,0.731776,0.705135,0.761278,535,535,137,False
+rapid 10+0,band and control,rapid,logistic,0.764944,0.730207,0.795823,0.714953,0.687862,0.745524,535,535,137,False
+all bullet,band and control,bullet,boosting,0.910325,0.894369,0.924975,0.829131,0.811874,0.846249,3292,3292,170,False
+all bullet,band and control,bullet,logistic,0.88201,0.862297,0.899446,0.808171,0.787749,0.827505,3292,3292,170,False
+all bullet,band only,bullet,boosting,0.909352,0.895502,0.924781,0.82979,0.811337,0.848505,3293,3293,176,False
+all bullet,band only,bullet,logistic,0.871723,0.853548,0.890981,0.800486,0.782819,0.820983,3293,3293,176,False
+all blitz,band and control,blitz,boosting,0.82403,0.801641,0.844974,0.74135,0.720398,0.761298,1763,1763,156,False
+all blitz,band and control,blitz,logistic,0.784749,0.757802,0.809196,0.71696,0.692973,0.741578,1763,1763,156,False
+all blitz,band only,blitz,boosting,0.875631,0.855079,0.89299,0.795442,0.776474,0.814587,1865,1865,180,False
+all blitz,band only,blitz,logistic,0.846755,0.821726,0.86866,0.775603,0.755644,0.796022,1865,1865,180,False
+all rapid,band and control,rapid,boosting,0.808584,0.782898,0.831436,0.730841,0.70604,0.758471,535,535,140,False
+all rapid,band and control,rapid,logistic,0.784142,0.751681,0.812246,0.72243,0.695283,0.752118,535,535,140,False
+all rapid,band only,rapid,boosting,0.818307,0.787852,0.847784,0.750467,0.721474,0.778736,535,535,142,False
+all rapid,band only,rapid,logistic,0.792195,0.761227,0.826741,0.718692,0.688526,0.753318,535,535,142,False

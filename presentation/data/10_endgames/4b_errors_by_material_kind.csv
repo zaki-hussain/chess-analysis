@@ -1,0 +1,196 @@
+tc_group,pooled,controls,position,tb_class,per_100_player,per_100_player_lo,per_100_player_hi,per_100_opponent,per_100_opponent_lo,per_100_opponent_hi,per_100_diff,per_100_diff_lo,per_100_diff_hi,player_moves,player_errors,opponent_moves,opponent_errors,games,thin
+bullet 1+0,False,1+0,drawn,pawn ending,13.793103,0.0,25.869176,3.846154,0.0,16.25,9.94695,-11.718137,22.222222,29,4,26,1,9,True
+bullet 1+0,False,1+0,drawn,rook ending,14.814815,0.0,48.0,3.703704,0.0,9.677419,11.111111,-9.090909,47.123077,27,4,27,1,6,True
+bullet 1+0,False,1+0,drawn,rook vs pawns/bare king,100.0,,,0.0,,,100.0,0.0,100.0,1,1,1,0,2,True
+bullet 1+0,False,1+0,drawn,queen ending,0.0,,,0.0,0.0,0.0,0.0,0.0,0.0,2,0,4,0,2,True
+bullet 1+0,False,1+0,drawn,queen vs pawns/bare king,25.0,0.0,100.0,0.0,,,25.0,0.0,100.0,4,1,1,0,4,True
+bullet 1+0,False,1+0,drawn,queen vs rook/minor,,,,0.0,,,,,,0,0,1,0,1,True
+bullet 1+0,False,1+0,drawn,rook vs minor,40.0,,,0.0,,,40.0,,,10,4,7,0,1,True
+bullet 1+0,False,1+0,drawn,minor vs minor,0.0,,,0.0,,,0.0,,,2,0,2,0,1,True
+bullet 1+0,False,1+0,drawn,minor vs pawns/bare king,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,34,0,32,0,6,True
+bullet 1+0,False,1+0,won,pawn ending,1.041667,0.0,3.541667,4.081633,0.0,9.637446,-3.039966,-8.962128,1.403777,96,1,147,6,50,True
+bullet 1+0,False,1+0,won,rook ending,42.857143,9.090909,100.0,62.5,50.0,100.0,-19.642857,-72.727273,57.142857,7,3,8,5,5,True
+bullet 1+0,False,1+0,won,rook vs pawns/bare king,0.0,0.0,0.0,1.075269,0.0,3.609302,-1.075269,-3.425439,0.0,182,0,93,1,48,True
+bullet 1+0,False,1+0,won,queen ending,0.0,0.0,0.0,,,,,,,2,0,0,0,2,True
+bullet 1+0,False,1+0,won,queen vs pawns/bare king,0.471698,0.0,1.542625,2.28013,0.851005,4.000139,-1.808432,-3.617217,0.063134,212,1,307,7,84,False
+bullet 1+0,False,1+0,won,queen vs rook/minor,0.0,0.0,0.0,,,,,,,14,0,0,0,4,True
+bullet 1+0,False,1+0,won,rook vs minor,,,,50.0,,,,,,0,0,6,3,1,True
+bullet 1+0,False,1+0,won,minor vs pawns/bare king,2.380952,0.0,9.575076,2.083333,0.0,6.896552,0.297619,-5.867695,10.276316,42,1,48,1,19,True
+bullet 1+1,False,1+1,drawn,pawn ending,0.0,,,0.0,,,0.0,,,2,0,2,0,1,True
+bullet 1+1,False,1+1,drawn,rook ending,,,,0.0,,,,,,0,0,1,0,1,True
+bullet 1+1,False,1+1,drawn,rook vs pawns/bare king,0.0,,,,,,,,,1,0,0,0,1,True
+bullet 1+1,False,1+1,won,pawn ending,0.0,0.0,0.0,2.702703,0.0,5.882353,-2.702703,-6.25,0.0,46,0,37,1,13,True
+bullet 1+1,False,1+1,won,rook ending,0.0,,,0.0,,,0.0,0.0,0.0,1,0,1,0,2,True
+bullet 1+1,False,1+1,won,rook vs pawns/bare king,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,9,0,28,0,6,True
+bullet 1+1,False,1+1,won,queen vs pawns/bare king,0.0,0.0,0.0,1.0,0.0,3.448276,-1.0,-4.050245,0.0,108,0,100,1,20,True
+bullet 1+1,False,1+1,won,minor vs pawns/bare king,0.0,0.0,0.0,,,,,,,8,0,0,0,3,True
+bullet 2+1,False,2+1,drawn,pawn ending,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,6,0,7,0,3,True
+bullet 2+1,False,2+1,drawn,rook vs pawns/bare king,0.0,,,0.0,,,0.0,0.0,0.0,1,0,1,0,2,True
+bullet 2+1,False,2+1,drawn,queen vs pawns/bare king,,,,0.0,,,,,,0,0,1,0,1,True
+bullet 2+1,False,2+1,won,pawn ending,50.0,,,0.0,,,50.0,0.0,50.0,2,1,6,0,2,True
+bullet 2+1,False,2+1,won,rook vs pawns/bare king,16.666667,,,14.285714,,,2.380952,-14.285714,16.666667,6,1,7,1,2,True
+bullet 2+1,False,2+1,won,queen vs pawns/bare king,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,23,0,16,0,6,True
+bullet 2+1,False,2+1,won,queen vs rook/minor,0.0,,,,,,,,,1,0,0,0,1,True
+bullet 2+1,False,2+1,won,minor vs pawns/bare king,,,,0.0,,,,,,0,0,3,0,1,True
+blitz 3+0,False,3+0,drawn,pawn ending,0.0,0.0,0.0,0.0,,,0.0,0.0,0.0,18,0,18,0,2,True
+blitz 3+0,False,3+0,drawn,rook ending,50.0,,,0.0,,,50.0,,,2,1,1,0,1,True
+blitz 3+0,False,3+0,drawn,rook vs pawns/bare king,0.0,,,,,,,,,1,0,0,0,1,True
+blitz 3+0,False,3+0,drawn,queen vs rook/minor,0.0,,,50.0,,,-50.0,,,1,0,2,1,1,True
+blitz 3+0,False,3+0,drawn,minor vs pawns/bare king,0.0,,,50.0,,,-50.0,,,2,0,2,1,1,True
+blitz 3+0,False,3+0,won,pawn ending,0.0,0.0,0.0,6.666667,0.0,50.0,-6.666667,-50.0,0.0,14,0,15,1,6,True
+blitz 3+0,False,3+0,won,rook ending,0.0,0.0,0.0,,,,,,,13,0,0,0,2,True
+blitz 3+0,False,3+0,won,rook vs pawns/bare king,0.0,0.0,0.0,2.564103,0.0,50.0,-2.564103,-66.666667,0.0,25,0,39,1,7,True
+blitz 3+0,False,3+0,won,queen vs pawns/bare king,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,35,0,20,0,7,True
+blitz 3+0,False,3+0,won,queen vs rook/minor,0.0,,,,,,,,,1,0,0,0,1,True
+blitz 3+0,False,3+0,won,rook vs minor,0.0,0.0,0.0,,,,,,,3,0,0,0,2,True
+blitz 3+0,False,3+0,won,minor vs pawns/bare king,0.0,0.0,0.0,,,,,,,10,0,0,0,2,True
+blitz 3+2,False,3+2,drawn,pawn ending,3.738318,0.86563,9.75437,0.0,0.0,0.0,3.738318,0.86563,9.75437,107,4,103,0,18,True
+blitz 3+2,False,3+2,drawn,rook ending,8.108108,1.639344,18.083904,14.102564,3.374875,27.868852,-5.994456,-23.002831,6.905623,74,6,78,11,21,True
+blitz 3+2,False,3+2,drawn,rook vs pawns/bare king,8.333333,0.0,33.333333,0.0,0.0,0.0,8.333333,0.0,43.690476,12,1,14,0,13,True
+blitz 3+2,False,3+2,drawn,queen ending,0.0,0.0,0.0,3.448276,0.0,33.035714,-3.448276,-50.0,0.0,27,0,29,1,4,True
+blitz 3+2,False,3+2,drawn,queen vs pawns/bare king,0.0,0.0,0.0,14.285714,0.0,28.704545,-14.285714,-28.571429,0.0,4,0,7,1,7,True
+blitz 3+2,False,3+2,drawn,rook vs minor,20.0,0.0,100.0,0.0,0.0,0.0,20.0,0.0,100.0,5,1,5,0,3,True
+blitz 3+2,False,3+2,drawn,minor vs minor,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,17,0,18,0,6,True
+blitz 3+2,False,3+2,drawn,minor vs pawns/bare king,5.405405,0.0,22.222222,2.702703,0.0,6.564516,2.702703,-5.555556,21.052632,37,2,37,1,8,True
+blitz 3+2,False,3+2,won,pawn ending,1.449275,0.0,4.08321,4.861111,1.531661,10.088081,-3.411836,-9.426809,1.074646,69,1,144,7,47,True
+blitz 3+2,False,3+2,won,rook ending,16.0,4.393133,26.602041,23.529412,0.0,50.0,-7.529412,-41.480406,20.269231,50,8,17,4,14,True
+blitz 3+2,False,3+2,won,rook vs pawns/bare king,0.0,0.0,0.0,0.540541,0.0,2.098738,-0.540541,-2.109231,0.0,331,0,185,1,50,True
+blitz 3+2,False,3+2,won,queen ending,50.0,0.0,66.666667,0.0,0.0,0.0,50.0,0.0,66.666667,4,2,2,0,4,True
+blitz 3+2,False,3+2,won,queen vs pawns/bare king,1.231527,0.228808,2.506595,1.364522,0.525308,2.359132,-0.132995,-1.635217,1.564874,406,5,513,7,93,False
+blitz 3+2,False,3+2,won,queen vs rook/minor,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,15,0,18,0,7,True
+blitz 3+2,False,3+2,won,rook vs minor,0.0,,,5.555556,0.0,31.071429,-5.555556,-33.333333,0.0,3,0,18,1,4,True
+blitz 3+2,False,3+2,won,minor vs minor,20.0,0.0,25.0,0.0,,,20.0,0.0,25.0,5,1,1,0,3,True
+blitz 3+2,False,3+2,won,minor vs pawns/bare king,1.538462,0.0,5.610587,6.896552,0.0,13.385572,-5.35809,-12.217262,2.288416,65,1,58,4,25,True
+blitz 5+0,False,5+0,won,rook ending,,,,0.0,,,,,,0,0,1,0,1,True
+blitz 5+0,False,5+0,won,rook vs pawns/bare king,0.0,,,,,,,,,3,0,0,0,1,True
+blitz 5+0,False,5+0,won,queen vs pawns/bare king,0.0,,,0.0,,,0.0,0.0,0.0,5,0,5,0,2,True
+blitz 5+0,False,5+0,won,minor vs pawns/bare king,0.0,,,,,,,,,3,0,0,0,1,True
+blitz 5+2,False,5+2,drawn,pawn ending,12.5,12.5,12.5,0.0,0.0,0.0,12.5,12.5,12.5,16,2,14,0,2,True
+blitz 5+2,False,5+2,drawn,rook ending,0.0,,,0.0,,,0.0,,,3,0,3,0,1,True
+blitz 5+2,False,5+2,drawn,queen vs rook/minor,,,,0.0,,,,,,0,0,1,0,1,True
+blitz 5+2,False,5+2,drawn,minor vs minor,0.0,,,0.0,,,0.0,,,3,0,3,0,1,True
+blitz 5+2,False,5+2,drawn,minor vs pawns/bare king,0.0,,,0.0,,,0.0,,,1,0,1,0,1,True
+blitz 5+2,False,5+2,won,pawn ending,0.0,,,11.111111,0.0,35.294118,-11.111111,-40.0,0.0,13,0,27,3,6,True
+blitz 5+2,False,5+2,won,rook ending,20.0,,,,,,,,,5,1,0,0,1,True
+blitz 5+2,False,5+2,won,rook vs pawns/bare king,0.0,0.0,0.0,0.0,,,0.0,0.0,0.0,20,0,2,0,3,True
+blitz 5+2,False,5+2,won,queen vs pawns/bare king,0.0,0.0,0.0,1.923077,0.0,7.798583,-1.923077,-8.319436,0.0,19,0,52,1,8,True
+blitz 5+2,False,5+2,won,rook vs minor,100.0,,,0.0,,,100.0,0.0,100.0,1,1,1,0,2,True
+blitz 5+2,False,5+2,won,minor vs pawns/bare king,,,,0.0,,,,,,0,0,1,0,1,True
+blitz 5+5,False,5+5,drawn,rook ending,0.0,,,60.0,,,-60.0,,,3,0,5,3,1,True
+blitz 5+5,False,5+5,won,pawn ending,0.0,,,0.0,,,0.0,0.0,0.0,6,0,2,0,2,True
+blitz 5+5,False,5+5,won,rook ending,66.666667,,,0.0,,,66.666667,0.0,66.666667,3,2,1,0,2,True
+blitz 5+5,False,5+5,won,rook vs pawns/bare king,0.0,,,0.0,0.0,0.0,0.0,0.0,0.0,3,0,15,0,3,True
+blitz 5+5,False,5+5,won,queen vs pawns/bare king,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,41,0,51,0,9,True
+blitz 5+5,False,5+5,won,queen vs rook/minor,,,,0.0,0.0,0.0,,,,0,0,5,0,2,True
+blitz 5+5,False,5+5,won,rook vs minor,,,,0.0,,,,,,0,0,1,0,1,True
+blitz 5+5,False,5+5,won,minor vs pawns/bare king,0.0,,,14.285714,,,-14.285714,-14.285714,0.0,1,0,7,1,2,True
+rapid 10+0,False,10+0,drawn,pawn ending,0.0,0.0,0.0,10.0,0.0,50.0,-10.0,-75.0,0.0,12,0,10,1,5,True
+rapid 10+0,False,10+0,drawn,rook ending,12.121212,4.0,26.315789,0.0,0.0,0.0,12.121212,4.0,26.315789,33,4,28,0,5,True
+rapid 10+0,False,10+0,drawn,rook vs pawns/bare king,,,,0.0,0.0,0.0,,,,0,0,3,0,3,True
+rapid 10+0,False,10+0,drawn,queen ending,21.428571,,,0.0,,,21.428571,,,14,3,11,0,1,True
+rapid 10+0,False,10+0,drawn,queen vs pawns/bare king,0.0,,,0.0,,,0.0,0.0,0.0,1,0,1,0,2,True
+rapid 10+0,False,10+0,drawn,queen vs rook/minor,0.0,,,0.0,,,0.0,,,1,0,1,0,1,True
+rapid 10+0,False,10+0,drawn,rook vs minor,0.0,,,,,,,,,1,0,0,0,1,True
+rapid 10+0,False,10+0,drawn,minor vs minor,0.0,,,0.0,,,0.0,,,6,0,6,0,1,True
+rapid 10+0,False,10+0,drawn,minor vs pawns/bare king,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,9,0,10,0,4,True
+rapid 10+0,False,10+0,won,pawn ending,2.898551,0.0,5.773363,2.702703,0.0,9.240057,0.195848,-7.245272,5.044492,69,2,37,1,16,True
+rapid 10+0,False,10+0,won,rook ending,0.0,0.0,0.0,11.111111,0.0,66.666667,-11.111111,-57.142857,0.0,3,0,27,3,7,True
+rapid 10+0,False,10+0,won,rook vs pawns/bare king,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,153,0,79,0,19,True
+rapid 10+0,False,10+0,won,queen ending,0.0,,,100.0,,,-100.0,-100.0,0.0,1,0,3,3,2,True
+rapid 10+0,False,10+0,won,queen vs pawns/bare king,0.0,0.0,0.0,2.325581,0.0,6.816229,-2.325581,-6.973045,0.0,91,0,86,2,24,True
+rapid 10+0,False,10+0,won,queen vs rook/minor,6.666667,0.0,10.0,0.0,,,6.666667,0.0,10.0,15,1,1,0,3,True
+rapid 10+0,False,10+0,won,rook vs minor,0.0,0.0,0.0,,,,,,,2,0,0,0,2,True
+rapid 10+0,False,10+0,won,minor vs pawns/bare king,6.25,0.0,33.333333,0.0,0.0,0.0,6.25,0.0,40.0,16,1,4,0,6,True
+all bullet,True,1+0 1+1 2+1,drawn,pawn ending,10.810811,0.0,21.24597,2.857143,0.0,11.389286,7.953668,-8.175,18.358586,37,4,35,1,13,True
+all bullet,True,1+0 1+1 2+1,drawn,rook ending,14.814815,0.0,48.0,3.571429,0.0,9.240057,11.243386,-8.523551,42.857143,27,4,28,1,7,True
+all bullet,True,1+0 1+1 2+1,drawn,rook vs pawns/bare king,33.333333,0.0,100.0,0.0,0.0,0.0,33.333333,0.0,100.0,3,1,2,0,5,True
+all bullet,True,1+0 1+1 2+1,drawn,queen ending,0.0,,,0.0,0.0,0.0,0.0,0.0,0.0,2,0,4,0,2,True
+all bullet,True,1+0 1+1 2+1,drawn,queen vs pawns/bare king,25.0,0.0,100.0,0.0,0.0,0.0,25.0,0.0,100.0,4,1,2,0,5,True
+all bullet,True,1+0 1+1 2+1,drawn,queen vs rook/minor,,,,0.0,,,,,,0,0,1,0,1,True
+all bullet,True,1+0 1+1 2+1,drawn,rook vs minor,40.0,,,0.0,,,40.0,,,10,4,7,0,1,True
+all bullet,True,1+0 1+1 2+1,drawn,minor vs minor,0.0,,,0.0,,,0.0,,,2,0,2,0,1,True
+all bullet,True,1+0 1+1 2+1,drawn,minor vs pawns/bare king,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,34,0,32,0,6,True
+all bullet,True,1+0 1+1 2+1,won,pawn ending,1.388889,0.0,3.663724,3.684211,0.491246,8.332096,-2.295322,-7.46775,1.805395,144,2,190,7,65,False
+all bullet,True,1+0 1+1 2+1,won,rook ending,37.5,9.090909,83.333333,55.555556,17.8125,100.0,-18.055556,-75.0,55.291667,8,3,9,5,7,True
+all bullet,True,1+0 1+1 2+1,won,rook vs pawns/bare king,0.507614,0.0,1.661041,1.5625,0.0,4.217583,-1.054886,-3.415273,0.945826,197,1,128,2,56,True
+all bullet,True,1+0 1+1 2+1,won,queen ending,0.0,0.0,0.0,,,,,,,2,0,0,0,2,True
+all bullet,True,1+0 1+1 2+1,won,queen vs pawns/bare king,0.291545,0.0,1.005517,1.891253,0.799609,3.374672,-1.599708,-3.174914,-0.137298,343,1,423,8,110,False
+all bullet,True,1+0 1+1 2+1,won,queen vs rook/minor,0.0,0.0,0.0,,,,,,,15,0,0,0,5,True
+all bullet,True,1+0 1+1 2+1,won,rook vs minor,,,,50.0,,,,,,0,0,6,3,1,True
+all bullet,True,1+0 1+1 2+1,won,minor vs pawns/bare king,2.0,0.0,7.317073,1.960784,0.0,6.677372,0.039216,-6.013462,7.480783,50,1,51,1,23,True
+bullet with increment,True,1+1 2+1,drawn,pawn ending,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,8,0,9,0,4,True
+bullet with increment,True,1+1 2+1,drawn,rook ending,,,,0.0,,,,,,0,0,1,0,1,True
+bullet with increment,True,1+1 2+1,drawn,rook vs pawns/bare king,0.0,0.0,0.0,0.0,,,0.0,0.0,0.0,2,0,1,0,3,True
+bullet with increment,True,1+1 2+1,drawn,queen vs pawns/bare king,,,,0.0,,,,,,0,0,1,0,1,True
+bullet with increment,True,1+1 2+1,won,pawn ending,2.083333,0.0,10.0,2.325581,0.0,5.660377,-0.242248,-4.513229,7.839847,48,1,43,1,15,True
+bullet with increment,True,1+1 2+1,won,rook ending,0.0,,,0.0,,,0.0,0.0,0.0,1,0,1,0,2,True
+bullet with increment,True,1+1 2+1,won,rook vs pawns/bare king,6.666667,0.0,15.789474,2.857143,0.0,10.714286,3.809524,-9.090909,13.924156,15,1,35,1,8,True
+bullet with increment,True,1+1 2+1,won,queen vs pawns/bare king,0.0,0.0,0.0,0.862069,0.0,2.916342,-0.862069,-3.051516,0.0,131,0,116,1,26,True
+bullet with increment,True,1+1 2+1,won,queen vs rook/minor,0.0,,,,,,,,,1,0,0,0,1,True
+bullet with increment,True,1+1 2+1,won,minor vs pawns/bare king,0.0,0.0,0.0,0.0,,,0.0,0.0,0.0,8,0,3,0,4,True
+all blitz,True,3+0 3+2 5+0 5+2 5+5,drawn,pawn ending,4.255319,1.54988,9.204086,0.0,0.0,0.0,4.255319,1.54988,9.204086,141,6,135,0,22,True
+all blitz,True,3+0 3+2 5+0 5+2 5+5,drawn,rook ending,8.536585,2.776384,17.6093,16.091954,6.436076,28.47973,-7.555369,-24.15655,7.160646,82,7,87,14,24,True
+all blitz,True,3+0 3+2 5+0 5+2 5+5,drawn,rook vs pawns/bare king,7.692308,0.0,28.571429,0.0,0.0,0.0,7.692308,0.0,50.0,13,1,14,0,14,True
+all blitz,True,3+0 3+2 5+0 5+2 5+5,drawn,queen ending,0.0,0.0,0.0,3.448276,0.0,33.035714,-3.448276,-50.0,0.0,27,0,29,1,4,True
+all blitz,True,3+0 3+2 5+0 5+2 5+5,drawn,queen vs pawns/bare king,0.0,0.0,0.0,14.285714,0.0,28.704545,-14.285714,-28.571429,0.0,4,0,7,1,7,True
+all blitz,True,3+0 3+2 5+0 5+2 5+5,drawn,queen vs rook/minor,0.0,,,33.333333,0.0,50.0,-33.333333,-50.0,0.0,1,0,3,1,2,True
+all blitz,True,3+0 3+2 5+0 5+2 5+5,drawn,rook vs minor,20.0,0.0,100.0,0.0,0.0,0.0,20.0,0.0,100.0,5,1,5,0,3,True
+all blitz,True,3+0 3+2 5+0 5+2 5+5,drawn,minor vs minor,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,20,0,21,0,7,True
+all blitz,True,3+0 3+2 5+0 5+2 5+5,drawn,minor vs pawns/bare king,5.0,0.0,18.75,5.0,0.0,12.711694,0.0,-11.277778,17.047101,40,2,40,2,10,True
+all blitz,True,3+0 3+2 5+0 5+2 5+5,won,pawn ending,0.980392,0.0,2.930979,5.851064,2.648359,10.635065,-4.870672,-10.85721,-0.965335,102,1,188,11,61,False
+all blitz,True,3+0 3+2 5+0 5+2 5+5,won,rook ending,15.492958,6.25,25.702214,21.052632,0.0,37.5,-5.559674,-24.720818,19.768293,71,11,19,4,20,True
+all blitz,True,3+0 3+2 5+0 5+2 5+5,won,rook vs pawns/bare king,0.0,0.0,0.0,0.829876,0.0,2.460512,-0.829876,-2.519987,0.0,382,0,241,2,64,True
+all blitz,True,3+0 3+2 5+0 5+2 5+5,won,queen ending,50.0,0.0,66.666667,0.0,0.0,0.0,50.0,0.0,66.666667,4,2,2,0,4,True
+all blitz,True,3+0 3+2 5+0 5+2 5+5,won,queen vs pawns/bare king,0.988142,0.177126,2.278108,1.24805,0.450358,2.103303,-0.259908,-1.580514,1.226017,506,5,641,8,119,False
+all blitz,True,3+0 3+2 5+0 5+2 5+5,won,queen vs rook/minor,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,16,0,23,0,10,True
+all blitz,True,3+0 3+2 5+0 5+2 5+5,won,rook vs minor,14.285714,0.0,60.0,5.0,0.0,27.272727,9.285714,-20.0,58.642857,7,1,20,1,9,True
+all blitz,True,3+0 3+2 5+0 5+2 5+5,won,minor vs minor,20.0,0.0,25.0,0.0,,,20.0,0.0,25.0,5,1,1,0,3,True
+all blitz,True,3+0 3+2 5+0 5+2 5+5,won,minor vs pawns/bare king,1.265823,0.0,4.255319,7.575758,1.980149,13.88125,-6.309935,-13.032722,0.0,79,1,66,5,31,True
+blitz no increment,True,3+0 5+0,drawn,pawn ending,0.0,0.0,0.0,0.0,,,0.0,0.0,0.0,18,0,18,0,2,True
+blitz no increment,True,3+0 5+0,drawn,rook ending,50.0,,,0.0,,,50.0,,,2,1,1,0,1,True
+blitz no increment,True,3+0 5+0,drawn,rook vs pawns/bare king,0.0,,,,,,,,,1,0,0,0,1,True
+blitz no increment,True,3+0 5+0,drawn,queen vs rook/minor,0.0,,,50.0,,,-50.0,,,1,0,2,1,1,True
+blitz no increment,True,3+0 5+0,drawn,minor vs pawns/bare king,0.0,,,50.0,,,-50.0,,,2,0,2,1,1,True
+blitz no increment,True,3+0 5+0,won,pawn ending,0.0,0.0,0.0,6.666667,0.0,50.0,-6.666667,-50.0,0.0,14,0,15,1,6,True
+blitz no increment,True,3+0 5+0,won,rook ending,0.0,0.0,0.0,0.0,,,0.0,0.0,0.0,13,0,1,0,3,True
+blitz no increment,True,3+0 5+0,won,rook vs pawns/bare king,0.0,0.0,0.0,2.564103,0.0,50.0,-2.564103,-71.041667,0.0,28,0,39,1,8,True
+blitz no increment,True,3+0 5+0,won,queen vs pawns/bare king,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,40,0,25,0,9,True
+blitz no increment,True,3+0 5+0,won,queen vs rook/minor,0.0,,,,,,,,,1,0,0,0,1,True
+blitz no increment,True,3+0 5+0,won,rook vs minor,0.0,0.0,0.0,,,,,,,3,0,0,0,2,True
+blitz no increment,True,3+0 5+0,won,minor vs pawns/bare king,0.0,0.0,0.0,,,,,,,13,0,0,0,3,True
+blitz with increment,True,3+2 5+2 5+5,drawn,pawn ending,4.878049,1.5625,10.05303,0.0,0.0,0.0,4.878049,1.5625,10.05303,123,6,117,0,20,True
+blitz with increment,True,3+2 5+2 5+5,drawn,rook ending,7.5,1.418008,17.537131,16.27907,5.708364,31.884058,-8.77907,-25.925719,6.3799,80,6,86,14,23,True
+blitz with increment,True,3+2 5+2 5+5,drawn,rook vs pawns/bare king,8.333333,0.0,33.333333,0.0,0.0,0.0,8.333333,0.0,43.690476,12,1,14,0,13,True
+blitz with increment,True,3+2 5+2 5+5,drawn,queen ending,0.0,0.0,0.0,3.448276,0.0,33.035714,-3.448276,-50.0,0.0,27,0,29,1,4,True
+blitz with increment,True,3+2 5+2 5+5,drawn,queen vs pawns/bare king,0.0,0.0,0.0,14.285714,0.0,28.704545,-14.285714,-28.571429,0.0,4,0,7,1,7,True
+blitz with increment,True,3+2 5+2 5+5,drawn,queen vs rook/minor,,,,0.0,,,,,,0,0,1,0,1,True
+blitz with increment,True,3+2 5+2 5+5,drawn,rook vs minor,20.0,0.0,100.0,0.0,0.0,0.0,20.0,0.0,100.0,5,1,5,0,3,True
+blitz with increment,True,3+2 5+2 5+5,drawn,minor vs minor,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,20,0,21,0,7,True
+blitz with increment,True,3+2 5+2 5+5,drawn,minor vs pawns/bare king,5.263158,0.0,20.055617,2.631579,0.0,6.896552,2.631579,-5.60274,19.81685,38,2,38,1,9,True
+blitz with increment,True,3+2 5+2 5+5,won,pawn ending,1.136364,0.0,3.534878,5.780347,2.249172,10.629354,-4.643983,-10.198805,-0.284421,88,1,173,10,55,True
+blitz with increment,True,3+2 5+2 5+5,won,rook ending,18.965517,7.204545,29.36359,22.222222,0.0,40.0,-3.256705,-35.054237,23.076923,58,11,18,4,17,True
+blitz with increment,True,3+2 5+2 5+5,won,rook vs pawns/bare king,0.0,0.0,0.0,0.49505,0.0,2.028767,-0.49505,-1.883849,0.0,354,0,202,1,56,True
+blitz with increment,True,3+2 5+2 5+5,won,queen ending,50.0,0.0,66.666667,0.0,0.0,0.0,50.0,0.0,66.666667,4,2,2,0,4,True
+blitz with increment,True,3+2 5+2 5+5,won,queen vs pawns/bare king,1.072961,0.18715,2.167372,1.298701,0.466785,2.234312,-0.22574,-1.579331,1.130868,466,5,616,8,110,False
+blitz with increment,True,3+2 5+2 5+5,won,queen vs rook/minor,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,15,0,23,0,9,True
+blitz with increment,True,3+2 5+2 5+5,won,rook vs minor,25.0,0.0,100.0,5.0,0.0,27.272727,20.0,-18.181818,100.0,4,1,20,1,7,True
+blitz with increment,True,3+2 5+2 5+5,won,minor vs minor,20.0,0.0,25.0,0.0,,,20.0,0.0,25.0,5,1,1,0,3,True
+blitz with increment,True,3+2 5+2 5+5,won,minor vs pawns/bare king,1.515152,0.0,5.23069,7.575758,1.980149,13.88125,-6.060606,-13.258825,1.082516,66,1,66,5,28,True
+all games,True,1+0 1+1 2+1 3+0 3+2 5+0 5+2 5+5 10+0,drawn,pawn ending,5.263158,2.077666,9.663102,1.111111,0.0,3.008017,4.152047,0.548165,8.70248,190,10,180,2,40,False
+all games,True,1+0 1+1 2+1 3+0 3+2 5+0 5+2 5+5 10+0,drawn,rook ending,10.56338,4.72051,19.860611,10.48951,3.328097,18.640046,0.07387,-11.702993,11.348043,142,15,143,15,36,False
+all games,True,1+0 1+1 2+1 3+0 3+2 5+0 5+2 5+5 10+0,drawn,rook vs pawns/bare king,12.5,0.0,40.0,0.0,0.0,0.0,12.5,0.0,44.444444,16,2,19,0,22,True
+all games,True,1+0 1+1 2+1 3+0 3+2 5+0 5+2 5+5 10+0,drawn,queen ending,6.976744,0.0,18.75,2.272727,0.0,11.111111,4.704017,-11.111111,16.719912,43,3,44,1,7,True
+all games,True,1+0 1+1 2+1 3+0 3+2 5+0 5+2 5+5 10+0,drawn,queen vs pawns/bare king,11.111111,0.0,37.5,10.0,0.0,23.076923,1.111111,-20.0,31.5,9,1,10,1,14,True
+all games,True,1+0 1+1 2+1 3+0 3+2 5+0 5+2 5+5 10+0,drawn,queen vs rook/minor,0.0,0.0,0.0,20.0,0.0,42.857143,-20.0,-42.857143,0.0,2,0,5,1,4,True
+all games,True,1+0 1+1 2+1 3+0 3+2 5+0 5+2 5+5 10+0,drawn,rook vs minor,31.25,0.0,50.0,0.0,0.0,0.0,31.25,0.0,66.666667,16,5,12,0,5,True
+all games,True,1+0 1+1 2+1 3+0 3+2 5+0 5+2 5+5 10+0,drawn,minor vs minor,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,28,0,29,0,9,True
+all games,True,1+0 1+1 2+1 3+0 3+2 5+0 5+2 5+5 10+0,drawn,minor vs pawns/bare king,2.409639,0.0,8.0,2.439024,0.0,6.921695,-0.029386,-5.237116,6.686073,83,2,82,2,20,True
+all games,True,1+0 1+1 2+1 3+0 3+2 5+0 5+2 5+5 10+0,won,pawn ending,1.587302,0.324548,3.092896,4.578313,2.309516,7.294014,-2.991012,-6.270028,-0.171775,315,5,415,19,142,False
+all games,True,1+0 1+1 2+1 3+0 3+2 5+0 5+2 5+5 10+0,won,rook ending,17.073171,8.510638,26.689189,21.818182,8.834821,44.277174,-4.745011,-25.943325,13.265415,82,14,55,12,34,True
+all games,True,1+0 1+1 2+1 3+0 3+2 5+0 5+2 5+5 10+0,won,rook vs pawns/bare king,0.136612,0.0,0.435779,0.892857,0.175366,2.032781,-0.756245,-1.816947,0.104983,732,1,448,4,139,False
+all games,True,1+0 1+1 2+1 3+0 3+2 5+0 5+2 5+5 10+0,won,queen ending,28.571429,0.0,54.545455,60.0,0.0,100.0,-31.428571,-90.0,48.173077,7,2,5,3,8,True
+all games,True,1+0 1+1 2+1 3+0 3+2 5+0 5+2 5+5 10+0,won,queen vs pawns/bare king,0.638298,0.108474,1.228084,1.565217,0.906431,2.346536,-0.92692,-1.757336,0.006734,940,6,1150,18,253,False
+all games,True,1+0 1+1 2+1 3+0 3+2 5+0 5+2 5+5 10+0,won,queen vs rook/minor,2.173913,0.0,5.555556,0.0,0.0,0.0,2.173913,0.0,5.660377,46,1,24,0,18,True
+all games,True,1+0 1+1 2+1 3+0 3+2 5+0 5+2 5+5 10+0,won,rook vs minor,11.111111,0.0,42.857143,15.384615,0.0,40.0,-4.273504,-39.472222,29.604167,9,1,26,4,12,True
+all games,True,1+0 1+1 2+1 3+0 3+2 5+0 5+2 5+5 10+0,won,minor vs minor,20.0,0.0,25.0,0.0,,,20.0,0.0,25.0,5,1,1,0,3,True
+all games,True,1+0 1+1 2+1 3+0 3+2 5+0 5+2 5+5 10+0,won,minor vs pawns/bare king,2.068966,0.0,5.087266,4.958678,1.52577,9.364321,-2.889712,-8.246372,1.753183,145,3,121,6,60,False

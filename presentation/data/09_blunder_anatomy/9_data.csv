@@ -1,0 +1,12 @@
+tc_group,included,games,moves_player,moves_opponent,blunders_player,blunders_opponent,error_positions_replayed
+bullet 1+0,True,2936,93195,93124,5759,5622,86452
+bullet 1+1,True,412,11703,11691,656,626,86452
+bullet 2+1,True,85,2243,2251,180,162,86452
+blitz 3+0,True,209,6709,6687,318,377,86452
+blitz 3+2,True,1438,42805,42770,2447,2451,86452
+blitz 5+0,True,90,2330,2345,173,172,86452
+blitz 5+2,True,113,3342,3337,164,178,86452
+blitz 5+5,True,137,3610,3616,252,260,86452
+rapid 10+0,True,587,16129,16092,892,920,86452
+bullet 0.5+0,False,19,0,0,0,0,86452
+rapid 30+0,False,1,0,0,0,0,86452

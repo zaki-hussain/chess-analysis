@@ -7,13 +7,14 @@ notes: update it when plans change or a step finishes.
 
 ## Starting in a fresh session or machine
 
-All the work is on `main` (the foundations landed via the first pull
-request; the analysis questions arrive via the pull request from
-`claude/intelligent-brown-ksgmwq`, after which that branch is history too).
-Everything computed is committed under `data/zakihussa1n/`: raw archives,
-all tables, `evals.parquet` (every position evaluated),
-`tablebase.parquet`, `expected_points.parquet`, the per-question tables
-(`games_decomposed.parquet`, `findings.parquet`). So
+Work lands on `main` through pull requests (the foundations, then the
+first answers to the questions; the split by exact time control and the
+one-page presentation arrive from `claude/affectionate-tesla-vds82i`).
+Everything computed is committed: under `data/zakihussa1n/` the raw
+archives, all tables, `evals.parquet` (every position evaluated),
+`tablebase.parquet`, `expected_points.parquet` and Q1's
+`games_decomposed.parquet`; under `presentation/` every question's CSV
+tables and SVG charts plus the page that reads them. So
 **the analysis questions in PLAN.md need no engine, no tablebases and no
 network**: just
 
@@ -21,7 +22,7 @@ network**: just
 python -m venv .venv && .venv/bin/pip install -e ".[dev]" && .venv/bin/pytest -q
 ```
 
-(84 tests; the two that need Stockfish or Syzygy tables skip when absent.)
+(the two tests that need Stockfish or Syzygy tables skip when absent.)
 Only re-run `analyse`, `tablebase` or `calibrate` if new games were fetched.
 
 If an engine or tablebases are needed (new games, or a sample re-analysis),
@@ -42,7 +43,9 @@ python -m venv .venv && .venv/bin/pip install -e ".[dev]"
 .venv/bin/chess-analysis analyse          # Stockfish on every position; resumable; 1M nodes default
 .venv/bin/chess-analysis analyse --limit 300 --workers 4   # quick test run
 .venv/bin/chess-analysis tablebase        # exact results for <=5-piece positions (needs syzygy_dir)
-.venv/bin/chess-analysis calibrate        # win-probability model -> expected_points.parquet + reports/calibration.md (~3 min)
+.venv/bin/chess-analysis calibrate        # win-probability model -> expected_points.parquet + its check in presentation/data/00_calibration/ (~3.5 min)
+.venv/bin/python analysis/03_time_pressure.py   # one question: rewrites presentation/{data,figures}/03_time_pressure/
+.venv/bin/python analysis/check_presentation.py # every number in presentation/README.md against its CSV
 .venv/bin/pytest -q                       # offline; one test uses stockfish, one the tablebases, if present
 ```
 
@@ -67,10 +70,13 @@ Stockfish 17.1 is at /opt/stockfish/stockfish (symlinked to /usr/local/bin/stock
   - `analysed.py`: move quality from the mover's view (`moves_analysed.parquet`), including tablebase columns when available.
   - `openings.py`: opening names and book depth from `data/openings/*.tsv` (Lichess chess-openings, CC0).
   - `tablebase.py`: Syzygy probes for every <=5-piece position into `tablebase.parquet`.
-  - `calibrate.py`: win-probability model on the player's own games; writes `expected_points.parquet` and `reports/calibration.md`.
-  - `toolkit.py`: shared helpers for the analysis scripts: `load_data()` (moves with per-game columns joined, daily games dropped), game-clustered bootstrap CIs, `compare_sides()` (player vs opponents in the same games, paired bootstrap of the difference), `binned()`, `mean_with_ci()`, `per_game()`, `elo_expected_score()`, `rating_band()`, `Report` (markdown + figures under `reports/figures/<slug>/`).
-- `analysis/`: one script per question in PLAN.md (`<nn>_<slug>.py`, see `analysis/README.md` and `_template.py`); each writes `reports/<nn>_<slug>.md`. `analysis/findings/*.json` holds every report's findings as data (numbers copied as printed, schema in `analysis/findings/README.md`); `13_findings.py` validates them verbatim against the reports and writes `data/zakihussa1n/findings.parquet` plus `reports/13_findings.md` (table only, no prose).
-- `reports/`: written analysis results (markdown, committed).
+  - `calibrate.py`: win-probability model on the player's own games; writes `expected_points.parquet` and its out-of-fold check, overall and per time control, to `presentation/{data,figures}/00_calibration/`.
+  - `toolkit.py`: shared helpers for the analysis scripts: `load_data()` (moves with per-game columns joined, daily games dropped, `tc_group` exact time control on every row, `data.tc_groups` the controls with >= 50 games, `clock_buffer_seconds` = clock minus increment), game-clustered bootstrap CIs, `compare_sides()` (player vs opponents in the same games, paired bootstrap of the difference), `binned()`, `mean_with_ci()`, `per_game()`, `elo_expected_score()`, `excess_to_elo()`/`add_elo()` (Elo-equivalent of a score above expectation), `opponent_rating_pre()`, `cluster_ols()`, `ratio_bootstrap()`, `rating_band()`, `Results` (CSV tables and SVG charts under `presentation/{data,figures}/<slug>/`, with `_index.csv`).
+  - `charts.py`: the one chart style (you blue, opponents grey, 95% CI on everything, a panel per time control via `group_grid`).
+  - `clocks.py` (clock buckets and the low-clock regressions, Q3/Q4) and `sessions.py` (session features and session-clustered bootstraps, Q5/Q6): machinery shared by two questions.
+- `analysis/`: one script per question in PLAN.md (`<nn>_<slug>.py`, see `analysis/README.md` and `_template.py`); each writes its CSV tables and SVG charts under `presentation/` and no prose. `check_presentation.py` checks `presentation/README.md` (every bullet's numbers against the CSVs its sub-question links, every link and anchor).
+- `presentation/README.md`: the results, one hand-written page (a section per question, a chart and one-fact bullets per sub-question, method notes collapsed). `presentation/data/<slug>/` and `presentation/figures/<slug>/` are script output: never edit by hand.
+- The old long-form reports (`reports/`) and the hand-copied findings table were removed; they are in commit `73c6c53` (instructions at the end of `presentation/README.md`).
 - `scripts/download_opponents.py`: downloads the most frequent opponents' full archives into `data/opponents/<name>/raw/` for Q12 (serial, rate-limited, ~1 h for 200; raw dumps gitignored, resumable). `analysis/12_fingerprint.py --rebuild-features` turns them into the committed `data/opponents/fingerprint_features.parquet` (one row per player-game, engine-free style features; ~17 min).
 - `scripts/ec2-setup.sh`: prepares an Ubuntu EC2 instance (Python, Stockfish, venv) for the full `analyse` run. `scripts/ec2-run.sh` runs it and powers the instance off afterwards (plus a 6-hour safety-net shutdown).
 - `data/<user>/`: committed to the repo (the user's choice). CSV exports are gitignored.
@@ -102,4 +108,4 @@ Stockfish 17.1 is at /opt/stockfish/stockfish (symlinked to /usr/local/bin/stock
 - Engine workers are plain `multiprocessing` processes (spawn context) that quit their engine themselves before exiting. Don't switch to `ProcessPoolExecutor`: python-chess's engine thread is non-daemon and a 3.13 child waits for threads before any exit hook runs, so pool workers hang forever. Forked workers can also deadlock on inherited pandas/pyarrow locks.
 - Benchmarks (1 thread, 2.1 GHz Xeon): 1M nodes ≈ 1.07 s/position; 4 workers here ≈ 4.2 positions/s.
 - Analyses should use `ep_loss` (calibrated expected points) as the main move-quality measure and `cp_loss` as the familiar secondary one; never post-game ratings as predictors.
-- Analysis scripts use the toolkit: bullet/blitz/rapid reported separately, every player number paired with the opponents' number from the same games, CIs clustered by game. Baseline from the toolkit's own check: mean `ep_loss` per move is 0.029–0.032 for both sides in every time class; differences are in the third decimal, so always show CIs.
+- Analysis scripts use the toolkit: every exact time control reported separately (`data.tc_groups`, never a typed list), thin cells flagged and not drawn as confident, every player number paired with the opponents' number from the same games, CIs clustered by game (or session), a score vs expectation always with its Elo-equivalent, every threshold a named constant with its reason, no prose in scripts. Baseline from the toolkit's own check: mean `ep_loss` per move is 0.029–0.032 for both sides in every time class; differences are in the third decimal, so always show CIs.

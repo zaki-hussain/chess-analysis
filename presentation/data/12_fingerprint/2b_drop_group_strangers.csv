@@ -1,0 +1,55 @@
+tc_group,matching,time_class,comparison,feature_group,model,auc_all,auc_without,auc_lost,auc_lost_lo,auc_lost_hi,auc_group_only,auc_group_only_lo,auc_group_only_hi,you_games,stranger_games,strangers
+bullet 1+0,band and control,bullet,you vs strangers,clock,boosting,0.918539,0.89352,0.025019,0.01662,0.032562,0.759674,0.733629,0.786166,2838,2838,159
+bullet 1+0,band and control,bullet,you vs strangers,opening,boosting,0.918539,0.836578,0.081961,0.068312,0.097006,0.855285,0.828863,0.880419,2838,2838,159
+bullet 1+0,band and control,bullet,you vs strangers,moves,boosting,0.918539,0.891826,0.026713,0.019832,0.035478,0.741352,0.719534,0.763783,2838,2838,159
+bullet 1+0,band and control,bullet,you vs strangers,clock,logistic,0.893708,0.872582,0.021126,0.013548,0.028622,0.705282,0.669135,0.736835,2838,2838,159
+bullet 1+0,band and control,bullet,you vs strangers,opening,logistic,0.893708,0.788622,0.105086,0.086447,0.12422,0.835158,0.804599,0.863799,2838,2838,159
+bullet 1+0,band and control,bullet,you vs strangers,moves,logistic,0.893708,0.86661,0.027098,0.01851,0.035724,0.712115,0.686829,0.739015,2838,2838,159
+bullet 1+1,band and control,bullet,you vs strangers,clock,boosting,0.805251,0.776798,0.028453,-0.002512,0.066022,0.658621,0.615196,0.705105,379,379,50
+bullet 1+1,band and control,bullet,you vs strangers,opening,boosting,0.805251,0.734185,0.071066,0.037123,0.101369,0.759637,0.700919,0.814264,379,379,50
+bullet 1+1,band and control,bullet,you vs strangers,moves,boosting,0.805251,0.772126,0.033124,0.008465,0.06131,0.649759,0.607832,0.68937,379,379,50
+bullet 1+1,band and control,bullet,you vs strangers,clock,logistic,0.791202,0.765464,0.025738,0.003363,0.049491,0.641384,0.593202,0.687259,379,379,50
+bullet 1+1,band and control,bullet,you vs strangers,opening,logistic,0.791202,0.716495,0.074707,0.033959,0.114917,0.712067,0.641181,0.779192,379,379,50
+bullet 1+1,band and control,bullet,you vs strangers,moves,logistic,0.791202,0.752,0.039202,0.00444,0.07279,0.665597,0.611686,0.715974,379,379,50
+blitz 3+0,band and control,blitz,you vs strangers,clock,boosting,0.780977,0.74728,0.033698,-0.001318,0.070475,0.626581,0.571388,0.677715,202,202,70
+blitz 3+0,band and control,blitz,you vs strangers,opening,boosting,0.780977,0.728458,0.052519,0.01615,0.086618,0.728997,0.664558,0.786007,202,202,70
+blitz 3+0,band and control,blitz,you vs strangers,moves,boosting,0.780977,0.713533,0.067444,0.017905,0.11509,0.685987,0.633874,0.740273,202,202,70
+blitz 3+0,band and control,blitz,you vs strangers,clock,logistic,0.822468,0.836487,-0.014018,-0.030899,0.001724,0.529115,0.46618,0.586701,202,202,70
+blitz 3+0,band and control,blitz,you vs strangers,opening,logistic,0.822468,0.743481,0.078987,0.035532,0.125936,0.712773,0.650786,0.776241,202,202,70
+blitz 3+0,band and control,blitz,you vs strangers,moves,logistic,0.822468,0.719317,0.103152,0.057775,0.151202,0.746128,0.691375,0.80302,202,202,70
+blitz 3+2,band and control,blitz,you vs strangers,clock,boosting,0.822945,0.788421,0.034524,0.020381,0.049881,0.606642,0.578621,0.634268,1344,1344,100
+blitz 3+2,band and control,blitz,you vs strangers,opening,boosting,0.822945,0.730362,0.092583,0.071702,0.113973,0.767174,0.736557,0.798929,1344,1344,100
+blitz 3+2,band and control,blitz,you vs strangers,moves,boosting,0.822945,0.771705,0.051241,0.03684,0.065744,0.655789,0.629654,0.681139,1344,1344,100
+blitz 3+2,band and control,blitz,you vs strangers,clock,logistic,0.770966,0.758343,0.012622,-0.00324,0.028168,0.589277,0.550884,0.626326,1344,1344,100
+blitz 3+2,band and control,blitz,you vs strangers,opening,logistic,0.770966,0.675403,0.095563,0.072611,0.118377,0.715,0.680327,0.755228,1344,1344,100
+blitz 3+2,band and control,blitz,you vs strangers,moves,logistic,0.770966,0.735768,0.035197,0.019522,0.050778,0.641326,0.612856,0.667877,1344,1344,100
+rapid 10+0,band and control,rapid,you vs strangers,clock,boosting,0.80747,0.77706,0.03041,0.008749,0.050221,0.661784,0.629103,0.697128,535,535,137
+rapid 10+0,band and control,rapid,you vs strangers,opening,boosting,0.80747,0.719878,0.087592,0.060845,0.114043,0.731274,0.692691,0.765659,535,535,137
+rapid 10+0,band and control,rapid,you vs strangers,moves,boosting,0.80747,0.764772,0.042697,0.021521,0.065077,0.680475,0.649189,0.711802,535,535,137
+rapid 10+0,band and control,rapid,you vs strangers,clock,logistic,0.764944,0.77401,-0.009066,-0.018997,0.000402,0.555266,0.52007,0.593591,535,535,137
+rapid 10+0,band and control,rapid,you vs strangers,opening,logistic,0.764944,0.659366,0.105578,0.071063,0.135596,0.712293,0.673781,0.749718,535,535,137
+rapid 10+0,band and control,rapid,you vs strangers,moves,logistic,0.764944,0.710598,0.054345,0.032818,0.079253,0.664634,0.630378,0.699028,535,535,137
+all bullet,band and control,bullet,you vs strangers,clock,boosting,0.910325,0.886653,0.023672,0.017042,0.031244,0.739856,0.716575,0.764873,3292,3292,170
+all bullet,band and control,bullet,you vs strangers,opening,boosting,0.910325,0.826473,0.083852,0.070593,0.098872,0.837433,0.810599,0.860923,3292,3292,170
+all bullet,band and control,bullet,you vs strangers,moves,boosting,0.910325,0.876241,0.034084,0.025606,0.042373,0.737861,0.718153,0.756212,3292,3292,170
+all bullet,band and control,bullet,you vs strangers,clock,logistic,0.88201,0.862688,0.019321,0.011894,0.027508,0.692916,0.662482,0.719633,3292,3292,170
+all bullet,band and control,bullet,you vs strangers,opening,logistic,0.88201,0.776917,0.105092,0.089569,0.124109,0.818603,0.789773,0.846539,3292,3292,170
+all bullet,band and control,bullet,you vs strangers,moves,logistic,0.88201,0.852745,0.029265,0.021015,0.038485,0.705285,0.681641,0.72612,3292,3292,170
+all bullet,band only,bullet,you vs strangers,clock,boosting,0.909352,0.878224,0.031127,0.022535,0.038981,,,,3293,3293,176
+all bullet,band only,bullet,you vs strangers,clock,logistic,0.871723,0.852813,0.018909,0.010507,0.027099,,,,3293,3293,176
+all blitz,band and control,blitz,you vs strangers,clock,boosting,0.82403,0.799746,0.024284,0.013289,0.036345,0.625593,0.598118,0.650854,1763,1763,156
+all blitz,band and control,blitz,you vs strangers,opening,boosting,0.82403,0.730169,0.093861,0.077039,0.114353,0.756219,0.729584,0.785091,1763,1763,156
+all blitz,band and control,blitz,you vs strangers,moves,boosting,0.82403,0.776597,0.047434,0.034997,0.06032,0.672418,0.651611,0.691418,1763,1763,156
+all blitz,band and control,blitz,you vs strangers,clock,logistic,0.784749,0.773574,0.011175,0.00028,0.021527,0.585917,0.554948,0.613266,1763,1763,156
+all blitz,band and control,blitz,you vs strangers,opening,logistic,0.784749,0.688957,0.095791,0.076742,0.117497,0.716695,0.685332,0.748664,1763,1763,156
+all blitz,band and control,blitz,you vs strangers,moves,logistic,0.784749,0.740826,0.043923,0.029647,0.057677,0.661286,0.64086,0.683409,1763,1763,156
+all blitz,band only,blitz,you vs strangers,clock,boosting,0.875631,0.80113,0.074502,0.059394,0.090413,,,,1865,1865,180
+all blitz,band only,blitz,you vs strangers,clock,logistic,0.846755,0.778986,0.067769,0.047255,0.088578,,,,1865,1865,180
+all rapid,band and control,rapid,you vs strangers,clock,boosting,0.808584,0.787503,0.021081,0.004353,0.038011,0.674721,0.644582,0.704379,535,535,140
+all rapid,band and control,rapid,you vs strangers,opening,boosting,0.808584,0.722826,0.085758,0.063498,0.109061,0.746898,0.71551,0.782129,535,535,140
+all rapid,band and control,rapid,you vs strangers,moves,boosting,0.808584,0.772347,0.036237,0.018355,0.055622,0.670368,0.638839,0.703344,535,535,140
+all rapid,band and control,rapid,you vs strangers,clock,logistic,0.784142,0.786353,-0.002212,-0.012079,0.006777,0.586032,0.543011,0.622923,535,535,140
+all rapid,band and control,rapid,you vs strangers,opening,logistic,0.784142,0.676234,0.107908,0.079799,0.137822,0.736955,0.701178,0.772248,535,535,140
+all rapid,band and control,rapid,you vs strangers,moves,logistic,0.784142,0.750867,0.033275,0.012918,0.054434,0.676964,0.635717,0.715731,535,535,140
+all rapid,band only,rapid,you vs strangers,clock,boosting,0.818307,0.776134,0.042173,0.018843,0.069092,,,,535,535,142
+all rapid,band only,rapid,you vs strangers,clock,logistic,0.792195,0.78475,0.007445,-0.007203,0.02488,,,,535,535,142

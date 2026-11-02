@@ -1,0 +1,415 @@
+tc_group,metric,label,unit,better,band,rating_min,rating_max,player,player_lo,player_hi,opponent,opponent_lo,opponent_hi,diff,diff_lo,diff_hi,games,n_player,n_opponent,thin
+bullet 1+0,time_move,seconds spent per move,moves,n/a,100,168.0,199.0,2.479707,2.144215,2.831651,2.152683,1.83106,2.541924,0.327024,0.004201,0.65585,21,409.0,410.0,True
+bullet 1+0,time_move,seconds spent per move,moves,n/a,200,202.0,299.0,2.380186,2.20099,2.580675,2.452832,2.252296,2.679197,-0.072646,-0.324542,0.15723,55,969.0,971.0,False
+bullet 1+0,time_move,seconds spent per move,moves,n/a,300,307.0,397.0,1.973764,1.80392,2.15833,2.187739,1.995529,2.441109,-0.213975,-0.424279,-0.031922,35,789.0,783.0,False
+bullet 1+0,time_move,seconds spent per move,moves,n/a,400,401.0,498.0,1.962897,1.87354,2.067193,1.99542,1.899614,2.097726,-0.032523,-0.132752,0.067358,143,3272.0,3275.0,False
+bullet 1+0,time_move,seconds spent per move,moves,n/a,500,500.0,599.0,1.571524,1.472655,1.66082,1.756992,1.640637,1.879076,-0.185468,-0.290236,-0.094967,72,2093.0,2081.0,False
+bullet 1+0,time_move,seconds spent per move,moves,n/a,600,600.0,697.0,1.658197,1.537288,1.786611,1.825107,1.676768,2.033799,-0.16691,-0.306858,-0.058864,44,1165.0,1163.0,False
+bullet 1+0,time_move,seconds spent per move,moves,n/a,700,700.0,797.0,1.545179,1.485738,1.609965,1.651167,1.575568,1.722547,-0.105988,-0.166993,-0.032105,121,3568.0,3555.0,False
+bullet 1+0,time_move,seconds spent per move,moves,n/a,800,801.0,898.0,1.654573,1.602065,1.707002,1.560563,1.505011,1.625945,0.09401,0.048983,0.140374,219,6538.0,6532.0,False
+bullet 1+0,time_move,seconds spent per move,moves,n/a,900,901.0,999.0,1.461456,1.427667,1.492313,1.480711,1.443247,1.52078,-0.019255,-0.049431,0.01316,368,11636.0,11623.0,False
+bullet 1+0,time_move,seconds spent per move,moves,n/a,1000,1000.0,1099.0,1.388373,1.37069,1.407001,1.385248,1.362757,1.406742,0.003125,-0.012271,0.018882,1020,33982.0,33961.0,False
+bullet 1+0,time_move,seconds spent per move,moves,n/a,1100,1100.0,1198.0,1.363618,1.340575,1.388496,1.362795,1.335305,1.387423,0.000824,-0.017118,0.021452,594,20351.0,20352.0,False
+bullet 1+0,time_move,seconds spent per move,moves,n/a,1200,1200.0,1292.0,1.351566,1.321515,1.381918,1.348636,1.306651,1.391239,0.00293,-0.031066,0.038252,242,8364.0,8358.0,False
+bullet 1+0,time_move,seconds spent per move,moves,n/a,1300,1300.0,1300.0,1.134211,1.134211,1.134211,1.076316,1.076316,1.076316,0.057895,0.057895,0.057895,1,38.0,38.0,True
+bullet 1+0,spent_frac,share of the base time spent per move,moves,n/a,100,168.0,199.0,0.041328,0.035737,0.047194,0.035878,0.030518,0.042365,0.00545,7e-05,0.010931,21,409.0,410.0,True
+bullet 1+0,spent_frac,share of the base time spent per move,moves,n/a,200,202.0,299.0,0.03967,0.036683,0.043011,0.040881,0.037538,0.044653,-0.001211,-0.005409,0.002621,55,969.0,971.0,False
+bullet 1+0,spent_frac,share of the base time spent per move,moves,n/a,300,307.0,397.0,0.032896,0.030065,0.035972,0.036462,0.033259,0.040685,-0.003566,-0.007071,-0.000532,35,789.0,783.0,False
+bullet 1+0,spent_frac,share of the base time spent per move,moves,n/a,400,401.0,498.0,0.032715,0.031226,0.034453,0.033257,0.03166,0.034962,-0.000542,-0.002213,0.001123,143,3272.0,3275.0,False
+bullet 1+0,spent_frac,share of the base time spent per move,moves,n/a,500,500.0,599.0,0.026192,0.024544,0.02768,0.029283,0.027344,0.031318,-0.003091,-0.004837,-0.001583,72,2093.0,2081.0,False
+bullet 1+0,spent_frac,share of the base time spent per move,moves,n/a,600,600.0,697.0,0.027637,0.025621,0.029777,0.030418,0.027946,0.033897,-0.002782,-0.005114,-0.000981,44,1165.0,1163.0,False
+bullet 1+0,spent_frac,share of the base time spent per move,moves,n/a,700,700.0,797.0,0.025753,0.024762,0.026833,0.027519,0.026259,0.028709,-0.001766,-0.002783,-0.000535,121,3568.0,3555.0,False
+bullet 1+0,spent_frac,share of the base time spent per move,moves,n/a,800,801.0,898.0,0.027576,0.026701,0.02845,0.026009,0.025084,0.027099,0.001567,0.000816,0.00234,219,6538.0,6532.0,False
+bullet 1+0,spent_frac,share of the base time spent per move,moves,n/a,900,901.0,999.0,0.024358,0.023794,0.024872,0.024679,0.024054,0.025346,-0.000321,-0.000824,0.000219,368,11636.0,11623.0,False
+bullet 1+0,spent_frac,share of the base time spent per move,moves,n/a,1000,1000.0,1099.0,0.02314,0.022845,0.02345,0.023087,0.022713,0.023446,5.2e-05,-0.000205,0.000315,1020,33982.0,33961.0,False
+bullet 1+0,spent_frac,share of the base time spent per move,moves,n/a,1100,1100.0,1198.0,0.022727,0.022343,0.023142,0.022713,0.022255,0.023124,1.4e-05,-0.000285,0.000358,594,20351.0,20352.0,False
+bullet 1+0,spent_frac,share of the base time spent per move,moves,n/a,1200,1200.0,1292.0,0.022526,0.022025,0.023032,0.022477,0.021778,0.023187,4.9e-05,-0.000518,0.000638,242,8364.0,8358.0,False
+bullet 1+0,spent_frac,share of the base time spent per move,moves,n/a,1300,1300.0,1300.0,0.018904,0.018904,0.018904,0.017939,0.017939,0.017939,0.000965,0.000965,0.000965,1,38.0,38.0,True
+bullet 1+0,end_clock,"clock left after own last move, share of base time",games,higher,100,168.0,199.0,0.195079,0.093321,0.318379,0.299524,0.185256,0.428825,-0.104444,-0.193996,-0.008014,21,21.0,21.0,True
+bullet 1+0,end_clock,"clock left after own last move, share of base time",games,higher,200,202.0,299.0,0.301091,0.22814,0.381238,0.264907,0.180145,0.334609,0.036184,-0.025502,0.108556,55,55.0,54.0,False
+bullet 1+0,end_clock,"clock left after own last move, share of base time",games,higher,300,307.0,397.0,0.258429,0.193225,0.33997,0.184286,0.121844,0.248382,0.074143,0.010456,0.136533,35,35.0,35.0,False
+bullet 1+0,end_clock,"clock left after own last move, share of base time",games,higher,400,401.0,498.0,0.251445,0.210114,0.290822,0.238345,0.190921,0.285079,0.0131,-0.022634,0.048819,143,143.0,143.0,False
+bullet 1+0,end_clock,"clock left after own last move, share of base time",games,higher,500,500.0,599.0,0.238611,0.185277,0.300001,0.153634,0.105266,0.212086,0.084977,0.043954,0.128211,72,72.0,72.0,False
+bullet 1+0,end_clock,"clock left after own last move, share of base time",games,higher,600,600.0,697.0,0.268258,0.198727,0.347129,0.195985,0.13414,0.267236,0.072273,0.028422,0.122795,44,44.0,44.0,False
+bullet 1+0,end_clock,"clock left after own last move, share of base time",games,higher,700,700.0,797.0,0.240606,0.202062,0.281434,0.191474,0.142795,0.235918,0.049132,0.015227,0.080014,121,121.0,121.0,False
+bullet 1+0,end_clock,"clock left after own last move, share of base time",games,higher,800,801.0,898.0,0.176743,0.145725,0.209793,0.224231,0.193655,0.258415,-0.047489,-0.070968,-0.025381,219,219.0,219.0,False
+bullet 1+0,end_clock,"clock left after own last move, share of base time",games,higher,900,901.0,999.0,0.229823,0.206352,0.24978,0.216289,0.195124,0.240384,0.013535,-0.00309,0.030302,368,368.0,366.0,False
+bullet 1+0,end_clock,"clock left after own last move, share of base time",games,higher,1000,1000.0,1099.0,0.22909,0.213769,0.244029,0.231301,0.215741,0.246906,-0.002211,-0.010501,0.005708,1020,1020.0,1020.0,False
+bullet 1+0,end_clock,"clock left after own last move, share of base time",games,higher,1100,1100.0,1198.0,0.221352,0.201924,0.242106,0.221785,0.203011,0.244538,-0.000432,-0.011632,0.00983,594,594.0,594.0,False
+bullet 1+0,end_clock,"clock left after own last move, share of base time",games,higher,1200,1200.0,1292.0,0.221453,0.194097,0.250885,0.223698,0.193411,0.256985,-0.002245,-0.021535,0.016012,242,242.0,242.0,False
+bullet 1+0,end_clock,"clock left after own last move, share of base time",games,higher,1300,1300.0,1300.0,0.281667,0.281667,0.281667,0.318333,0.318333,0.318333,-0.036667,-0.036667,-0.036667,1,1.0,1.0,True
+bullet 1+0,low_clock,share of own moves played with under 10 s on the clock,moves,lower,100,168.0,199.0,0.151589,0.093556,0.207143,0.068293,0.029314,0.106841,0.083297,0.026384,0.144727,21,409.0,410.0,True
+bullet 1+0,low_clock,share of own moves played with under 10 s on the clock,moves,lower,200,202.0,299.0,0.108359,0.074963,0.138218,0.087539,0.062352,0.112637,0.020821,-0.018977,0.056384,55,969.0,971.0,False
+bullet 1+0,low_clock,share of own moves played with under 10 s on the clock,moves,lower,300,307.0,397.0,0.059569,0.025012,0.09802,0.114943,0.070643,0.164135,-0.055373,-0.094184,-0.022417,35,789.0,783.0,False
+bullet 1+0,low_clock,share of own moves played with under 10 s on the clock,moves,lower,400,401.0,498.0,0.107274,0.089402,0.126502,0.112672,0.092429,0.130978,-0.005398,-0.033605,0.021747,143,3272.0,3275.0,False
+bullet 1+0,low_clock,share of own moves played with under 10 s on the clock,moves,lower,500,500.0,599.0,0.086479,0.0654,0.10735,0.119173,0.097362,0.140686,-0.032695,-0.061435,-0.007781,72,2093.0,2081.0,False
+bullet 1+0,low_clock,share of own moves played with under 10 s on the clock,moves,lower,600,600.0,697.0,0.094421,0.061441,0.127487,0.137575,0.096842,0.172706,-0.043155,-0.088289,-0.00122,44,1165.0,1163.0,False
+bullet 1+0,low_clock,share of own moves played with under 10 s on the clock,moves,lower,700,700.0,797.0,0.105661,0.087446,0.125274,0.134459,0.115804,0.152713,-0.028797,-0.055226,-0.00317,121,3568.0,3555.0,False
+bullet 1+0,low_clock,share of own moves played with under 10 s on the clock,moves,lower,800,801.0,898.0,0.145916,0.12866,0.163874,0.090478,0.075984,0.105293,0.055439,0.034296,0.076595,219,6538.0,6532.0,False
+bullet 1+0,low_clock,share of own moves played with under 10 s on the clock,moves,lower,900,901.0,999.0,0.118855,0.10731,0.130355,0.115633,0.104844,0.128337,0.003222,-0.010088,0.017896,368,11636.0,11623.0,False
+bullet 1+0,low_clock,share of own moves played with under 10 s on the clock,moves,lower,1000,1000.0,1099.0,0.118563,0.111188,0.125708,0.114455,0.106056,0.121546,0.004108,-0.004475,0.013753,1020,33982.0,33961.0,False
+bullet 1+0,low_clock,share of own moves played with under 10 s on the clock,moves,lower,1100,1100.0,1198.0,0.130608,0.120576,0.141285,0.125147,0.114587,0.134763,0.00546,-0.005242,0.017583,594,20351.0,20352.0,False
+bullet 1+0,low_clock,share of own moves played with under 10 s on the clock,moves,lower,1200,1200.0,1292.0,0.123505,0.108422,0.138245,0.119407,0.101596,0.135516,0.004099,-0.014193,0.023511,242,8364.0,8358.0,False
+bullet 1+0,low_clock,share of own moves played with under 10 s on the clock,moves,lower,1300,1300.0,1300.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1,38.0,38.0,True
+bullet 1+0,low_buffer,share of own moves played with under 10 s beyond one increment,moves,lower,100,168.0,199.0,0.151589,0.093556,0.207143,0.068293,0.029314,0.106841,0.083297,0.026384,0.144727,21,409.0,410.0,True
+bullet 1+0,low_buffer,share of own moves played with under 10 s beyond one increment,moves,lower,200,202.0,299.0,0.108359,0.074963,0.138218,0.087539,0.062352,0.112637,0.020821,-0.018977,0.056384,55,969.0,971.0,False
+bullet 1+0,low_buffer,share of own moves played with under 10 s beyond one increment,moves,lower,300,307.0,397.0,0.059569,0.025012,0.09802,0.114943,0.070643,0.164135,-0.055373,-0.094184,-0.022417,35,789.0,783.0,False
+bullet 1+0,low_buffer,share of own moves played with under 10 s beyond one increment,moves,lower,400,401.0,498.0,0.107274,0.089402,0.126502,0.112672,0.092429,0.130978,-0.005398,-0.033605,0.021747,143,3272.0,3275.0,False
+bullet 1+0,low_buffer,share of own moves played with under 10 s beyond one increment,moves,lower,500,500.0,599.0,0.086479,0.0654,0.10735,0.119173,0.097362,0.140686,-0.032695,-0.061435,-0.007781,72,2093.0,2081.0,False
+bullet 1+0,low_buffer,share of own moves played with under 10 s beyond one increment,moves,lower,600,600.0,697.0,0.094421,0.061441,0.127487,0.137575,0.096842,0.172706,-0.043155,-0.088289,-0.00122,44,1165.0,1163.0,False
+bullet 1+0,low_buffer,share of own moves played with under 10 s beyond one increment,moves,lower,700,700.0,797.0,0.105661,0.087446,0.125274,0.134459,0.115804,0.152713,-0.028797,-0.055226,-0.00317,121,3568.0,3555.0,False
+bullet 1+0,low_buffer,share of own moves played with under 10 s beyond one increment,moves,lower,800,801.0,898.0,0.145916,0.12866,0.163874,0.090478,0.075984,0.105293,0.055439,0.034296,0.076595,219,6538.0,6532.0,False
+bullet 1+0,low_buffer,share of own moves played with under 10 s beyond one increment,moves,lower,900,901.0,999.0,0.118855,0.10731,0.130355,0.115633,0.104844,0.128337,0.003222,-0.010088,0.017896,368,11636.0,11623.0,False
+bullet 1+0,low_buffer,share of own moves played with under 10 s beyond one increment,moves,lower,1000,1000.0,1099.0,0.118563,0.111188,0.125708,0.114455,0.106056,0.121546,0.004108,-0.004475,0.013753,1020,33982.0,33961.0,False
+bullet 1+0,low_buffer,share of own moves played with under 10 s beyond one increment,moves,lower,1100,1100.0,1198.0,0.130608,0.120576,0.141285,0.125147,0.114587,0.134763,0.00546,-0.005242,0.017583,594,20351.0,20352.0,False
+bullet 1+0,low_buffer,share of own moves played with under 10 s beyond one increment,moves,lower,1200,1200.0,1292.0,0.123505,0.108422,0.138245,0.119407,0.101596,0.135516,0.004099,-0.014193,0.023511,242,8364.0,8358.0,False
+bullet 1+0,low_buffer,share of own moves played with under 10 s beyond one increment,moves,lower,1300,1300.0,1300.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1,38.0,38.0,True
+bullet 1+0,low_base,share of own moves played with under 10% of the base time on the clock,moves,lower,100,168.0,199.0,0.08313,0.038807,0.13096,0.026829,0.007256,0.046425,0.0563,0.011992,0.111124,21,409.0,410.0,True
+bullet 1+0,low_base,share of own moves played with under 10% of the base time on the clock,moves,lower,200,202.0,299.0,0.0516,0.03012,0.072287,0.038105,0.023506,0.054132,0.013495,-0.014319,0.035834,55,969.0,971.0,False
+bullet 1+0,low_base,share of own moves played with under 10% of the base time on the clock,moves,lower,300,307.0,397.0,0.029151,0.008157,0.05442,0.068966,0.034913,0.109422,-0.039815,-0.067367,-0.01525,35,789.0,783.0,False
+bullet 1+0,low_base,share of own moves played with under 10% of the base time on the clock,moves,lower,400,401.0,498.0,0.05379,0.041518,0.065232,0.056794,0.045293,0.069622,-0.003004,-0.024287,0.01427,143,3272.0,3275.0,False
+bullet 1+0,low_base,share of own moves played with under 10% of the base time on the clock,moves,lower,500,500.0,599.0,0.039656,0.027933,0.052315,0.068236,0.049996,0.086554,-0.02858,-0.050212,-0.008277,72,2093.0,2081.0,False
+bullet 1+0,low_base,share of own moves played with under 10% of the base time on the clock,moves,lower,600,600.0,697.0,0.041202,0.023662,0.060175,0.074807,0.04307,0.106033,-0.033605,-0.071694,-0.002823,44,1165.0,1163.0,False
+bullet 1+0,low_base,share of own moves played with under 10% of the base time on the clock,moves,lower,700,700.0,797.0,0.046244,0.033657,0.058068,0.067511,0.054564,0.079498,-0.021266,-0.040571,-0.002715,121,3568.0,3555.0,False
+bullet 1+0,low_base,share of own moves played with under 10% of the base time on the clock,moves,lower,800,801.0,898.0,0.083512,0.070314,0.097337,0.044397,0.035102,0.054653,0.039115,0.02148,0.057609,219,6538.0,6532.0,False
+bullet 1+0,low_base,share of own moves played with under 10% of the base time on the clock,moves,lower,900,901.0,999.0,0.065572,0.05697,0.074864,0.059193,0.051133,0.067411,0.006379,-0.004948,0.018962,368,11636.0,11623.0,False
+bullet 1+0,low_base,share of own moves played with under 10% of the base time on the clock,moves,lower,1000,1000.0,1099.0,0.063975,0.058651,0.069556,0.062719,0.056587,0.067611,0.001256,-0.0054,0.008627,1020,33982.0,33961.0,False
+bullet 1+0,low_base,share of own moves played with under 10% of the base time on the clock,moves,lower,1100,1100.0,1198.0,0.072183,0.06452,0.079544,0.068151,0.060137,0.075422,0.004033,-0.005569,0.013359,594,20351.0,20352.0,False
+bullet 1+0,low_base,share of own moves played with under 10% of the base time on the clock,moves,lower,1200,1200.0,1292.0,0.066236,0.055087,0.077424,0.062216,0.050589,0.07259,0.00402,-0.010586,0.017608,242,8364.0,8358.0,False
+bullet 1+0,low_base,share of own moves played with under 10% of the base time on the clock,moves,lower,1300,1300.0,1300.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1,38.0,38.0,True
+bullet 1+1,time_move,seconds spent per move,moves,n/a,100,160.0,199.0,2.52471,2.267757,2.935576,2.722093,2.345026,3.40384,-0.197383,-0.540828,-0.004465,10,259.0,258.0,True
+bullet 1+1,time_move,seconds spent per move,moves,n/a,200,202.0,299.0,2.915274,2.585706,3.419641,2.3974,2.134294,2.717572,0.517875,0.259188,0.884875,26,419.0,423.0,True
+bullet 1+1,time_move,seconds spent per move,moves,n/a,300,301.0,316.0,2.844337,2.266937,3.563469,2.75871,2.324532,3.383259,0.085627,-0.127215,0.424036,16,309.0,310.0,True
+bullet 1+1,time_move,seconds spent per move,moves,n/a,400,475.0,475.0,3.571429,3.464286,3.642857,3.26,3.05,3.615385,0.311429,-0.151099,0.592857,2,35.0,35.0,True
+bullet 1+1,time_move,seconds spent per move,moves,n/a,500,514.0,514.0,3.233333,3.233333,3.233333,0.766667,0.766667,0.766667,2.466667,2.466667,2.466667,1,3.0,3.0,True
+bullet 1+1,time_move,seconds spent per move,moves,n/a,600,617.0,698.0,2.953571,2.132258,4.063158,2.284211,1.257143,2.473333,0.669361,-0.341075,2.42619,3,56.0,57.0,True
+bullet 1+1,time_move,seconds spent per move,moves,n/a,700,700.0,795.0,2.314425,2.203136,2.454133,2.332874,2.192193,2.494216,-0.018448,-0.128184,0.106232,82,2253.0,2248.0,False
+bullet 1+1,time_move,seconds spent per move,moves,n/a,800,800.0,899.0,2.112997,2.016776,2.230293,2.165416,2.060529,2.293501,-0.052419,-0.12324,0.040016,97,3070.0,3065.0,False
+bullet 1+1,time_move,seconds spent per move,moves,n/a,900,902.0,997.0,2.120416,2.044253,2.205162,2.146592,2.068988,2.228387,-0.026176,-0.085586,0.029686,174,5290.0,5282.0,False
+bullet 1+1,time_move,seconds spent per move,moves,n/a,1000,1003.0,1003.0,2.433333,2.433333,2.433333,1.47,1.47,1.47,0.963333,0.963333,0.963333,1,9.0,10.0,True
+bullet 1+1,spent_frac,share of the base time spent per move,moves,n/a,100,160.0,199.0,0.042079,0.037796,0.048926,0.045368,0.039084,0.056731,-0.00329,-0.009014,-7.4e-05,10,259.0,258.0,True
+bullet 1+1,spent_frac,share of the base time spent per move,moves,n/a,200,202.0,299.0,0.048588,0.043095,0.056994,0.039957,0.035572,0.045293,0.008631,0.00432,0.014748,26,419.0,423.0,True
+bullet 1+1,spent_frac,share of the base time spent per move,moves,n/a,300,301.0,316.0,0.047406,0.037782,0.059391,0.045978,0.038742,0.056388,0.001427,-0.00212,0.007067,16,309.0,310.0,True
+bullet 1+1,spent_frac,share of the base time spent per move,moves,n/a,400,475.0,475.0,0.059524,0.057738,0.060714,0.054333,0.050833,0.060256,0.00519,-0.002518,0.009881,2,35.0,35.0,True
+bullet 1+1,spent_frac,share of the base time spent per move,moves,n/a,500,514.0,514.0,0.053889,0.053889,0.053889,0.012778,0.012778,0.012778,0.041111,0.041111,0.041111,1,3.0,3.0,True
+bullet 1+1,spent_frac,share of the base time spent per move,moves,n/a,600,617.0,698.0,0.049226,0.035538,0.067719,0.03807,0.020952,0.041222,0.011156,-0.005685,0.040437,3,56.0,57.0,True
+bullet 1+1,spent_frac,share of the base time spent per move,moves,n/a,700,700.0,795.0,0.038574,0.036719,0.040902,0.038881,0.036537,0.04157,-0.000307,-0.002136,0.001771,82,2253.0,2248.0,False
+bullet 1+1,spent_frac,share of the base time spent per move,moves,n/a,800,800.0,899.0,0.035217,0.033613,0.037172,0.03609,0.034342,0.038225,-0.000874,-0.002054,0.000667,97,3070.0,3065.0,False
+bullet 1+1,spent_frac,share of the base time spent per move,moves,n/a,900,902.0,997.0,0.03534,0.034071,0.036753,0.035777,0.034483,0.03714,-0.000436,-0.001426,0.000495,174,5290.0,5282.0,False
+bullet 1+1,spent_frac,share of the base time spent per move,moves,n/a,1000,1003.0,1003.0,0.040556,0.040556,0.040556,0.0245,0.0245,0.0245,0.016056,0.016056,0.016056,1,9.0,10.0,True
+bullet 1+1,end_clock,"clock left after own last move, share of base time",games,higher,100,160.0,199.0,0.341833,0.172438,0.513121,0.2595,0.089625,0.4606,0.082333,0.004987,0.181867,10,10.0,10.0,True
+bullet 1+1,end_clock,"clock left after own last move, share of base time",games,higher,200,202.0,299.0,0.485577,0.361186,0.614857,0.62109,0.50197,0.736696,-0.135513,-0.20175,-0.068244,26,26.0,26.0,True
+bullet 1+1,end_clock,"clock left after own last move, share of base time",games,higher,300,301.0,316.0,0.406354,0.250682,0.564833,0.432083,0.253096,0.598682,-0.025729,-0.096255,0.051172,16,16.0,16.0,True
+bullet 1+1,end_clock,"clock left after own last move, share of base time",games,higher,400,475.0,475.0,0.25,0.075,0.425,0.340833,0.248333,0.433333,-0.090833,-0.173333,-0.008333,2,2.0,2.0,True
+bullet 1+1,end_clock,"clock left after own last move, share of base time",games,higher,500,514.0,514.0,0.888333,0.888333,0.888333,1.011667,1.011667,1.011667,-0.123333,-0.123333,-0.123333,1,1.0,1.0,True
+bullet 1+1,end_clock,"clock left after own last move, share of base time",games,higher,600,617.0,698.0,0.392222,0.03,0.731667,0.593333,0.263333,0.97,-0.201111,-0.516667,0.151667,3,3.0,3.0,True
+bullet 1+1,end_clock,"clock left after own last move, share of base time",games,higher,700,700.0,795.0,0.398089,0.343654,0.454918,0.390996,0.322877,0.45932,0.007093,-0.046079,0.056525,82,82.0,82.0,False
+bullet 1+1,end_clock,"clock left after own last move, share of base time",games,higher,800,800.0,899.0,0.412904,0.358409,0.466061,0.386254,0.321155,0.452989,0.026649,-0.021497,0.064126,97,97.0,97.0,False
+bullet 1+1,end_clock,"clock left after own last move, share of base time",games,higher,900,902.0,997.0,0.43228,0.390635,0.476332,0.419895,0.375707,0.469604,0.012385,-0.015103,0.04184,174,174.0,174.0,False
+bullet 1+1,end_clock,"clock left after own last move, share of base time",games,higher,1000,1003.0,1003.0,0.785,0.785,0.785,0.921667,0.921667,0.921667,-0.136667,-0.136667,-0.136667,1,1.0,1.0,True
+bullet 1+1,low_clock,share of own moves played with under 10 s on the clock,moves,lower,100,160.0,199.0,0.166023,0.026064,0.319542,0.178295,0.059591,0.282213,-0.012271,-0.105868,0.056202,10,259.0,258.0,True
+bullet 1+1,low_clock,share of own moves played with under 10 s on the clock,moves,lower,200,202.0,299.0,0.090692,0.015303,0.165897,0.177305,0.006115,0.335656,-0.086613,-0.258657,0.094971,26,419.0,423.0,True
+bullet 1+1,low_clock,share of own moves played with under 10 s on the clock,moves,lower,300,301.0,316.0,0.035599,0.0,0.079381,0.180645,0.058778,0.269473,-0.145046,-0.257255,0.005156,16,309.0,310.0,True
+bullet 1+1,low_clock,share of own moves played with under 10 s on the clock,moves,lower,400,475.0,475.0,0.085714,0.0,0.142857,0.0,0.0,0.0,0.085714,0.0,0.142857,2,35.0,35.0,True
+bullet 1+1,low_clock,share of own moves played with under 10 s on the clock,moves,lower,500,514.0,514.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1,3.0,3.0,True
+bullet 1+1,low_clock,share of own moves played with under 10 s on the clock,moves,lower,600,617.0,698.0,0.053571,0.0,0.157895,0.0,0.0,0.0,0.053571,0.0,0.157895,3,56.0,57.0,True
+bullet 1+1,low_clock,share of own moves played with under 10 s on the clock,moves,lower,700,700.0,795.0,0.072792,0.047259,0.101788,0.091192,0.05481,0.126278,-0.0184,-0.066568,0.027648,82,2253.0,2248.0,False
+bullet 1+1,low_clock,share of own moves played with under 10 s on the clock,moves,lower,800,800.0,899.0,0.105537,0.064154,0.144945,0.104405,0.072047,0.138453,0.001133,-0.040308,0.045735,97,3070.0,3065.0,False
+bullet 1+1,low_clock,share of own moves played with under 10 s on the clock,moves,lower,900,902.0,997.0,0.086011,0.057045,0.121815,0.096365,0.06922,0.124433,-0.010354,-0.049188,0.028842,174,5290.0,5282.0,False
+bullet 1+1,low_clock,share of own moves played with under 10 s on the clock,moves,lower,1000,1003.0,1003.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1,9.0,10.0,True
+bullet 1+1,low_buffer,share of own moves played with under 10 s beyond one increment,moves,lower,100,160.0,199.0,0.189189,0.028442,0.369675,0.217054,0.103232,0.318735,-0.027865,-0.130238,0.06075,10,259.0,258.0,True
+bullet 1+1,low_buffer,share of own moves played with under 10 s beyond one increment,moves,lower,200,202.0,299.0,0.107399,0.029751,0.182273,0.182033,0.009173,0.340124,-0.074635,-0.246092,0.101011,26,419.0,423.0,True
+bullet 1+1,low_buffer,share of own moves played with under 10 s beyond one increment,moves,lower,300,301.0,316.0,0.058252,0.018998,0.096111,0.232258,0.077668,0.357653,-0.174006,-0.304163,-0.000509,16,309.0,310.0,True
+bullet 1+1,low_buffer,share of own moves played with under 10 s beyond one increment,moves,lower,400,475.0,475.0,0.114286,0.0,0.190476,0.0,0.0,0.0,0.114286,0.0,0.190476,2,35.0,35.0,True
+bullet 1+1,low_buffer,share of own moves played with under 10 s beyond one increment,moves,lower,500,514.0,514.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1,3.0,3.0,True
+bullet 1+1,low_buffer,share of own moves played with under 10 s beyond one increment,moves,lower,600,617.0,698.0,0.071429,0.0,0.210526,0.0,0.0,0.0,0.071429,0.0,0.210526,3,56.0,57.0,True
+bullet 1+1,low_buffer,share of own moves played with under 10 s beyond one increment,moves,lower,700,700.0,795.0,0.08522,0.055141,0.119951,0.102313,0.062304,0.139431,-0.017093,-0.070436,0.032251,82,2253.0,2248.0,False
+bullet 1+1,low_buffer,share of own moves played with under 10 s beyond one increment,moves,lower,800,800.0,899.0,0.120195,0.07556,0.167962,0.115498,0.07983,0.153107,0.004698,-0.041752,0.057743,97,3070.0,3065.0,False
+bullet 1+1,low_buffer,share of own moves played with under 10 s beyond one increment,moves,lower,900,902.0,997.0,0.099433,0.06639,0.135276,0.108482,0.079899,0.139984,-0.009049,-0.050637,0.031501,174,5290.0,5282.0,False
+bullet 1+1,low_buffer,share of own moves played with under 10 s beyond one increment,moves,lower,1000,1003.0,1003.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1,9.0,10.0,True
+bullet 1+1,low_base,share of own moves played with under 10% of the base time on the clock,moves,lower,100,160.0,199.0,0.096525,0.008261,0.199387,0.054264,0.015608,0.081454,0.042262,-0.041247,0.131495,10,259.0,258.0,True
+bullet 1+1,low_base,share of own moves played with under 10% of the base time on the clock,moves,lower,200,202.0,299.0,0.059666,0.009746,0.116639,0.130024,0.003058,0.256356,-0.070358,-0.208697,0.050887,26,419.0,423.0,True
+bullet 1+1,low_base,share of own moves played with under 10% of the base time on the clock,moves,lower,300,301.0,316.0,0.022654,0.0,0.050795,0.025806,0.0,0.054326,-0.003153,-0.044053,0.037638,16,309.0,310.0,True
+bullet 1+1,low_base,share of own moves played with under 10% of the base time on the clock,moves,lower,400,475.0,475.0,0.028571,0.0,0.047619,0.0,0.0,0.0,0.028571,0.0,0.047619,2,35.0,35.0,True
+bullet 1+1,low_base,share of own moves played with under 10% of the base time on the clock,moves,lower,500,514.0,514.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1,3.0,3.0,True
+bullet 1+1,low_base,share of own moves played with under 10% of the base time on the clock,moves,lower,600,617.0,698.0,0.035714,0.0,0.105263,0.0,0.0,0.0,0.035714,0.0,0.105263,3,56.0,57.0,True
+bullet 1+1,low_base,share of own moves played with under 10% of the base time on the clock,moves,lower,700,700.0,795.0,0.033289,0.018603,0.050005,0.045374,0.020766,0.07132,-0.012085,-0.042102,0.021582,82,2253.0,2248.0,False
+bullet 1+1,low_base,share of own moves played with under 10% of the base time on the clock,moves,lower,800,800.0,899.0,0.039088,0.018683,0.061961,0.05155,0.030195,0.07217,-0.012462,-0.040296,0.016336,97,3070.0,3065.0,False
+bullet 1+1,low_base,share of own moves played with under 10% of the base time on the clock,moves,lower,900,902.0,997.0,0.030624,0.016266,0.048589,0.043165,0.027244,0.060084,-0.012542,-0.033327,0.008388,174,5290.0,5282.0,False
+bullet 1+1,low_base,share of own moves played with under 10% of the base time on the clock,moves,lower,1000,1003.0,1003.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1,9.0,10.0,True
+bullet 2+1,time_move,seconds spent per move,moves,n/a,100,160.0,192.0,4.555882,3.352941,5.758824,3.885294,3.188235,4.582353,0.670588,0.164706,1.176471,2,34.0,34.0,True
+bullet 2+1,time_move,seconds spent per move,moves,n/a,200,203.0,288.0,3.923485,3.363742,4.685835,3.53621,3.183719,3.984932,0.387275,0.018041,0.955919,22,528.0,533.0,True
+bullet 2+1,time_move,seconds spent per move,moves,n/a,300,301.0,397.0,4.134296,3.755985,4.669638,3.81188,3.484026,4.263012,0.322416,-0.010494,0.63024,36,866.0,867.0,False
+bullet 2+1,time_move,seconds spent per move,moves,n/a,400,403.0,475.0,3.724309,3.072444,4.310246,3.276796,2.478829,4.215487,0.447514,-0.029054,0.79864,6,181.0,181.0,True
+bullet 2+1,time_move,seconds spent per move,moves,n/a,500,558.0,559.0,4.726667,4.716129,4.737931,3.044262,2.212903,3.903333,1.682404,0.834598,2.503226,2,60.0,61.0,True
+bullet 2+1,time_move,seconds spent per move,moves,n/a,700,763.0,771.0,2.902222,2.48,3.509091,5.055556,4.2,6.218182,-2.153333,-2.709091,-1.72,3,45.0,45.0,True
+bullet 2+1,time_move,seconds spent per move,moves,n/a,900,944.0,991.0,3.138941,2.812583,3.480044,2.738491,2.290472,3.23179,0.400451,0.016414,0.801667,14,529.0,530.0,True
+bullet 2+1,spent_frac,share of the base time spent per move,moves,n/a,100,160.0,192.0,0.037966,0.027941,0.04799,0.032377,0.026569,0.038186,0.005588,0.001373,0.009804,2,34.0,34.0,True
+bullet 2+1,spent_frac,share of the base time spent per move,moves,n/a,200,203.0,288.0,0.032696,0.028031,0.039049,0.029468,0.026531,0.033208,0.003227,0.00015,0.007966,22,528.0,533.0,True
+bullet 2+1,spent_frac,share of the base time spent per move,moves,n/a,300,301.0,397.0,0.034452,0.0313,0.038914,0.031766,0.029034,0.035525,0.002687,-8.7e-05,0.005252,36,866.0,867.0,False
+bullet 2+1,spent_frac,share of the base time spent per move,moves,n/a,400,403.0,475.0,0.031036,0.025604,0.035919,0.027307,0.020657,0.035129,0.003729,-0.000242,0.006655,6,181.0,181.0,True
+bullet 2+1,spent_frac,share of the base time spent per move,moves,n/a,500,558.0,559.0,0.039389,0.039301,0.039483,0.025369,0.018441,0.032528,0.01402,0.006955,0.02086,2,60.0,61.0,True
+bullet 2+1,spent_frac,share of the base time spent per move,moves,n/a,700,763.0,771.0,0.024185,0.020667,0.029242,0.04213,0.035,0.051818,-0.017944,-0.022576,-0.014333,3,45.0,45.0,True
+bullet 2+1,spent_frac,share of the base time spent per move,moves,n/a,900,944.0,991.0,0.026158,0.023438,0.029,0.022821,0.019087,0.026932,0.003337,0.000137,0.006681,14,529.0,530.0,True
+bullet 2+1,end_clock,"clock left after own last move, share of base time",games,higher,100,160.0,192.0,0.49625,0.325833,0.666667,0.59125,0.4925,0.69,-0.095,-0.166667,-0.023333,2,2.0,2.0,True
+bullet 2+1,end_clock,"clock left after own last move, share of base time",games,higher,200,203.0,288.0,0.415303,0.275613,0.561983,0.487955,0.349269,0.630357,-0.072652,-0.160465,0.000692,22,22.0,22.0,True
+bullet 2+1,end_clock,"clock left after own last move, share of base time",games,higher,300,301.0,397.0,0.37169,0.267049,0.490641,0.435671,0.319293,0.554983,-0.063981,-0.120205,0.000931,36,36.0,36.0,False
+bullet 2+1,end_clock,"clock left after own last move, share of base time",games,higher,400,403.0,475.0,0.315139,0.163889,0.461111,0.427639,0.265,0.577778,-0.1125,-0.222285,0.01391,6,6.0,6.0,True
+bullet 2+1,end_clock,"clock left after own last move, share of base time",games,higher,500,558.0,559.0,0.068333,0.04,0.096667,0.480417,0.274167,0.686667,-0.412083,-0.646667,-0.1775,2,2.0,2.0,True
+bullet 2+1,end_clock,"clock left after own last move, share of base time",games,higher,700,763.0,771.0,0.762222,0.753333,0.77,0.493056,0.466667,0.521667,0.269167,0.248333,0.286667,3,3.0,3.0,True
+bullet 2+1,end_clock,"clock left after own last move, share of base time",games,higher,900,944.0,991.0,0.326488,0.211222,0.448363,0.451548,0.282911,0.623871,-0.12506,-0.233888,-0.004283,14,14.0,14.0,True
+bullet 2+1,low_clock,share of own moves played with under 10 s on the clock,moves,lower,100,160.0,192.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,2,34.0,34.0,True
+bullet 2+1,low_clock,share of own moves played with under 10 s on the clock,moves,lower,200,203.0,288.0,0.060606,0.009325,0.118296,0.026266,0.0,0.060511,0.03434,-0.031842,0.105799,22,528.0,533.0,True
+bullet 2+1,low_clock,share of own moves played with under 10 s on the clock,moves,lower,300,301.0,397.0,0.110855,0.052492,0.168899,0.100346,0.02164,0.190398,0.010508,-0.097419,0.093532,36,866.0,867.0,False
+bullet 2+1,low_clock,share of own moves played with under 10 s on the clock,moves,lower,400,403.0,475.0,0.005525,0.0,0.017045,0.0,0.0,0.0,0.005525,0.0,0.017045,6,181.0,181.0,True
+bullet 2+1,low_clock,share of own moves played with under 10 s on the clock,moves,lower,500,558.0,559.0,0.083333,0.0,0.16129,0.0,0.0,0.0,0.083333,0.0,0.16129,2,60.0,61.0,True
+bullet 2+1,low_clock,share of own moves played with under 10 s on the clock,moves,lower,700,763.0,771.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,3,45.0,45.0,True
+bullet 2+1,low_clock,share of own moves played with under 10 s on the clock,moves,lower,900,944.0,991.0,0.05293,0.0,0.153438,0.033962,0.0,0.082003,0.018968,-0.064058,0.14185,14,529.0,530.0,True
+bullet 2+1,low_buffer,share of own moves played with under 10 s beyond one increment,moves,lower,100,160.0,192.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,2,34.0,34.0,True
+bullet 2+1,low_buffer,share of own moves played with under 10 s beyond one increment,moves,lower,200,203.0,288.0,0.064394,0.010199,0.126264,0.0394,0.002781,0.081981,0.024994,-0.053827,0.110274,22,528.0,533.0,True
+bullet 2+1,low_buffer,share of own moves played with under 10 s beyond one increment,moves,lower,300,301.0,397.0,0.122402,0.060481,0.181311,0.107266,0.032664,0.195385,0.015135,-0.096899,0.098909,36,866.0,867.0,False
+bullet 2+1,low_buffer,share of own moves played with under 10 s beyond one increment,moves,lower,400,403.0,475.0,0.005525,0.0,0.017045,0.0,0.0,0.0,0.005525,0.0,0.017045,6,181.0,181.0,True
+bullet 2+1,low_buffer,share of own moves played with under 10 s beyond one increment,moves,lower,500,558.0,559.0,0.083333,0.0,0.16129,0.0,0.0,0.0,0.083333,0.0,0.16129,2,60.0,61.0,True
+bullet 2+1,low_buffer,share of own moves played with under 10 s beyond one increment,moves,lower,700,763.0,771.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,3,45.0,45.0,True
+bullet 2+1,low_buffer,share of own moves played with under 10 s beyond one increment,moves,lower,900,944.0,991.0,0.056711,0.0,0.153609,0.037736,0.003491,0.085771,0.018975,-0.063959,0.14185,14,529.0,530.0,True
+bullet 2+1,low_base,share of own moves played with under 10% of the base time on the clock,moves,lower,100,160.0,192.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,2,34.0,34.0,True
+bullet 2+1,low_base,share of own moves played with under 10% of the base time on the clock,moves,lower,200,203.0,288.0,0.07197,0.016446,0.140285,0.04878,0.006426,0.097457,0.023189,-0.059272,0.114723,22,528.0,533.0,True
+bullet 2+1,low_base,share of own moves played with under 10% of the base time on the clock,moves,lower,300,301.0,397.0,0.130485,0.064295,0.191072,0.114187,0.038709,0.201492,0.016298,-0.101526,0.105355,36,866.0,867.0,False
+bullet 2+1,low_base,share of own moves played with under 10% of the base time on the clock,moves,lower,400,403.0,475.0,0.01105,0.0,0.034091,0.0,0.0,0.0,0.01105,0.0,0.034091,6,181.0,181.0,True
+bullet 2+1,low_base,share of own moves played with under 10% of the base time on the clock,moves,lower,500,558.0,559.0,0.083333,0.0,0.16129,0.0,0.0,0.0,0.083333,0.0,0.16129,2,60.0,61.0,True
+bullet 2+1,low_base,share of own moves played with under 10% of the base time on the clock,moves,lower,700,763.0,771.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,3,45.0,45.0,True
+bullet 2+1,low_base,share of own moves played with under 10% of the base time on the clock,moves,lower,900,944.0,991.0,0.073724,0.0,0.174373,0.050943,0.006981,0.09864,0.022781,-0.062181,0.145271,14,529.0,530.0,True
+blitz 3+0,time_move,seconds spent per move,moves,n/a,300,325.0,376.0,5.865116,5.034032,7.023115,4.549219,3.426903,5.80438,1.315898,0.477635,2.133884,6,129.0,128.0,True
+blitz 3+0,time_move,seconds spent per move,moves,n/a,700,728.0,796.0,3.151701,2.811077,3.505576,3.548899,3.27729,3.842007,-0.397197,-0.804256,-0.007563,32,911.0,908.0,False
+blitz 3+0,time_move,seconds spent per move,moves,n/a,800,826.0,898.0,3.38373,3.186568,3.627764,3.028543,2.757116,3.319149,0.355187,0.127406,0.602943,49,1512.0,1503.0,False
+blitz 3+0,time_move,seconds spent per move,moves,n/a,900,903.0,994.0,3.428765,3.268818,3.616581,3.169161,2.974998,3.406597,0.259604,0.108586,0.384494,117,3977.0,3969.0,False
+blitz 3+0,time_move,seconds spent per move,moves,n/a,1000,1002.0,1018.0,3.719333,3.1925,4.321429,3.199333,2.780198,3.906569,0.52,0.150538,1.122807,4,150.0,150.0,True
+blitz 3+0,spent_frac,share of the base time spent per move,moves,n/a,300,325.0,376.0,0.032584,0.027967,0.039017,0.025273,0.019038,0.032247,0.007311,0.002654,0.011855,6,129.0,128.0,True
+blitz 3+0,spent_frac,share of the base time spent per move,moves,n/a,700,728.0,796.0,0.017509,0.015617,0.019475,0.019716,0.018207,0.021344,-0.002207,-0.004468,-4.2e-05,32,911.0,908.0,False
+blitz 3+0,spent_frac,share of the base time spent per move,moves,n/a,800,826.0,898.0,0.018799,0.017703,0.020154,0.016825,0.015317,0.01844,0.001973,0.000708,0.00335,49,1512.0,1503.0,False
+blitz 3+0,spent_frac,share of the base time spent per move,moves,n/a,900,903.0,994.0,0.019049,0.01816,0.020092,0.017606,0.016528,0.018926,0.001442,0.000603,0.002136,117,3977.0,3969.0,False
+blitz 3+0,spent_frac,share of the base time spent per move,moves,n/a,1000,1002.0,1018.0,0.020663,0.017736,0.024008,0.017774,0.015446,0.021703,0.002889,0.000836,0.006238,4,150.0,150.0,True
+blitz 3+0,end_clock,"clock left after own last move, share of base time",games,higher,300,325.0,376.0,0.299444,0.143981,0.445062,0.460833,0.273637,0.614294,-0.161389,-0.247593,-0.063662,6,6.0,6.0,True
+blitz 3+0,end_clock,"clock left after own last move, share of base time",games,higher,700,728.0,796.0,0.501528,0.397282,0.610534,0.440556,0.338923,0.540867,0.060972,0.003342,0.120924,32,32.0,32.0,False
+blitz 3+0,end_clock,"clock left after own last move, share of base time",games,higher,800,826.0,898.0,0.419932,0.33763,0.495217,0.483912,0.402613,0.566837,-0.06398,-0.105921,-0.0246,49,49.0,49.0,False
+blitz 3+0,end_clock,"clock left after own last move, share of base time",games,higher,900,903.0,994.0,0.352507,0.304357,0.405508,0.402735,0.357109,0.455995,-0.050228,-0.074555,-0.022501,117,117.0,117.0,False
+blitz 3+0,end_clock,"clock left after own last move, share of base time",games,higher,1000,1002.0,1018.0,0.225139,0.042917,0.472778,0.333472,0.121389,0.61,-0.108333,-0.204583,-0.038889,4,4.0,4.0,True
+blitz 3+0,low_clock,share of own moves played with under 10 s on the clock,moves,lower,300,325.0,376.0,0.0,0.0,0.0,0.007812,0.0,0.022226,-0.007812,-0.022226,0.0,6,129.0,128.0,True
+blitz 3+0,low_clock,share of own moves played with under 10 s on the clock,moves,lower,700,728.0,796.0,0.030735,0.004428,0.066033,0.013216,0.0,0.029168,0.01752,-0.013862,0.055261,32,911.0,908.0,False
+blitz 3+0,low_clock,share of own moves played with under 10 s on the clock,moves,lower,800,826.0,898.0,0.046958,0.016283,0.081893,0.011976,0.001299,0.024349,0.034982,0.001888,0.069838,49,1512.0,1503.0,False
+blitz 3+0,low_clock,share of own moves played with under 10 s on the clock,moves,lower,900,903.0,994.0,0.038723,0.023473,0.0551,0.013353,0.006301,0.02164,0.025369,0.006612,0.04387,117,3977.0,3969.0,False
+blitz 3+0,low_clock,share of own moves played with under 10 s on the clock,moves,lower,1000,1002.0,1018.0,0.066667,0.0,0.143541,0.0,0.0,0.0,0.066667,0.0,0.143541,4,150.0,150.0,True
+blitz 3+0,low_buffer,share of own moves played with under 10 s beyond one increment,moves,lower,300,325.0,376.0,0.0,0.0,0.0,0.007812,0.0,0.022226,-0.007812,-0.022226,0.0,6,129.0,128.0,True
+blitz 3+0,low_buffer,share of own moves played with under 10 s beyond one increment,moves,lower,700,728.0,796.0,0.030735,0.004428,0.066033,0.013216,0.0,0.029168,0.01752,-0.013862,0.055261,32,911.0,908.0,False
+blitz 3+0,low_buffer,share of own moves played with under 10 s beyond one increment,moves,lower,800,826.0,898.0,0.046958,0.016283,0.081893,0.011976,0.001299,0.024349,0.034982,0.001888,0.069838,49,1512.0,1503.0,False
+blitz 3+0,low_buffer,share of own moves played with under 10 s beyond one increment,moves,lower,900,903.0,994.0,0.038723,0.023473,0.0551,0.013353,0.006301,0.02164,0.025369,0.006612,0.04387,117,3977.0,3969.0,False
+blitz 3+0,low_buffer,share of own moves played with under 10 s beyond one increment,moves,lower,1000,1002.0,1018.0,0.066667,0.0,0.143541,0.0,0.0,0.0,0.066667,0.0,0.143541,4,150.0,150.0,True
+blitz 3+0,low_base,share of own moves played with under 10% of the base time on the clock,moves,lower,300,325.0,376.0,0.015504,0.0,0.032278,0.03125,0.0,0.088905,-0.015746,-0.064631,0.021743,6,129.0,128.0,True
+blitz 3+0,low_base,share of own moves played with under 10% of the base time on the clock,moves,lower,700,728.0,796.0,0.047201,0.008323,0.094771,0.036344,0.013887,0.061902,0.010857,-0.028536,0.055067,32,911.0,908.0,False
+blitz 3+0,low_base,share of own moves played with under 10% of the base time on the clock,moves,lower,800,826.0,898.0,0.080688,0.034323,0.127705,0.027279,0.005927,0.051224,0.053409,0.009919,0.101771,49,1512.0,1503.0,False
+blitz 3+0,low_base,share of own moves played with under 10% of the base time on the clock,moves,lower,900,903.0,994.0,0.075434,0.052093,0.099536,0.037289,0.019,0.057275,0.038145,0.007607,0.064303,117,3977.0,3969.0,False
+blitz 3+0,low_base,share of own moves played with under 10% of the base time on the clock,moves,lower,1000,1002.0,1018.0,0.106667,0.0,0.229665,0.006667,0.0,0.014218,0.1,0.0,0.215449,4,150.0,150.0,True
+blitz 3+2,time_move,seconds spent per move,moves,n/a,200,252.0,262.0,4.12549,2.972,4.617143,5.290566,4.593125,5.721818,-1.165076,-2.542286,-0.568259,3,51.0,53.0,True
+blitz 3+2,time_move,seconds spent per move,moves,n/a,300,304.0,399.0,6.05937,5.751945,6.394902,5.46063,5.160548,5.775817,0.59874,0.356361,0.888057,139,3554.0,3556.0,False
+blitz 3+2,time_move,seconds spent per move,moves,n/a,400,400.0,499.0,5.814093,5.521327,6.100974,5.267769,4.94957,5.638478,0.546324,0.261944,0.797197,157,4151.0,4142.0,False
+blitz 3+2,time_move,seconds spent per move,moves,n/a,500,500.0,599.0,5.251819,5.043134,5.478575,4.879556,4.657598,5.096586,0.372263,0.202029,0.54749,208,6681.0,6667.0,False
+blitz 3+2,time_move,seconds spent per move,moves,n/a,600,600.0,698.0,5.465147,5.183546,5.802739,4.879842,4.544587,5.203376,0.585306,0.313012,0.885642,100,3159.0,3155.0,False
+blitz 3+2,time_move,seconds spent per move,moves,n/a,700,700.0,799.0,5.32609,5.170622,5.504669,4.874944,4.710969,5.044901,0.451146,0.285385,0.618319,289,8444.0,8445.0,False
+blitz 3+2,time_move,seconds spent per move,moves,n/a,800,800.0,899.0,5.089983,4.906211,5.285664,4.892818,4.684223,5.081439,0.197165,0.031115,0.377524,231,7447.0,7435.0,False
+blitz 3+2,time_move,seconds spent per move,moves,n/a,900,901.0,999.0,5.001362,4.804329,5.189301,4.664108,4.425548,4.85747,0.337253,0.157386,0.548604,237,6976.0,6971.0,False
+blitz 3+2,time_move,seconds spent per move,moves,n/a,1000,1000.0,1050.0,4.415329,4.031961,4.912825,4.345993,4.008693,4.760226,0.069336,-0.372289,0.493569,74,2342.0,2346.0,False
+blitz 3+2,spent_frac,share of the base time spent per move,moves,n/a,200,252.0,262.0,0.022919,0.016511,0.025651,0.029392,0.025517,0.031788,-0.006473,-0.014124,-0.003157,3,51.0,53.0,True
+blitz 3+2,spent_frac,share of the base time spent per move,moves,n/a,300,304.0,399.0,0.033663,0.031955,0.035527,0.030337,0.02867,0.032088,0.003326,0.00198,0.004934,139,3554.0,3556.0,False
+blitz 3+2,spent_frac,share of the base time spent per move,moves,n/a,400,400.0,499.0,0.032301,0.030674,0.033894,0.029265,0.027498,0.031325,0.003035,0.001455,0.004429,157,4151.0,4142.0,False
+blitz 3+2,spent_frac,share of the base time spent per move,moves,n/a,500,500.0,599.0,0.029177,0.028017,0.030437,0.027109,0.025876,0.028314,0.002068,0.001122,0.003042,208,6681.0,6667.0,False
+blitz 3+2,spent_frac,share of the base time spent per move,moves,n/a,600,600.0,698.0,0.030362,0.028797,0.032237,0.02711,0.025248,0.028908,0.003252,0.001739,0.00492,100,3159.0,3155.0,False
+blitz 3+2,spent_frac,share of the base time spent per move,moves,n/a,700,700.0,799.0,0.029589,0.028726,0.030581,0.027083,0.026172,0.028027,0.002506,0.001585,0.003435,289,8444.0,8445.0,False
+blitz 3+2,spent_frac,share of the base time spent per move,moves,n/a,800,800.0,899.0,0.028278,0.027257,0.029365,0.027182,0.026023,0.02823,0.001095,0.000173,0.002097,231,7447.0,7435.0,False
+blitz 3+2,spent_frac,share of the base time spent per move,moves,n/a,900,901.0,999.0,0.027785,0.026691,0.028829,0.025912,0.024586,0.026986,0.001874,0.000874,0.003048,237,6976.0,6971.0,False
+blitz 3+2,spent_frac,share of the base time spent per move,moves,n/a,1000,1000.0,1050.0,0.02453,0.0224,0.027293,0.024144,0.022271,0.026446,0.000385,-0.002068,0.002742,74,2342.0,2346.0,False
+blitz 3+2,end_clock,"clock left after own last move, share of base time",games,higher,200,252.0,262.0,0.799259,0.491111,0.955,0.677037,0.339444,0.875292,0.122222,0.061667,0.181667,3,3.0,3.0,True
+blitz 3+2,end_clock,"clock left after own last move, share of base time",games,higher,300,304.0,399.0,0.423381,0.370633,0.477139,0.508153,0.459097,0.562677,-0.084772,-0.121836,-0.051724,139,139.0,139.0,False
+blitz 3+2,end_clock,"clock left after own last move, share of base time",games,higher,400,400.0,499.0,0.439763,0.391176,0.4873,0.521051,0.46871,0.572051,-0.081288,-0.11704,-0.041492,157,157.0,157.0,False
+blitz 3+2,end_clock,"clock left after own last move, share of base time",games,higher,500,500.0,599.0,0.419728,0.381677,0.459011,0.487233,0.443852,0.532106,-0.067505,-0.096789,-0.037043,208,208.0,208.0,False
+blitz 3+2,end_clock,"clock left after own last move, share of base time",games,higher,600,600.0,698.0,0.391867,0.33339,0.45011,0.495228,0.444012,0.554817,-0.103361,-0.152155,-0.055674,100,100.0,100.0,False
+blitz 3+2,end_clock,"clock left after own last move, share of base time",games,higher,700,700.0,799.0,0.460102,0.427704,0.492473,0.533278,0.495687,0.567795,-0.073176,-0.099089,-0.046197,289,289.0,289.0,False
+blitz 3+2,end_clock,"clock left after own last move, share of base time",games,higher,800,800.0,899.0,0.446582,0.409115,0.483185,0.48273,0.440199,0.519563,-0.036147,-0.069634,-0.007207,231,231.0,231.0,False
+blitz 3+2,end_clock,"clock left after own last move, share of base time",games,higher,900,901.0,999.0,0.509201,0.473008,0.549194,0.564662,0.527799,0.609287,-0.055462,-0.088982,-0.026691,237,237.0,237.0,False
+blitz 3+2,end_clock,"clock left after own last move, share of base time",games,higher,1000,1000.0,1050.0,0.575323,0.505841,0.644382,0.586809,0.517087,0.660735,-0.011486,-0.084839,0.068193,74,74.0,74.0,False
+blitz 3+2,low_clock,share of own moves played with under 10 s on the clock,moves,lower,200,252.0,262.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,3,51.0,53.0,True
+blitz 3+2,low_clock,share of own moves played with under 10 s on the clock,moves,lower,300,304.0,399.0,0.060495,0.033046,0.098076,0.025872,0.011712,0.046701,0.034623,0.011359,0.062028,139,3554.0,3556.0,False
+blitz 3+2,low_clock,share of own moves played with under 10 s on the clock,moves,lower,400,400.0,499.0,0.04264,0.024513,0.060432,0.035007,0.01688,0.05738,0.007633,-0.024357,0.035622,157,4151.0,4142.0,False
+blitz 3+2,low_clock,share of own moves played with under 10 s on the clock,moves,lower,500,500.0,599.0,0.017662,0.008534,0.027302,0.032698,0.016473,0.051309,-0.015036,-0.03498,0.005677,208,6681.0,6667.0,False
+blitz 3+2,low_clock,share of own moves played with under 10 s on the clock,moves,lower,600,600.0,698.0,0.021842,0.00853,0.039477,0.022504,0.009143,0.038302,-0.000662,-0.016817,0.018945,100,3159.0,3155.0,False
+blitz 3+2,low_clock,share of own moves played with under 10 s on the clock,moves,lower,700,700.0,799.0,0.015751,0.007081,0.02658,0.018236,0.008461,0.028835,-0.002485,-0.015874,0.009765,289,8444.0,8445.0,False
+blitz 3+2,low_clock,share of own moves played with under 10 s on the clock,moves,lower,800,800.0,899.0,0.013965,0.007294,0.021782,0.018023,0.00946,0.027448,-0.004058,-0.014939,0.008792,231,7447.0,7435.0,False
+blitz 3+2,low_clock,share of own moves played with under 10 s on the clock,moves,lower,900,901.0,999.0,0.017345,0.01021,0.02532,0.019796,0.009549,0.031005,-0.002451,-0.012579,0.008654,237,6976.0,6971.0,False
+blitz 3+2,low_clock,share of own moves played with under 10 s on the clock,moves,lower,1000,1000.0,1050.0,0.014944,0.004407,0.028523,0.002984,0.0,0.007846,0.011961,2.9e-05,0.026519,74,2342.0,2346.0,False
+blitz 3+2,low_buffer,share of own moves played with under 10 s beyond one increment,moves,lower,200,252.0,262.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,3,51.0,53.0,True
+blitz 3+2,low_buffer,share of own moves played with under 10 s beyond one increment,moves,lower,300,304.0,399.0,0.07372,0.042697,0.113291,0.035433,0.017209,0.060777,0.038287,0.011096,0.07032,139,3554.0,3556.0,False
+blitz 3+2,low_buffer,share of own moves played with under 10 s beyond one increment,moves,lower,400,400.0,499.0,0.061913,0.038015,0.085591,0.047803,0.02453,0.076821,0.01411,-0.02225,0.046008,157,4151.0,4142.0,False
+blitz 3+2,low_buffer,share of own moves played with under 10 s beyond one increment,moves,lower,500,500.0,599.0,0.02784,0.015939,0.039791,0.044848,0.02525,0.065052,-0.017008,-0.037192,0.004619,208,6681.0,6667.0,False
+blitz 3+2,low_buffer,share of own moves played with under 10 s beyond one increment,moves,lower,600,600.0,698.0,0.030706,0.014428,0.052901,0.029477,0.012548,0.047554,0.001229,-0.018629,0.027234,100,3159.0,3155.0,False
+blitz 3+2,low_buffer,share of own moves played with under 10 s beyond one increment,moves,lower,700,700.0,799.0,0.024633,0.013888,0.038274,0.024275,0.01275,0.036928,0.000358,-0.015729,0.015927,289,8444.0,8445.0,False
+blitz 3+2,low_buffer,share of own moves played with under 10 s beyond one increment,moves,lower,800,800.0,899.0,0.022962,0.012842,0.036279,0.026227,0.0144,0.039876,-0.003265,-0.020142,0.015541,231,7447.0,7435.0,False
+blitz 3+2,low_buffer,share of own moves played with under 10 s beyond one increment,moves,lower,900,901.0,999.0,0.024226,0.014528,0.034782,0.027399,0.015452,0.041155,-0.003173,-0.015697,0.010517,237,6976.0,6971.0,False
+blitz 3+2,low_buffer,share of own moves played with under 10 s beyond one increment,moves,lower,1000,1000.0,1050.0,0.024338,0.005725,0.04677,0.004263,0.0,0.011585,0.020076,0.000544,0.044331,74,2342.0,2346.0,False
+blitz 3+2,low_base,share of own moves played with under 10% of the base time on the clock,moves,lower,200,252.0,262.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,3,51.0,53.0,True
+blitz 3+2,low_base,share of own moves played with under 10% of the base time on the clock,moves,lower,300,304.0,399.0,0.126055,0.086706,0.169984,0.080146,0.04739,0.120609,0.045909,0.007954,0.080895,139,3554.0,3556.0,False
+blitz 3+2,low_base,share of own moves played with under 10% of the base time on the clock,moves,lower,400,400.0,499.0,0.11708,0.081633,0.153548,0.078947,0.042356,0.121602,0.038133,-0.007702,0.089507,157,4151.0,4142.0,False
+blitz 3+2,low_base,share of own moves played with under 10% of the base time on the clock,moves,lower,500,500.0,599.0,0.073193,0.048176,0.096103,0.079196,0.051005,0.105713,-0.006003,-0.039617,0.027109,208,6681.0,6667.0,False
+blitz 3+2,low_base,share of own moves played with under 10% of the base time on the clock,moves,lower,600,600.0,698.0,0.07534,0.041715,0.114958,0.054834,0.027956,0.086949,0.020507,-0.020073,0.067578,100,3159.0,3155.0,False
+blitz 3+2,low_base,share of own moves played with under 10% of the base time on the clock,moves,lower,700,700.0,799.0,0.064424,0.041623,0.086533,0.044405,0.028463,0.062622,0.020019,-0.004029,0.042569,289,8444.0,8445.0,False
+blitz 3+2,low_base,share of own moves played with under 10% of the base time on the clock,moves,lower,800,800.0,899.0,0.053041,0.031983,0.077124,0.049899,0.032878,0.06942,0.003142,-0.025592,0.03411,231,7447.0,7435.0,False
+blitz 3+2,low_base,share of own moves played with under 10% of the base time on the clock,moves,lower,900,901.0,999.0,0.052466,0.035544,0.070146,0.051499,0.032384,0.07282,0.000967,-0.018796,0.020978,237,6976.0,6971.0,False
+blitz 3+2,low_base,share of own moves played with under 10% of the base time on the clock,moves,lower,1000,1000.0,1050.0,0.037575,0.012411,0.064736,0.014919,0.00137,0.037885,0.022656,-0.012485,0.053765,74,2342.0,2346.0,False
+blitz 5+0,time_move,seconds spent per move,moves,n/a,200,265.0,292.0,8.877419,7.155077,10.7925,6.8576,5.147235,9.585977,2.019819,-0.774867,4.822627,7,124.0,125.0,True
+blitz 5+0,time_move,seconds spent per move,moves,n/a,300,301.0,395.0,7.816667,7.077864,8.597479,6.157461,5.45366,6.885013,1.659206,0.979675,2.245687,47,1206.0,1213.0,False
+blitz 5+0,time_move,seconds spent per move,moves,n/a,400,400.0,496.0,7.547727,5.651083,10.496703,7.200746,5.933973,9.004651,0.346981,-2.373975,3.992185,6,132.0,134.0,True
+blitz 5+0,time_move,seconds spent per move,moves,n/a,500,503.0,596.0,6.086192,5.23024,7.086437,5.322774,4.541225,6.275617,0.763418,0.32125,1.260299,14,478.0,483.0,True
+blitz 5+0,time_move,seconds spent per move,moves,n/a,600,603.0,626.0,8.340693,6.618244,10.687476,6.779565,4.838257,8.794535,1.561127,-0.392348,4.292475,11,231.0,230.0,True
+blitz 5+0,time_move,seconds spent per move,moves,n/a,700,726.0,726.0,4.107692,4.107692,4.107692,6.8,6.8,6.8,-2.692308,-2.692308,-2.692308,1,13.0,12.0,True
+blitz 5+0,time_move,seconds spent per move,moves,n/a,800,800.0,800.0,7.535556,4.922222,8.188889,0.884783,0.74,0.925,6.650773,4.182222,7.263889,2,45.0,46.0,True
+blitz 5+0,time_move,seconds spent per move,moves,n/a,900,930.0,930.0,3.350847,3.350847,3.350847,4.071667,4.071667,4.071667,-0.720819,-0.720819,-0.720819,1,59.0,60.0,True
+blitz 5+0,spent_frac,share of the base time spent per move,moves,n/a,200,265.0,292.0,0.029591,0.02385,0.035975,0.022859,0.017157,0.031953,0.006733,-0.002583,0.016075,7,124.0,125.0,True
+blitz 5+0,spent_frac,share of the base time spent per move,moves,n/a,300,301.0,395.0,0.026056,0.023593,0.028658,0.020525,0.018179,0.02295,0.005531,0.003266,0.007486,47,1206.0,1213.0,False
+blitz 5+0,spent_frac,share of the base time spent per move,moves,n/a,400,400.0,496.0,0.025159,0.018837,0.034989,0.024002,0.01978,0.030016,0.001157,-0.007913,0.013307,6,132.0,134.0,True
+blitz 5+0,spent_frac,share of the base time spent per move,moves,n/a,500,503.0,596.0,0.020287,0.017434,0.023621,0.017743,0.015137,0.020919,0.002545,0.001071,0.004201,14,478.0,483.0,True
+blitz 5+0,spent_frac,share of the base time spent per move,moves,n/a,600,603.0,626.0,0.027802,0.022061,0.035625,0.022599,0.016128,0.029315,0.005204,-0.001308,0.014308,11,231.0,230.0,True
+blitz 5+0,spent_frac,share of the base time spent per move,moves,n/a,700,726.0,726.0,0.013692,0.013692,0.013692,0.022667,0.022667,0.022667,-0.008974,-0.008974,-0.008974,1,13.0,12.0,True
+blitz 5+0,spent_frac,share of the base time spent per move,moves,n/a,800,800.0,800.0,0.025119,0.016407,0.027296,0.002949,0.002467,0.003083,0.022169,0.013941,0.024213,2,45.0,46.0,True
+blitz 5+0,spent_frac,share of the base time spent per move,moves,n/a,900,930.0,930.0,0.011169,0.011169,0.011169,0.013572,0.013572,0.013572,-0.002403,-0.002403,-0.002403,1,59.0,60.0,True
+blitz 5+0,end_clock,"clock left after own last move, share of base time",games,higher,200,265.0,292.0,0.47581,0.338951,0.612636,0.59181,0.383446,0.732336,-0.116,-0.265274,0.051727,7,7.0,7.0,True
+blitz 5+0,end_clock,"clock left after own last move, share of base time",games,higher,300,301.0,395.0,0.331426,0.251291,0.426058,0.470284,0.389696,0.55639,-0.138858,-0.190658,-0.084297,47,47.0,47.0,False
+blitz 5+0,end_clock,"clock left after own last move, share of base time",games,higher,400,400.0,496.0,0.4465,0.283039,0.615025,0.463944,0.203903,0.691444,-0.017444,-0.224635,0.202925,6,6.0,6.0,True
+blitz 5+0,end_clock,"clock left after own last move, share of base time",games,higher,500,503.0,596.0,0.307333,0.163629,0.455089,0.387881,0.24773,0.522586,-0.080548,-0.133406,-0.034581,14,14.0,14.0,True
+blitz 5+0,end_clock,"clock left after own last move, share of base time",games,higher,600,603.0,626.0,0.416152,0.26329,0.56081,0.527485,0.285826,0.721674,-0.111333,-0.221923,0.022016,11,11.0,11.0,True
+blitz 5+0,end_clock,"clock left after own last move, share of base time",games,higher,700,726.0,726.0,0.822,0.822,0.822,0.728,0.728,0.728,0.094,0.094,0.094,1,1.0,1.0,True
+blitz 5+0,end_clock,"clock left after own last move, share of base time",games,higher,800,800.0,800.0,0.434833,0.017333,0.852333,0.932167,0.889,0.975333,-0.497333,-0.871667,-0.123,2,2.0,2.0,True
+blitz 5+0,end_clock,"clock left after own last move, share of base time",games,higher,900,930.0,930.0,0.341,0.341,0.341,0.185667,0.185667,0.185667,0.155333,0.155333,0.155333,1,1.0,1.0,True
+blitz 5+0,low_clock,share of own moves played with under 10 s on the clock,moves,lower,200,265.0,292.0,0.0,0.0,0.0,0.016,0.0,0.045472,-0.016,-0.045472,0.0,7,124.0,125.0,True
+blitz 5+0,low_clock,share of own moves played with under 10 s on the clock,moves,lower,300,301.0,395.0,0.06136,0.030638,0.091761,0.016488,0.000907,0.033982,0.044872,0.013151,0.07462,47,1206.0,1213.0,False
+blitz 5+0,low_clock,share of own moves played with under 10 s on the clock,moves,lower,400,400.0,496.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,6,132.0,134.0,True
+blitz 5+0,low_clock,share of own moves played with under 10 s on the clock,moves,lower,500,503.0,596.0,0.058577,0.024228,0.096437,0.004141,0.0,0.012346,0.054437,0.020829,0.093671,14,478.0,483.0,True
+blitz 5+0,low_clock,share of own moves played with under 10 s on the clock,moves,lower,600,603.0,626.0,0.034632,0.0,0.090251,0.0,0.0,0.0,0.034632,0.0,0.090251,11,231.0,230.0,True
+blitz 5+0,low_clock,share of own moves played with under 10 s on the clock,moves,lower,700,726.0,726.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1,13.0,12.0,True
+blitz 5+0,low_clock,share of own moves played with under 10 s on the clock,moves,lower,800,800.0,800.0,0.022222,0.0,0.027778,0.0,0.0,0.0,0.022222,0.0,0.027778,2,45.0,46.0,True
+blitz 5+0,low_clock,share of own moves played with under 10 s on the clock,moves,lower,900,930.0,930.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1,59.0,60.0,True
+blitz 5+0,low_buffer,share of own moves played with under 10 s beyond one increment,moves,lower,200,265.0,292.0,0.0,0.0,0.0,0.016,0.0,0.045472,-0.016,-0.045472,0.0,7,124.0,125.0,True
+blitz 5+0,low_buffer,share of own moves played with under 10 s beyond one increment,moves,lower,300,301.0,395.0,0.06136,0.030638,0.091761,0.016488,0.000907,0.033982,0.044872,0.013151,0.07462,47,1206.0,1213.0,False
+blitz 5+0,low_buffer,share of own moves played with under 10 s beyond one increment,moves,lower,400,400.0,496.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,6,132.0,134.0,True
+blitz 5+0,low_buffer,share of own moves played with under 10 s beyond one increment,moves,lower,500,503.0,596.0,0.058577,0.024228,0.096437,0.004141,0.0,0.012346,0.054437,0.020829,0.093671,14,478.0,483.0,True
+blitz 5+0,low_buffer,share of own moves played with under 10 s beyond one increment,moves,lower,600,603.0,626.0,0.034632,0.0,0.090251,0.0,0.0,0.0,0.034632,0.0,0.090251,11,231.0,230.0,True
+blitz 5+0,low_buffer,share of own moves played with under 10 s beyond one increment,moves,lower,700,726.0,726.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1,13.0,12.0,True
+blitz 5+0,low_buffer,share of own moves played with under 10 s beyond one increment,moves,lower,800,800.0,800.0,0.022222,0.0,0.027778,0.0,0.0,0.0,0.022222,0.0,0.027778,2,45.0,46.0,True
+blitz 5+0,low_buffer,share of own moves played with under 10 s beyond one increment,moves,lower,900,930.0,930.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1,59.0,60.0,True
+blitz 5+0,low_base,share of own moves played with under 10% of the base time on the clock,moves,lower,200,265.0,292.0,0.0,0.0,0.0,0.024,0.0,0.068208,-0.024,-0.068208,0.0,7,124.0,125.0,True
+blitz 5+0,low_base,share of own moves played with under 10% of the base time on the clock,moves,lower,300,301.0,395.0,0.116086,0.074317,0.155814,0.046991,0.009807,0.096435,0.069095,0.029498,0.111664,47,1206.0,1213.0,False
+blitz 5+0,low_base,share of own moves played with under 10% of the base time on the clock,moves,lower,400,400.0,496.0,0.015152,0.0,0.043478,0.029851,0.0,0.082586,-0.014699,-0.082474,0.041712,6,132.0,134.0,True
+blitz 5+0,low_base,share of own moves played with under 10% of the base time on the clock,moves,lower,500,503.0,596.0,0.146444,0.062451,0.217744,0.041408,0.0,0.111799,0.105036,0.037381,0.173964,14,478.0,483.0,True
+blitz 5+0,low_base,share of own moves played with under 10% of the base time on the clock,moves,lower,600,603.0,626.0,0.060606,0.0,0.148303,0.017391,0.0,0.047654,0.043215,-0.031262,0.144456,11,231.0,230.0,True
+blitz 5+0,low_base,share of own moves played with under 10% of the base time on the clock,moves,lower,700,726.0,726.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1,13.0,12.0,True
+blitz 5+0,low_base,share of own moves played with under 10% of the base time on the clock,moves,lower,800,800.0,800.0,0.044444,0.0,0.055556,0.0,0.0,0.0,0.044444,0.0,0.055556,2,45.0,46.0,True
+blitz 5+0,low_base,share of own moves played with under 10% of the base time on the clock,moves,lower,900,930.0,930.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1,59.0,60.0,True
+blitz 5+2,time_move,seconds spent per move,moves,n/a,500,597.0,597.0,2.466667,2.466667,2.466667,6.933333,6.933333,6.933333,-4.466667,-4.466667,-4.466667,1,3.0,3.0,True
+blitz 5+2,time_move,seconds spent per move,moves,n/a,700,701.0,794.0,6.329826,5.980249,6.753527,6.715443,6.222429,7.218528,-0.385617,-0.717849,-0.064317,111,3326.0,3322.0,False
+blitz 5+2,time_move,seconds spent per move,moves,n/a,800,808.0,808.0,3.707692,3.707692,3.707692,2.583333,2.583333,2.583333,1.124359,1.124359,1.124359,1,13.0,12.0,True
+blitz 5+2,spent_frac,share of the base time spent per move,moves,n/a,500,597.0,597.0,0.008222,0.008222,0.008222,0.023111,0.023111,0.023111,-0.014889,-0.014889,-0.014889,1,3.0,3.0,True
+blitz 5+2,spent_frac,share of the base time spent per move,moves,n/a,700,701.0,794.0,0.021099,0.019934,0.022512,0.022385,0.020741,0.024062,-0.001285,-0.002393,-0.000214,111,3326.0,3322.0,False
+blitz 5+2,spent_frac,share of the base time spent per move,moves,n/a,800,808.0,808.0,0.012359,0.012359,0.012359,0.008611,0.008611,0.008611,0.003748,0.003748,0.003748,1,13.0,12.0,True
+blitz 5+2,end_clock,"clock left after own last move, share of base time",games,higher,500,597.0,597.0,0.995333,0.995333,0.995333,0.950667,0.950667,0.950667,0.044667,0.044667,0.044667,1,1.0,1.0,True
+blitz 5+2,end_clock,"clock left after own last move, share of base time",games,higher,700,701.0,794.0,0.567538,0.50389,0.617868,0.529589,0.456612,0.587154,0.037949,0.005552,0.069929,111,111.0,111.0,False
+blitz 5+2,end_clock,"clock left after own last move, share of base time",games,higher,800,808.0,808.0,0.926,0.926,0.926,0.976667,0.976667,0.976667,-0.050667,-0.050667,-0.050667,1,1.0,1.0,True
+blitz 5+2,low_clock,share of own moves played with under 10 s on the clock,moves,lower,500,597.0,597.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1,3.0,3.0,True
+blitz 5+2,low_clock,share of own moves played with under 10 s on the clock,moves,lower,700,701.0,794.0,0.006615,0.0,0.016263,0.012643,0.004435,0.024414,-0.006028,-0.018269,0.007361,111,3326.0,3322.0,False
+blitz 5+2,low_clock,share of own moves played with under 10 s on the clock,moves,lower,800,808.0,808.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1,13.0,12.0,True
+blitz 5+2,low_buffer,share of own moves played with under 10 s beyond one increment,moves,lower,500,597.0,597.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1,3.0,3.0,True
+blitz 5+2,low_buffer,share of own moves played with under 10 s beyond one increment,moves,lower,700,701.0,794.0,0.010824,0.0,0.02605,0.01776,0.006447,0.03228,-0.006937,-0.024917,0.012622,111,3326.0,3322.0,False
+blitz 5+2,low_buffer,share of own moves played with under 10 s beyond one increment,moves,lower,800,808.0,808.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1,13.0,12.0,True
+blitz 5+2,low_base,share of own moves played with under 10% of the base time on the clock,moves,lower,500,597.0,597.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1,3.0,3.0,True
+blitz 5+2,low_base,share of own moves played with under 10% of the base time on the clock,moves,lower,700,701.0,794.0,0.036079,0.00833,0.074751,0.071343,0.037494,0.110091,-0.035263,-0.084643,0.020299,111,3326.0,3322.0,False
+blitz 5+2,low_base,share of own moves played with under 10% of the base time on the clock,moves,lower,800,808.0,808.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1,13.0,12.0,True
+blitz 5+5,time_move,seconds spent per move,moves,n/a,200,252.0,299.0,9.206536,6.623318,11.225201,7.323077,3.798279,9.871675,1.883459,0.808353,3.190681,8,153.0,156.0,True
+blitz 5+5,time_move,seconds spent per move,moves,n/a,300,304.0,399.0,9.280559,8.535154,10.264123,8.065451,7.095714,9.037182,1.215108,0.452643,2.136023,32,931.0,932.0,False
+blitz 5+5,time_move,seconds spent per move,moves,n/a,500,545.0,599.0,8.137153,7.390224,8.899102,8.088816,7.114732,9.030191,0.048337,-0.761531,0.785674,59,1370.0,1368.0,False
+blitz 5+5,time_move,seconds spent per move,moves,n/a,600,603.0,656.0,6.646794,5.909288,7.494394,7.798505,6.490062,9.051873,-1.151711,-2.096312,-0.127381,23,733.0,736.0,True
+blitz 5+5,time_move,seconds spent per move,moves,n/a,700,779.0,798.0,7.184615,6.126928,8.096221,8.998381,7.481809,10.67514,-1.813765,-3.100665,-0.725683,10,247.0,247.0,True
+blitz 5+5,time_move,seconds spent per move,moves,n/a,800,802.0,828.0,6.922727,5.724556,7.817957,8.347458,6.83223,9.389804,-1.42473,-1.735055,-0.858479,5,176.0,177.0,True
+blitz 5+5,spent_frac,share of the base time spent per move,moves,n/a,200,252.0,299.0,0.030688,0.022078,0.037417,0.02441,0.012661,0.032906,0.006278,0.002695,0.010636,8,153.0,156.0,True
+blitz 5+5,spent_frac,share of the base time spent per move,moves,n/a,300,304.0,399.0,0.030935,0.028451,0.034214,0.026885,0.023652,0.030124,0.00405,0.001509,0.00712,32,931.0,932.0,False
+blitz 5+5,spent_frac,share of the base time spent per move,moves,n/a,500,545.0,599.0,0.027124,0.024634,0.029664,0.026963,0.023716,0.030101,0.000161,-0.002538,0.002619,59,1370.0,1368.0,False
+blitz 5+5,spent_frac,share of the base time spent per move,moves,n/a,600,603.0,656.0,0.022156,0.019698,0.024981,0.025995,0.021634,0.030173,-0.003839,-0.006988,-0.000425,23,733.0,736.0,True
+blitz 5+5,spent_frac,share of the base time spent per move,moves,n/a,700,779.0,798.0,0.023949,0.020423,0.026987,0.029995,0.024939,0.035584,-0.006046,-0.010336,-0.002419,10,247.0,247.0,True
+blitz 5+5,spent_frac,share of the base time spent per move,moves,n/a,800,802.0,828.0,0.023076,0.019082,0.02606,0.027825,0.022774,0.031299,-0.004749,-0.005784,-0.002862,5,176.0,177.0,True
+blitz 5+5,end_clock,"clock left after own last move, share of base time",games,higher,200,252.0,299.0,0.731833,0.533314,0.907747,0.849,0.632491,1.066558,-0.117167,-0.224297,-0.031214,8,8.0,8.0,True
+blitz 5+5,end_clock,"clock left after own last move, share of base time",games,higher,300,304.0,399.0,0.584875,0.483023,0.689818,0.702396,0.595871,0.807534,-0.117521,-0.196045,-0.045966,32,32.0,32.0,False
+blitz 5+5,end_clock,"clock left after own last move, share of base time",games,higher,500,545.0,599.0,0.757181,0.69637,0.824245,0.761271,0.688556,0.840369,-0.00409,-0.061588,0.057106,59,59.0,59.0,False
+blitz 5+5,end_clock,"clock left after own last move, share of base time",games,higher,600,603.0,656.0,0.825058,0.735846,0.905759,0.701493,0.558319,0.860476,0.123565,0.014522,0.226596,23,23.0,23.0,True
+blitz 5+5,end_clock,"clock left after own last move, share of base time",games,higher,700,779.0,798.0,0.820133,0.710235,0.927758,0.6708,0.471313,0.837866,0.149333,0.054461,0.257566,10,10.0,10.0,True
+blitz 5+5,end_clock,"clock left after own last move, share of base time",games,higher,800,802.0,828.0,0.7744,0.5454,0.944867,0.605,0.306133,0.87,0.1694,0.070867,0.272,5,5.0,5.0,True
+blitz 5+5,low_clock,share of own moves played with under 10 s on the clock,moves,lower,200,252.0,299.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,8,153.0,156.0,True
+blitz 5+5,low_clock,share of own moves played with under 10 s on the clock,moves,lower,300,304.0,399.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,32,931.0,932.0,False
+blitz 5+5,low_clock,share of own moves played with under 10 s on the clock,moves,lower,500,545.0,599.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,59,1370.0,1368.0,False
+blitz 5+5,low_clock,share of own moves played with under 10 s on the clock,moves,lower,600,603.0,656.0,0.0,0.0,0.0,0.008152,0.0,0.027997,-0.008152,-0.027997,0.0,23,733.0,736.0,True
+blitz 5+5,low_clock,share of own moves played with under 10 s on the clock,moves,lower,700,779.0,798.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,10,247.0,247.0,True
+blitz 5+5,low_clock,share of own moves played with under 10 s on the clock,moves,lower,800,802.0,828.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,5,176.0,177.0,True
+blitz 5+5,low_buffer,share of own moves played with under 10 s beyond one increment,moves,lower,200,252.0,299.0,0.026144,0.0,0.060929,0.0,0.0,0.0,0.026144,0.0,0.060929,8,153.0,156.0,True
+blitz 5+5,low_buffer,share of own moves played with under 10 s beyond one increment,moves,lower,300,304.0,399.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,32,931.0,932.0,False
+blitz 5+5,low_buffer,share of own moves played with under 10 s beyond one increment,moves,lower,500,545.0,599.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,59,1370.0,1368.0,False
+blitz 5+5,low_buffer,share of own moves played with under 10 s beyond one increment,moves,lower,600,603.0,656.0,0.0,0.0,0.0,0.028533,0.0,0.070266,-0.028533,-0.070266,0.0,23,733.0,736.0,True
+blitz 5+5,low_buffer,share of own moves played with under 10 s beyond one increment,moves,lower,700,779.0,798.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,10,247.0,247.0,True
+blitz 5+5,low_buffer,share of own moves played with under 10 s beyond one increment,moves,lower,800,802.0,828.0,0.0,0.0,0.0,0.011299,0.0,0.026218,-0.011299,-0.026218,0.0,5,176.0,177.0,True
+blitz 5+5,low_base,share of own moves played with under 10% of the base time on the clock,moves,lower,200,252.0,299.0,0.065359,0.0,0.152323,0.0,0.0,0.0,0.065359,0.0,0.152323,8,153.0,156.0,True
+blitz 5+5,low_base,share of own moves played with under 10% of the base time on the clock,moves,lower,300,304.0,399.0,0.015038,0.0,0.04429,0.001073,0.0,0.003291,0.013965,-0.00198,0.043728,32,931.0,932.0,False
+blitz 5+5,low_base,share of own moves played with under 10% of the base time on the clock,moves,lower,500,545.0,599.0,0.0,0.0,0.0,0.009503,0.0,0.028534,-0.009503,-0.028534,0.0,59,1370.0,1368.0,False
+blitz 5+5,low_base,share of own moves played with under 10% of the base time on the clock,moves,lower,600,603.0,656.0,0.016371,0.0,0.048747,0.096467,0.002984,0.225258,-0.080096,-0.184672,-0.002984,23,733.0,736.0,True
+blitz 5+5,low_base,share of own moves played with under 10% of the base time on the clock,moves,lower,700,779.0,798.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,10,247.0,247.0,True
+blitz 5+5,low_base,share of own moves played with under 10% of the base time on the clock,moves,lower,800,802.0,828.0,0.0,0.0,0.0,0.045198,0.0,0.104874,-0.045198,-0.104874,0.0,5,176.0,177.0,True
+rapid 10+0,time_move,seconds spent per move,moves,n/a,500,526.0,599.0,9.733626,8.463965,11.253267,9.395466,7.92838,11.027635,0.33816,-0.809001,1.263507,41,797.0,794.0,False
+rapid 10+0,time_move,seconds spent per move,moves,n/a,600,601.0,696.0,9.270064,8.483038,10.07876,8.581441,7.824207,9.526286,0.688623,-0.054769,1.495213,86,2021.0,2026.0,False
+rapid 10+0,time_move,seconds spent per move,moves,n/a,700,708.0,799.0,8.281234,6.998055,9.782846,7.637613,6.63823,8.835348,0.64362,-0.328911,1.689218,29,778.0,771.0,True
+rapid 10+0,time_move,seconds spent per move,moves,n/a,800,806.0,899.0,6.891479,5.864563,8.089505,6.875595,5.662633,8.533091,0.015884,-1.28675,1.140899,33,845.0,840.0,False
+rapid 10+0,time_move,seconds spent per move,moves,n/a,900,902.0,997.0,6.367275,5.84673,6.885319,6.214813,5.731095,6.819798,0.152461,-0.254676,0.554677,94,2686.0,2680.0,False
+rapid 10+0,time_move,seconds spent per move,moves,n/a,1000,1002.0,1097.0,6.406484,5.908398,7.036135,7.555737,6.642426,8.58959,-1.149253,-1.885017,-0.510366,62,1974.0,1961.0,False
+rapid 10+0,time_move,seconds spent per move,moves,n/a,1100,1100.0,1199.0,6.820054,6.503738,7.186212,6.959483,6.497839,7.450564,-0.13943,-0.505444,0.231787,223,6323.0,6311.0,False
+rapid 10+0,time_move,seconds spent per move,moves,n/a,1200,1200.0,1222.0,6.790429,5.566542,8.601891,7.095164,5.850569,8.526297,-0.304735,-1.530168,1.043026,18,700.0,703.0,True
+rapid 10+0,spent_frac,share of the base time spent per move,moves,n/a,500,526.0,599.0,0.016223,0.014107,0.018755,0.015659,0.013214,0.018379,0.000564,-0.001348,0.002106,41,797.0,794.0,False
+rapid 10+0,spent_frac,share of the base time spent per move,moves,n/a,600,601.0,696.0,0.01545,0.014138,0.016798,0.014302,0.01304,0.015877,0.001148,-9.1e-05,0.002492,86,2021.0,2026.0,False
+rapid 10+0,spent_frac,share of the base time spent per move,moves,n/a,700,708.0,799.0,0.013802,0.011663,0.016305,0.012729,0.011064,0.014726,0.001073,-0.000548,0.002815,29,778.0,771.0,True
+rapid 10+0,spent_frac,share of the base time spent per move,moves,n/a,800,806.0,899.0,0.011486,0.009774,0.013483,0.011459,0.009438,0.014222,2.6e-05,-0.002145,0.001901,33,845.0,840.0,False
+rapid 10+0,spent_frac,share of the base time spent per move,moves,n/a,900,902.0,997.0,0.010612,0.009745,0.011476,0.010358,0.009552,0.011366,0.000254,-0.000424,0.000924,94,2686.0,2680.0,False
+rapid 10+0,spent_frac,share of the base time spent per move,moves,n/a,1000,1002.0,1097.0,0.010677,0.009847,0.011727,0.012593,0.011071,0.014316,-0.001915,-0.003142,-0.000851,62,1974.0,1961.0,False
+rapid 10+0,spent_frac,share of the base time spent per move,moves,n/a,1100,1100.0,1199.0,0.011367,0.01084,0.011977,0.011599,0.01083,0.012418,-0.000232,-0.000842,0.000386,223,6323.0,6311.0,False
+rapid 10+0,spent_frac,share of the base time spent per move,moves,n/a,1200,1200.0,1222.0,0.011317,0.009278,0.014336,0.011825,0.009751,0.01421,-0.000508,-0.00255,0.001738,18,700.0,703.0,True
+rapid 10+0,end_clock,"clock left after own last move, share of base time",games,higher,500,526.0,599.0,0.684646,0.595109,0.755851,0.696748,0.624056,0.767447,-0.012102,-0.046738,0.02078,41,41.0,41.0,False
+rapid 10+0,end_clock,"clock left after own last move, share of base time",games,higher,600,601.0,696.0,0.636922,0.580048,0.690567,0.663062,0.604695,0.714362,-0.02614,-0.055242,0.002487,86,86.0,86.0,False
+rapid 10+0,end_clock,"clock left after own last move, share of base time",games,higher,700,708.0,799.0,0.629724,0.55263,0.705681,0.661575,0.576449,0.742163,-0.031851,-0.07308,0.012352,29,29.0,29.0,True
+rapid 10+0,end_clock,"clock left after own last move, share of base time",games,higher,800,806.0,899.0,0.705894,0.634448,0.775475,0.708308,0.63377,0.780241,-0.002414,-0.050237,0.047933,33,33.0,33.0,False
+rapid 10+0,end_clock,"clock left after own last move, share of base time",games,higher,900,902.0,997.0,0.696764,0.650784,0.745374,0.704686,0.663283,0.746836,-0.007922,-0.026958,0.011124,94,94.0,94.0,False
+rapid 10+0,end_clock,"clock left after own last move, share of base time",games,higher,1000,1002.0,1097.0,0.660043,0.60501,0.708967,0.601699,0.526112,0.664496,0.058344,0.024176,0.095135,62,62.0,62.0,False
+rapid 10+0,end_clock,"clock left after own last move, share of base time",games,higher,1100,1100.0,1199.0,0.676252,0.645687,0.704759,0.671739,0.639636,0.701833,0.004513,-0.012838,0.021302,223,222.0,223.0,False
+rapid 10+0,end_clock,"clock left after own last move, share of base time",games,higher,1200,1200.0,1222.0,0.53399,0.395112,0.648778,0.538157,0.402996,0.661949,-0.004167,-0.110374,0.088789,18,17.0,18.0,True
+rapid 10+0,low_clock,share of own moves played with under 10 s on the clock,moves,lower,500,526.0,599.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,41,797.0,794.0,False
+rapid 10+0,low_clock,share of own moves played with under 10 s on the clock,moves,lower,600,601.0,696.0,0.005443,0.0,0.012178,0.002468,0.0,0.006692,0.002975,-0.005073,0.010468,86,2021.0,2026.0,False
+rapid 10+0,low_clock,share of own moves played with under 10 s on the clock,moves,lower,700,708.0,799.0,0.003856,0.0,0.011034,0.0,0.0,0.0,0.003856,0.0,0.011034,29,778.0,771.0,True
+rapid 10+0,low_clock,share of own moves played with under 10 s on the clock,moves,lower,800,806.0,899.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,33,845.0,840.0,False
+rapid 10+0,low_clock,share of own moves played with under 10 s on the clock,moves,lower,900,902.0,997.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,94,2686.0,2680.0,False
+rapid 10+0,low_clock,share of own moves played with under 10 s on the clock,moves,lower,1000,1002.0,1097.0,0.003546,0.0,0.010438,0.009689,0.0,0.021994,-0.006143,-0.01572,0.0,62,1974.0,1961.0,False
+rapid 10+0,low_clock,share of own moves played with under 10 s on the clock,moves,lower,1100,1100.0,1199.0,0.0,0.0,0.0,0.00206,0.0,0.005546,-0.00206,-0.005546,0.0,223,6323.0,6311.0,False
+rapid 10+0,low_clock,share of own moves played with under 10 s on the clock,moves,lower,1200,1200.0,1222.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,18,700.0,703.0,True
+rapid 10+0,low_buffer,share of own moves played with under 10 s beyond one increment,moves,lower,500,526.0,599.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,41,797.0,794.0,False
+rapid 10+0,low_buffer,share of own moves played with under 10 s beyond one increment,moves,lower,600,601.0,696.0,0.005443,0.0,0.012178,0.002468,0.0,0.006692,0.002975,-0.005073,0.010468,86,2021.0,2026.0,False
+rapid 10+0,low_buffer,share of own moves played with under 10 s beyond one increment,moves,lower,700,708.0,799.0,0.003856,0.0,0.011034,0.0,0.0,0.0,0.003856,0.0,0.011034,29,778.0,771.0,True
+rapid 10+0,low_buffer,share of own moves played with under 10 s beyond one increment,moves,lower,800,806.0,899.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,33,845.0,840.0,False
+rapid 10+0,low_buffer,share of own moves played with under 10 s beyond one increment,moves,lower,900,902.0,997.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,94,2686.0,2680.0,False
+rapid 10+0,low_buffer,share of own moves played with under 10 s beyond one increment,moves,lower,1000,1002.0,1097.0,0.003546,0.0,0.010438,0.009689,0.0,0.021994,-0.006143,-0.01572,0.0,62,1974.0,1961.0,False
+rapid 10+0,low_buffer,share of own moves played with under 10 s beyond one increment,moves,lower,1100,1100.0,1199.0,0.0,0.0,0.0,0.00206,0.0,0.005546,-0.00206,-0.005546,0.0,223,6323.0,6311.0,False
+rapid 10+0,low_buffer,share of own moves played with under 10 s beyond one increment,moves,lower,1200,1200.0,1222.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,18,700.0,703.0,True
+rapid 10+0,low_base,share of own moves played with under 10% of the base time on the clock,moves,lower,500,526.0,599.0,0.011292,0.0,0.030146,0.0,0.0,0.0,0.011292,0.0,0.030146,41,797.0,794.0,False
+rapid 10+0,low_base,share of own moves played with under 10% of the base time on the clock,moves,lower,600,601.0,696.0,0.019792,0.002693,0.038157,0.010365,0.0,0.025811,0.009427,-0.017464,0.032456,86,2021.0,2026.0,False
+rapid 10+0,low_base,share of own moves played with under 10% of the base time on the clock,moves,lower,700,708.0,799.0,0.012853,0.0,0.036781,0.022049,0.0,0.068927,-0.009196,-0.058874,0.031155,29,778.0,771.0,True
+rapid 10+0,low_base,share of own moves played with under 10% of the base time on the clock,moves,lower,800,806.0,899.0,0.001183,0.0,0.003869,0.0,0.0,0.0,0.001183,0.0,0.003869,33,845.0,840.0,False
+rapid 10+0,low_base,share of own moves played with under 10% of the base time on the clock,moves,lower,900,902.0,997.0,0.000372,0.0,0.001342,0.004104,0.0,0.014782,-0.003732,-0.013439,0.0,94,2686.0,2680.0,False
+rapid 10+0,low_base,share of own moves played with under 10% of the base time on the clock,moves,lower,1000,1002.0,1097.0,0.018237,0.0,0.051492,0.028557,0.003479,0.065189,-0.01032,-0.0304,0.001815,62,1974.0,1961.0,False
+rapid 10+0,low_base,share of own moves played with under 10% of the base time on the clock,moves,lower,1100,1100.0,1199.0,0.009805,0.0,0.021524,0.009507,0.000645,0.020339,0.000298,-0.010314,0.011875,223,6323.0,6311.0,False
+rapid 10+0,low_base,share of own moves played with under 10% of the base time on the clock,moves,lower,1200,1200.0,1222.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,18,700.0,703.0,True

@@ -1,17 +1,48 @@
-"""Question 9: blunder anatomy.
+"""Q9: Blunder anatomy, what kinds of mistakes you make and miss.
 
-What kinds of mistakes the player makes and misses, compared with the
-opponents in the same games: hanging pieces, missed mates, missed captures,
-one-move vs deeper tactics, by piece and phase, and which types changed over
-the years. Every blunder (cp_loss >= 300) is classified by replaying the
-position with python-chess: the played move, the engine's best move and the
-engine's best reply (the stored best move of the next position), with a
-small static exchange evaluation (SEE) to decide whether material is "free".
+Question: how often do you blunder, where (phase, clock, winning positions),
+what kind of blunder is it (hung material, allowed mate, walked into a tactic,
+a quiet refutation), which pieces do you hang, and do you miss what is on
+offer (free material) or what is coming (the opponent's threat)? Always next
+to the opponents in the same games.
 
-No engine is run; the optional Stockfish re-search for refutation depth is
-skipped, the game continuation is used as a proxy instead.
+A blunder is a move with `cp_loss` >= 300 (the project's `label`). Every
+blunder is classified by replaying the position with python-chess: the
+played move, the engine's best move and the engine's best reply (the stored
+best move of the next position), with a small static exchange evaluation
+(SEE) to decide whether material was "free". No engine is run.
 
-Run from the repo root: .venv/bin/python analysis/09_blunder_anatomy.py
+Computes, per exact time control (`data.tc_groups`), you vs your opponents
+in the same games, with 95% CIs from a bootstrap over games (differences are
+paired: both sides on the same resampled games):
+1. blunders per 100 moves; their cost in expected points; the share of all
+   expected points lost that came from blunders; the year trend (per time
+   class only: the mix of controls changed from year to year, so a control x
+   year split is mostly thin cells and confounds the two);
+2. blunders per 100 moves by phase, and each phase's share of the blunders;
+3. the taxonomy of what the blunder did (rates and shares), what is in the
+   residual "quiet / deeper" class, refutation depth along the game, the
+   taxonomy under an expected-points definition, the most common patterns;
+4. the piece hung (per 100 games, also pooled by time class) and the blunder
+   rate per 100 moves of each piece;
+5. blunders that allowed mate per 100 moves, overall and within bands of the
+   evaluation before the move (the correction for how often each side is
+   losing), mate in 1 vs longer, and forced mates that slipped;
+6. what the best move was (free material, saving a threatened piece, a quiet
+   move, ...) and how often each side punished the other's blunders;
+7. extra blunders per 100 moves at low clock from a regression that holds
+   phase, evaluation and move number fixed (you, opponents, paired
+   difference), in plain seconds left and in seconds beyond one increment
+   (the buffer), also pooled per time class with a fixed effect per control;
+   plus the raw rates by clock bucket, also as a share of the base time;
+8. blunders from a winning position, wins given away, their cost, and how the
+   games ended.
+
+Writes CSVs to presentation/data/09_blunder_anatomy/ and SVGs to
+presentation/figures/09_blunder_anatomy/.
+
+Run: .venv/bin/python analysis/09_blunder_anatomy.py  (about 2.5 minutes, of
+which ~45 s is the python-chess replay of ~86,000 error positions).
 """
 
 from __future__ import annotations
@@ -22,26 +53,89 @@ import chess
 import numpy as np
 import pandas as pd
 
-from chess_analysis.toolkit import (
-    SIDE_COLOURS,
-    TIME_CLASSES,
-    Report,
-    ci_column,
-    cluster_bootstrap_mean,
-    compare_sides,
-    figure_style,
-    load_data,
-)
+from chess_analysis import charts
+from chess_analysis.toolkit import MIN_GROUP_GAMES, Results, cluster_ols, compare_sides, dummies, load_data
 
 SLUG = "09_blunder_anatomy"
 SEED = 9
-N_BOOT = 500
-EP_BIG = 0.2  # alternative, ep-based definition of a big error
+N_BOOT = 500  # game-bootstrap resamples per cell: pins a 95% CI end to about +-4% of its width
+N_REG_BOOT = 200  # resamples for the clock regression (two sides x ~17 coefficients, 2 x 12 fits); enough for CIs quoted to one decimal
+BLUNDER = "blunder"  # the project's label for cp_loss >= 300
+REPLAY_EP = 0.1  # moves replayed: every mistake or blunder, every mate flag, and any move losing a tenth of a point (a superset of both definitions)
+EP_BIG = 0.2  # alternative, expected-points definition of a big error: a fifth of a point given away in one move
+# Rate cells (per 100 moves) need this many moves on each side: a blunder rate near 6 per 100 from 300 moves
+# has a 95% CI of about +-2.7 per 100, already half the rate; below that a cell is flagged thin.
+MIN_CELL_MOVES = 300
+# Rates of a single kind of blunder (one taxonomy category, allowed mate) need this many moves per side: a kind
+# seen ~0.5 times per 100 moves is expected only 10 times in 2,000 moves, and its CI is then as wide as the rate.
+MIN_RARE_MOVES = 2000
+# A composition (shares of blunders across 8-9 categories) needs this many blunders per side: from 100
+# blunders a 15% share has a 95% CI of about +-7 percentage points.
+MIN_BLUNDERS = 100
+# Per-100-games rates of hanging a given piece need this many games: a piece hung ~12 times per 100 games is
+# seen ~24 times in 200 games, and its CI already spans about +-40% of the rate.
+MIN_GAMES_PIECES = 200
+# Shares among positions with a forced mate need this many positions per side (a 15% share from 100 has a CI
+# of about +-7 points).
+MIN_MATE_CASES = 100
+# Shares and scores over games (8c) need this many games per side.
+MIN_CASE_GAMES = 50
+# Evaluation bands, mover's view, before the move. +-300 cp is the blunder threshold itself: from a 300 cp
+# lead one blunder takes you back to level, which is what "winning" has to survive. (At this level a +300
+# position is still far from won: the calibrated model gives it about 0.58 expected points.)
+WINNING_CP = 300
+EVAL_EDGES = [-np.inf, -WINNING_CP, WINNING_CP, np.inf]
+EVAL_LABELS = ["losing", "balanced", "winning"]
+ALL_MOVES = "all moves"
+WIN_SPLIT_CP = 2 * WINNING_CP  # a lead of 600 cp is still winning after one blunder-sized loss; 300-600 is not
+ALL_WINNING = "all winning"
+GAVE_AWAY = f"wins given away (blunder ending below +{WINNING_CP})"
+# Finer evaluation bands used only as controls in the clock regression: +-100 cp (a pawn) splits level
+# positions from slightly better or worse ones.
+LEVEL_CP = 100
+CONTROL_EVAL_EDGES = [-np.inf, -WINNING_CP, -LEVEL_CP, LEVEL_CP, WINNING_CP, np.inf]
+# Move-number bands for the same regression: 20 plies (10 moves each) follow the game's arc; 100+ is one band.
+PLY_EDGES = [0, 20, 40, 60, 80, 100, np.inf]
+# Clock buckets, seconds left before the move (or seconds beyond one increment). Under 5 s is a pure scramble
+# in every control; 10 s the classic "low clock" line; 30 s still leaves a few seconds a move for a bullet
+# ending; 60/120/300 s split the comfortable range so blitz and rapid have their own low end. Same edges as
+# Q3, so the two questions line up. The lowest edge is -inf because the buffer can be slightly negative.
+CLOCK_SECONDS_EDGES = [-np.inf, 5, 10, 20, 30, 60, 120, 300, np.inf]
+CLOCK_SECONDS_LABELS = ["<5 s", "5-10 s", "10-20 s", "20-30 s", "30-60 s", "1-2 min", "2-5 min", "5+ min"]
+# Clock left as a share of the base time (above 1 with increments): comparable across controls.
+CLOCK_FRACTION_EDGES = [-np.inf, 0.05, 0.10, 0.20, 0.35, 0.50, 0.75, 1.0, np.inf]
+CLOCK_FRACTION_LABELS = ["<5%", "5-10%", "10-20%", "20-35%", "35-50%", "50-75%", "75-100%", ">100%"]
+# Coarse buckets for the regression; "30+ s" is the reference (comfortable in bullet, normal in blitz).
+CLOCK_COARSE_EDGES = [-np.inf, 5, 10, 30, np.inf]
+CLOCK_COARSE_LABELS = ["<5 s", "5-10 s", "10-30 s", "30+ s"]
+CLOCK_REFERENCE = "30+ s"
+# The chart uses the buffer: in increment games the increment comes back every move, so seconds beyond it are
+# the time really left to spend; without increment the two measures are identical. Both are in the table.
+CHART_CLOCK_MEASURE = "seconds beyond increment"
+CLOCK_MEASURES = {
+    "seconds left": "clock_before_seconds",
+    "seconds beyond increment": "clock_buffer_seconds",
+    "share of base time": "clock_share_of_base",
+}
+# Years with fewer games than this are merged into the neighbouring year (2021 and 2026 have a handful each).
+MIN_YEAR_GAMES = 100
+TOP_PATTERNS = 10  # most common (what the move did x what was missed) pairs listed per time class
+REFUTATION_PLIES = 3  # refutation depth is followed for up to three moves of the punishing side
+PUNISHED_CP = 100  # a reply "punished" a blunder when it lost less than a pawn of the gift (kept most of it)
 
+# Static exchange evaluation thresholds, in pawns (1/3/3/5/9). A capture "wins material" when the swap-off
+# nets at least a pawn; a reply that only wins material in a longer swap still counts as hung when the piece
+# left en prise is worth at least a minor piece, since losing a knight for nothing is a blunder on its own.
+MIN_GAIN_PAWNS = 1
+FREE_PIECE_PAWNS = 3
+
+PHASES = ["opening", "middlegame", "endgame"]
+SIDES = ["player", "opponent"]
 PIECE_VALUE = {chess.PAWN: 1, chess.KNIGHT: 3, chess.BISHOP: 3, chess.ROOK: 5, chess.QUEEN: 9, chess.KING: 0}
 PIECE_ORDER = ["pawn", "knight", "bishop", "rook", "queen", "king"]
+HUNG_PIECES = PIECE_ORDER[:5]
 
-# Coarse taxonomy. WHAT_PLAYED: what the played move did (why it was bad).
+# Taxonomy. WHAT_PLAYED: what the played move did (why it was bad), in order of precedence.
 WHAT_PLAYED = [
     "allowed mate in 1",
     "allowed mate (longer)",
@@ -53,6 +147,14 @@ WHAT_PLAYED = [
     "allowed a combination",
     "quiet refutation / deeper",
 ]
+HUNG_CATEGORIES = WHAT_PLAYED[2:6]
+MATE_CATEGORIES = WHAT_PLAYED[:2]
+FAMILIES = {
+    "allowed mate": MATE_CATEGORIES,
+    "hung material": HUNG_CATEGORIES,
+    "walked into a tactic": ["allowed a check tactic", "allowed a combination"],
+    "quiet refutation / deeper": ["quiet refutation / deeper"],
+}
 # WHAT_MISSED: what the engine's best move was (what was missed).
 WHAT_MISSED = [
     "mate in 1",
@@ -64,20 +166,25 @@ WHAT_MISSED = [
     "in check: another reply",
     "quiet move",
 ]
-SHORT_PLAYED = {
-    "allowed mate in 1": "mate in 1",
-    "allowed mate (longer)": "mate (longer)",
-    "losing capture": "losing capture",
-    "moved piece en prise": "moved en prise",
-    "ignored a threatened piece": "ignored threat",
-    "exposed another piece": "exposed piece",
-    "allowed a check tactic": "check tactic",
-    "allowed a combination": "combination",
-    "quiet refutation / deeper": "quiet / deeper",
+# The 9.6 chart: what was on offer (free material) vs what was coming (a threat to parry, a quiet move).
+MISSED_CHART = {"free material": "free capture", "saving a threatened piece": "save a piece", "quiet move": "quiet move"}
+DEPTHS = ["immediate", "within 2-3 moves", "mate within 3 moves", "not within 3 moves", "line left / unknown"]
+RESOLVED = DEPTHS[:4]
+TAXONOMY_COLOURS = {
+    "allowed mate in 1": "#e34948",
+    "allowed mate (longer)": "#e87ba4",
+    "losing capture": "#eda100",
+    "moved piece en prise": "#eb6834",
+    "ignored a threatened piece": "#6250d6",
+    "exposed another piece": "#2a78d6",
+    "allowed a check tactic": "#1baf7a",
+    "allowed a combination": "#008300",
+    "quiet refutation / deeper": "#c3c2b7",
 }
+RATE_COLS = ["player", "player_lo", "player_hi", "opponent", "opponent_lo", "opponent_hi", "diff", "diff_lo", "diff_hi"]
 
 
-# --- static exchange evaluation (coarse, ignores promotions beyond a queen) -----
+# --- static exchange evaluation (coarse, ignores promotions beyond a queen) -------------------
 
 
 def _least_valuable_legal_attacker(board: chess.Board, square: int):
@@ -188,15 +295,26 @@ def classify_position(fen: str, uci: str, best: str | None, reply: str | None) -
 
 
 def assign_taxonomy(frame: pd.DataFrame) -> pd.DataFrame:
-    """Vectorised category assignment from the replay features plus the stored evals."""
+    """Category assignment from the replay features plus the stored evals.
+
+    What the move did: allowed mate (in 1 / longer); hung material (the best
+    reply wins material by SEE, or a piece worth >= 3 is free), split into
+    losing capture / moved piece en prise / ignored a threatened piece /
+    exposed another piece; allowed a check tactic (best reply is a check);
+    allowed a combination (best reply is a capture that does not win
+    material by SEE); otherwise a quiet refutation or something deeper.
+    What was missed: a mate; free material (a capture with positive SEE);
+    saving a threatened piece; another capture; a check; another reply to
+    check; a quiet move.
+    """
     f = frame
     allowed = f["allowed_mate"].fillna(False).astype(bool)
     mate_after = f["mate_after"].astype("float64")
-    reply_wins = f["reply_capture"].astype(bool) & (f["reply_see"].fillna(0) >= 1)
-    material_lost = reply_wins | (f["hung_gain"] >= 3)
+    reply_wins = f["reply_capture"].astype(bool) & (f["reply_see"].fillna(0) >= MIN_GAIN_PAWNS)
+    material_lost = reply_wins | (f["hung_gain"] >= FREE_PIECE_PAWNS)
     losing_capture = f["played_capture"].astype(bool) & (f["played_see"].fillna(0) < 0)
     moved_en_prise = f["hung_is_moved"].astype(bool) | f["reply_to_moved"].astype(bool)
-    ignored = f["hung_was_threatened"].astype(bool) & (f["threat_before"] >= 1)
+    ignored = f["hung_was_threatened"].astype(bool) & (f["threat_before"] >= MIN_GAIN_PAWNS)
     reply_check = f["reply_check"].astype(bool)
     reply_capture = f["reply_capture"].astype(bool)
     played = np.select(
@@ -213,15 +331,15 @@ def assign_taxonomy(frame: pd.DataFrame) -> pd.DataFrame:
         WHAT_PLAYED[:8],
         default=WHAT_PLAYED[8],
     )
-    # the material the move gave away (engine reply's capture if it wins material, else the SEE threat)
     gain = np.where(reply_wins, f["reply_see"].fillna(0), f["hung_gain"])
     victim = np.where(reply_wins, f["reply_victim"], f["hung_victim"])
 
     missed_mate = f["missed_mate"].fillna(False).astype(bool)
     mate_before = f["mate_before"].astype("float64")
     mate_available = missed_mate | (mate_before > 0)
-    free_material = f["best_capture"].astype(bool) & (f["best_see"].fillna(0) >= 1)
-    defensive = (f["threat_before"] >= 1) & (f["threat_after_best"].fillna(99) < f["threat_before"])
+    free_material = f["best_capture"].astype(bool) & (f["best_see"].fillna(0) >= MIN_GAIN_PAWNS)
+    # an unknown best move (NaN threat after it) never counts as parrying the threat
+    defensive = (f["threat_before"] >= MIN_GAIN_PAWNS) & (f["threat_after_best"].fillna(np.inf) < f["threat_before"])
     missed = np.select(
         [
             mate_available & (mate_before == 1),
@@ -243,466 +361,11 @@ def assign_taxonomy(frame: pd.DataFrame) -> pd.DataFrame:
     return out
 
 
-# --- helpers -------------------------------------------------------------------
-
-
-def rate_table(moves: pd.DataFrame, indicator: str, by: list[str], n_boot: int = N_BOOT, scale: float = 100.0, fmt: str = ".2f") -> pd.DataFrame:
-    """compare_sides on a 0/1 indicator, expressed per `scale` moves, with compact CI strings."""
-    table = compare_sides(moves, indicator, by=by, n_boot=n_boot)
-    for column in ["player", "player_lo", "player_hi", "opponent", "opponent_lo", "opponent_hi", "diff", "diff_lo", "diff_hi"]:
-        table[column] = table[column] * scale
-    table["you"] = ci_column(table, "player", "player_lo", "player_hi", fmt)
-    table["opponents"] = ci_column(table, "opponent", "opponent_lo", "opponent_hi", fmt)
-    table["you − them"] = ci_column(table, "diff", "diff_lo", "diff_hi", fmt)
-    return table
-
-
-def mean_table(frame: pd.DataFrame, column: str, by: list[str], n_boot: int = N_BOOT, fmt: str = ".3f") -> pd.DataFrame:
-    """Mean of `column` for player and opponents within `by` groups (rows of `frame` only), CIs by game."""
-    rows = []
-    for key, part in frame.groupby(by, observed=True):
-        key = key if isinstance(key, tuple) else (key,)
-        row = dict(zip(by, key))
-        for side, label in [("player", "you"), ("opponent", "opponents")]:
-            sub = part[part["side"] == side]
-            est, lo, hi = cluster_bootstrap_mean(sub[column], sub["game_uuid"], n_boot=n_boot, seed=SEED)
-            row[label] = f"{est:{fmt}} [{lo:{fmt}}, {hi:{fmt}}]" if pd.notna(lo) else (f"{est:{fmt}}" if pd.notna(est) else "")
-            row[f"n_{label}"] = int(sub[column].notna().sum())
-        rows.append(row)
-    return pd.DataFrame(rows)
-
-
-def year_label(year: pd.Series) -> pd.Series:
-    """2021 folds into 2022 and 2026 into 2025 (a handful of games each)."""
-    y = year.clip(lower=2022, upper=2025).astype(int).astype(str)
-    return y.replace({"2022": "2021-22", "2025": "2025-26"})
-
-
-# --- main ------------------------------------------------------------------------
-
-
-def main() -> None:
-    t0 = time.time()
-    figure_style()
-    import matplotlib.pyplot as plt
-
-    data = load_data()
-    moves = data.moves.sort_values(["game_uuid", "ply"]).reset_index(drop=True)
-    moves = moves[moves["time_class"].isin(TIME_CLASSES)].copy()
-    moves["time_class"] = pd.Categorical(moves["time_class"], categories=TIME_CLASSES)
-    games = data.games[data.games["uuid"].isin(moves["game_uuid"])]
-    # the engine's best reply to a move is the stored best move of the next position in the game
-    moves["reply_best"] = moves.groupby("game_uuid")["best_move"].shift(-1)
-    moves["next_cp_loss"] = moves.groupby("game_uuid")["cp_loss"].shift(-1)
-    moves["next_is_best"] = moves.groupby("game_uuid")["is_best_move"].shift(-1)
-    # guard against stale tables where missed_mate was also True for moves that delivered mate (mate_after == 0)
-    delivered_mate = moves["mate_after"].astype("float64") == 0
-    moves["missed_mate"] = moves["missed_mate"].fillna(False).astype(bool) & ~delivered_mate
-    moves["is_blunder"] = (moves["label"] == "blunder").astype(float)
-    moves["is_big_ep"] = (moves["ep_loss"] >= EP_BIG).astype(float)
-    moves["year_label"] = year_label(moves["start_datetime"].dt.year)
-
-    # --- replay and classify the error set ------------------------------------
-    pool = moves["label"].isin(["mistake", "blunder"]) | (moves["ep_loss"] >= 0.1) | moves["missed_mate"].fillna(False).astype(bool) | moves["allowed_mate"].fillna(False).astype(bool)
-    error_set = moves[pool]
-    t1 = time.time()
-    features = pd.DataFrame(
-        [classify_position(r.fen_before, r.uci, r.best_move, r.reply_best) for r in error_set[["fen_before", "uci", "best_move", "reply_best"]].itertuples(index=False)],
-        index=error_set.index,
-    )
-    classified = assign_taxonomy(pd.concat([error_set, features], axis=1))
-    replay_seconds = time.time() - t1
-    blunders = classified[classified["label"] == "blunder"].copy()
-
-    # indicator columns on every move for the per-100-moves rates
-    for cat in WHAT_PLAYED:
-        moves[f"P:{cat}"] = 0.0
-        moves.loc[blunders.index[blunders["what_played"] == cat], f"P:{cat}"] = 1.0
-    for cat in WHAT_MISSED:
-        moves[f"M:{cat}"] = 0.0
-        moves.loc[blunders.index[blunders["what_missed"] == cat], f"M:{cat}"] = 1.0
-    hung_cats = ["losing capture", "moved piece en prise", "ignored a threatened piece", "exposed another piece"]
-    moves["P:hung material (any)"] = moves[[f"P:{c}" for c in hung_cats]].sum(axis=1)
-    moves["P:allowed mate (any)"] = moves[["P:allowed mate in 1", "P:allowed mate (longer)"]].sum(axis=1)
-    moves["blunder_ep_loss"] = np.where(moves["is_blunder"] == 1, moves["ep_loss"], 0.0)
-    moves["is_bl_or_ep"] = ((moves["is_blunder"] == 1) | (moves["is_big_ep"] == 1)).astype(float)
-
-    n_games = {tc: int((games["time_class"] == tc).sum()) for tc in TIME_CLASSES}
-    n_mine = int(moves["is_player_move"].sum())
-    n_bl_mine = int(blunders["is_player_move"].sum())
-    n_bl_theirs = int((~blunders["is_player_move"]).sum())
-
-    report = Report(SLUG, "Blunder anatomy: what kinds of mistakes you make and miss")
-    report.text(
-        f"Data: {len(games):,} standard live games ({n_games['bullet']:,} bullet, {n_games['blitz']:,} blitz, {n_games['rapid']:,} rapid), "
-        f"{len(moves):,} analysed moves ({n_mine:,} yours), player {data.username}. A **blunder** here is a move with `cp_loss` ≥ 300 "
-        f"(the `label` used throughout the project): {n_bl_mine:,} of yours and {n_bl_theirs:,} by your opponents. "
-        f"Each blunder was classified by replaying the position with python-chess (the played move, the engine's best move, and the "
-        f"engine's best reply, i.e. the stored best move of the next position) with a static exchange evaluation (SEE, piece values 1/3/3/5/9) "
-        f"to decide whether material was free. Rates are per 100 moves of the side in question; numbers are estimate [95% CI] with CIs "
-        f"bootstrapped by game ({N_BOOT} resamples); every number about you sits beside the opponents' number from the same games "
-        f"(you − them: negative = you do it less). `ep_loss` (calibrated expected points lost) is the cost measure; `cp_loss` defines the set."
-    )
-
-    # --- 1. how much of the damage is blunders --------------------------------
-    report.heading("1. Blunders: how often, and how much of the damage they are")
-    report.text(
-        "Blunders per 100 moves, the mean expected points one blunder costs, and the share of each side's total `ep_loss` "
-        "(over all its moves) that comes from blunders. The alternative, ep-based definition (`ep_loss` ≥ "
-        f"{EP_BIG}) is shown beside it."
-    )
-    rates = rate_table(moves, "is_blunder", ["time_class"]).rename(columns={"you": "your blunders /100", "opponents": "their blunders /100", "you − them": "you − them (/100)"})
-    cost = mean_table(blunders, "ep_loss", ["time_class"]).rename(columns={"you": "ep per blunder, you", "opponents": "ep per blunder, them"})
-    share_rows = []
-    for tc in TIME_CLASSES:
-        part = moves[moves["time_class"] == tc]
-        row = {"time_class": tc}
-        for side, label in [("player", "you"), ("opponent", "them")]:
-            sub = part[part["side"] == side]
-            row[f"share of ep lost, {label}"] = sub["blunder_ep_loss"].sum() / sub["ep_loss"].sum()
-        share_rows.append(row)
-    share = pd.DataFrame(share_rows)
-    big = rate_table(moves, "is_big_ep", ["time_class"]).rename(columns={"you": f"ep≥{EP_BIG} /100, you", "opponents": f"ep≥{EP_BIG} /100, them"})
-    table1 = rates[["time_class", "games", "your blunders /100", "their blunders /100", "you − them (/100)"]].merge(cost[["time_class", "ep per blunder, you", "ep per blunder, them"]], on="time_class").merge(share, on="time_class").merge(big[["time_class", f"ep≥{EP_BIG} /100, you", f"ep≥{EP_BIG} /100, them"]], on="time_class")
-    table1["time_class"] = table1["time_class"].astype(str)
-    report.table(table1, floatfmt=".2f")
-
-    # --- 2. what the played move did ------------------------------------------
-    report.heading("2. What the blunder did: taxonomy of the played move")
-    report.text(
-        "Each blunder gets exactly one category, in this order of precedence. **Allowed mate** (the opponent has a forced mate after the "
-        "move; split by mate in 1 vs longer). **Hung material** — the engine's best reply is a capture that wins material by SEE, or a "
-        "piece (≥ 3 pawns' worth) is simply free — split into: *losing capture* (the played move captured something defended, so the "
-        "capturing piece is lost), *moved piece en prise* (a non-capture move to a square where the piece can be taken for free), "
-        "*ignored a threatened piece* (a piece was already attacked before the move and was left there), *exposed another piece* "
-        "(the move removed a defender, opened a line, or walked into a pin). **Allowed a check tactic** (no material is immediately "
-        "free but the best reply is a check: forks, skewers, mating attacks). **Allowed a combination** (the best reply is a capture "
-        "that does not win material by SEE: a sacrifice or exchange tactic). **Quiet refutation / deeper** (the best reply is a quiet "
-        "move: a deeper threat, a positional punishment, or an error the one-move rules cannot see; this also catches missed mates "
-        "where nothing material is lost). Rates per 100 moves of that side."
-    )
-    played_rows = []
-    for cat in WHAT_PLAYED:
-        t = rate_table(moves, f"P:{cat}", ["time_class"])
-        t.insert(0, "what the move did", cat)
-        played_rows.append(t)
-    played_table = pd.concat(played_rows, ignore_index=True)
-    for tc in TIME_CLASSES:
-        part = played_table[played_table["time_class"] == tc]
-        share_you = blunders[(blunders["time_class"] == tc) & blunders["is_player_move"]]["what_played"].value_counts(normalize=True)
-        share_them = blunders[(blunders["time_class"] == tc) & ~blunders["is_player_move"]]["what_played"].value_counts(normalize=True)
-        part = part.assign(**{"share of your blunders": part["what the move did"].map(share_you).fillna(0), "share of theirs": part["what the move did"].map(share_them).fillna(0)})
-        report.heading(f"{tc}: {n_games[tc]:,} games", level=3)
-        report.table(part[["what the move did", "you", "opponents", "you − them", "share of your blunders", "share of theirs"]], floatfmt=".2f")
-
-    # figure 1: rates by category, three panels
-    fig, axes = plt.subplots(1, 3, figsize=(12, 4.2), sharey=True)
-    for ax, tc in zip(axes, TIME_CLASSES):
-        part = played_table[played_table["time_class"] == tc].set_index("what the move did").loc[WHAT_PLAYED]
-        y = np.arange(len(WHAT_PLAYED))
-        for k, (side, label) in enumerate([("player", "you"), ("opponent", "opponents")]):
-            offset = -0.2 if k == 0 else 0.2
-            ax.barh(y + offset, part[side], height=0.36, color=SIDE_COLOURS[side], label=label, xerr=[part[side] - part[f"{side}_lo"], part[f"{side}_hi"] - part[side]], error_kw={"elinewidth": 0.8, "ecolor": "#444"})
-        ax.set_yticks(y)
-        ax.set_yticklabels([SHORT_PLAYED[c] for c in WHAT_PLAYED])
-        ax.invert_yaxis()
-        ax.set_title(tc)
-        ax.set_xlabel("blunders per 100 moves")
-    axes[0].legend(loc="upper right")
-    fig.suptitle("What your blunders did, vs your opponents' (95% CI by game)", fontweight="bold")
-    fig.tight_layout()
-    report.figure(fig, "what_played", "Blunders per 100 moves by what the played move did, you vs opponents, by time class.")
-    plt.close(fig)
-
-    # the residual category, described
-    residual = blunders[blunders["what_played"] == "quiet refutation / deeper"]
-    res_rows = []
-    for side, label in [("player", "you"), ("opponent", "opponents")]:
-        sub = residual[residual["side"] == side]
-        res_rows.append(
-            {
-                "side": label,
-                "n": len(sub),
-                "already winning (cp_before > 500)": (sub["cp_before"] > 500).mean(),
-                "a mate was missed": sub["missed_mate"].fillna(False).astype(bool).mean(),
-                "in the endgame": (sub["phase"] == "endgame").mean(),
-                "best move won free material": (sub["what_missed"] == "free material").mean(),
-                "mean ep_loss": sub["ep_loss"].mean(),
-            }
-        )
-    report.text(
-        "The residual 'quiet refutation / deeper' is the largest single category for both sides, so here is what is in it: the share of "
-        "those blunders played from an already-won position (giving back part of a win, which costs little in expected points), the "
-        "share where a mate was missed, the share in the endgame (where king and pawn moves lose without any material changing hands "
-        "for several moves), and the share where the engine's best move would have won free material (a missed capture, with no immediate loss). "
-        "It costs less per blunder than the other categories."
-    )
-    report.table(pd.DataFrame(res_rows), floatfmt=".3f")
-
-    # mates, net of exposure
-    report.heading("Mates allowed and missed, net of exposure", level=3)
-    report.text(
-        "Allowing a mate depends on how often you are in a position where one can be allowed, so the allowed-mate rate is shown per 100 "
-        "moves **within bands of the evaluation before the move** (mover's view, cp clipped to ±1000: losing < −300, balanced, winning > 300), "
-        "and the share of each side's moves spent in each band. Missing a mate is conditioned the same way: among moves where the mover "
-        "had a forced mate (`mate_before` > 0), the share that let it slip (`missed_mate`, corrected here so that a delivered mate does not "
-        "count as missed: the stored flag is True for the 1,801 mating moves because the terminal position has no mate distance), and among "
-        "mates in 1, the share not played."
-    )
-    moves["eval_band"] = pd.cut(moves["cp_before"].clip(-1000, 1000), [-1001, -300, 300, 1001], labels=["losing", "balanced", "winning"])
-    band_table = rate_table(moves, "P:allowed mate (any)", ["time_class", "eval_band"])
-    band_table["time_class"] = band_table["time_class"].astype(str)
-    band_table["eval_band"] = band_table["eval_band"].astype(str)
-    exposure = moves.groupby(["time_class", "eval_band", "side"], observed=True).size().unstack("side")
-    exposure = (exposure / exposure.groupby(level="time_class").transform("sum")).reset_index()
-    exposure["time_class"] = exposure["time_class"].astype(str)
-    exposure["eval_band"] = exposure["eval_band"].astype(str)
-    band_table = band_table.merge(exposure.rename(columns={"player": "share of your moves", "opponent": "share of their moves"}), on=["time_class", "eval_band"])
-    report.table(band_table[["time_class", "eval_band", "you", "opponents", "you − them", "share of your moves", "share of their moves"]].rename(columns={"you": "allowed mate /100, you", "opponents": "allowed mate /100, them"}), floatfmt=".3f")
-    had_mate = moves[moves["mate_before"].astype("float64") > 0].copy()
-    had_mate["missed"] = had_mate["missed_mate"].fillna(False).astype(float)
-    had_mate["not_best"] = (~had_mate["is_best_move"].astype(bool)).astype(float)
-    miss_any = rate_table(had_mate, "missed", ["time_class"], scale=1.0, fmt=".3f")
-    mate1 = had_mate[had_mate["mate_before"].astype("float64") == 1]
-    miss_one = rate_table(mate1, "missed", ["time_class"], scale=1.0, fmt=".3f")
-    t_m = miss_any[["time_class", "you", "opponents", "you − them", "n"]].rename(columns={"you": "mate slipped, you", "opponents": "mate slipped, them", "you − them": "you − them (any mate)", "n": "moves with a mate"})
-    t_m = t_m.merge(miss_one[["time_class", "you", "opponents", "n"]].rename(columns={"you": "mate in 1 missed, you", "opponents": "mate in 1 missed, them", "n": "moves with mate in 1"}), on="time_class")
-    t_m["time_class"] = t_m["time_class"].astype(str)
-    report.table(t_m)
-
-    # --- 3. what was missed -----------------------------------------------------
-    report.heading("3. What the blunder missed: taxonomy of the engine's best move")
-    report.text(
-        "The same blunders classified by what the best move was, in order of precedence: a **mate** was available (mate in 1 vs longer); "
-        "the best move won **free material** (a capture with positive SEE); the best move was **saving a threatened piece** (a piece of "
-        "yours could be taken for a gain before the move, and after the best move the opponent's best capture gains less); another "
-        "**capture** (even trade or sacrifice); a **check**; you were **in check** and the best move was a different reply; or a **quiet "
-        "move** (the engine wanted something the rules cannot name: a retreat, a prophylactic move, a pawn move, a deeper tactic)."
-    )
-    missed_rows = []
-    for cat in WHAT_MISSED:
-        t = rate_table(moves, f"M:{cat}", ["time_class"])
-        t.insert(0, "what the best move was", cat)
-        missed_rows.append(t)
-    missed_table = pd.concat(missed_rows, ignore_index=True)
-    for tc in TIME_CLASSES:
-        part = missed_table[missed_table["time_class"] == tc]
-        share_you = blunders[(blunders["time_class"] == tc) & blunders["is_player_move"]]["what_missed"].value_counts(normalize=True)
-        share_them = blunders[(blunders["time_class"] == tc) & ~blunders["is_player_move"]]["what_missed"].value_counts(normalize=True)
-        part = part.assign(**{"share of your blunders": part["what the best move was"].map(share_you).fillna(0), "share of theirs": part["what the best move was"].map(share_them).fillna(0)})
-        report.heading(f"{tc}", level=3)
-        report.table(part[["what the best move was", "you", "opponents", "you − them", "share of your blunders", "share of theirs"]], floatfmt=".2f")
-
-    # --- 4. material hung and the most common patterns ----------------------------
-    report.heading("4. What gets hung, and the most common patterns")
-    hung = blunders[blunders["what_played"].isin(hung_cats)].copy()
-    report.text(
-        "Among blunders that hung material (section 2's four 'hung' categories), the piece that could be taken for free (per the engine's "
-        "reply, else the SEE victim), as a count per 100 games of each side, all time classes pooled. Queens and rooks are the expensive ones."
-    )
-    victim_rows = []
-    n_all_games = len(games)
-    for v in PIECE_ORDER[:5]:
-        row = {"piece hung": v}
-        for side, label in [("player", "you"), ("opponent", "opponents")]:
-            sub = hung[(hung["side"] == side) & (hung["victim"] == v)]
-            count = len(sub)
-            # per-100-games rate with a game-clustered CI from the per-game counts over all games
-            per_game = sub.groupby("game_uuid").size().reindex(games["uuid"], fill_value=0)
-            rng = np.random.default_rng(SEED)
-            idx = rng.integers(0, len(per_game), size=(N_BOOT, len(per_game)))
-            boot = per_game.to_numpy()[idx].mean(axis=1) * 100
-            lo, hi = np.quantile(boot, [0.025, 0.975])
-            row[f"{label}: per 100 games"] = f"{100 * count / n_all_games:.1f} [{lo:.1f}, {hi:.1f}]"
-            row[f"{label}: n"] = count
-            row[f"{label}: mean ep_loss"] = sub["ep_loss"].mean()
-        victim_rows.append(row)
-    report.table(pd.DataFrame(victim_rows), floatfmt=".3f")
-
-    report.text(
-        "The ten most common (what the move did × what was missed) combinations among **your** blunders, all time classes pooled, with "
-        "the share of your blunders, the opponents' share of theirs, and the mean `ep_loss` of such a blunder for you."
-    )
-    combo = blunders.groupby(["what_played", "what_missed", "side"], observed=True).agg(n=("ep_loss", "size"), ep=("ep_loss", "mean")).reset_index()
-    you_c = combo[combo["side"] == "player"].copy()
-    them_c = combo[combo["side"] == "opponent"].set_index(["what_played", "what_missed"])
-    you_c["share of your blunders"] = you_c["n"] / you_c["n"].sum()
-    you_c["share of theirs"] = [them_c["n"].get((a, b), 0) / max(them_c["n"].sum(), 1) for a, b in zip(you_c["what_played"], you_c["what_missed"])]
-    you_c = you_c.sort_values("n", ascending=False).head(10)
-    you_c = you_c.rename(columns={"what_played": "what the move did", "what_missed": "what the best move was", "n": "your n", "ep": "your mean ep_loss"})
-    report.table(you_c[["what the move did", "what the best move was", "your n", "share of your blunders", "share of theirs", "your mean ep_loss"]], floatfmt=".3f")
-
-    # --- 5. depth of the refutation and punishment --------------------------------
-    report.heading("5. One-move or deeper? Refutation depth and how often blunders are punished")
-    report.text(
-        "No engine was run for this question, so the depth of the refutation is read off the game itself: following the actual "
-        "continuation **only while the punishing side played the engine's best move**, how many of its moves passed before the material "
-        "balance (1/3/3/5/9) moved against the blunderer by at least a pawn, or the game ended in mate. 'Immediate' = material lost on the "
-        "very next move; 'within 2–3 moves' = after a check, a fork or an in-between move; 'not within 3 moves' = the refutation was "
-        "positional, a longer mating attack, or the punishing side left the engine line (in which case the depth is unknown and the "
-        "blunder is counted under 'line left / unknown'). Shares of each side's blunders, all time classes pooled, then per time class "
-        "the share of blunders that were **punished** (the opponent's reply lost less than 100 cp of the gift, i.e. kept most of the advantage) "
-        "and the share where the opponent found the engine's best reply."
-    )
-    depth = refutation_depth(moves, blunders)
-    blunders["depth"] = depth
-    depth_rows = []
-    known = ["immediate", "within 2–3 moves", "mate within 3 moves", "not within 3 moves"]
-    for cat in [*known, "line left / unknown"]:
-        row = {"refutation depth": cat}
-        for side, label in [("player", "your blunders"), ("opponent", "their blunders")]:
-            sub = blunders[blunders["side"] == side]
-            row[f"{label}: share"] = f"{(sub['depth'] == cat).mean():.3f}"
-            row[f"{label}: n"] = int((sub["depth"] == cat).sum())
-            resolved = sub[sub["depth"].isin(known)]
-            row[f"{label}: share of resolved"] = f"{(resolved['depth'] == cat).mean():.3f}" if cat in known else ""
-        depth_rows.append(row)
-    report.table(pd.DataFrame(depth_rows))
-    report.text(
-        "'Share of resolved' conditions on the blunders whose refutation could be followed (the punisher stayed on the engine line until "
-        "material or mate decided it, or for three moves). Read it as: of the blunders that were refuted on the board, roughly two thirds lost "
-        "material on the very next move; genuinely deep refutations are rare in this pool."
-    )
-
-    blunders["punished"] = (blunders["next_cp_loss"] < 100).astype(float).where(blunders["next_cp_loss"].notna())
-    blunders["reply_was_best"] = blunders["next_is_best"].astype("float64")
-    punished = mean_table(blunders, "punished", ["time_class"]).rename(columns={"you": "your blunders punished", "opponents": "their blunders punished (by you)"})
-    best_reply = mean_table(blunders, "reply_was_best", ["time_class"]).rename(columns={"you": "best reply found vs you", "opponents": "best reply found by you"})
-    t5 = punished[["time_class", "your blunders punished", "their blunders punished (by you)"]].merge(best_reply[["time_class", "best reply found vs you", "best reply found by you"]], on="time_class")
-    t5["time_class"] = t5["time_class"].astype(str)
-    report.table(t5)
-    report.text(
-        "Punishment by category (share of blunders where the reply kept most of the advantage), all time classes pooled: which of your "
-        "gifts your opponents actually take, and which of theirs you take."
-    )
-    pun_cat = mean_table(blunders, "punished", ["what_played"]).rename(columns={"what_played": "what the move did", "you": "your blunders punished", "opponents": "their blunders punished by you"})
-    report.table(pun_cat[["what the move did", "your blunders punished", "n_you", "their blunders punished by you", "n_opponents"]])
-
-    # --- 6. by piece and phase -------------------------------------------------------
-    report.heading("6. By piece moved and by phase")
-    report.text(
-        "Blunder rate per 100 moves **of that piece** (so the rows are comparable: a queen move is more likely to be a blunder than a "
-        "pawn move), you vs opponents, per time class, and the hung-material and allowed-mate rates per 100 moves by phase."
-    )
-    moves["piece"] = pd.Categorical(moves["piece"], categories=PIECE_ORDER)
-    piece_table = rate_table(moves, "is_blunder", ["time_class", "piece"])
-    piece_table["time_class"] = piece_table["time_class"].astype(str)
-    piece_table["piece"] = piece_table["piece"].astype(str)
-    report.table(piece_table[["time_class", "piece", "you", "opponents", "you − them", "n"]].rename(columns={"n": "moves"}), floatfmt=".2f")
-
-    moves["phase"] = pd.Categorical(moves["phase"], categories=["opening", "middlegame", "endgame"])
-    phase_parts = []
-    for ind, name in [("is_blunder", "blunders /100"), ("P:hung material (any)", "hung material /100"), ("P:allowed mate (any)", "allowed mate /100")]:
-        t = rate_table(moves, ind, ["time_class", "phase"])
-        t = t[["time_class", "phase", "you", "opponents", "you − them"]].rename(columns={"you": f"{name}, you", "opponents": f"{name}, them", "you − them": f"{name}, you − them"})
-        phase_parts.append(t)
-    phase_table = phase_parts[0].merge(phase_parts[1], on=["time_class", "phase"]).merge(phase_parts[2], on=["time_class", "phase"])
-    phase_table["time_class"] = phase_table["time_class"].astype(str)
-    phase_table["phase"] = phase_table["phase"].astype(str)
-    report.heading("By phase", level=3)
-    report.table(phase_table[["time_class", "phase", "blunders /100, you", "blunders /100, them", "hung material /100, you", "hung material /100, them", "allowed mate /100, you", "allowed mate /100, them"]])
-
-    # --- 7. over time -----------------------------------------------------------------
-    report.heading("7. Which kinds of blunder changed over the years")
-    report.text(
-        "Rates per 100 moves by year (2021 is folded into 2022 and 2026 into 2025; a few games each), per time class, for the overall "
-        "blunder rate and the three big families. The opponents' rate in the same games is the control: the opponent pool is matched to "
-        "your rating, so a type of blunder that fell for you but not for them is a real change in your play; one that fell for both "
-        "reflects a change in the games (rating level, time control, opponents). Rapid has no games in 2024 and 35 in 2025."
-    )
-    year_cats = [("is_blunder", "blunders"), ("P:hung material (any)", "hung material"), ("P:allowed mate (any)", "allowed mate"), ("P:allowed a check tactic", "check tactic"), ("P:quiet refutation / deeper", "quiet / deeper")]
-    years = ["2021-22", "2023", "2024", "2025-26"]
-    moves["year_label"] = pd.Categorical(moves["year_label"], categories=years)
-    year_tables = {}
-    for ind, name in year_cats:
-        t = rate_table(moves, ind, ["time_class", "year_label"])
-        t["time_class"] = t["time_class"].astype(str)
-        t["year"] = t["year_label"].astype(str)
-        year_tables[name] = t
-    for tc in TIME_CLASSES:
-        parts = []
-        for ind, name in year_cats[:3]:
-            t = year_tables[name]
-            t = t[t["time_class"] == tc][["year", "games", "you", "opponents"]].rename(columns={"you": f"{name}, you", "opponents": f"{name}, them"})
-            parts.append(t)
-        t = parts[0].merge(parts[1].drop(columns="games"), on="year").merge(parts[2].drop(columns="games"), on="year")
-        t = t[t["games"] >= 20]
-        report.heading(f"{tc}", level=3)
-        report.table(t)
-
-    fig, axes = plt.subplots(2, len(year_cats), figsize=(14, 6), sharex=True)
-    for i, tc in enumerate(["bullet", "blitz"]):
-        for j, (ind, name) in enumerate(year_cats):
-            ax = axes[i, j]
-            t = year_tables[name]
-            t = t[(t["time_class"] == tc) & (t["games"] >= 20)].set_index("year").reindex(years)
-            x = np.arange(len(years))
-            for side, label in [("player", "you"), ("opponent", "opponents")]:
-                ax.plot(x, t[side], marker="o", markersize=5, linewidth=2, color=SIDE_COLOURS[side], label=label)
-                ax.fill_between(x, t[f"{side}_lo"], t[f"{side}_hi"], color=SIDE_COLOURS[side], alpha=0.15, linewidth=0)
-            ax.set_xticks(x)
-            ax.set_xticklabels(years, rotation=30)
-            ax.set_ylim(bottom=0)
-            if i == 0:
-                ax.set_title(name)
-            if j == 0:
-                ax.set_ylabel(f"{tc}: per 100 moves")
-    axes[0, 0].legend(loc="lower left")
-    fig.suptitle("Blunder types per 100 moves by year, you vs opponents (bands: 95% CI by game)", fontweight="bold")
-    fig.tight_layout()
-    report.figure(fig, "by_year", "Blunder families per 100 moves by year, bullet (top) and blitz (bottom); shaded bands are 95% CIs.")
-    plt.close(fig)
-
-    # --- 8. robustness: ep-based definition ------------------------------------------
-    report.heading(f"8. Robustness: the same taxonomy on `ep_loss` ≥ {EP_BIG} errors")
-    big_errors = classified[classified["ep_loss"] >= EP_BIG]
-    overlap_you = big_errors[big_errors["is_player_move"]]
-    report.text(
-        f"Moves with `ep_loss` ≥ {EP_BIG} (a fifth of a point given away): {int(big_errors['is_player_move'].sum()):,} of yours, "
-        f"{int((~big_errors['is_player_move']).sum()):,} of the opponents'; {overlap_you['label'].eq('blunder').mean():.0%} of yours are also "
-        f"cp-blunders (the rest are mostly `mistake`-labelled moves in balanced positions, where 100–300 cp is a lot of expected points). "
-        "Shares of each side's big errors by what the move did, all time classes pooled, to check the taxonomy is not an artefact of the cp threshold."
-    )
-    share_rows = []
-    for cat in WHAT_PLAYED:
-        row = {"what the move did": cat}
-        for side, label in [("player", "you"), ("opponent", "opponents")]:
-            sub = big_errors[big_errors["side"] == side]
-            row[f"{label}: share (ep≥{EP_BIG})"] = (sub["what_played"] == cat).mean()
-            sub_b = blunders[blunders["side"] == side]
-            row[f"{label}: share (cp blunders)"] = (sub_b["what_played"] == cat).mean()
-        share_rows.append(row)
-    report.table(pd.DataFrame(share_rows), floatfmt=".3f")
-
-    # --- 9. what this means ----------------------------------------------------------------
-    headline = headline_numbers(played_table, missed_table, blunders, rates)
-    report.heading("What this means for the player")
-    report.text(headline)
-
-    report.heading("Caveats")
-    report.text(
-        "- The taxonomy is rule-based and coarse: a static exchange evaluation ignores pins beyond legality, promotions other than to a "
-        "queen, and any tactic longer than one capture sequence; 'quiet refutation / deeper' is a residual, not a diagnosis.\n"
-        "- A blunder is defined by `cp_loss` ≥ 300 on evals clipped at ±1000, so errors in already-decided positions are under-counted and "
-        "the missed mates that keep a winning position are mostly labelled 'good' (section 8 checks the taxonomy under the ep-based "
-        "definition instead).\n"
-        "- The engine's best reply is the stored best move of the next position; it is missing when the blunder was the last move of the "
-        "game (about 1.6% of blunders), where the SEE threat is used alone.\n"
-        "- Refutation depth is read off the game continuation while the punishing side stayed on the engine's best move, not from an "
-        "engine line; no Stockfish re-search was run (the optional step in the plan was skipped). The depth distribution is therefore "
-        "conditional on the opponent finding the line, and 'line left / unknown' is large.\n"
-        "- 'Punished' uses the next move's `cp_loss` < 100, a cp criterion; one-move punishment only, not conversion of the game.\n"
-        "- Years mix rating levels and time controls (2022 was blitz-heavy, 2025 bullet-heavy); the opponents' rate in the same games is the "
-        "control, but the comparison across years is descriptive, not causal.\n"
-        "- All evaluations are Stockfish 17.1 at 1M nodes; at that depth the 'best move' in sharp positions is sometimes not the only good move, "
-        "so 'what was missed' is the engine's preference, not a unique truth.\n"
-        "- An earlier `moves_analysed` table flagged the 1,801 moves that delivered mate as `missed_mate` (5,144 flags instead of 3,339); "
-        "`analysed.py` was fixed and the script guards against stale tables anyway. The blunder taxonomy is unaffected (a delivered mate has `cp_loss` 0).\n"
-        "- Opponent ratings are post-game and are not used anywhere here except through the matched-opponent design."
-    )
-
-    path = report.write()
-    print(f"wrote {path}; replay {replay_seconds:.0f} s over {len(error_set):,} positions; total {time.time() - t0:.0f} s")
+def material_balance(board: chess.Board) -> int:
+    total = 0
+    for piece_type, value in PIECE_VALUE.items():
+        total += value * (len(board.pieces(piece_type, chess.WHITE)) - len(board.pieces(piece_type, chess.BLACK)))
+    return total
 
 
 def refutation_depth(moves: pd.DataFrame, blunders: pd.DataFrame) -> pd.Series:
@@ -717,7 +380,6 @@ def refutation_depth(moves: pd.DataFrame, blunders: pd.DataFrame) -> pd.Series:
     fen_after = dict(zip(keys, moves["fen_after"].to_numpy()))
 
     def balance_after(game: str, ply: int) -> tuple[float, bool]:
-        """Material balance (white − black) after the move at `ply`, and whether it is mate."""
         nxt = (game, ply + 1)
         if nxt in balance:
             return balance[nxt], False
@@ -729,11 +391,11 @@ def refutation_depth(moves: pd.DataFrame, blunders: pd.DataFrame) -> pd.Series:
         sign = 1 if color == "white" else -1
         base, mate = balance_after(game, ply)
         base *= sign
-        if mate:  # the blunder itself delivered mate?! cannot happen for a blunder; keep for safety
+        if mate:
             result.append("not within 3 moves")
             continue
         depth = "not within 3 moves"
-        for k in range(1, 4):
+        for k in range(1, REFUTATION_PLIES + 1):
             reply = (game, ply + 2 * k - 1)
             if reply not in is_best or not bool(is_best[reply]):
                 depth = "line left / unknown"
@@ -749,7 +411,7 @@ def refutation_depth(moves: pd.DataFrame, blunders: pd.DataFrame) -> pd.Series:
             else:  # the blunderer did not move again (resigned, flagged): judge by the reply alone
                 net = sign * after_reply
             if net <= base - 1:
-                depth = "immediate" if k == 1 else "within 2–3 moves"
+                depth = "immediate" if k == 1 else "within 2-3 moves"
                 break
             if own not in is_best:
                 depth = "line left / unknown"
@@ -758,48 +420,692 @@ def refutation_depth(moves: pd.DataFrame, blunders: pd.DataFrame) -> pd.Series:
     return pd.Series(result, index=blunders.index)
 
 
-def material_balance(board: chess.Board) -> int:
-    total = 0
-    for piece_type, value in PIECE_VALUE.items():
-        total += value * (len(board.pieces(piece_type, chess.WHITE)) - len(board.pieces(piece_type, chess.BLACK)))
-    return total
+# --- table helpers ----------------------------------------------------------------------------
 
 
-def headline_numbers(played_table: pd.DataFrame, missed_table: pd.DataFrame, blunders: pd.DataFrame, rates: pd.DataFrame) -> str:
-    """One paragraph for the player, built from the computed tables so it stays in step with the numbers."""
-    you_b = blunders[blunders["is_player_move"]]
-    hung_cats = ["losing capture", "moved piece en prise", "ignored a threatened piece", "exposed another piece"]
-    hung_share = you_b["what_played"].isin(hung_cats).mean()
-    mate_share = you_b["what_played"].isin(["allowed mate in 1", "allowed mate (longer)"]).mean()
-    check_share = (you_b["what_played"] == "allowed a check tactic").mean()
-    residual_share = (you_b["what_played"] == "quiet refutation / deeper").mean()
-    missed_free = (you_b["what_missed"] == "free material").mean()
-    missed_defence = (you_b["what_missed"] == "saving a threatened piece").mean()
-    queen_hung = int((you_b["what_played"].isin(hung_cats) & (you_b["victim"] == "queen")).sum())
-    rook_hung = int((you_b["what_played"].isin(hung_cats) & (you_b["victim"] == "rook")).sum())
+def side_counts(frame: pd.DataFrame, column: str, by: list[str], name: str) -> pd.DataFrame:
+    """Non-missing rows of `column` per `by` cell and side, as n_player_<name> / n_opponent_<name>."""
+    counts = frame.groupby([*by, "side"], observed=True)[column].count().unstack("side", fill_value=0)
+    counts = counts.reindex(columns=SIDES, fill_value=0).rename(columns={s: f"n_{s}_{name}" for s in SIDES})
+    counts.columns.name = None
+    return counts.reset_index()
 
-    def diff(table: pd.DataFrame, key: str, cat: str, tc: str) -> str:
-        row = table[(table[key] == cat) & (table["time_class"] == tc)].iloc[0]
-        return row["you − them"]
 
-    rate_text = ", ".join(f"{r['time_class']} {r['your blunders /100']} vs {r['their blunders /100']}" for _, r in rates.iterrows())
-    mate_text = "; ".join(f"{tc} {diff(played_table, 'what the move did', 'allowed mate (longer)', tc)} (longer) and {diff(played_table, 'what the move did', 'allowed mate in 1', tc)} (in 1)" for tc in TIME_CLASSES)
-    free_text = "; ".join(f"{tc} {diff(missed_table, 'what the best move was', 'free material', tc)}" for tc in TIME_CLASSES)
-    quiet_text = "; ".join(f"{tc} {diff(missed_table, 'what the best move was', 'quiet move', tc)}" for tc in TIME_CLASSES)
-    return (
-        f"You blunder about as often as the opponents matched to your rating ({rate_text} per 100 moves) and your blunders are the same "
-        f"kinds as theirs: {hung_share:.0%} of yours simply hand over material (a piece left en prise, moved en prise, or a capture of a defended piece), "
-        f"{mate_share:.0%} allow a mate, {check_share:.0%} walk into a check-based tactic, and {residual_share:.0%} are refuted by a quiet move "
-        f"(a third of those from positions you had already won). You hung your queen {queen_hung} times and a rook {rook_hung} times. "
-        f"Two differences from your opponents survive the confidence intervals. First, you **allow mates more often** at every level of the "
-        f"evaluation, not because you are in lost positions more (you are in them less): you − them per 100 moves is {mate_text}; "
-        f"mate-in-1 allowed is the most expensive blunder there is, and the one a half-second 'what does this reply threaten?' check removes. "
-        f"Second, your blunders are **less often a missed free capture** than theirs ({free_text} per 100 moves; {missed_free:.0%} of your blunders "
-        f"missed free material vs {missed_defence:.0%} that missed saving a threatened piece) and more often a missed quiet move ({quiet_text}): "
-        f"you see what is on offer, you under-see what the opponent is about to do. The useful habit is therefore the defensive one: before "
-        f"moving, name the opponent's best reply, check whether anything of yours (the moved piece first) can be taken for free, and whether that "
-        f"reply is a check or a mate threat."
+def side_rate(frame: pd.DataFrame, column: str, by: list[str], scale: float = 100.0, unit: str = "moves", min_n: int = MIN_CELL_MOVES, unit_text: str | None = None) -> pd.DataFrame:
+    """compare_sides on `column` scaled by `scale` (per 100 moves for 0/1 indicators), with per-side counts, `thin` and a `unit` label."""
+    table = compare_sides(frame, column, by=by, n_boot=N_BOOT).drop(columns="n")
+    table[RATE_COLS] = table[RATE_COLS] * scale
+    table = table.merge(side_counts(frame, column, by, unit), on=by, how="left")
+    table["thin"] = (table[f"n_player_{unit}"] < min_n) | (table[f"n_opponent_{unit}"] < min_n)
+    table["unit"] = unit_text or (f"per {scale:g} {unit}" if scale != 1 else f"share of {unit}")
+    return table
+
+
+def blunder_counts(blunders: pd.DataFrame, by: list[str]) -> pd.DataFrame:
+    """Blunders per side in each `by` cell (blunders_player / blunders_opponent)."""
+    counts = blunders.groupby([*by, "side"], observed=True).size().unstack("side", fill_value=0)
+    counts = counts.reindex(columns=SIDES, fill_value=0).rename(columns={s: f"blunders_{s}" for s in SIDES})
+    counts.columns.name = None
+    return counts.reset_index()
+
+
+def shares(blunders: pd.DataFrame, column: str, by: list[str]) -> pd.DataFrame:
+    """Share of each side's blunders in each level of `column`, within `by` (share_player / share_opponent)."""
+    counts = blunders.groupby([*by, column, "side"], observed=True).size().unstack("side", fill_value=0)
+    counts = counts.reindex(columns=SIDES, fill_value=0)
+    totals = counts.groupby(level=by, observed=True).transform("sum")
+    out = (counts / totals.where(totals > 0)).rename(columns={s: f"share_{s}" for s in SIDES})
+    out = out.join(counts.rename(columns={s: f"count_{s}" for s in SIDES}))
+    out.columns.name = None
+    return out.reset_index()
+
+
+def paired_ratio(frame: pd.DataFrame, num: str, den: str, by: list[str], seed: int = SEED) -> pd.DataFrame:
+    """Ratio of sums sum(num)/sum(den) for each side, with the paired difference; CIs resample whole games."""
+    rows = []
+    for key, part in frame.groupby(by, observed=True):
+        key = key if isinstance(key, tuple) else (key,)
+        agg = part.groupby(["game_uuid", "is_player_move"])[[num, den]].sum().unstack("is_player_move", fill_value=0)
+        nums = agg[num].reindex(columns=[True, False], fill_value=0)
+        dens = agg[den].reindex(columns=[True, False], fill_value=0)
+        sums = {side: (nums[flag].to_numpy(float), dens[flag].to_numpy(float)) for side, flag in [("player", True), ("opponent", False)]}
+        rng = np.random.default_rng(seed)
+        idx = rng.integers(0, len(agg), size=(N_BOOT, len(agg)))
+        row = dict(zip(by, key))
+        boots = {}
+        for side, (n, d) in sums.items():
+            est = n.sum() / d.sum() if d.sum() else np.nan
+            with np.errstate(invalid="ignore", divide="ignore"):
+                boots[side] = n[idx].sum(1) / d[idx].sum(1)
+            row[side] = est
+            row[f"{side}_lo"], row[f"{side}_hi"] = np.nanquantile(boots[side], [0.025, 0.975])
+        row["diff"] = row["player"] - row["opponent"]
+        row["diff_lo"], row["diff_hi"] = np.nanquantile(boots["player"] - boots["opponent"], [0.025, 0.975])
+        row["games"] = int(part["game_uuid"].nunique())
+        rows.append(row)
+    return pd.DataFrame(rows)
+
+
+def pooled_by_class(frame: pd.DataFrame, class_of: dict[str, str], order: list[str]) -> pd.DataFrame:
+    """The same rows relabelled 'all <time class>' (tc_group categorical with the full group order)."""
+    out = frame.copy()
+    out["tc_group"] = pd.Categorical(["all " + class_of[str(g)] for g in out["tc_group"]], categories=order)
+    return out
+
+
+def with_pooled(frame: pd.DataFrame, class_of: dict[str, str], order: list[str]) -> pd.DataFrame:
+    return pd.concat([frame, pooled_by_class(frame, class_of, order)], ignore_index=True)
+
+
+def band_labels(edges: list[float]) -> list[str]:
+    """Labels like '<-300', '-300..-100', '>=300' for left-closed bins with infinite outer edges."""
+    out = []
+    for lo, hi in zip(edges[:-1], edges[1:]):
+        if np.isinf(lo):
+            out.append(f"<{hi:g}")
+        elif np.isinf(hi):
+            out.append(f">={lo:g}")
+        else:
+            out.append(f"{lo:g}..{hi:g}")
+    return out
+
+
+def year_blocks(years: pd.Series) -> dict[int, str]:
+    """Calendar years with fewer than MIN_YEAR_GAMES games merged into the neighbouring year; labels like '2021-22'."""
+    counts = years.value_counts().sort_index()
+    blocks = [[int(y)] for y in counts.index]
+    while len(blocks) > 1:
+        sizes = [int(counts.loc[b].sum()) for b in blocks]
+        thin = [i for i, s in enumerate(sizes) if s < MIN_YEAR_GAMES]
+        if not thin:
+            break
+        i = thin[0]
+        j = i + 1 if i == 0 else i - 1
+        lo, hi = sorted((i, j))
+        blocks[lo:hi + 1] = [blocks[lo] + blocks[hi]]
+    labels = {}
+    for b in blocks:
+        label = str(b[0]) if len(b) == 1 else f"{b[0]}-{str(b[-1])[2:]}"
+        for y in b:
+            labels[y] = label
+    return labels
+
+
+# Display order of every level column the tables sort by; tc_group's order is filled in by main() from the data.
+LEVEL_ORDERS: dict[str, list[str]] = {
+    "phase": PHASES,
+    "eval_band": [ALL_MOVES, *EVAL_LABELS],
+    "piece": PIECE_ORDER,
+    "depth": DEPTHS,
+    "category": list(dict.fromkeys([*WHAT_PLAYED, *WHAT_MISSED])),
+    "family": list(FAMILIES),
+    "side": SIDES,
+}
+
+
+def ordered(frame: pd.DataFrame, columns: list[str]) -> pd.DataFrame:
+    """Sorts by the given level columns in their display order (not alphabetically) and resets the index."""
+    out = frame.copy()
+    for column in columns:
+        if column in LEVEL_ORDERS and not isinstance(out[column].dtype, pd.CategoricalDtype):
+            out[column] = pd.Categorical(out[column].astype(str), categories=LEVEL_ORDERS[column])
+    return out.sort_values(columns, kind="stable").reset_index(drop=True)
+
+
+# --- charts -------------------------------------------------------------------------------------
+
+
+def chart_rate_by_group(table: pd.DataFrame, groups: list[str]):
+    fig, ax = charts.single("How often do you blunder? Blunders per 100 moves", size=(6.5, 4.4))
+    charts.side_bars(ax, table, "tc_group", order=groups, horizontal=True)
+    ax.set_xlabel("blunders per 100 moves (95% CI)")
+    charts.legend(ax, loc="lower right")
+    charts.footnote(fig, "Blunder: a move that loses at least 300 centipawns. Opponents: the same games. CIs from resampling whole games.")
+    return fig
+
+
+def chart_panels(table: pd.DataFrame, panels: list[str], x: str, order: list[str], title: str, ylabel: str, note: str, sharey=True, panel=(2.9, 2.3), rotate: int = 0, thin_text: str = "too few games"):
+    """group_grid of you-vs-opponents bars, one panel per group; thin cells left out, all-thin panels noted."""
+    fig, axes = charts.group_grid(panels, panel=panel, sharey=sharey, title=title)
+    for g, ax in axes.items():
+        part = table[table["tc_group"].astype(str) == g]
+        if part.empty or part["thin"].all():
+            charts.thin_note(ax, thin_text)
+            continue
+        charts.side_bars(ax, charts.blank_thin(part, RATE_COLS), x, order=order)
+        charts.zero_line(ax)
+        ax.set_xlim(-0.5, len(order) - 0.5)  # keep every slot, so a thin one at the edge still shows its n/a
+        thin_levels = set(part.loc[part["thin"].astype(bool), x].astype(str)) | (set(order) - set(part[x].astype(str)))
+        for i, level in enumerate(order):
+            if level in thin_levels:
+                ax.text(i, 0, "n/a", ha="center", va="bottom", color=charts.INK_MUTED, fontsize=7.5)
+        ax.tick_params(axis="x", labelrotation=rotate)
+        if rotate:
+            for label in ax.get_xticklabels():
+                label.set_ha("right")
+    charts.label_first_column(axes, ylabel)
+    charts.legend(fig, loc="upper right")
+    charts.footnote(fig, note)
+    fig.tight_layout()
+    return fig
+
+
+def chart_taxonomy(table: pd.DataFrame, groups: list[str]):
+    """Stacked shares of each side's blunders by what the move did, two bars per time control."""
+    fig, ax = charts.single("What kind of blunder? Share of each side's blunders", size=(7.2, 6.2))
+    labels, y = [], 0.0
+    positions = []
+    for g in groups:
+        for side in SIDES:
+            positions.append((g, side, y))
+            labels.append(f"{g}  {charts.SIDE_LABELS[side]}")
+            y += 1
+        y += 0.6
+    for g, side, pos in positions:
+        part = table[table["tc_group"].astype(str) == g].set_index("category")
+        thin = bool(part["thin_composition"].any()) if "thin_composition" in part else False
+        shares = [float(part.loc[cat, f"share_{side}"]) if cat in part.index else 0.0 for cat in WHAT_PLAYED]
+        shares = [[0.0 if np.isnan(share) else share] for share in shares]
+        charts.stacked_bars(ax, [pos], shares, [TAXONOMY_COLOURS[c] for c in WHAT_PLAYED], labels=WHAT_PLAYED, width=0.85, horizontal=True, alpha=0.45 if thin else 1.0, edgecolor=charts.SURFACE, linewidth=0.5)
+    ax.set_yticks([p for _, _, p in positions], labels)
+    ax.invert_yaxis()
+    ax.set_xlim(0, 1)
+    ax.xaxis.set_major_formatter(lambda v, _: f"{v:.0%}")
+    ax.grid(axis="y", visible=False)
+    handles, names = ax.get_legend_handles_labels()
+    seen = dict(zip(names, handles))
+    fig.legend([seen[c] for c in WHAT_PLAYED], WHAT_PLAYED, loc="lower center", ncol=3, bbox_to_anchor=(0.5, -0.12), fontsize=8)
+    note = "Each side's blunders in that time control add up to 100%. Opponents: the same games."
+    if bool(table["thin_composition"].any()):
+        note += f" Faded rows have fewer than {MIN_BLUNDERS} blunders per side."
+    charts.footnote(fig, note)
+    fig.texts[-1].set_position((0.01, -0.17))
+    fig.tight_layout()
+    return fig
+
+
+# --- sections -----------------------------------------------------------------------------------
+
+
+def section_1(results: Results, moves: pd.DataFrame, blunders: pd.DataFrame, ctx: dict) -> None:
+    rate = side_rate(moves, "is_blunder", ["tc_group"])
+    rate = rate.merge(blunder_counts(blunders, ["tc_group"]), on="tc_group", how="left")
+    results.table("1_blunder_rate", ordered(rate, ["tc_group"]), f"Blunders (cp_loss >= 300) per 100 moves, you vs opponents in the same games, per time control; paired difference (you minus them); CIs from {N_BOOT} game resamples; thin below {MIN_CELL_MOVES} moves per side.")
+    results.figure(chart_rate_by_group(rate, ctx["groups"]), "1_blunder_rate")
+
+    cost = compare_sides(blunders, "ep_loss", by=["tc_group"], n_boot=N_BOOT).drop(columns="n")
+    cost.insert(1, "measure", "expected points lost per blunder")
+    cost = cost.merge(blunder_counts(blunders, ["tc_group"]), on="tc_group", how="left")
+    share = paired_ratio(moves.assign(blunder_ep=moves["ep_loss"].where(moves["is_blunder"] == 1, 0.0)), "blunder_ep", "ep_loss", ["tc_group"])
+    share.insert(1, "measure", "share of all expected points lost that came from blunders")
+    share = share.merge(blunder_counts(blunders, ["tc_group"]), on="tc_group", how="left")
+    big = side_rate(moves, "is_big_ep", ["tc_group"]).drop(columns=["n_player_moves", "n_opponent_moves", "thin"])
+    big.insert(1, "measure", f"big errors (ep_loss >= {EP_BIG}) per 100 moves")
+    big = big.merge(blunder_counts(blunders, ["tc_group"]), on="tc_group", how="left")
+    table = pd.concat([cost, share, big], ignore_index=True)
+    table["thin"] = (table["blunders_player"] < MIN_BLUNDERS) | (table["blunders_opponent"] < MIN_BLUNDERS)
+    table["unit"] = table["measure"].map({cost["measure"].iloc[0]: "expected points", share["measure"].iloc[0]: "share", big["measure"].iloc[0]: "per 100 moves"})
+    table["measure"] = pd.Categorical(table["measure"], categories=list(dict.fromkeys(table["measure"])))
+    results.table("1b_blunder_cost", ordered(table, ["tc_group", "measure"]), f"What blunders cost, per time control, you vs opponents: mean expected points lost per blunder; share of each side's total expected points lost (all moves) that came from blunders; the alternative definition (ep_loss >= {EP_BIG}) per 100 moves. Paired CIs by game; thin below {MIN_BLUNDERS} blunders per side.")
+
+    frame = pooled_by_class(moves, ctx["class_of"], ctx["order"])
+    frame["year"] = frame["start_datetime"].dt.year.map(ctx["year_label"])
+    frame["year"] = pd.Categorical(frame["year"], categories=list(dict.fromkeys(sorted(ctx["year_label"].values()))))
+    parts = []
+    for indicator, name in [("is_blunder", "blunders"), ("F:hung material", "hung material"), ("F:allowed mate", "allowed mate")]:
+        t = side_rate(frame, indicator, ["tc_group", "year"], min_n=MIN_CELL_MOVES if indicator == "is_blunder" else MIN_RARE_MOVES)
+        t.insert(1, "measure", name)
+        parts.append(t)
+    years = pd.concat(parts, ignore_index=True)
+    years["measure"] = pd.Categorical(years["measure"], categories=["blunders", "hung material", "allowed mate"])
+    results.table("1c_blunders_by_year", ordered(years, ["tc_group", "measure", "year"]), f"Blunders, hung material and allowed mate per 100 moves by year, per time class only (controls pooled: the mix of controls changed by year and control x year cells are mostly thin); years with under {MIN_YEAR_GAMES} games merged into the neighbouring year.")
+
+
+def section_2(results: Results, moves: pd.DataFrame, blunders: pd.DataFrame, ctx: dict) -> None:
+    table = side_rate(moves, "is_blunder", ["tc_group", "phase"])
+    sh = shares(blunders, "phase", ["tc_group"]).rename(columns={"share_player": "share_of_player_blunders", "share_opponent": "share_of_opponent_blunders", "count_player": "blunders_player", "count_opponent": "blunders_opponent"})
+    table = table.merge(sh, on=["tc_group", "phase"], how="left")
+    results.table("2_blunders_by_phase", ordered(table, ["tc_group", "phase"]), f"Blunders per 100 moves played in each phase, you vs opponents, per time control, and each phase's share of the side's blunders; thin below {MIN_CELL_MOVES} moves per side.")
+    results.figure(chart_panels(table, ctx["groups"], "phase", PHASES, "In which phase do you blunder? Blunders per 100 moves in that phase", "per 100 moves", f"Opening / middlegame / endgame as in the project's phase column. Bars: 95% CI by game. Cells under {MIN_CELL_MOVES} moves per side left out."), "2_blunders_by_phase")
+    parts = []
+    for indicator, name in [("F:hung material", "hung material"), ("F:allowed mate", "allowed mate")]:
+        t = side_rate(moves, indicator, ["tc_group", "phase"], min_n=MIN_RARE_MOVES)
+        t.insert(1, "measure", name)
+        parts.append(t)
+    fam = pd.concat(parts, ignore_index=True)
+    fam["measure"] = pd.Categorical(fam["measure"], categories=["hung material", "allowed mate"])
+    results.table("2b_families_by_phase", ordered(fam, ["tc_group", "measure", "phase"]), "Blunders that hung material and blunders that allowed mate, per 100 moves in each phase, you vs opponents, per time control.")
+
+
+def section_3(results: Results, moves: pd.DataFrame, blunders: pd.DataFrame, classified: pd.DataFrame, ctx: dict) -> None:
+    by = ["tc_group"]
+    parts = []
+    for cat in WHAT_PLAYED:
+        t = side_rate(moves, f"P:{cat}", by, min_n=MIN_RARE_MOVES)
+        t.insert(1, "category", cat)
+        parts.append(t)
+    table = pd.concat(parts, ignore_index=True)
+    table["category"] = pd.Categorical(table["category"], categories=WHAT_PLAYED)
+    sh = shares(blunders, "what_played", by).rename(columns={"what_played": "category"})
+    table = table.merge(sh.drop(columns=["count_player", "count_opponent"]), on=["tc_group", "category"], how="left")
+    table = table.merge(blunder_counts(blunders, by), on="tc_group", how="left")
+    table["thin_composition"] = (table["blunders_player"] < MIN_BLUNDERS) | (table["blunders_opponent"] < MIN_BLUNDERS)
+    table["thin"] = table["thin"] | table["thin_composition"]
+    table = ordered(table, ["tc_group", "category"])
+    results.table("3_what_played", table, f"What the blunder did (taxonomy of the played move), per time control: blunders of each kind per 100 moves (you, opponents, paired difference, CIs by game) and the share of each side's blunders; thin below {MIN_BLUNDERS} blunders per side.")
+    results.figure(chart_taxonomy(table, ctx["groups"]), "3_what_played")
+
+    parts = []
+    for fam in FAMILIES:
+        t = side_rate(moves, f"F:{fam}", by, min_n=MIN_RARE_MOVES)
+        t.insert(1, "family", fam)
+        parts.append(t)
+    families = pd.concat(parts, ignore_index=True)
+    families["family"] = pd.Categorical(families["family"], categories=list(FAMILIES))
+    fam_share = shares(blunders.assign(family=blunders["what_played"].map({c: f for f, cs in FAMILIES.items() for c in cs}).astype(pd.CategoricalDtype(list(FAMILIES)))), "family", by)
+    families = families.merge(fam_share.drop(columns=["count_player", "count_opponent"]), on=["tc_group", "family"], how="left")
+    families = families.merge(blunder_counts(blunders, by), on="tc_group", how="left")
+    families["thin"] = families["thin"] | (families["blunders_player"] < MIN_BLUNDERS) | (families["blunders_opponent"] < MIN_BLUNDERS)
+    results.table("3b_families", ordered(families, ["tc_group", "family"]), "The taxonomy rolled up into four families (allowed mate; hung material = losing capture + moved en prise + ignored a threatened piece + exposed another piece; walked into a tactic = check tactic + combination; quiet refutation / deeper): per 100 moves and share of blunders, you vs opponents.")
+
+    residual = blunders[blunders["what_played"] == "quiet refutation / deeper"].assign(
+        already_winning=lambda f: (f["cp_before"] >= WINNING_CP).astype(float),
+        missed_a_mate=lambda f: f["missed_mate"].astype(float),
+        in_endgame=lambda f: (f["phase"] == "endgame").astype(float),
+        best_move_won_free_material=lambda f: (f["what_missed"] == "free material").astype(float),
     )
+    rows = []
+    for measure in ["already_winning", "missed_a_mate", "in_endgame", "best_move_won_free_material", "ep_loss"]:
+        t = compare_sides(residual, measure, by=by, n_boot=N_BOOT).drop(columns="n")
+        t.insert(1, "measure", measure if measure != "ep_loss" else "expected points lost per blunder")
+        rows.append(t)
+    res = pd.concat(rows, ignore_index=True)
+    res = res.merge(blunder_counts(residual, by), on="tc_group", how="left")
+    res["thin"] = (res["blunders_player"] < MIN_BLUNDERS) | (res["blunders_opponent"] < MIN_BLUNDERS)
+    res["unit"] = np.where(res["measure"] == "expected points lost per blunder", "expected points", "share of blunders")
+    res["measure"] = pd.Categorical(res["measure"], categories=list(dict.fromkeys(res["measure"])))
+    results.table("3c_quiet_residual", ordered(res, ["tc_group", "measure"]), f"What is in the residual 'quiet refutation / deeper' class, per time control: share played from a position already winning (>= {WINNING_CP} cp), share where a forced mate was missed, share in the endgame, share where the best move won free material, and expected points lost per such blunder; you vs opponents, CIs by game.")
+
+    depth = shares(blunders, "depth", by).rename(columns={"count_player": "n_player", "count_opponent": "n_opponent"})
+    resolved = shares(blunders[blunders["depth"].isin(RESOLVED)], "depth", by)[["tc_group", "depth", "share_player", "share_opponent"]]
+    resolved = resolved.rename(columns={"share_player": "share_of_resolved_player", "share_opponent": "share_of_resolved_opponent"})
+    depth = depth.merge(resolved, on=["tc_group", "depth"], how="left").merge(blunder_counts(blunders, by), on="tc_group", how="left")
+    depth["thin"] = (depth["blunders_player"] < MIN_BLUNDERS) | (depth["blunders_opponent"] < MIN_BLUNDERS)
+    results.table("3d_refutation_depth", ordered(depth, ["tc_group", "depth"]), f"How deep the refutation was, read off the game while the punishing side played the engine's best move (up to {REFUTATION_PLIES} of its moves): share of each side's blunders, and share among those whose refutation could be followed ('resolved').")
+
+    big = classified[classified["ep_loss"] >= EP_BIG]
+    comp = []
+    for name, frame in [(f"ep_loss >= {EP_BIG}", big), ("cp_loss >= 300 (blunder)", blunders)]:
+        s = shares(with_pooled(frame, ctx["class_of"], ctx["order"]), "what_played", by).rename(columns={"what_played": "category"})
+        s.insert(1, "definition", name)
+        comp.append(s)
+    comp = pd.concat(comp, ignore_index=True)
+    totals = comp.groupby(["tc_group", "definition"], observed=True)[["count_player", "count_opponent"]].transform("sum")
+    comp["thin"] = (totals["count_player"] < MIN_BLUNDERS) | (totals["count_opponent"] < MIN_BLUNDERS)
+    comp["definition"] = pd.Categorical(comp["definition"], categories=[f"ep_loss >= {EP_BIG}", "cp_loss >= 300 (blunder)"])
+    results.table("3e_taxonomy_ep_definition", ordered(comp, ["tc_group", "definition", "category"]), f"Robustness: shares of each side's errors by what the move did, under the expected-points definition (ep_loss >= {EP_BIG}) next to the centipawn one, per time control and pooled per time class ('all bullet' etc.).")
+
+    pooled = pooled_by_class(blunders, ctx["class_of"], ctx["order"])
+    combo = pooled.groupby(["tc_group", "what_played", "what_missed", "side"], observed=True).agg(n=("ep_loss", "size"), ep=("ep_loss", "mean")).reset_index()
+    rows = []
+    for g, part in combo.groupby("tc_group", observed=True):
+        you = part[part["side"] == "player"].copy()
+        them = part[part["side"] == "opponent"].set_index(["what_played", "what_missed"])
+        you["share_player"] = you["n"] / you["n"].sum()
+        you["share_opponent"] = [them["n"].get((a, b), 0) / max(them["n"].sum(), 1) for a, b in zip(you["what_played"], you["what_missed"])]
+        you = you.sort_values(["n", "what_played", "what_missed"], ascending=[False, True, True]).head(TOP_PATTERNS)
+        you["rank"] = np.arange(1, len(you) + 1)
+        rows.append(you)
+    top = pd.concat(rows, ignore_index=True).rename(columns={"n": "blunders_player", "ep": "mean_ep_loss_player"})
+    top = top[["tc_group", "rank", "what_played", "what_missed", "share_player", "share_opponent", "blunders_player", "mean_ep_loss_player"]]
+    results.table("3f_top_patterns", top, f"The {TOP_PATTERNS} most common (what the move did x what the best move was) pairs among your blunders, pooled per time class: share of your blunders, the opponents' share of theirs, count and mean expected points lost.")
+
+
+def section_4(results: Results, moves: pd.DataFrame, blunders: pd.DataFrame, ctx: dict) -> None:
+    hung = blunders[blunders["what_played"].isin(HUNG_CATEGORIES)]
+    game_sets = {g: np.sort(moves.loc[moves["tc_group"] == g, "game_uuid"].unique()) for g in ctx["groups"]}
+    for cls in ctx["classes"]:
+        game_sets[f"all {cls}"] = np.sort(np.concatenate([game_sets[g] for g in ctx["groups"] if ctx["class_of"][g] == cls]))
+    group_of = dict(zip(moves["game_uuid"], moves["tc_group"].astype(str)))
+    hung = hung.assign(group=hung["game_uuid"].map(group_of))
+    rows = []
+    for label, uuids in game_sets.items():
+        part = hung[hung["game_uuid"].isin(uuids)]
+        rng = np.random.default_rng(SEED)
+        idx = rng.integers(0, len(uuids), size=(N_BOOT, len(uuids)))
+        for piece in HUNG_PIECES:
+            row = {"tc_group": label, "piece": piece}
+            counts = {}
+            for side in SIDES:
+                sub = part[(part["side"] == side) & (part["victim"] == piece)]
+                counts[side] = sub.groupby("game_uuid").size().reindex(uuids, fill_value=0).to_numpy(float)
+                boot = counts[side][idx].mean(1) * 100
+                row[side] = counts[side].mean() * 100
+                row[f"{side}_lo"], row[f"{side}_hi"] = np.quantile(boot, [0.025, 0.975])
+            diff = counts["player"] - counts["opponent"]
+            row["diff"] = diff.mean() * 100
+            row["diff_lo"], row["diff_hi"] = np.quantile(diff[idx].mean(1) * 100, [0.025, 0.975])
+            for side in SIDES:
+                sub = part[(part["side"] == side) & (part["victim"] == piece)]
+                row[f"hangs_{side}"] = len(sub)
+                row[f"mean_ep_loss_{side}"] = sub["ep_loss"].mean()
+            row["games"] = len(uuids)
+            row["unit"] = "per 100 games"
+            row["thin"] = len(uuids) < MIN_GAMES_PIECES
+            rows.append(row)
+    table = pd.DataFrame(rows)
+    table["tc_group"] = pd.Categorical(table["tc_group"], categories=ctx["order"])
+    table["piece"] = pd.Categorical(table["piece"], categories=HUNG_PIECES)
+    table = ordered(table, ["tc_group", "piece"])
+    results.table("4_pieces_hung", table, f"Blunders that hung material, by the piece that could be taken (the engine's reply, else the SEE victim): per 100 games for you and the opponents, paired difference, counts and mean expected points lost per hang; per time control and pooled per time class ('all bullet' etc.); thin below {MIN_GAMES_PIECES} games.")
+    panels = [*ctx["groups"], *[f"all {c}" for c in ctx["classes"]]]
+    results.figure(chart_panels(table, panels, "piece", HUNG_PIECES, "Which pieces do you hang? Hangs per 100 games", "per 100 games", f"Bottom row: each time class pooled. Panels with fewer than {MIN_GAMES_PIECES} games are not drawn. Bars: 95% CI by game.", rotate=45), "4_pieces_hung")
+
+    piece = side_rate(moves.assign(piece=pd.Categorical(moves["piece"], categories=PIECE_ORDER)), "is_blunder", ["tc_group", "piece"])
+    results.table("4b_blunders_by_piece_moved", ordered(piece, ["tc_group", "piece"]), f"Blunders per 100 moves of each piece moved, you vs opponents, per time control (rows comparable across pieces); thin below {MIN_CELL_MOVES} moves per side.")
+
+
+def section_5(results: Results, moves: pd.DataFrame, ctx: dict) -> None:
+    by_band = side_rate(moves, "F:allowed mate", ["tc_group", "eval_band"], min_n=MIN_RARE_MOVES)
+    overall = side_rate(moves, "F:allowed mate", ["tc_group"], min_n=MIN_RARE_MOVES)
+    overall.insert(1, "eval_band", ALL_MOVES)
+    table = pd.concat([overall, by_band], ignore_index=True)
+    exposure = moves.groupby(["tc_group", "eval_band", "side"], observed=True).size().unstack("side", fill_value=0)
+    exposure = (exposure / exposure.groupby(level="tc_group", observed=True).transform("sum")).reindex(columns=SIDES)
+    exposure.columns = [f"share_of_{s}_moves" for s in SIDES]
+    exposure = exposure.reset_index()
+    exposure["eval_band"] = exposure["eval_band"].astype(str)
+    table["eval_band"] = table["eval_band"].astype(str)
+    table = table.merge(exposure, on=["tc_group", "eval_band"], how="left")
+    table.loc[table["eval_band"] == ALL_MOVES, ["share_of_player_moves", "share_of_opponent_moves"]] = 1.0
+    table["eval_band"] = pd.Categorical(table["eval_band"], categories=[ALL_MOVES, *EVAL_LABELS])
+    table = ordered(table, ["tc_group", "eval_band"])
+    results.table("5_allowed_mate", table, f"Blunders that allowed a forced mate, per 100 moves, you vs opponents, per time control: over all moves and within bands of the evaluation before the move (mover's view: losing < -{WINNING_CP} cp, balanced, winning >= {WINNING_CP}), with the share of each side's moves in each band (the exposure correction); paired CIs by game.")
+    results.figure(chart_panels(table, ctx["groups"], "eval_band", [ALL_MOVES, *EVAL_LABELS], "How often do you allow mate? Blunders allowing mate per 100 moves, by position before the move", "per 100 moves", f"Losing / winning: evaluation before the move beyond {WINNING_CP} centipawns against / for the mover. Bars: 95% CI by game.", panel=(3.1, 2.4), rotate=30), "5_allowed_mate")
+
+    parts = []
+    for indicator, name in [("P:allowed mate in 1", "mate in 1 (blunder)"), ("P:allowed mate (longer)", "longer mate (blunder)"), ("allowed_mate_any", "allowed a forced mate (any move, incl. lost positions)")]:
+        t = side_rate(moves, indicator, ["tc_group"], min_n=MIN_RARE_MOVES)
+        t.insert(1, "measure", name)
+        parts.append(t)
+    dist = pd.concat(parts, ignore_index=True)
+    dist["measure"] = pd.Categorical(dist["measure"], categories=list(dict.fromkeys(dist["measure"])))
+    results.table("5b_allowed_mate_by_distance", ordered(dist, ["tc_group", "measure"]), "Allowed mate per 100 moves split into mate in 1 and longer mates (both blunders), and the raw allowed_mate flag on any move (including moves in already-lost positions, which are not blunders on clipped evals); you vs opponents, paired CIs by game.")
+
+    had = moves[moves["mate_before"].astype("float64") > 0].assign(slipped=lambda f: f["missed_mate"].astype(float))
+    parts = []
+    for name, frame in [("any forced mate", had), ("mate in 1", had[had["mate_before"].astype("float64") == 1])]:
+        t = side_rate(frame, "slipped", ["tc_group"], scale=1.0, unit="positions", min_n=MIN_MATE_CASES)
+        t.insert(1, "measure", name)
+        parts.append(t)
+    slipped = pd.concat(parts, ignore_index=True)
+    slipped["measure"] = pd.Categorical(slipped["measure"], categories=["any forced mate", "mate in 1"])
+    results.table("5c_mate_slipped", ordered(slipped, ["tc_group", "measure"]), f"Among positions where the mover had a forced mate (and among mates in 1), the share where the mate slipped away (missed_mate), you vs opponents, paired CIs by game; thin below {MIN_MATE_CASES} positions per side.")
+
+
+def section_6(results: Results, moves: pd.DataFrame, blunders: pd.DataFrame, ctx: dict) -> None:
+    by = ["tc_group"]
+    parts = []
+    for cat in WHAT_MISSED:
+        t = side_rate(moves, f"M:{cat}", by, min_n=MIN_RARE_MOVES)
+        t.insert(1, "category", cat)
+        parts.append(t)
+    table = pd.concat(parts, ignore_index=True)
+    table["category"] = pd.Categorical(table["category"], categories=WHAT_MISSED)
+    sh = shares(blunders, "what_missed", by).rename(columns={"what_missed": "category"})
+    table = table.merge(sh.drop(columns=["count_player", "count_opponent"]), on=["tc_group", "category"], how="left")
+    table = table.merge(blunder_counts(blunders, by), on="tc_group", how="left")
+    table["thin"] = table["thin"] | (table["blunders_player"] < MIN_BLUNDERS) | (table["blunders_opponent"] < MIN_BLUNDERS)
+    table = ordered(table, ["tc_group", "category"])
+    results.table("6_what_missed", table, f"What the blunder missed (the engine's best move: a mate, free material, saving a threatened piece, another capture, a check, another reply to check, a quiet move): blunders of each kind per 100 moves, you vs opponents, paired difference, share of each side's blunders; thin below {MIN_BLUNDERS} blunders per side.")
+    chart = table[table["category"].isin(list(MISSED_CHART))].assign(label=lambda f: f["category"].astype(str).map(MISSED_CHART))
+    results.figure(chart_panels(chart, ctx["groups"], "label", list(MISSED_CHART.values()), "Do you miss what is on offer or what is coming? Blunders per 100 moves by what the best move was", "per 100 moves", "free capture: the best move took material for free. save a piece: it rescued a threatened piece. quiet move: a non-capture, non-check move. Bars: 95% CI by game.", panel=(3.0, 2.4), rotate=30), "6_what_missed")
+
+    frame = blunders.assign(
+        punished=(blunders["next_cp_loss"] < PUNISHED_CP).astype(float).where(blunders["next_cp_loss"].notna()),
+        reply_was_best=blunders["next_is_best"].astype("float64"),
+    )
+    parts = []
+    for kind, part in [("all blunders", frame), ("blunders that hung material", frame[frame["what_played"].isin(HUNG_CATEGORIES)])]:
+        for measure in ["punished", "reply_was_best"]:
+            t = compare_sides(part, measure, by=by, n_boot=N_BOOT).drop(columns="n")
+            t.insert(1, "blunders", kind)
+            t.insert(2, "measure", "punished (reply kept the gift)" if measure == "punished" else "reply was the engine's best move")
+            t = t.merge(side_counts(part, measure, by, "blunders"), on=by, how="left")
+            parts.append(t)
+    pun = pd.concat(parts, ignore_index=True)
+    pun = pun.rename(columns={c: c.replace("player", "your_blunders").replace("opponent", "their_blunders") for c in pun.columns if c.startswith(("player", "opponent", "n_"))})
+    pun["thin"] = (pun["n_your_blunders_blunders"] < MIN_BLUNDERS) | (pun["n_their_blunders_blunders"] < MIN_BLUNDERS)
+    pun = pun.rename(columns={"n_your_blunders_blunders": "n_your_blunders", "n_their_blunders_blunders": "n_their_blunders"})
+    pun["unit"] = "share of blunders"
+    pun["blunders"] = pd.Categorical(pun["blunders"], categories=["all blunders", "blunders that hung material"])
+    results.table("6b_punished", ordered(pun, ["tc_group", "blunders", "measure"]), f"How often a blunder was punished on the next move (the reply lost less than {PUNISHED_CP} cp of the gift) and how often the reply was the engine's best: 'your_blunders' columns = your blunders, punished by your opponents; 'their_blunders' = their blunders, punished by you; diff = yours minus theirs, paired by game.")
+
+
+def section_7(results: Results, moves: pd.DataFrame, ctx: dict) -> None:
+    parts = []
+    for measure, column in CLOCK_MEASURES.items():
+        edges, labels = (CLOCK_FRACTION_EDGES, CLOCK_FRACTION_LABELS) if measure == "share of base time" else (CLOCK_SECONDS_EDGES, CLOCK_SECONDS_LABELS)
+        frame = moves[moves[column].notna()].copy()
+        frame["clock_bucket"] = pd.cut(frame[column], edges, labels=labels, right=False)
+        t = side_rate(frame, "is_blunder", ["tc_group", "clock_bucket"])
+        t.insert(1, "measure", measure)
+        t["clock_bucket"] = t["clock_bucket"].astype(str)
+        parts.append(t)
+    table = pd.concat(parts, ignore_index=True)
+    table["measure"] = pd.Categorical(table["measure"], categories=list(CLOCK_MEASURES))
+    table["clock_bucket"] = pd.Categorical(table["clock_bucket"], categories=list(dict.fromkeys([*CLOCK_SECONDS_LABELS, *CLOCK_FRACTION_LABELS])))
+    table = ordered(table, ["tc_group", "measure", "clock_bucket"])
+    adjusted = clock_regression(moves, ctx)
+    results.table("7_clock_adjusted", adjusted, f"Extra blunders per 100 moves in each clock bucket relative to {CLOCK_REFERENCE} on the clock, holding phase, evaluation band before the move and move-number band fixed: linear probability model per time control with every coefficient split by side, you vs opponents and the paired difference, CIs from {N_REG_BOOT} game resamples; seconds left and seconds beyond the increment. Rows 'all <class>' pool the controls of a time class with a fixed effect per control (most single controls have too few low-clock moves); classes with a single control are not repeated. Thin below {MIN_CELL_MOVES} moves per side in the bucket.")
+    low = [b for b in CLOCK_COARSE_LABELS if b != CLOCK_REFERENCE]
+    panels = [*ctx["groups"], *[f"all {c}" for c in pooled_classes(ctx)]]
+    results.figure(chart_panels(adjusted[adjusted["measure"] == CHART_CLOCK_MEASURE], panels, "clock_bucket", low, f"Does the clock change your blunder rate? Extra blunders per 100 moves compared with {CLOCK_REFERENCE}", "extra per 100 moves", f"Seconds beyond one increment on the mover's clock before the move (equal to seconds left without increment); same phase, evaluation and move number. Bottom row: bullet and blitz each pooled, with a fixed effect per control. n/a: fewer than {MIN_CELL_MOVES} moves per side in the bucket. Bars: 95% CI by game.", thin_text="too few low-clock moves"), "7_clock_adjusted")
+    results.table("7b_blunders_by_clock", table, f"Raw blunders per 100 moves by the mover's clock before the move (no adjustment: the full-clock buckets are mostly the opening, where blunders are rare), you vs opponents, per time control, three ways: seconds left; seconds beyond one increment (the buffer: equal to seconds left without increment, 0 = living on the increment); share of the base time. Thin below {MIN_CELL_MOVES} moves per side.")
+
+
+def pooled_classes(ctx: dict) -> dict[str, list[str]]:
+    """Time classes with more than one reported control, and their controls (a one-control pool would repeat it)."""
+    members = {c: [g for g in ctx["groups"] if ctx["class_of"][g] == c] for c in ctx["classes"]}
+    return {c: m for c, m in members.items() if len(m) > 1}
+
+
+def clock_regression(moves: pd.DataFrame, ctx: dict) -> pd.DataFrame:
+    """Linear probability model of a blunder (x100) on coarse clock bucket, with phase, evaluation band and
+    move-number band as controls; both sides in one fit with every coefficient split by side (identical to
+    two separate fits), so the bootstrap over games pairs your coefficient with the opponents'. Also one fit
+    per time class pooling its controls, with a fixed effect per control."""
+    groups = ctx["groups"]
+    cells = [(g, [g]) for g in groups] + [(f"all {c}", members) for c, members in pooled_classes(ctx).items()]
+    rows = []
+    base = moves[moves["cp_before"].notna()].copy()
+    base["control_eval"] = pd.cut(base["cp_before"], CONTROL_EVAL_EDGES, labels=band_labels(CONTROL_EVAL_EDGES), right=False).astype(str)
+    base["ply_band"] = pd.cut(base["ply"], PLY_EDGES, labels=[f"{int(a)}+" for a in PLY_EDGES[:-1]], right=False).astype(str)
+    for measure in ["seconds left", "seconds beyond increment"]:
+        column = CLOCK_MEASURES[measure]
+        frame = base[base[column].notna()].copy()
+        frame["bucket"] = pd.cut(frame[column], CLOCK_COARSE_EDGES, labels=CLOCK_COARSE_LABELS, right=False).astype(str)
+        for g, members in cells:
+            part = frame[frame["tc_group"].isin(members)]
+            if part.empty:
+                continue
+            fixed = dummies(part["tc_group"].astype(str), members[0], "tc") if len(members) > 1 else pd.DataFrame(index=part.index)
+            clock = dummies(part["bucket"], CLOCK_REFERENCE, "clock")
+            clock = clock.reindex(columns=[f"clock={b}" for b in CLOCK_COARSE_LABELS if b != CLOCK_REFERENCE], fill_value=0.0)
+            X = pd.concat([pd.Series(1.0, index=part.index, name="const"), clock, dummies(part["phase"], "middlegame", "phase"), dummies(part["control_eval"], band_labels(CONTROL_EVAL_EDGES)[2], "eval"), dummies(part["ply_band"], "0+", "ply"), fixed], axis=1)
+            X = X.reindex(columns=sorted(X.columns, key=lambda c: (c != "const", not c.startswith("clock="), c)))
+            is_player = (part["side"] == "player").to_numpy(float)[:, None]
+            design = np.hstack([X.to_numpy(float) * is_player, X.to_numpy(float) * (1 - is_player)])
+            beta, draws = cluster_ols(design, part["is_blunder"].to_numpy(float) * 100, part["game_uuid"].to_numpy(), n_boot=N_REG_BOOT, seed=SEED)
+            width = X.shape[1]
+            counts = part.groupby(["bucket", "side"]).size()
+            for k, name in enumerate(X.columns):
+                if not name.startswith("clock="):
+                    continue
+                bucket = name.split("=", 1)[1]
+                row = {"tc_group": g, "measure": measure, "clock_bucket": bucket}
+                series = {"player": (beta[k], draws[:, k]), "opponent": (beta[width + k], draws[:, width + k])}
+                series["diff"] = (beta[k] - beta[width + k], draws[:, k] - draws[:, width + k])
+                for side, (est, d) in series.items():
+                    row[side] = est
+                    row[f"{side}_lo"], row[f"{side}_hi"] = np.nanquantile(d, [0.025, 0.975]) if np.isfinite(d).sum() > 1 else (np.nan, np.nan)
+                for side in SIDES:
+                    row[f"n_{side}_moves"] = int(counts.get((bucket, side), 0))
+                row["games"] = int(part["game_uuid"].nunique())
+                row["thin"] = min(row["n_player_moves"], row["n_opponent_moves"]) < MIN_CELL_MOVES
+                row["unit"] = f"extra blunders per 100 moves vs {CLOCK_REFERENCE}"
+                rows.append(row)
+    table = pd.DataFrame(rows)
+    table["measure"] = pd.Categorical(table["measure"], categories=list(CLOCK_MEASURES))
+    table["clock_bucket"] = pd.Categorical(table["clock_bucket"], categories=CLOCK_COARSE_LABELS)
+    return ordered(table, ["tc_group", "measure", "clock_bucket"])
+
+
+def section_8(results: Results, moves: pd.DataFrame, blunders: pd.DataFrame, ctx: dict) -> None:
+    winning = moves[moves["eval_band"] == "winning"]
+    # the same rates within a modest and a large lead, so a side that is more often far ahead is not flattered
+    bands = {ALL_WINNING: winning, f"{WINNING_CP}-{WIN_SPLIT_CP} cp": winning[winning["cp_before"] < WIN_SPLIT_CP], f"{WIN_SPLIT_CP}+ cp": winning[winning["cp_before"] >= WIN_SPLIT_CP]}
+    parts = []
+    for band, frame in bands.items():
+        for indicator, name in [("is_blunder", "blunders"), ("gave_away_win", GAVE_AWAY)]:
+            t = side_rate(frame, indicator, ["tc_group"])
+            t.insert(1, "lead", band)
+            t.insert(2, "measure", name)
+            mean_ep = frame.groupby(["tc_group", "side"], observed=True)["ep_before"].mean().unstack("side").reindex(columns=SIDES)
+            mean_ep.columns = [f"mean_ep_before_{s}" for s in SIDES]
+            parts.append(t.merge(mean_ep.reset_index(), on="tc_group", how="left"))
+    table = pd.concat(parts, ignore_index=True)
+    table["lead"] = pd.Categorical(table["lead"], categories=list(bands))
+    table["measure"] = pd.Categorical(table["measure"], categories=["blunders", GAVE_AWAY])
+    totals = side_counts(moves, "is_blunder", ["tc_group"], "all_moves")
+    table = table.merge(totals, on="tc_group", how="left")
+    table["share_of_player_moves_in_band"] = table["n_player_moves"] / table["n_player_all_moves"]
+    table["share_of_opponent_moves_in_band"] = table["n_opponent_moves"] / table["n_opponent_all_moves"]
+    table = ordered(table, ["tc_group", "lead", "measure"])
+    results.table("8_winning_blunders", table, f"Moves played from a winning position (>= {WINNING_CP} cp for the mover before the move; also split at {WIN_SPLIT_CP} cp): blunders per 100 such moves, and wins given away per 100 such moves (a blunder that left the mover below {WINNING_CP} cp); you vs opponents, paired CIs by game; mean calibrated expected points before the move and the share of each side's moves played with that lead.")
+    # charted by lead band, not 'all winning': the sides differ in how often they are far ahead, where blunders are rarer
+    short = {"blunders": "blunder", GAVE_AWAY: "win given away"}
+    lead_text = {f"{WINNING_CP}-{WIN_SPLIT_CP} cp": f"+{WINNING_CP} to +{WIN_SPLIT_CP}", f"{WIN_SPLIT_CP}+ cp": f"+{WIN_SPLIT_CP} or more"}
+    chart = table[table["lead"] != ALL_WINNING].assign(label=lambda f: f["measure"].map(short).astype(str) + "\n" + f["lead"].astype(str).map(lead_text))
+    # below +600 every blunder gives the win away (it costs at least 300), so that bar would repeat the first one
+    modest = f"{WINNING_CP}-{WIN_SPLIT_CP} cp"
+    chart = chart[~((chart["lead"].astype(str) == modest) & (chart["measure"] == GAVE_AWAY))]
+    levels = list(dict.fromkeys(chart.sort_values(["measure", "lead"])["label"]))
+    results.figure(chart_panels(chart, ctx["groups"], "label", levels, "How often do you blunder from a winning position? Per 100 moves played with that lead", "per 100 moves with that lead", f"Lead in centipawns before the move, split at +{WIN_SPLIT_CP}. Win given away: the blunder left the mover under +{WINNING_CP} (with a lead under +{WIN_SPLIT_CP} every blunder does). n/a: fewer than {MIN_CELL_MOVES} moves per side. Bars: 95% CI by game.", panel=(3.3, 2.5), rotate=30), "8_winning_blunders")
+
+    cost = compare_sides(blunders[blunders["eval_band"].notna()], "ep_loss", by=["tc_group", "eval_band"], n_boot=N_BOOT).drop(columns="n")
+    cost = cost.merge(blunder_counts(blunders[blunders["eval_band"].notna()], ["tc_group", "eval_band"]), on=["tc_group", "eval_band"], how="left")
+    cost["thin"] = (cost["blunders_player"] < MIN_BLUNDERS) | (cost["blunders_opponent"] < MIN_BLUNDERS)
+    cost["unit"] = "expected points per blunder"
+    results.table("8b_cost_by_eval_band", ordered(cost, ["tc_group", "eval_band"]), f"Expected points lost per blunder by the evaluation before it (losing / balanced / winning at +-{WINNING_CP} cp), you vs opponents, paired CIs by game; thin below {MIN_BLUNDERS} blunders per side.")
+
+    per_game = (
+        moves.assign(win_pos=(moves["eval_band"] == "winning").astype(float))
+        .groupby(["tc_group", "game_uuid", "side"], observed=True)
+        .agg(had_winning=("win_pos", "max"), gave_away=("gave_away_win", "max"))
+        .reset_index()
+    )
+    per_game["score"] = per_game["game_uuid"].map(ctx["score"])
+    per_game.loc[per_game["side"] == "opponent", "score"] = 1 - per_game["score"]
+    per_game["is_player_move"] = per_game["side"] == "player"
+    had = per_game[per_game["had_winning"] == 1].copy()
+    gave = had[had["gave_away"] == 1].copy()
+    kept = had[had["gave_away"] == 0].copy()
+    parts = []
+    for name, frame, column, unit_text in [
+        ("share of games with a winning position where the win was given away at least once", had, "gave_away", "share of games"),
+        ("score in games where the win was given away", gave, "score", "score (win 1, draw 0.5)"),
+        ("score in games where a winning position was never given away", kept, "score", "score (win 1, draw 0.5)"),
+    ]:
+        t = side_rate(frame, column, ["tc_group"], scale=1.0, unit="games", min_n=MIN_CASE_GAMES, unit_text=unit_text)
+        t.insert(1, "measure", name)
+        parts.append(t)
+    after = pd.concat(parts, ignore_index=True)
+    after["measure"] = pd.Categorical(after["measure"], categories=list(dict.fromkeys(after["measure"])))
+    results.table("8c_after_giving_away", ordered(after, ["tc_group", "measure"]), f"Per game: of the games in which a side reached a winning position (>= {WINNING_CP} cp), the share in which it gave the win away with a blunder at least once, and that side's score (win 1, draw 0.5) in games where it did and did not; you vs opponents, CIs by game; thin below {MIN_CASE_GAMES} games per side.")
+
+
+def data_table(data, moves: pd.DataFrame, blunders: pd.DataFrame, error_set_size: int) -> pd.DataFrame:
+    rows = []
+    for g in data.tc_groups:
+        part = moves[moves["tc_group"] == g]
+        b = blunders[blunders["tc_group"] == g]
+        rows.append({"tc_group": g, "included": True, "games": int(part["game_uuid"].nunique()), "moves_player": int(part["is_player_move"].sum()), "moves_opponent": int((~part["is_player_move"]).sum()), "blunders_player": int(b["is_player_move"].sum()), "blunders_opponent": int((~b["is_player_move"]).sum())})
+    for g, n in data.tc_noted.items():
+        rows.append({"tc_group": g, "included": False, "games": n, "moves_player": 0, "moves_opponent": 0, "blunders_player": 0, "blunders_opponent": 0})
+    table = pd.DataFrame(rows)
+    table["error_positions_replayed"] = error_set_size
+    return table
+
+
+# --- main ---------------------------------------------------------------------------------------
+
+
+def main() -> None:
+    t0 = time.time()
+    charts.style()
+    data = load_data()
+    groups = list(data.tc_groups)
+    class_of = data.tc_class
+    classes = list(dict.fromkeys(class_of[g] for g in groups))
+    order = [*groups, *[f"all {c}" for c in classes]]
+    ctx = {"groups": groups, "class_of": class_of, "classes": classes, "order": order}
+    LEVEL_ORDERS["tc_group"] = order
+
+    moves = data.moves[data.moves["tc_group"].isin(groups)].sort_values(["game_uuid", "ply"]).reset_index(drop=True)
+    moves["tc_group"] = pd.Categorical(moves["tc_group"].astype(str), categories=order)
+    moves["phase"] = pd.Categorical(moves["phase"], categories=PHASES)
+    games = data.games[data.games["tc_group"].isin(groups)]
+    ctx["score"] = dict(zip(games["uuid"], games["my_score"]))
+    ctx["year_label"] = year_blocks(games["year"])
+    # the engine's best reply to a move is the stored best move of the next position in the game
+    by_game = moves.groupby("game_uuid")
+    moves["reply_best"] = by_game["best_move"].shift(-1)
+    moves["next_cp_loss"] = by_game["cp_loss"].shift(-1)
+    moves["next_is_best"] = by_game["is_best_move"].shift(-1)
+    moves["missed_mate"] = moves["missed_mate"].fillna(False).astype(bool)
+    moves["allowed_mate_any"] = moves["allowed_mate"].fillna(False).astype(float)
+    moves["is_blunder"] = (moves["label"] == BLUNDER).astype(float)
+    moves["is_big_ep"] = (moves["ep_loss"] >= EP_BIG).astype(float).where(moves["ep_loss"].notna())
+    moves["eval_band"] = pd.cut(moves["cp_before"].astype("float64"), EVAL_EDGES, labels=EVAL_LABELS, right=False)
+    moves["gave_away_win"] = ((moves["is_blunder"] == 1) & (moves["cp_before"] >= WINNING_CP) & (moves["cp_after"] < WINNING_CP)).astype(float)
+    moves["clock_share_of_base"] = moves["clock_before_seconds"] / moves["base_seconds"]
+
+    # --- replay and classify the error set ---------------------------------------------------
+    pool = moves["label"].isin(["mistake", BLUNDER]) | (moves["ep_loss"] >= REPLAY_EP) | moves["missed_mate"] | moves["allowed_mate"].fillna(False).astype(bool)
+    error_set = moves[pool]
+    t1 = time.time()
+    features = pd.DataFrame(
+        [classify_position(r.fen_before, r.uci, r.best_move, r.reply_best) for r in error_set[["fen_before", "uci", "best_move", "reply_best"]].itertuples(index=False)],
+        index=error_set.index,
+    )
+    classified = assign_taxonomy(pd.concat([error_set, features], axis=1))
+    replay_seconds = time.time() - t1
+    blunders = classified[classified["label"] == BLUNDER].copy()
+    blunders["depth"] = pd.Categorical(refutation_depth(moves, blunders), categories=DEPTHS)
+
+    # indicator columns on every move, for the per-100-moves rates
+    for cat in WHAT_PLAYED:
+        moves[f"P:{cat}"] = 0.0
+        moves.loc[blunders.index[blunders["what_played"] == cat], f"P:{cat}"] = 1.0
+    for cat in WHAT_MISSED:
+        moves[f"M:{cat}"] = 0.0
+        moves.loc[blunders.index[blunders["what_missed"] == cat], f"M:{cat}"] = 1.0
+    for fam, cats in FAMILIES.items():
+        moves[f"F:{fam}"] = moves[[f"P:{c}" for c in cats]].sum(axis=1)
+
+    results = Results(SLUG)
+    section_1(results, moves, blunders, ctx)
+    section_2(results, moves, blunders, ctx)
+    section_3(results, moves, blunders, classified, ctx)
+    section_4(results, moves, blunders, ctx)
+    section_5(results, moves, ctx)
+    section_6(results, moves, blunders, ctx)
+    section_7(results, moves, ctx)
+    section_8(results, moves, blunders, ctx)
+    results.table("9_data", data_table(data, moves, blunders, len(error_set)), f"Games, moves and blunders per time control (included = reported; the rest have fewer than {MIN_GROUP_GAMES} games), and the number of error positions replayed with python-chess.")
+    results.finish()
+    print(f"replay {replay_seconds:.0f} s over {len(error_set):,} positions; total {time.time() - t0:.0f} s")
 
 
 if __name__ == "__main__":

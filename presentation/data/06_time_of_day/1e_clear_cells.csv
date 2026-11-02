@@ -1,0 +1,12 @@
+tc_group,level,cells,cells_thin,cells_usable,cells_ci_clear_of_zero,cells_clear_above_zero,cells_clear_below_zero,cells_clear_expected_by_chance
+bullet 1+0,hour band,6,1,5,1,0,1,0.25
+bullet 1+1,hour band,6,6,0,0,0,0,0.0
+bullet 2+1,hour band,6,6,0,0,0,0,0.0
+blitz 3+0,hour band,6,6,0,0,0,0,0.0
+blitz 3+2,hour band,6,1,5,0,0,0,0.25
+blitz 5+0,hour band,6,6,0,0,0,0,0.0
+blitz 5+2,hour band,6,6,0,0,0,0,0.0
+blitz 5+5,hour band,6,6,0,0,0,0,0.0
+rapid 10+0,hour band,6,2,4,1,1,0,0.2
+"all controls, cells summed",hour band,54,40,14,2,1,1,0.7
+all games,hour band,6,0,6,1,1,0,0.3

@@ -3,6 +3,11 @@
 Download every game a chess.com player has played, with each move and the
 clock reading after it, into tables ready for analysis in pandas.
 
+**Results: start at [`presentation/README.md`](presentation/README.md)**:
+what zakihussa1n's games say, question by question, split by exact time
+control, with a chart per sub-question and every number linked to the CSV it
+comes from. `PLAN.md` lists the questions and how each was answered.
+
 ## Setup
 
 Python 3.11+.
@@ -59,7 +64,7 @@ and after each move onto the moves table.
 ```bash
 .venv/bin/chess-analysis tablebase     # exact win/draw/loss for every position with <= 5 pieces (Syzygy tables, path in config.toml)
 .venv/bin/chess-analysis build         # adds move quality (moves_analysed.parquet): cp loss, best move, blunder labels, tablebase errors
-.venv/bin/chess-analysis calibrate     # fits win probability on your own games -> expected_points.parquet, reports/calibration.md
+.venv/bin/chess-analysis calibrate     # fits win probability on your own games -> expected_points.parquet, its check in presentation/data/00_calibration/
 ```
 
 ## In Python
@@ -76,7 +81,16 @@ from chess_analysis import load_analysed
 moves = load_analysed()           # everything: enriched moves + move quality + expected points
 ```
 
-See `PLAN.md` for the analyses this is building towards.
+## Analyses
+
+One script per question in `analysis/` (conventions in
+`analysis/README.md`); each writes CSV tables and SVG charts under
+`presentation/`, and `presentation/README.md` reads them:
+
+```bash
+.venv/bin/python analysis/05_sessions.py
+.venv/bin/python analysis/check_presentation.py   # every number on the page against its CSV
+```
 
 Ratings stored by chess.com are each player's rating *after* the game.
 `my_games` works out your rating before each game from the previous rated

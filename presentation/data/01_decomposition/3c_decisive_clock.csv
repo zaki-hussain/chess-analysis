@@ -1,0 +1,28 @@
+tc_group,measure,description,player,player_lo,player_hi,opponent,opponent_lo,opponent_hi,diff,diff_lo,diff_hi,player_games,opponent_games,thin
+bullet 1+0,clock_seconds,seconds left before the decisive blunder,21.022917,20.032681,22.186348,21.376451,20.44937,22.377999,-0.353534,-1.772766,1.182769,768,879,False
+bullet 1+0,clock_buffer_seconds,seconds left beyond one increment,21.022917,20.032681,22.186348,21.376451,20.44937,22.377999,-0.353534,-1.772766,1.182769,768,879,False
+bullet 1+0,clock_share_of_base,seconds left as a share of the base time,0.350382,0.333878,0.369772,0.356274,0.340823,0.372967,-0.005892,-0.029546,0.019713,768,879,False
+bullet 1+1,clock_seconds,seconds left before the decisive blunder,28.325641,24.658573,31.95988,24.449425,21.352643,27.845655,3.876216,-0.823456,8.895456,78,87,False
+bullet 1+1,clock_buffer_seconds,seconds left beyond one increment,27.325641,23.658573,30.95988,23.449425,20.352643,26.845655,3.876216,-0.823456,8.895456,78,87,False
+bullet 1+1,clock_share_of_base,seconds left as a share of the base time,0.472094,0.410976,0.532665,0.40749,0.355877,0.464094,0.064604,-0.013724,0.148258,78,87,False
+bullet 2+1,clock_seconds,seconds left before the decisive blunder,65.62,49.936705,82.513254,57.2,35.8485,79.857212,8.42,-17.168942,35.907679,20,15,True
+bullet 2+1,clock_buffer_seconds,seconds left beyond one increment,64.62,48.936705,81.513254,56.2,34.8485,78.857212,8.42,-17.168942,35.907679,20,15,True
+bullet 2+1,clock_share_of_base,seconds left as a share of the base time,0.546833,0.416139,0.68761,0.476667,0.298738,0.665477,0.070167,-0.143075,0.299231,20,15,True
+blitz 3+0,clock_seconds,seconds left before the decisive blunder,67.15625,54.493293,80.6654,91.484375,79.575825,102.035759,-24.328125,-41.340811,-6.584285,48,64,False
+blitz 3+0,clock_buffer_seconds,seconds left beyond one increment,67.15625,54.493293,80.6654,91.484375,79.575825,102.035759,-24.328125,-41.340811,-6.584285,48,64,False
+blitz 3+0,clock_share_of_base,seconds left as a share of the base time,0.37309,0.302741,0.448141,0.508247,0.442088,0.566865,-0.135156,-0.229671,-0.036579,48,64,False
+blitz 3+2,clock_seconds,seconds left before the decisive blunder,79.927044,74.298346,85.267819,94.758824,89.34487,99.937888,-14.83178,-21.985265,-7.298197,318,374,False
+blitz 3+2,clock_buffer_seconds,seconds left beyond one increment,77.927044,72.298346,83.267819,92.758824,87.34487,97.937888,-14.83178,-21.985265,-7.298197,318,374,False
+blitz 3+2,clock_share_of_base,seconds left as a share of the base time,0.444039,0.412769,0.47371,0.526438,0.49636,0.55521,-0.082399,-0.12214,-0.040546,318,374,False
+blitz 5+0,clock_seconds,seconds left before the decisive blunder,160.005263,128.831499,190.961826,180.147368,137.807625,222.245833,-20.142105,-73.325622,28.944683,38,19,True
+blitz 5+0,clock_buffer_seconds,seconds left beyond one increment,160.005263,128.831499,190.961826,180.147368,137.807625,222.245833,-20.142105,-73.325622,28.944683,38,19,True
+blitz 5+0,clock_share_of_base,seconds left as a share of the base time,0.533351,0.429438,0.636539,0.600491,0.459359,0.740819,-0.06714,-0.244419,0.096482,38,19,True
+blitz 5+2,clock_seconds,seconds left before the decisive blunder,175.5875,140.149375,208.786714,211.406452,181.864904,239.8023,-35.818952,-79.543833,8.097828,24,31,True
+blitz 5+2,clock_buffer_seconds,seconds left beyond one increment,173.5875,138.149375,206.786714,209.406452,179.864904,237.8023,-35.818952,-79.543833,8.097828,24,31,True
+blitz 5+2,clock_share_of_base,seconds left as a share of the base time,0.585292,0.467165,0.695956,0.704688,0.606216,0.799341,-0.119397,-0.265146,0.026993,24,31,True
+blitz 5+5,clock_seconds,seconds left before the decisive blunder,200.562857,173.69692,226.334244,228.733333,198.044077,261.705678,-28.170476,-70.111827,12.261125,35,30,False
+blitz 5+5,clock_buffer_seconds,seconds left beyond one increment,195.562857,168.69692,221.334244,223.733333,193.044077,256.705678,-28.170476,-70.111827,12.261125,35,30,False
+blitz 5+5,clock_share_of_base,seconds left as a share of the base time,0.668543,0.57899,0.754447,0.762444,0.660147,0.872352,-0.093902,-0.233706,0.04087,35,30,False
+rapid 10+0,clock_seconds,seconds left before the decisive blunder,427.650862,403.779492,448.280778,435.603883,420.612325,450.720674,-7.953021,-35.523675,17.339129,116,206,False
+rapid 10+0,clock_buffer_seconds,seconds left beyond one increment,427.650862,403.779492,448.280778,435.603883,420.612325,450.720674,-7.953021,-35.523675,17.339129,116,206,False
+rapid 10+0,clock_share_of_base,seconds left as a share of the base time,0.712751,0.672966,0.747135,0.726006,0.701021,0.751201,-0.013255,-0.059206,0.028899,116,206,False

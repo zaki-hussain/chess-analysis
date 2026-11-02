@@ -1,0 +1,28 @@
+tc_group,measure,player,player_lo,player_hi,opponent,opponent_lo,opponent_hi,diff,diff_lo,diff_hi,games,n_player_games,n_opponent_games,thin,unit
+bullet 1+0,share of games with a winning position where the win was given away at least once,0.580235,0.558941,0.599829,0.57327,0.552971,0.593341,0.006965,-0.019601,0.03549,2873,2044,2095,False,share of games
+bullet 1+0,score in games where the win was given away,0.512226,0.484802,0.536678,0.480849,0.4523,0.506682,0.031377,-0.018304,0.080647,1727,1186,1201,False,"score (win 1, draw 0.5)"
+bullet 1+0,score in games where a winning position was never given away,0.794289,0.765734,0.820236,0.737136,0.709732,0.763423,0.057153,0.01874,0.099863,1660,858,894,False,"score (win 1, draw 0.5)"
+bullet 1+1,share of games with a winning position where the win was given away at least once,0.493976,0.429719,0.552309,0.506803,0.452381,0.561224,-0.012827,-0.092979,0.082817,393,249,294,False,share of games
+bullet 1+1,score in games where the win was given away,0.504065,0.418699,0.581301,0.449664,0.375839,0.521896,0.054401,-0.084045,0.190579,209,123,149,False,"score (win 1, draw 0.5)"
+bullet 1+1,score in games where a winning position was never given away,0.892857,0.83125,0.940476,0.855172,0.796552,0.910345,0.037685,-0.041907,0.114867,264,126,145,False,"score (win 1, draw 0.5)"
+bullet 2+1,share of games with a winning position where the win was given away at least once,0.5625,0.416667,0.6875,0.516129,0.403226,0.6375,0.046371,-0.124009,0.204731,80,48,62,True,share of games
+bullet 2+1,score in games where the win was given away,0.537037,0.351852,0.722222,0.484375,0.328125,0.65625,0.052662,-0.242233,0.357796,42,27,32,True,"score (win 1, draw 0.5)"
+bullet 2+1,score in games where a winning position was never given away,0.785714,0.595238,0.952381,0.933333,0.833333,1.0,-0.147619,-0.382444,0.021363,48,21,30,True,"score (win 1, draw 0.5)"
+blitz 3+0,share of games with a winning position where the win was given away at least once,0.47205,0.403727,0.546584,0.529412,0.453782,0.621849,-0.057362,-0.17565,0.061998,205,161,119,False,share of games
+blitz 3+0,score in games where the win was given away,0.5,0.394737,0.611842,0.444444,0.309524,0.563492,0.055556,-0.148714,0.258219,108,76,63,False,"score (win 1, draw 0.5)"
+blitz 3+0,score in games where a winning position was never given away,0.894118,0.823529,0.952941,0.892857,0.816741,0.955357,0.001261,-0.097649,0.108672,139,85,56,False,"score (win 1, draw 0.5)"
+blitz 3+2,share of games with a winning position where the win was given away at least once,0.467437,0.433824,0.502652,0.534591,0.49945,0.564492,-0.067154,-0.105871,-0.024386,1369,952,954,False,share of games
+blitz 3+2,score in games where the win was given away,0.501124,0.459551,0.542697,0.494118,0.452426,0.541275,0.007006,-0.06495,0.076957,727,445,510,False,"score (win 1, draw 0.5)"
+blitz 3+2,score in games where a winning position was never given away,0.894477,0.869822,0.921105,0.84009,0.803463,0.869961,0.054387,0.005736,0.096585,888,507,444,False,"score (win 1, draw 0.5)"
+blitz 5+0,share of games with a winning position where the win was given away at least once,0.603774,0.48066,0.735849,0.5,0.375,0.609375,0.103774,-0.065492,0.262178,89,53,64,False,share of games
+blitz 5+0,score in games where the win was given away,0.453125,0.28125,0.625,0.65625,0.5,0.78125,-0.203125,-0.472717,0.057897,49,32,32,True,"score (win 1, draw 0.5)"
+blitz 5+0,score in games where a winning position was never given away,0.666667,0.47619,0.857143,0.9375,0.84375,1.0,-0.270833,-0.463782,-0.049205,50,21,32,True,"score (win 1, draw 0.5)"
+blitz 5+2,share of games with a winning position where the win was given away at least once,0.318841,0.202899,0.434783,0.5,0.370833,0.621212,-0.181159,-0.331614,-0.032024,106,69,66,False,share of games
+blitz 5+2,score in games where the win was given away,0.318182,0.147159,0.5,0.515152,0.363636,0.666667,-0.19697,-0.450114,0.08027,43,22,33,True,"score (win 1, draw 0.5)"
+blitz 5+2,score in games where a winning position was never given away,0.978723,0.946809,1.0,1.0,1.0,1.0,-0.021277,-0.051158,0.0,80,47,33,True,"score (win 1, draw 0.5)"
+blitz 5+5,share of games with a winning position where the win was given away at least once,0.552083,0.46875,0.65625,0.576087,0.478261,0.66875,-0.024004,-0.179054,0.130739,129,96,92,False,share of games
+blitz 5+5,score in games where the win was given away,0.367925,0.264151,0.5,0.575472,0.457311,0.688679,-0.207547,-0.41216,0.006875,83,53,53,False,"score (win 1, draw 0.5)"
+blitz 5+5,score in games where a winning position was never given away,0.837209,0.72093,0.930233,0.923077,0.846154,1.0,-0.085868,-0.241186,0.035321,80,43,39,True,"score (win 1, draw 0.5)"
+rapid 10+0,share of games with a winning position where the win was given away at least once,0.452088,0.407862,0.502518,0.479224,0.426593,0.531856,-0.027136,-0.087842,0.03768,558,407,361,False,share of games
+rapid 10+0,score in games where the win was given away,0.548913,0.478261,0.615557,0.442197,0.381503,0.511705,0.106717,-0.008578,0.232215,265,184,173,False,"score (win 1, draw 0.5)"
+rapid 10+0,score in games where a winning position was never given away,0.88565,0.843049,0.924944,0.882979,0.837766,0.924269,0.002672,-0.055589,0.068494,387,223,188,False,"score (win 1, draw 0.5)"

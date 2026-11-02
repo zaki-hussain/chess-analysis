@@ -1,0 +1,235 @@
+tc_group,habit,label,with_year_dummies,rating_points_per_sd,rating_points_per_sd_lo,rating_points_per_sd_hi,habit_sd,games_departing_from_usual,left_out_rare,r2,games,months,thin
+bullet 1+0,cp_move,centipawns lost per move,False,-14.017042,-26.209501,9.53927,45.71654,2931,False,0.222373,2935,30,False
+bullet 1+0,err20,"moves losing >= 0.2 expected points, per 100 moves",False,-2.854083,-19.917735,6.187529,5.237374,1055,False,0.222373,2935,30,False
+bullet 1+0,ep_opening,opening: expected points lost per move,False,-20.971199,-37.321683,-0.490115,0.034519,2518,False,0.222373,2935,30,False
+bullet 1+0,ep_middlegame,middlegame: expected points lost per move,False,6.417081,-2.668078,16.530052,0.036861,2596,False,0.222373,2935,30,False
+bullet 1+0,ep_endgame,endgame: expected points lost per move,False,3.670367,-4.558656,7.579884,0.031047,2098,False,0.222373,2935,30,False
+bullet 1+0,max_ep,largest single expected-points loss in the game,False,25.635864,2.698693,41.05446,0.112697,2837,False,0.222373,2935,30,False
+bullet 1+0,my_spoiled,"spoiled a winning position (reached P(win) >= 0.8, did not win)",False,0.772866,-4.571097,4.414204,0.198848,121,False,0.222373,2935,30,False
+bullet 1+0,my_swindled,"swindled (fell to P(win) <= 0.2, did not lose)",False,-9.966017,-17.95579,-3.213556,0.324538,351,False,0.222373,2935,30,False
+bullet 1+0,spent_frac,share of the base time spent per move,False,-72.645064,-130.829886,-10.176634,0.008645,2922,False,0.222373,2935,30,False
+bullet 1+0,end_clock,"clock left after own last move, share of base time",False,19.63533,-46.198852,84.226213,0.24705,2775,False,0.222373,2935,30,False
+bullet 1+0,low_buffer,share of own moves played with under 10 s beyond one increment,False,-19.079134,-30.700556,-3.433612,0.11135,1531,False,0.222373,2935,30,False
+bullet 1+0,plies,game length (plies),False,60.183288,-20.556677,157.825015,25.320997,2876,False,0.222373,2935,30,False
+bullet 1+0,book_ply,book depth (plies in a named opening line),False,19.291814,4.229454,32.266291,2.437218,2367,False,0.222373,2935,30,False
+bullet 1+0,cp_move,centipawns lost per move,True,10.648647,4.035676,16.917802,45.71654,2931,False,0.776189,2935,30,False
+bullet 1+0,err20,"moves losing >= 0.2 expected points, per 100 moves",True,-3.837735,-15.00983,3.51852,5.237374,1055,False,0.776189,2935,30,False
+bullet 1+0,ep_opening,opening: expected points lost per move,True,-2.637904,-13.420938,9.156163,0.034519,2518,False,0.776189,2935,30,False
+bullet 1+0,ep_middlegame,middlegame: expected points lost per move,True,2.775276,-2.717071,7.738167,0.036861,2596,False,0.776189,2935,30,False
+bullet 1+0,ep_endgame,endgame: expected points lost per move,True,1.751468,-0.986057,4.488193,0.031047,2098,False,0.776189,2935,30,False
+bullet 1+0,max_ep,largest single expected-points loss in the game,True,2.787839,-3.63563,8.137275,0.112697,2837,False,0.776189,2935,30,False
+bullet 1+0,my_spoiled,"spoiled a winning position (reached P(win) >= 0.8, did not win)",True,2.181519,-0.883245,5.041307,0.198848,121,False,0.776189,2935,30,False
+bullet 1+0,my_swindled,"swindled (fell to P(win) <= 0.2, did not lose)",True,-4.611096,-10.026159,-1.49699,0.324538,351,False,0.776189,2935,30,False
+bullet 1+0,spent_frac,share of the base time spent per move,True,-27.568589,-43.416597,-4.569403,0.008645,2922,False,0.776189,2935,30,False
+bullet 1+0,end_clock,"clock left after own last move, share of base time",True,7.469837,-21.605482,30.739188,0.24705,2775,False,0.776189,2935,30,False
+bullet 1+0,low_buffer,share of own moves played with under 10 s beyond one increment,True,-13.511412,-21.572301,-2.605619,0.11135,1531,False,0.776189,2935,30,False
+bullet 1+0,plies,game length (plies),True,23.814329,-10.458944,47.12474,25.320997,2876,False,0.776189,2935,30,False
+bullet 1+0,book_ply,book depth (plies in a named opening line),True,5.685997,-0.45427,9.674698,2.437218,2367,False,0.776189,2935,30,False
+bullet 1+1,cp_move,centipawns lost per move,False,-49.463521,-68.50773,5.486504,41.951701,409,False,0.285921,412,11,True
+bullet 1+1,err20,"moves losing >= 0.2 expected points, per 100 moves",False,27.780785,-4.810495,36.1597,5.939087,159,False,0.285921,412,11,True
+bullet 1+1,ep_opening,opening: expected points lost per move,False,-32.55151,-62.125589,4.263513,0.035909,339,False,0.285921,412,11,True
+bullet 1+1,ep_middlegame,middlegame: expected points lost per move,False,13.69555,-13.814748,50.495479,0.036407,346,False,0.285921,412,11,True
+bullet 1+1,ep_endgame,endgame: expected points lost per move,False,-15.270307,-78.743604,36.418501,0.036861,219,False,0.285921,412,11,True
+bullet 1+1,max_ep,largest single expected-points loss in the game,False,44.241406,-7.706849,71.474034,0.128865,394,False,0.285921,412,11,True
+bullet 1+1,my_spoiled,"spoiled a winning position (reached P(win) >= 0.8, did not win)",False,,,,0.161398,11,True,0.285921,412,11,True
+bullet 1+1,my_swindled,"swindled (fell to P(win) <= 0.2, did not lose)",False,-10.611177,-47.27175,19.271548,0.309229,44,False,0.285921,412,11,True
+bullet 1+1,spent_frac,share of the base time spent per move,False,-103.204794,-113.95229,-10.148542,0.013067,409,False,0.285921,412,11,True
+bullet 1+1,end_clock,"clock left after own last move, share of base time",False,-65.735522,-96.002776,2.095913,0.292446,407,False,0.285921,412,11,True
+bullet 1+1,low_buffer,share of own moves played with under 10 s beyond one increment,False,-20.742748,-58.59659,15.414814,0.128491,116,False,0.285921,412,11,True
+bullet 1+1,plies,game length (plies),False,-26.588837,-98.155962,45.919818,33.383721,403,False,0.285921,412,11,True
+bullet 1+1,book_ply,book depth (plies in a named opening line),False,37.100086,1.349051,89.748615,2.508969,329,False,0.285921,412,11,True
+bullet 1+1,cp_move,centipawns lost per move,True,-12.496963,-44.487193,7.650866,41.951701,409,False,0.757653,412,11,True
+bullet 1+1,err20,"moves losing >= 0.2 expected points, per 100 moves",True,11.057519,-12.398722,24.936005,5.939087,159,False,0.757653,412,11,True
+bullet 1+1,ep_opening,opening: expected points lost per move,True,-13.315536,-52.242758,11.739913,0.035909,339,False,0.757653,412,11,True
+bullet 1+1,ep_middlegame,middlegame: expected points lost per move,True,0.422562,-7.904892,36.546079,0.036407,346,False,0.757653,412,11,True
+bullet 1+1,ep_endgame,endgame: expected points lost per move,True,-11.516591,-46.757735,21.192993,0.036861,219,False,0.757653,412,11,True
+bullet 1+1,max_ep,largest single expected-points loss in the game,True,9.45734,-8.108531,51.255353,0.128865,394,False,0.757653,412,11,True
+bullet 1+1,my_spoiled,"spoiled a winning position (reached P(win) >= 0.8, did not win)",True,,,,0.161398,11,True,0.757653,412,11,True
+bullet 1+1,my_swindled,"swindled (fell to P(win) <= 0.2, did not lose)",True,1.41553,-8.21007,29.480948,0.309229,44,False,0.757653,412,11,True
+bullet 1+1,spent_frac,share of the base time spent per move,True,-39.362006,-71.311834,15.223048,0.013067,409,False,0.757653,412,11,True
+bullet 1+1,end_clock,"clock left after own last move, share of base time",True,-31.683054,-56.361589,7.353247,0.292446,407,False,0.757653,412,11,True
+bullet 1+1,low_buffer,share of own moves played with under 10 s beyond one increment,True,-11.420273,-52.785098,10.578723,0.128491,116,False,0.757653,412,11,True
+bullet 1+1,plies,game length (plies),True,-8.245196,-31.96916,38.701083,33.383721,403,False,0.757653,412,11,True
+bullet 1+1,book_ply,book depth (plies in a named opening line),True,13.208216,-4.812364,61.092115,2.508969,329,False,0.757653,412,11,True
+bullet 2+1,cp_move,centipawns lost per move,False,-53.079309,-419.208548,4.317588,67.000086,84,False,0.228516,85,5,True
+bullet 2+1,err20,"moves losing >= 0.2 expected points, per 100 moves",False,16.928156,-157.072958,169.717152,6.67881,37,False,0.228516,85,5,True
+bullet 2+1,ep_opening,opening: expected points lost per move,False,-14.708089,-313.827942,71.5618,0.041264,72,False,0.228516,85,5,True
+bullet 2+1,ep_middlegame,middlegame: expected points lost per move,False,-56.77804,-123.553931,142.930707,0.049005,65,False,0.228516,85,5,True
+bullet 2+1,ep_endgame,endgame: expected points lost per move,False,-0.152609,-303.739067,11.129773,0.028697,38,False,0.228516,85,5,True
+bullet 2+1,max_ep,largest single expected-points loss in the game,False,86.919081,-175.837504,288.47712,0.145869,79,False,0.228516,85,5,True
+bullet 2+1,my_spoiled,"spoiled a winning position (reached P(win) >= 0.8, did not win)",False,,,,0.152477,2,True,0.228516,85,5,True
+bullet 2+1,my_swindled,"swindled (fell to P(win) <= 0.2, did not lose)",False,,,,0.337647,11,True,0.228516,85,5,True
+bullet 2+1,spent_frac,share of the base time spent per move,False,-54.660741,-106.115787,256.919169,0.012109,84,False,0.228516,85,5,True
+bullet 2+1,end_clock,"clock left after own last move, share of base time",False,1.994962,-77.171487,95.811569,0.313546,83,False,0.228516,85,5,True
+bullet 2+1,low_buffer,share of own moves played with under 10 s beyond one increment,False,-40.71348,-47.959467,28.899806,0.110416,22,False,0.228516,85,5,True
+bullet 2+1,plies,game length (plies),False,28.784559,-108.482851,204.214039,33.717237,82,False,0.228516,85,5,True
+bullet 2+1,book_ply,book depth (plies in a named opening line),False,33.943186,-34.663314,225.549554,2.024223,66,False,0.228516,85,5,True
+bullet 2+1,cp_move,centipawns lost per move,True,12.905043,-57.627004,128.123812,67.000086,84,False,0.935907,85,5,True
+bullet 2+1,err20,"moves losing >= 0.2 expected points, per 100 moves",True,-3.908063,-94.58989,144.734107,6.67881,37,False,0.935907,85,5,True
+bullet 2+1,ep_opening,opening: expected points lost per move,True,-17.727385,-213.588103,77.641436,0.041264,72,False,0.935907,85,5,True
+bullet 2+1,ep_middlegame,middlegame: expected points lost per move,True,-4.72772,-71.24839,79.206307,0.049005,65,False,0.935907,85,5,True
+bullet 2+1,ep_endgame,endgame: expected points lost per move,True,-15.648949,-253.358193,28.956136,0.028697,38,False,0.935907,85,5,True
+bullet 2+1,max_ep,largest single expected-points loss in the game,True,21.797713,-108.936644,51.163628,0.145869,79,False,0.935907,85,5,True
+bullet 2+1,my_spoiled,"spoiled a winning position (reached P(win) >= 0.8, did not win)",True,,,,0.152477,2,True,0.935907,85,5,True
+bullet 2+1,my_swindled,"swindled (fell to P(win) <= 0.2, did not lose)",True,,,,0.337647,11,True,0.935907,85,5,True
+bullet 2+1,spent_frac,share of the base time spent per move,True,-17.077506,-67.469479,204.360545,0.012109,84,False,0.935907,85,5,True
+bullet 2+1,end_clock,"clock left after own last move, share of base time",True,-37.544111,-80.53813,6.892097,0.313546,83,False,0.935907,85,5,True
+bullet 2+1,low_buffer,share of own moves played with under 10 s beyond one increment,True,-15.037349,-27.177166,9.204201,0.110416,22,False,0.935907,85,5,True
+bullet 2+1,plies,game length (plies),True,-20.637509,-71.505174,62.624245,33.717237,82,False,0.935907,85,5,True
+bullet 2+1,book_ply,book depth (plies in a named opening line),True,1.706036,-19.031024,119.929458,2.024223,66,False,0.935907,85,5,True
+blitz 3+0,cp_move,centipawns lost per move,False,-51.467616,-60.293239,3.90267,35.340825,206,False,0.222048,208,5,True
+blitz 3+0,err20,"moves losing >= 0.2 expected points, per 100 moves",False,25.682686,-50.514691,40.875207,3.30146,79,False,0.222048,208,5,True
+blitz 3+0,ep_opening,opening: expected points lost per move,False,-5.257672,-31.063586,28.407793,0.028959,181,False,0.222048,208,5,True
+blitz 3+0,ep_middlegame,middlegame: expected points lost per move,False,-13.259127,-50.405347,5.892344,0.032931,183,False,0.222048,208,5,True
+blitz 3+0,ep_endgame,endgame: expected points lost per move,False,-2.720352,-79.743355,11.570122,0.028953,130,False,0.222048,208,5,True
+blitz 3+0,max_ep,largest single expected-points loss in the game,False,37.805463,1.869295,79.302945,0.136278,203,False,0.222048,208,5,True
+blitz 3+0,my_spoiled,"spoiled a winning position (reached P(win) >= 0.8, did not win)",False,,,,0.214445,10,True,0.222048,208,5,True
+blitz 3+0,my_swindled,"swindled (fell to P(win) <= 0.2, did not lose)",False,-15.026443,-32.682805,86.219966,0.320256,24,False,0.222048,208,5,True
+blitz 3+0,spent_frac,share of the base time spent per move,False,-14.725047,-77.502912,34.936219,0.006356,206,False,0.222048,208,5,True
+blitz 3+0,end_clock,"clock left after own last move, share of base time",False,-22.901736,-55.406321,76.273896,0.283094,203,False,0.222048,208,5,True
+blitz 3+0,low_buffer,share of own moves played with under 10 s beyond one increment,False,-0.188647,-3.907401,72.291271,0.059109,36,False,0.222048,208,5,True
+blitz 3+0,plies,game length (plies),False,-10.954452,-47.548956,55.352204,32.931344,199,False,0.222048,208,5,True
+blitz 3+0,book_ply,book depth (plies in a named opening line),False,7.048373,-116.567413,31.276094,2.547359,165,False,0.222048,208,5,True
+blitz 3+0,cp_move,centipawns lost per move,True,3.914961,-2.736593,6.042825,35.340825,206,False,0.860209,208,5,True
+blitz 3+0,err20,"moves losing >= 0.2 expected points, per 100 moves",True,-1.377411,-50.514691,6.509415,3.30146,79,False,0.860209,208,5,True
+blitz 3+0,ep_opening,opening: expected points lost per move,True,-0.678528,-23.698935,28.407793,0.028959,181,False,0.860209,208,5,True
+blitz 3+0,ep_middlegame,middlegame: expected points lost per move,True,2.01731,-16.602719,6.845994,0.032931,183,False,0.860209,208,5,True
+blitz 3+0,ep_endgame,endgame: expected points lost per move,True,-2.798295,-79.743355,0.811102,0.028953,130,False,0.860209,208,5,True
+blitz 3+0,max_ep,largest single expected-points loss in the game,True,-0.581827,-5.072006,33.3421,0.136278,203,False,0.860209,208,5,True
+blitz 3+0,my_spoiled,"spoiled a winning position (reached P(win) >= 0.8, did not win)",True,,,,0.214445,10,True,0.860209,208,5,True
+blitz 3+0,my_swindled,"swindled (fell to P(win) <= 0.2, did not lose)",True,1.271004,-9.30338,86.219966,0.320256,24,False,0.860209,208,5,True
+blitz 3+0,spent_frac,share of the base time spent per move,True,2.942763,-15.825023,34.8541,0.006356,206,False,0.860209,208,5,True
+blitz 3+0,end_clock,"clock left after own last move, share of base time",True,5.801233,-26.642239,15.594001,0.283094,203,False,0.860209,208,5,True
+blitz 3+0,low_buffer,share of own moves played with under 10 s beyond one increment,True,0.146504,-0.66524,12.440639,0.059109,36,False,0.860209,208,5,True
+blitz 3+0,plies,game length (plies),True,6.808791,-33.716647,17.332057,32.931344,199,False,0.860209,208,5,True
+blitz 3+0,book_ply,book depth (plies in a named opening line),True,-1.726116,-116.567413,-0.099445,2.547359,165,False,0.860209,208,5,True
+blitz 3+2,cp_move,centipawns lost per move,False,-43.723675,-56.859544,-9.993493,42.28071,1434,False,0.171209,1438,22,False
+blitz 3+2,err20,"moves losing >= 0.2 expected points, per 100 moves",False,13.794517,-1.013402,21.555701,5.30776,636,False,0.171209,1438,22,False
+blitz 3+2,ep_opening,opening: expected points lost per move,False,-10.713179,-23.606393,8.447498,0.036948,1249,False,0.171209,1438,22,False
+blitz 3+2,ep_middlegame,middlegame: expected points lost per move,False,-10.872867,-20.932234,0.883049,0.045003,1224,False,0.171209,1438,22,False
+blitz 3+2,ep_endgame,endgame: expected points lost per move,False,-0.241394,-15.913182,14.644548,0.031418,788,False,0.171209,1438,22,False
+blitz 3+2,max_ep,largest single expected-points loss in the game,False,39.307686,10.484791,55.932085,0.142237,1386,False,0.171209,1438,22,False
+blitz 3+2,my_spoiled,"spoiled a winning position (reached P(win) >= 0.8, did not win)",False,1.048419,-8.508527,10.304206,0.179688,48,False,0.171209,1438,22,False
+blitz 3+2,my_swindled,"swindled (fell to P(win) <= 0.2, did not lose)",False,-25.874123,-40.082276,-4.108156,0.326242,174,False,0.171209,1438,22,False
+blitz 3+2,spent_frac,share of the base time spent per move,False,-60.339099,-85.437104,-19.77926,0.010374,1433,False,0.171209,1438,22,False
+blitz 3+2,end_clock,"clock left after own last move, share of base time",False,-31.83241,-59.268264,4.427323,0.305817,1431,False,0.171209,1438,22,False
+blitz 3+2,low_buffer,share of own moves played with under 10 s beyond one increment,False,-18.93637,-29.748205,9.685117,0.069092,173,False,0.171209,1438,22,False
+blitz 3+2,plies,game length (plies),False,-25.351363,-53.165016,5.978762,36.102839,1413,False,0.171209,1438,22,False
+blitz 3+2,book_ply,book depth (plies in a named opening line),False,36.635928,4.556976,53.238024,2.379475,1179,False,0.171209,1438,22,False
+blitz 3+2,cp_move,centipawns lost per move,True,-21.170421,-30.877127,-0.03226,42.28071,1434,False,0.655376,1438,22,False
+blitz 3+2,err20,"moves losing >= 0.2 expected points, per 100 moves",True,1.954072,-7.349532,8.207268,5.30776,636,False,0.655376,1438,22,False
+blitz 3+2,ep_opening,opening: expected points lost per move,True,-9.963305,-18.937021,0.842242,0.036948,1249,False,0.655376,1438,22,False
+blitz 3+2,ep_middlegame,middlegame: expected points lost per move,True,-10.333257,-16.416202,-1.333835,0.045003,1224,False,0.655376,1438,22,False
+blitz 3+2,ep_endgame,endgame: expected points lost per move,True,-0.735048,-8.810649,5.513356,0.031418,788,False,0.655376,1438,22,False
+blitz 3+2,max_ep,largest single expected-points loss in the game,True,25.765224,3.907487,37.451907,0.142237,1386,False,0.655376,1438,22,False
+blitz 3+2,my_spoiled,"spoiled a winning position (reached P(win) >= 0.8, did not win)",True,0.134582,-4.70033,6.10031,0.179688,48,False,0.655376,1438,22,False
+blitz 3+2,my_swindled,"swindled (fell to P(win) <= 0.2, did not lose)",True,-11.251335,-20.04145,0.562636,0.326242,174,False,0.655376,1438,22,False
+blitz 3+2,spent_frac,share of the base time spent per move,True,-24.940972,-39.14351,-1.069208,0.010374,1433,False,0.655376,1438,22,False
+blitz 3+2,end_clock,"clock left after own last move, share of base time",True,-17.610295,-36.712725,6.64039,0.305817,1431,False,0.655376,1438,22,False
+blitz 3+2,low_buffer,share of own moves played with under 10 s beyond one increment,True,-14.088336,-19.883101,1.16409,0.069092,173,False,0.655376,1438,22,False
+blitz 3+2,plies,game length (plies),True,-14.878071,-31.063282,4.552925,36.102839,1413,False,0.655376,1438,22,False
+blitz 3+2,book_ply,book depth (plies in a named opening line),True,19.494201,-0.64722,34.185028,2.379475,1179,False,0.655376,1438,22,False
+blitz 5+0,cp_move,centipawns lost per move,False,-16.496923,-72.578134,38.868106,59.74507,88,False,0.249375,89,7,True
+blitz 5+0,err20,"moves losing >= 0.2 expected points, per 100 moves",False,-43.780977,-110.891859,45.1763,6.996172,37,False,0.249375,89,7,True
+blitz 5+0,ep_opening,opening: expected points lost per move,False,22.117528,-17.28229,69.01347,0.037443,84,False,0.249375,89,7,True
+blitz 5+0,ep_middlegame,middlegame: expected points lost per move,False,-16.280142,-44.651513,38.755602,0.046561,72,False,0.249375,89,7,True
+blitz 5+0,ep_endgame,endgame: expected points lost per move,False,-24.408199,-55.174281,14.071066,0.029408,43,False,0.249375,89,7,True
+blitz 5+0,max_ep,largest single expected-points loss in the game,False,32.319527,-21.575177,62.211286,0.126613,86,False,0.249375,89,7,True
+blitz 5+0,my_spoiled,"spoiled a winning position (reached P(win) >= 0.8, did not win)",False,,,,0.181499,3,True,0.249375,89,7,True
+blitz 5+0,my_swindled,"swindled (fell to P(win) <= 0.2, did not lose)",False,,,,0.317598,10,True,0.249375,89,7,True
+blitz 5+0,spent_frac,share of the base time spent per move,False,31.518474,-89.256421,140.953936,0.009926,87,False,0.249375,89,7,True
+blitz 5+0,end_clock,"clock left after own last move, share of base time",False,67.595046,-60.072439,288.060567,0.307023,86,False,0.249375,89,7,True
+blitz 5+0,low_buffer,share of own moves played with under 10 s beyond one increment,False,-10.020576,-36.211385,50.342057,0.065252,21,False,0.249375,89,7,True
+blitz 5+0,plies,game length (plies),False,66.181402,-100.086408,207.683443,27.910087,84,False,0.249375,89,7,True
+blitz 5+0,book_ply,book depth (plies in a named opening line),False,47.51846,-40.001182,96.968933,1.900218,70,False,0.249375,89,7,True
+blitz 5+0,cp_move,centipawns lost per move,True,-27.622879,-73.347944,3.503046,59.74507,88,False,0.427732,89,7,True
+blitz 5+0,err20,"moves losing >= 0.2 expected points, per 100 moves",True,-23.946884,-68.312,97.088165,6.996172,37,False,0.427732,89,7,True
+blitz 5+0,ep_opening,opening: expected points lost per move,True,2.938009,-21.342286,24.083075,0.037443,84,False,0.427732,89,7,True
+blitz 5+0,ep_middlegame,middlegame: expected points lost per move,True,-13.755455,-36.392014,55.201214,0.046561,72,False,0.427732,89,7,True
+blitz 5+0,ep_endgame,endgame: expected points lost per move,True,-16.977823,-43.757089,2.200287,0.029408,43,False,0.427732,89,7,True
+blitz 5+0,max_ep,largest single expected-points loss in the game,True,28.53596,-53.754483,44.851699,0.126613,86,False,0.427732,89,7,True
+blitz 5+0,my_spoiled,"spoiled a winning position (reached P(win) >= 0.8, did not win)",True,,,,0.181499,3,True,0.427732,89,7,True
+blitz 5+0,my_swindled,"swindled (fell to P(win) <= 0.2, did not lose)",True,,,,0.317598,10,True,0.427732,89,7,True
+blitz 5+0,spent_frac,share of the base time spent per move,True,30.962767,-100.893869,88.478419,0.009926,87,False,0.427732,89,7,True
+blitz 5+0,end_clock,"clock left after own last move, share of base time",True,55.488665,-101.966283,70.784817,0.307023,86,False,0.427732,89,7,True
+blitz 5+0,low_buffer,share of own moves played with under 10 s beyond one increment,True,-0.815753,-29.732475,39.133764,0.065252,21,False,0.427732,89,7,True
+blitz 5+0,plies,game length (plies),True,43.510358,-144.443913,65.764679,27.910087,84,False,0.427732,89,7,True
+blitz 5+0,book_ply,book depth (plies in a named opening line),True,41.018212,-37.885923,71.458301,1.900218,70,False,0.427732,89,7,True
+blitz 5+2,cp_move,centipawns lost per move,False,2.279332,-22.901566,5.067876,35.473891,111,False,0.064855,113,3,True
+blitz 5+2,err20,"moves losing >= 0.2 expected points, per 100 moves",False,2.374754,-26.609825,8.988057,4.605758,45,False,0.064855,113,3,True
+blitz 5+2,ep_opening,opening: expected points lost per move,False,-4.680013,-16.320441,41.406034,0.035928,100,False,0.064855,113,3,True
+blitz 5+2,ep_middlegame,middlegame: expected points lost per move,False,-2.724325,-4.132546,5.300505,0.036745,93,False,0.064855,113,3,True
+blitz 5+2,ep_endgame,endgame: expected points lost per move,False,1.248275,0.0,3.01148,0.026637,63,False,0.064855,113,3,True
+blitz 5+2,max_ep,largest single expected-points loss in the game,False,0.660052,-26.968825,16.1358,0.140733,105,False,0.064855,113,3,True
+blitz 5+2,my_spoiled,"spoiled a winning position (reached P(win) >= 0.8, did not win)",False,,,,0.161476,3,True,0.064855,113,3,True
+blitz 5+2,my_swindled,"swindled (fell to P(win) <= 0.2, did not lose)",False,,,,0.340809,15,True,0.064855,113,3,True
+blitz 5+2,spent_frac,share of the base time spent per move,False,-4.183379,-84.375171,29.771941,0.007972,112,False,0.064855,113,3,True
+blitz 5+2,end_clock,"clock left after own last move, share of base time",False,1.501314,-8.388658,76.498627,0.282764,111,False,0.064855,113,3,True
+blitz 5+2,low_buffer,share of own moves played with under 10 s beyond one increment,False,,,,0.035383,3,True,0.064855,113,3,True
+blitz 5+2,plies,game length (plies),False,3.595482,-77.781153,28.282672,35.094099,109,False,0.064855,113,3,True
+blitz 5+2,book_ply,book depth (plies in a named opening line),False,-1.109306,-73.126043,12.714294,2.3264,90,False,0.064855,113,3,True
+blitz 5+2,cp_move,centipawns lost per move,True,3.721666,-22.901566,5.067876,35.473891,111,False,0.362049,113,3,True
+blitz 5+2,err20,"moves losing >= 0.2 expected points, per 100 moves",True,-0.616358,-26.609825,0.089157,4.605758,45,False,0.362049,113,3,True
+blitz 5+2,ep_opening,opening: expected points lost per move,True,-1.423841,-6.335926,41.406034,0.035928,100,False,0.362049,113,3,True
+blitz 5+2,ep_middlegame,middlegame: expected points lost per move,True,-3.586006,-4.132546,-0.48491,0.036745,93,False,0.362049,113,3,True
+blitz 5+2,ep_endgame,endgame: expected points lost per move,True,0.598681,0.0,1.399192,0.026637,63,False,0.362049,113,3,True
+blitz 5+2,max_ep,largest single expected-points loss in the game,True,0.709752,-26.968825,4.476841,0.140733,105,False,0.362049,113,3,True
+blitz 5+2,my_spoiled,"spoiled a winning position (reached P(win) >= 0.8, did not win)",True,,,,0.161476,3,True,0.362049,113,3,True
+blitz 5+2,my_swindled,"swindled (fell to P(win) <= 0.2, did not lose)",True,,,,0.340809,15,True,0.362049,113,3,True
+blitz 5+2,spent_frac,share of the base time spent per move,True,-11.093176,-84.375171,-6.367703,0.007972,112,False,0.362049,113,3,True
+blitz 5+2,end_clock,"clock left after own last move, share of base time",True,-5.147449,-8.388658,76.498627,0.282764,111,False,0.362049,113,3,True
+blitz 5+2,low_buffer,share of own moves played with under 10 s beyond one increment,True,,,,0.035383,3,True,0.362049,113,3,True
+blitz 5+2,plies,game length (plies),True,-3.654469,-77.781153,-1.036904,35.094099,109,False,0.362049,113,3,True
+blitz 5+2,book_ply,book depth (plies in a named opening line),True,-3.248695,-73.126043,1.25086,2.3264,90,False,0.362049,113,3,True
+blitz 5+5,cp_move,centipawns lost per move,False,-47.536071,-94.497917,3.535207,50.737929,136,False,0.288639,137,7,True
+blitz 5+5,err20,"moves losing >= 0.2 expected points, per 100 moves",False,26.37364,-119.292257,56.856757,5.776197,58,False,0.288639,137,7,True
+blitz 5+5,ep_opening,opening: expected points lost per move,False,-21.907739,-56.515316,44.606837,0.03621,116,False,0.288639,137,7,True
+blitz 5+5,ep_middlegame,middlegame: expected points lost per move,False,-10.538744,-113.040218,49.56774,0.057209,112,False,0.288639,137,7,True
+blitz 5+5,ep_endgame,endgame: expected points lost per move,False,-1.318619,-116.246909,59.619462,0.03854,70,False,0.288639,137,7,True
+blitz 5+5,max_ep,largest single expected-points loss in the game,False,42.848243,-30.989606,188.756567,0.163569,126,False,0.288639,137,7,True
+blitz 5+5,my_spoiled,"spoiled a winning position (reached P(win) >= 0.8, did not win)",False,,,,0.220999,7,True,0.288639,137,7,True
+blitz 5+5,my_swindled,"swindled (fell to P(win) <= 0.2, did not lose)",False,,,,0.313398,15,True,0.288639,137,7,True
+blitz 5+5,spent_frac,share of the base time spent per move,False,-17.307575,-139.003817,17.66455,0.009694,135,False,0.288639,137,7,True
+blitz 5+5,end_clock,"clock left after own last move, share of base time",False,25.773126,-49.313993,52.874182,0.255541,135,False,0.288639,137,7,True
+blitz 5+5,low_buffer,share of own moves played with under 10 s beyond one increment,False,,,,0.007767,1,True,0.288639,137,7,True
+blitz 5+5,plies,game length (plies),False,-4.982008,-114.338316,47.017223,33.96517,131,False,0.288639,137,7,True
+blitz 5+5,book_ply,book depth (plies in a named opening line),False,39.682968,6.184006,120.029264,2.165962,106,False,0.288639,137,7,True
+blitz 5+5,cp_move,centipawns lost per move,True,-43.944047,-50.363936,5.878476,50.737929,136,False,0.57967,137,7,True
+blitz 5+5,err20,"moves losing >= 0.2 expected points, per 100 moves",True,26.889352,-12.670012,42.457156,5.776197,58,False,0.57967,137,7,True
+blitz 5+5,ep_opening,opening: expected points lost per move,True,-17.923835,-33.43404,7.450159,0.03621,116,False,0.57967,137,7,True
+blitz 5+5,ep_middlegame,middlegame: expected points lost per move,True,-3.076291,-36.455065,9.422715,0.057209,112,False,0.57967,137,7,True
+blitz 5+5,ep_endgame,endgame: expected points lost per move,True,7.786579,-3.604595,73.751276,0.03854,70,False,0.57967,137,7,True
+blitz 5+5,max_ep,largest single expected-points loss in the game,True,31.614191,-20.152994,40.222691,0.163569,126,False,0.57967,137,7,True
+blitz 5+5,my_spoiled,"spoiled a winning position (reached P(win) >= 0.8, did not win)",True,,,,0.220999,7,True,0.57967,137,7,True
+blitz 5+5,my_swindled,"swindled (fell to P(win) <= 0.2, did not lose)",True,,,,0.313398,15,True,0.57967,137,7,True
+blitz 5+5,spent_frac,share of the base time spent per move,True,-1.423735,-24.824454,21.823821,0.009694,135,False,0.57967,137,7,True
+blitz 5+5,end_clock,"clock left after own last move, share of base time",True,30.43011,-15.225399,49.062276,0.255541,135,False,0.57967,137,7,True
+blitz 5+5,low_buffer,share of own moves played with under 10 s beyond one increment,True,,,,0.007767,1,True,0.57967,137,7,True
+blitz 5+5,plies,game length (plies),True,-1.693587,-29.308467,19.515604,33.96517,131,False,0.57967,137,7,True
+blitz 5+5,book_ply,book depth (plies in a named opening line),True,31.925289,1.418237,70.6334,2.165962,106,False,0.57967,137,7,True
+rapid 10+0,cp_move,centipawns lost per move,False,-30.630702,-72.877243,36.746483,43.088182,583,False,0.227879,586,12,True
+rapid 10+0,err20,"moves losing >= 0.2 expected points, per 100 moves",False,6.291611,-22.943505,40.85047,4.925764,250,False,0.227879,586,12,True
+rapid 10+0,ep_opening,opening: expected points lost per move,False,-10.863456,-50.999301,15.697486,0.034963,513,False,0.227879,586,12,True
+rapid 10+0,ep_middlegame,middlegame: expected points lost per move,False,-5.912799,-27.088137,10.394919,0.039877,469,False,0.227879,586,12,True
+rapid 10+0,ep_endgame,endgame: expected points lost per move,False,-6.41339,-14.475997,7.935115,0.03281,282,False,0.227879,586,12,True
+rapid 10+0,max_ep,largest single expected-points loss in the game,False,40.719087,2.378104,75.065526,0.142378,560,False,0.227879,586,12,True
+rapid 10+0,my_spoiled,"spoiled a winning position (reached P(win) >= 0.8, did not win)",False,,,,0.177273,19,True,0.227879,586,12,True
+rapid 10+0,my_swindled,"swindled (fell to P(win) <= 0.2, did not lose)",False,-36.261688,-51.861866,-11.925149,0.336252,76,False,0.227879,586,12,True
+rapid 10+0,spent_frac,share of the base time spent per move,False,-90.43242,-124.33674,-25.162806,0.005245,584,False,0.227879,586,12,True
+rapid 10+0,end_clock,"clock left after own last move, share of base time",False,-60.34065,-117.237874,45.029666,0.228425,584,False,0.227879,586,12,True
+rapid 10+0,low_buffer,share of own moves played with under 10 s beyond one increment,False,,,,0.007146,7,True,0.227879,586,12,True
+rapid 10+0,plies,game length (plies),False,-24.703356,-70.98899,53.351619,35.625289,568,False,0.227879,586,12,True
+rapid 10+0,book_ply,book depth (plies in a named opening line),False,49.308418,14.468513,64.830795,2.161517,469,False,0.227879,586,12,True
+rapid 10+0,cp_move,centipawns lost per move,True,-18.529669,-31.710054,8.898819,43.088182,583,False,0.788674,586,12,True
+rapid 10+0,err20,"moves losing >= 0.2 expected points, per 100 moves",True,1.12473,-15.805415,20.49728,4.925764,250,False,0.788674,586,12,True
+rapid 10+0,ep_opening,opening: expected points lost per move,True,-6.91484,-20.921815,5.609633,0.034963,513,False,0.788674,586,12,True
+rapid 10+0,ep_middlegame,middlegame: expected points lost per move,True,-2.200042,-10.513153,6.415153,0.039877,469,False,0.788674,586,12,True
+rapid 10+0,ep_endgame,endgame: expected points lost per move,True,-2.083543,-6.578317,7.141779,0.03281,282,False,0.788674,586,12,True
+rapid 10+0,max_ep,largest single expected-points loss in the game,True,22.12557,-0.707475,33.325244,0.142378,560,False,0.788674,586,12,True
+rapid 10+0,my_spoiled,"spoiled a winning position (reached P(win) >= 0.8, did not win)",True,,,,0.177273,19,True,0.788674,586,12,True
+rapid 10+0,my_swindled,"swindled (fell to P(win) <= 0.2, did not lose)",True,-10.691368,-16.730936,-2.168206,0.336252,76,False,0.788674,586,12,True
+rapid 10+0,spent_frac,share of the base time spent per move,True,-21.12267,-37.191017,1.231393,0.005245,584,False,0.788674,586,12,True
+rapid 10+0,end_clock,"clock left after own last move, share of base time",True,-12.067923,-29.431961,22.854094,0.228425,584,False,0.788674,586,12,True
+rapid 10+0,low_buffer,share of own moves played with under 10 s beyond one increment,True,,,,0.007146,7,True,0.788674,586,12,True
+rapid 10+0,plies,game length (plies),True,-5.630325,-22.892165,21.11627,35.625289,568,False,0.788674,586,12,True
+rapid 10+0,book_ply,book depth (plies in a named opening line),True,9.134673,-9.475811,19.057857,2.161517,469,False,0.788674,586,12,True

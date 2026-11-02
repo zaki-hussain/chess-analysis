@@ -1,0 +1,42 @@
+tc_group,colour,family,most_common_start,games_with_it,games,share,thin
+all games,white,Caro-Kann Defense,e4 c6 Nf3 d5,143,182,0.785714,False
+all games,white,Englund Gambit,d4 e5 dxe5 Nc6,12,41,0.292683,False
+all games,white,French Defense,e4 e6 Nf3 d5,80,197,0.406091,False
+all games,white,Italian Game,e4 e5 Nf3 Nc6,628,688,0.912791,False
+all games,white,King's Pawn Game,e4 e5 Nf3 Bc5,48,169,0.284024,False
+all games,white,Modern Defense,e4 g6 Nf3 Bg7,94,115,0.817391,False
+all games,white,Nimzowitsch Defense,e4 Nc6 Nf3 d5,9,36,0.25,False
+all games,white,Owen Defense,e4 b6 Nf3 Bb7,70,78,0.897436,False
+all games,white,Petrov's Defense,e4 e5 Nf3 Nf6,90,95,0.947368,False
+all games,white,Philidor Defense,e4 e5 Nf3 d6,135,160,0.84375,False
+all games,white,Pirc Defense,e4 d6 Nf3 Nf6,41,81,0.506173,False
+all games,white,Queen's Gambit Accepted,d4 d5 c4 dxc4,72,75,0.96,False
+all games,white,Queen's Gambit Declined,d4 d5 c4 Nf6,19,73,0.260274,False
+all games,white,Scandinavian Defense,e4 d5 exd5 Qxd5,231,362,0.638122,False
+all games,white,Sicilian Defense,e4 c5 Nf3 Nc6,90,224,0.401786,False
+all games,white,Slav Defense,d4 d5 c4 c6,18,31,0.580645,False
+all games,white,Zukertort Opening,e4 d5 Nf3 dxe4,53,85,0.623529,False
+all games,black,Bishop's Opening,e4 e5 Bc4 Nc6,90,148,0.608108,False
+all games,black,Caro-Kann Defense,d4 d5 Bf4 c5,22,48,0.458333,False
+all games,black,Center Game,e4 e5 d4 exd4,46,58,0.793103,False
+all games,black,English Opening,c4 e5 Nc3 Nc6,11,37,0.297297,False
+all games,black,Englund Gambit,d4 e5 dxe5 Nc6,18,31,0.580645,False
+all games,black,Englund Gambit Declined,e3 e5 d4 exd4,12,32,0.375,False
+all games,black,Four Knights Game,e4 e5 Nf3 Nc6,103,185,0.556757,False
+all games,black,Hungarian Opening,g3 e5 Bg2 Nc6,42,64,0.65625,False
+all games,black,Italian Game,e4 e5 Nf3 Nc6,311,372,0.836022,False
+all games,black,King's Gambit Accepted,e4 e5 f4 exf4,20,32,0.625,False
+all games,black,King's Knight Opening,e4 e5 Nf3 Nc6,34,37,0.918919,False
+all games,black,King's Pawn Game,e4 e5 d3 Nc6,77,262,0.293893,False
+all games,black,Mieses Opening,d3 e5 e3 Nc6,6,37,0.162162,False
+all games,black,Nimzo-Larsen Attack,b3 e5 Bb2 Nc6,39,50,0.78,False
+all games,black,Ponziani Opening,e4 e5 Nf3 Nc6,35,40,0.875,False
+all games,black,Queen's Gambit Accepted,d4 d5 c4 dxc4,16,31,0.516129,False
+all games,black,Queen's Gambit Declined,d4 d5 c4 c5,139,150,0.926667,False
+all games,black,Queen's Pawn Game,d4 d5 e3 c5,58,414,0.140097,False
+all games,black,Ruy Lopez,e4 e5 Nf3 Nc6,137,142,0.964789,False
+all games,black,Scotch Game,e4 e5 Nf3 Nc6,203,225,0.902222,False
+all games,black,Sicilian Defense,e4 c5 Nf3 Nc6,16,89,0.179775,False
+all games,black,Van't Kruijs Opening,e3 e5 d3 Nc6,11,79,0.139241,False
+all games,black,Vienna Game,e4 e5 Nc3 Nc6,25,50,0.5,False
+all games,black,Zukertort Opening,Nf3 e5 Nxe5 d6,12,38,0.315789,False

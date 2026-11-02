@@ -1,0 +1,135 @@
+tc_group,colour,family,games,share,recent_games,first_year,last_year,thin
+all games,white,Italian Game,688,0.228117,58,2022,2026,False
+all games,white,Scandinavian Defense,362,0.120027,20,2022,2026,False
+all games,white,Sicilian Defense,224,0.074271,23,2022,2026,False
+all games,white,French Defense,197,0.065318,18,2022,2026,False
+all games,white,Caro-Kann Defense,182,0.060345,19,2021,2026,False
+all games,white,King's Pawn Game,169,0.056034,13,2022,2026,False
+all games,white,Philidor Defense,160,0.05305,11,2022,2025,False
+all games,white,Modern Defense,115,0.03813,15,2022,2026,False
+all games,white,Petrov's Defense,95,0.031499,5,2022,2025,False
+all games,white,Zukertort Opening,85,0.028183,6,2022,2025,False
+all games,white,Pirc Defense,81,0.026857,6,2022,2026,False
+all games,white,Owen Defense,78,0.025862,11,2022,2025,False
+all games,white,Queen's Gambit Accepted,75,0.024867,1,2022,2025,False
+all games,white,Queen's Gambit Declined,73,0.024204,0,2022,2024,False
+all games,white,Englund Gambit,41,0.013594,0,2022,2022,False
+all games,white,Nimzowitsch Defense,36,0.011936,0,2022,2025,False
+all games,white,Slav Defense,31,0.010279,0,2022,2022,False
+all games,white,Queen's Pawn Game,29,0.009615,0,2021,2022,True
+all games,white,Elephant Gambit,28,0.009284,2,2022,2026,True
+all games,white,Alekhine Defense,27,0.008952,3,2022,2025,True
+all games,white,Four Knights Game,22,0.007294,0,2022,2024,True
+all games,white,King's Knight Opening,17,0.005637,0,2022,2025,True
+all games,white,Ruy Lopez,17,0.005637,0,2022,2022,True
+all games,white,Center Game,16,0.005305,0,2022,2022,True
+all games,white,Scotch Game,13,0.00431,0,2022,2023,True
+all games,white,Three Knights Opening,12,0.003979,0,2022,2022,True
+all games,white,Mikenas Defense,9,0.002984,0,2022,2022,True
+all games,white,St. George Defense,9,0.002984,0,2022,2025,True
+all games,white,Horwitz Defense,8,0.002653,0,2022,2022,True
+all games,white,Indian Defense,8,0.002653,0,2022,2022,True
+all games,white,Rat Defense,8,0.002653,0,2022,2022,True
+all games,white,Benoni Defense,7,0.002321,0,2022,2022,True
+all games,white,King's Indian Defense,7,0.002321,0,2022,2022,True
+all games,white,Semi-Slav Defense,7,0.002321,0,2022,2024,True
+all games,white,Vienna Game,7,0.002321,0,2022,2022,True
+all games,white,English Defense,6,0.001989,0,2022,2022,True
+all games,white,Queen's Gambit,6,0.001989,0,2022,2022,True
+all games,white,Barnes Defense,5,0.001658,0,2022,2025,True
+all games,white,Bishop's Opening,5,0.001658,0,2022,2022,True
+all games,white,Goldsmith Defense,5,0.001658,0,2022,2025,True
+all games,white,Latvian Gambit Accepted,5,0.001658,0,2022,2025,True
+all games,white,Old Indian Defense,5,0.001658,0,2022,2022,True
+all games,white,Dutch Defense,4,0.001326,0,2022,2024,True
+all games,white,Blackmar-Diemer Gambit,3,0.000995,0,2022,2022,True
+all games,white,Borg Defense,3,0.000995,1,2022,2025,True
+all games,white,Carr Defense,3,0.000995,0,2022,2025,True
+all games,white,Latvian Gambit,3,0.000995,0,2024,2025,True
+all games,white,Ware Defense,3,0.000995,0,2022,2025,True
+all games,white,Grünfeld Defense,2,0.000663,0,2022,2022,True
+all games,white,Gunderam Defense,2,0.000663,0,2022,2025,True
+all games,white,Nimzo-Indian Defense,2,0.000663,0,2022,2022,True
+all games,white,Ponziani Opening,2,0.000663,0,2022,2022,True
+all games,white,Barnes Opening,1,0.000332,0,2022,2022,True
+all games,white,English Opening,1,0.000332,0,2022,2022,True
+all games,white,Hippopotamus Defense,1,0.000332,0,2022,2022,True
+all games,white,Kangaroo Defense,1,0.000332,0,2022,2022,True
+all games,white,King's Gambit Declined,1,0.000332,0,2022,2022,True
+all games,white,Mexican Defense,1,0.000332,0,2022,2022,True
+all games,white,Polish Defense,1,0.000332,0,2022,2022,True
+all games,white,Queen's Indian Defense,1,0.000332,0,2022,2022,True
+all games,white,Van't Kruijs Opening,1,0.000332,0,2024,2024,True
+all games,black,Queen's Pawn Game,414,0.138415,34,2022,2026,False
+all games,black,Italian Game,372,0.124373,20,2022,2026,False
+all games,black,King's Pawn Game,262,0.087596,11,2021,2025,False
+all games,black,Scotch Game,225,0.075226,18,2022,2025,False
+all games,black,Four Knights Game,185,0.061852,14,2021,2026,False
+all games,black,Queen's Gambit Declined,150,0.05015,13,2022,2026,False
+all games,black,Bishop's Opening,148,0.049482,13,2022,2026,False
+all games,black,Ruy Lopez,142,0.047476,13,2021,2026,False
+all games,black,Sicilian Defense,89,0.029756,0,2022,2022,False
+all games,black,Van't Kruijs Opening,79,0.026413,3,2022,2025,False
+all games,black,Hungarian Opening,64,0.021398,6,2022,2026,False
+all games,black,Center Game,58,0.019392,3,2022,2025,False
+all games,black,Nimzo-Larsen Attack,50,0.016717,5,2022,2026,False
+all games,black,Vienna Game,50,0.016717,2,2022,2025,False
+all games,black,Caro-Kann Defense,48,0.016048,10,2022,2025,False
+all games,black,Ponziani Opening,40,0.013373,7,2022,2025,False
+all games,black,Zukertort Opening,38,0.012705,6,2022,2026,False
+all games,black,English Opening,37,0.01237,2,2022,2025,False
+all games,black,King's Knight Opening,37,0.01237,1,2022,2025,False
+all games,black,Mieses Opening,37,0.01237,2,2022,2025,False
+all games,black,Englund Gambit Declined,32,0.010699,1,2022,2025,False
+all games,black,King's Gambit Accepted,32,0.010699,5,2022,2026,False
+all games,black,Englund Gambit,31,0.010364,1,2022,2025,False
+all games,black,Queen's Gambit Accepted,31,0.010364,0,2022,2024,False
+all games,black,Nimzowitsch Defense,28,0.009361,5,2022,2025,True
+all games,black,Scandinavian Defense,26,0.008693,0,2022,2023,True
+all games,black,Three Knights Opening,26,0.008693,0,2022,2025,True
+all games,black,King's Gambit Declined,23,0.00769,0,2022,2025,True
+all games,black,Danish Gambit Accepted,22,0.007355,1,2022,2025,True
+all games,black,Bird Opening,21,0.007021,1,2022,2025,True
+all games,black,Grob Opening,15,0.005015,0,2022,2025,True
+all games,black,Van Geet Opening,15,0.005015,0,2022,2025,True
+all games,black,Petrov's Defense,13,0.004346,1,2022,2025,True
+all games,black,"Vienna Gambit, with Max Lange Defense",12,0.004012,2,2022,2025,True
+all games,black,Blackmar-Diemer Gambit,11,0.003678,1,2022,2025,True
+all games,black,King's Indian Attack,10,0.003343,2,2022,2025,True
+all games,black,Philidor Defense,10,0.003343,0,2022,2022,True
+all games,black,Slav Defense,10,0.003343,0,2022,2024,True
+all games,black,French Defense,8,0.002675,0,2022,2025,True
+all games,black,Polish Opening,8,0.002675,1,2022,2025,True
+all games,black,Indian Defense,7,0.00234,0,2022,2022,True
+all games,black,Ware Opening,7,0.00234,0,2022,2024,True
+all games,black,Barnes Opening,5,0.001672,0,2022,2025,True
+all games,black,King's Gambit,5,0.001672,0,2022,2023,True
+all games,black,Amazon Attack,4,0.001337,0,2022,2022,True
+all games,black,Center Game Accepted,4,0.001337,0,2022,2023,True
+all games,black,Kádas Opening,4,0.001337,0,2022,2024,True
+all games,black,Saragossa Opening,4,0.001337,0,2022,2025,True
+all games,black,Semi-Slav Defense,4,0.001337,0,2022,2022,True
+all games,black,Blackmar-Diemer Gambit Declined,3,0.001003,0,2022,2022,True
+all games,black,Elephant Gambit,3,0.001003,0,2022,2025,True
+all games,black,Global Opening,3,0.001003,0,2023,2025,True
+all games,black,King's Pawn Opening,3,0.001003,1,2022,2025,True
+all games,black,Amar Opening,2,0.000669,0,2022,2025,True
+all games,black,Blackmar-Diemer Gambit Accepted,2,0.000669,0,2022,2024,True
+all games,black,Creepy Crawly Formation,2,0.000669,0,2022,2022,True
+all games,black,Danish Gambit,2,0.000669,0,2024,2025,True
+all games,black,Réti Opening,2,0.000669,0,2023,2023,True
+all games,black,Valencia Opening,2,0.000669,0,2025,2025,True
+all games,black,Alekhine Defense,1,0.000334,0,2022,2022,True
+all games,black,Anderssen's Opening,1,0.000334,0,2024,2024,True
+all games,black,Benoni Defense,1,0.000334,0,2022,2022,True
+all games,black,Clemenz Opening,1,0.000334,0,2025,2025,True
+all games,black,"French Defense, Classical, 4. Bg5",1,0.000334,0,2022,2022,True
+all games,black,Horwitz Defense,1,0.000334,0,2022,2022,True
+all games,black,Latvian Gambit,1,0.000334,0,2022,2022,True
+all games,black,Mikenas Defense,1,0.000334,0,2022,2022,True
+all games,black,Portuguese Opening,1,0.000334,0,2022,2022,True
+all games,black,Rapport-Jobava System,1,0.000334,0,2023,2023,True
+all games,black,Rat Defense,1,0.000334,0,2022,2022,True
+all games,black,Richter-Veresov Attack,1,0.000334,0,2022,2022,True
+all games,black,Tarrasch Defense,1,0.000334,0,2022,2022,True
+all games,black,Ware Defense,1,0.000334,0,2022,2022,True

@@ -1,0 +1,46 @@
+tc_group,depth,share_player,share_opponent,n_player,n_opponent,share_of_resolved_player,share_of_resolved_opponent,blunders_player,blunders_opponent,thin
+bullet 1+0,immediate,0.235978,0.247243,1359,1390,0.688101,0.741729,5759,5622,False
+bullet 1+0,within 2-3 moves,0.061816,0.057986,356,326,0.180253,0.173959,5759,5622,False
+bullet 1+0,mate within 3 moves,0.03768,0.020277,217,114,0.109873,0.060832,5759,5622,False
+bullet 1+0,not within 3 moves,0.007467,0.007826,43,44,0.021772,0.023479,5759,5622,False
+bullet 1+0,line left / unknown,0.657059,0.666667,3784,3748,,,5759,5622,False
+bullet 1+1,immediate,0.230183,0.260383,151,163,0.623967,0.724444,656,626,False
+bullet 1+1,within 2-3 moves,0.07622,0.067093,50,42,0.206612,0.186667,656,626,False
+bullet 1+1,mate within 3 moves,0.050305,0.019169,33,12,0.136364,0.053333,656,626,False
+bullet 1+1,not within 3 moves,0.012195,0.01278,8,8,0.033058,0.035556,656,626,False
+bullet 1+1,line left / unknown,0.631098,0.640575,414,401,,,656,626,False
+bullet 2+1,immediate,0.2,0.283951,36,46,0.692308,0.851852,180,162,False
+bullet 2+1,within 2-3 moves,0.077778,0.04321,14,7,0.269231,0.12963,180,162,False
+bullet 2+1,mate within 3 moves,0.005556,0.0,1,0,0.019231,0.0,180,162,False
+bullet 2+1,not within 3 moves,0.005556,0.006173,1,1,0.019231,0.018519,180,162,False
+bullet 2+1,line left / unknown,0.711111,0.666667,128,108,,,180,162,False
+blitz 3+0,immediate,0.198113,0.281167,63,106,0.588785,0.697368,318,377,False
+blitz 3+0,within 2-3 moves,0.078616,0.06366,25,24,0.233645,0.157895,318,377,False
+blitz 3+0,mate within 3 moves,0.040881,0.037135,13,14,0.121495,0.092105,318,377,False
+blitz 3+0,not within 3 moves,0.018868,0.02122,6,8,0.056075,0.052632,318,377,False
+blitz 3+0,line left / unknown,0.663522,0.596817,211,225,,,318,377,False
+blitz 3+2,immediate,0.194115,0.235006,475,576,0.574365,0.650113,2447,2451,False
+blitz 3+2,within 2-3 moves,0.083367,0.079559,204,195,0.246675,0.22009,2447,2451,False
+blitz 3+2,mate within 3 moves,0.044136,0.033456,108,82,0.130593,0.092551,2447,2451,False
+blitz 3+2,not within 3 moves,0.016347,0.013464,40,33,0.048368,0.037246,2447,2451,False
+blitz 3+2,line left / unknown,0.662035,0.638515,1620,1565,,,2447,2451,False
+blitz 5+0,immediate,0.242775,0.267442,42,46,0.636364,0.779661,173,172,False
+blitz 5+0,within 2-3 moves,0.086705,0.052326,15,9,0.227273,0.152542,173,172,False
+blitz 5+0,mate within 3 moves,0.034682,0.017442,6,3,0.090909,0.050847,173,172,False
+blitz 5+0,not within 3 moves,0.017341,0.005814,3,1,0.045455,0.016949,173,172,False
+blitz 5+0,line left / unknown,0.618497,0.656977,107,113,,,173,172,False
+blitz 5+2,immediate,0.189024,0.219101,31,39,0.508197,0.590909,164,178,False
+blitz 5+2,within 2-3 moves,0.115854,0.089888,19,16,0.311475,0.242424,164,178,False
+blitz 5+2,mate within 3 moves,0.054878,0.02809,9,5,0.147541,0.075758,164,178,False
+blitz 5+2,not within 3 moves,0.012195,0.033708,2,6,0.032787,0.090909,164,178,False
+blitz 5+2,line left / unknown,0.628049,0.629213,103,112,,,164,178,False
+blitz 5+5,immediate,0.18254,0.230769,46,60,0.647887,0.674157,252,260,False
+blitz 5+5,within 2-3 moves,0.06746,0.05,17,13,0.239437,0.146067,252,260,False
+blitz 5+5,mate within 3 moves,0.027778,0.046154,7,12,0.098592,0.134831,252,260,False
+blitz 5+5,not within 3 moves,0.003968,0.015385,1,4,0.014085,0.044944,252,260,False
+blitz 5+5,line left / unknown,0.718254,0.657692,181,171,,,252,260,False
+rapid 10+0,immediate,0.225336,0.25,201,230,0.610942,0.611702,892,920,False
+rapid 10+0,within 2-3 moves,0.078475,0.090217,70,83,0.212766,0.220745,892,920,False
+rapid 10+0,mate within 3 moves,0.04148,0.044565,37,41,0.112462,0.109043,892,920,False
+rapid 10+0,not within 3 moves,0.023543,0.023913,21,22,0.06383,0.058511,892,920,False
+rapid 10+0,line left / unknown,0.631166,0.591304,563,544,,,892,920,False

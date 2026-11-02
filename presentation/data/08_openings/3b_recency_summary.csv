@@ -1,0 +1,5 @@
+tc_group,colour,period,games,share_clear_above,share_clear_below,share_unclear,share_thin_families,weighted_excess
+all games,white,last 12 months,212,0.028302,0.0,0.943396,0.028302,0.027439
+all games,white,earlier,2804,0.054208,0.0,0.832382,0.113409,0.032193
+all games,black,last 12 months,205,0.126829,0.029268,0.770732,0.073171,-0.002187
+all games,black,earlier,2786,0.097631,0.043431,0.742283,0.116655,-0.001403

@@ -1,0 +1,12 @@
+tc_group,matching,time_class,you_increment_share,strangers_increment_share,diff,you_games,stranger_games,strangers
+bullet 1+0,band and control,bullet,0.0,0.0,0.0,2838,2838,159
+bullet 1+1,band and control,bullet,1.0,1.0,0.0,379,379,50
+blitz 3+0,band and control,blitz,0.0,0.0,0.0,202,202,70
+blitz 3+2,band and control,blitz,1.0,1.0,0.0,1344,1344,100
+rapid 10+0,band and control,rapid,0.0,0.0,0.0,535,535,137
+all bullet,band and control,bullet,0.13791,0.13791,0.0,3292,3292,170
+all bullet,band only,bullet,0.138172,0.220468,-0.082296,3293,3293,176
+all blitz,band and control,blitz,0.836642,0.836642,0.0,1763,1763,156
+all blitz,band only,blitz,0.845576,0.314745,0.530831,1865,1865,180
+all rapid,band and control,rapid,0.0,0.0,0.0,535,535,140
+all rapid,band only,rapid,0.0,0.085981,-0.085981,535,535,142

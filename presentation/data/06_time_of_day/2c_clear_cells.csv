@@ -1,0 +1,12 @@
+tc_group,level,cells,cells_thin,cells_usable,cells_ci_clear_of_zero,cells_clear_above_zero,cells_clear_below_zero,cells_clear_expected_by_chance
+bullet 1+0,weekday,7,0,7,0,0,0,0.35
+bullet 1+1,weekday,7,7,0,0,0,0,0.0
+bullet 2+1,weekday,7,7,0,0,0,0,0.0
+blitz 3+0,weekday,7,7,0,0,0,0,0.0
+blitz 3+2,weekday,7,0,7,1,1,0,0.35
+blitz 5+0,weekday,7,7,0,0,0,0,0.0
+blitz 5+2,weekday,7,7,0,0,0,0,0.0
+blitz 5+5,weekday,7,7,0,0,0,0,0.0
+rapid 10+0,weekday,7,3,4,0,0,0,0.2
+"all controls, cells summed",weekday,63,45,18,1,1,0,0.9
+all games,weekday,7,0,7,1,1,0,0.35
