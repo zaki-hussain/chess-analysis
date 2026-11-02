@@ -14,7 +14,7 @@ Every rated and casual live game from August 2021 to October 2026, every positio
 - **Centipawns** (100 = one pawn) are Stockfish's measure of the position, given alongside as the familiar unit.
 - Results are split by **exact time control** (bullet 1+0, 1+1, 2+1; blitz 3+0, 3+2, 5+0, 5+2, 5+5; rapid 10+0), because a 1+1 game on a low clock is a different game from 1+0.
 - Controls with fewer than 50 games (bullet 0.5+0: 19 games; rapid 30+0: 1 game) are left out.
-- Cells resting on too few games are marked "too few games" or left out of the charts, and flagged `thin` in the CSVs.
+- Cells resting on too few games or cases are marked "too few games" or "thin", or left out of the charts, and flagged `thin` in the CSVs.
 - **Clock buffer** is the clock minus one increment: in 1+1, 4 s on the clock is a 3 s buffer. In controls without increment it equals the clock.
 
 ## Contents
@@ -40,21 +40,21 @@ Every rated and casual live game from August 2021 to October 2026, every positio
 ### What the data say, one fact at a time
 
 - In 1+0 you convert winning positions better than your opponents: +0.041 in score from positions the model rated at least 80% to win (CI +0.018 to +0.063). [→ 1.5](#15-how-often-do-you-convert-a-winning-position)
-- Against opponents more than 100 points stronger you score +0.139 above the Elo expectation (CI +0.083 to +0.205), about +112 Elo. [→ 2.5](#25-how-do-you-score-against-stronger-and-weaker-players)
+- Over all rated games, against opponents more than 100 points stronger you score +0.139 above the Elo expectation (CI +0.083 to +0.205), about +112 Elo (CI +70 to +159). [→ 2.5](#25-how-do-you-score-against-stronger-and-weaker-players)
 - In 5+0 you drop under 10 s in 23.3% of games; your opponents in 6.7%. [→ 3.2](#32-how-often-do-you-drop-under-10-seconds-in-a-game)
-- In 1+0 losses on time are a net gain for you: 0.032 expected points per game (CI 0.020 to 0.042), about +22 Elo. [→ 4.5](#45-how-many-games-do-you-lose-on-time-and-from-what-positions)
+- In 1+0, games lost on time work out in your favour: your opponents' flags cost them more than yours cost you, a net 0.032 expected points per game for you (CI 0.020 to 0.042), about +22 Elo (CI +14 to +29). [→ 4.5](#45-how-many-games-do-you-lose-on-time-and-from-what-positions)
 - You stop after 33% of your losses but only 17% of your wins. [→ 5.2](#52-do-you-stop-after-losses)
-- In the game after a loss you score −0.054 less than after a win (CI −0.083 to −0.027), about −38 Elo. [→ 5.5](#55-what-happens-in-the-game-after-a-loss)
-- The hour of the day makes no clear difference across all games: shuffling hours between sessions gives effects as large as yours (p = 0.41). [→ 6.4](#64-does-any-effect-survive-accounting-for-sessions-rating-and-year)
-- Resigning costs you most in rapid 10+0: a net −4.0 expected points per 100 games (CI −6.3 to −2.4). [→ 7.5](#75-how-much-has-resigning-cost-you)
+- In the game after a loss your score against the rating expectation is 0.054 lower than in the game after a win (CI 0.027 to 0.083), about −38 Elo (CI −58 to −19). [→ 5.5](#55-what-happens-in-the-game-after-a-loss)
+- The hour of the day makes no clear difference across all games: when the hours are shuffled at random between sessions, an effect as large as yours turns up 41% of the time (p = 0.41). [→ 6.4](#64-does-any-effect-survive-accounting-for-sessions-rating-and-year)
+- Resigning hurts you most in rapid 10+0: on balance it changes your result by −4.0 expected points per 100 games (CI −6.3 to −2.4), about −28 Elo (CI −45 to −17). [→ 7.5](#75-how-much-has-resigning-cost-you)
 - In 1+0 you blunder into a forced mate 0.81 times per 100 moves; your opponents 0.51. [→ 9.5](#95-how-often-do-you-allow-mate)
-- In 1+0, 36 of every 100 of your won endings ended on the clock without a single wrong move; for your opponents 21. [→ 10.5](#105-how-did-failed-wins-end-a-wrong-move-or-the-clock)
+- In 1+0, 36 of every 100 of your won endings were not won because the clock ran out (lost or drawn on time) without a single wrong move; for your opponents 21. [→ 10.5](#105-how-did-failed-wins-end-a-wrong-move-or-the-clock)
 
-Data: [1: 5b_conversion_diff.csv](data/01_decomposition/5b_conversion_diff.csv) · [2: 5_score_vs_gap.csv](data/02_trajectory/5_score_vs_gap.csv) · [3: 2_games_under_line.csv](data/03_time_pressure/2_games_under_line.csv) · [4: 5d_clock_cost_per_game.csv](data/04_clock_allocation/5d_clock_cost_per_game.csv) · [5: 2_stop_by_result.csv](data/05_sessions/2_stop_by_result.csv) · [5: 5b_after_loss_minus_after_win.csv](data/05_sessions/5b_after_loss_minus_after_win.csv) · [6: 4b_permutation.csv](data/06_time_of_day/4b_permutation.csv) · [7: 5b_net.csv](data/07_resignation/5b_net.csv) · [9: 5_allowed_mate.csv](data/09_blunder_anatomy/5_allowed_mate.csv) · [10: 5_failed_conversions.csv](data/10_endgames/5_failed_conversions.csv)
+Data: [1: 5b_conversion_diff.csv](data/01_decomposition/5b_conversion_diff.csv) · [2: 5b_score_vs_gap_pooled.csv](data/02_trajectory/5b_score_vs_gap_pooled.csv) · [3: 2_games_under_line.csv](data/03_time_pressure/2_games_under_line.csv) · [4: 5d_clock_cost_per_game.csv](data/04_clock_allocation/5d_clock_cost_per_game.csv) · [5: 2_stop_by_result.csv](data/05_sessions/2_stop_by_result.csv) · [5: 5b_after_loss_minus_after_win.csv](data/05_sessions/5b_after_loss_minus_after_win.csv) · [6: 4b_permutation.csv](data/06_time_of_day/4b_permutation.csv) · [7: 5b_net.csv](data/07_resignation/5b_net.csv) · [9: 5_allowed_mate.csv](data/09_blunder_anatomy/5_allowed_mate.csv) · [10: 5_failed_conversions.csv](data/10_endgames/5_failed_conversions.csv)
 
 ## 1. Where are points won and lost: do you make fewer mistakes than your opponents?
 
-**Short answer:** You and your opponents give away almost the same amount per game through mistakes; your edge comes once a position is decided, because in 1+0, 3+2 and 10+0 you convert winning positions and save lost ones more often than your opponents, while in 1+0 and 10+0 more of your losses come while you still had chances (in 10+0 mostly by resigning).
+**Short answer:** You and your opponents give away almost the same amount per game through mistakes. From the same model win chance you end up winning more often than your opponents at every level, which shows up as better conversion of winning positions and more saves of lost ones in 1+0, 3+2 and 10+0. In 1+0 and 10+0 more of your losses also come while you still had chances (in 10+0 mostly by resigning).
 
 ### 1.1 How many points does each side give away per game?
 
@@ -63,7 +63,8 @@ Data: [1: 5b_conversion_diff.csv](data/01_decomposition/5b_conversion_diff.csv) 
 - In every time control each side gives away close to one expected point per game through its mistakes (between 0.84 and 1.06 for you).
 - In 1+0 you gave away 0.904 per game and your opponents 0.915: 0.011 less (CI 0.003 to 0.021), about +8 Elo (CI +2 to +14).
 - In 10+0 you gave away 0.025 less per game (CI 0.002 to 0.046), about +18 Elo (CI +1 to +32).
-- In 3+2 there is no clear difference (-0.001, CI -0.013 to +0.014); 5+0 is the one control where you gave away more, +0.056 (CI +0.005 to +0.105), from only 90 games.
+- In 3+2 there is no clear difference (-0.001, CI -0.013 to +0.014).
+- 5+0 is the one control where you gave away clearly more, +0.056 per game (CI +0.005 to +0.105), about -39 Elo (CI -74 to -3), from only 90 games.
 
 Data: [1_points_per_game.csv](data/01_decomposition/1_points_per_game.csv) · [1b_score_budget.csv](data/01_decomposition/1b_score_budget.csv) · [all tables](data/01_decomposition/_index.csv) · [script](../analysis/01_decomposition.py) · source: [games_decomposed.parquet](../data/zakihussa1n/games_decomposed.parquet)
 
@@ -74,7 +75,8 @@ Data: [1_points_per_game.csv](data/01_decomposition/1_points_per_game.csv) · [1
 - In every control the costliest 10% of moves carry more than half of all the expected points given away: 55% of yours in 1+0, 56% in 3+2, 58% in 10+0.
 - The single costliest 1% of moves alone carry 10% to 14% of the total.
 - Moves losing at least 0.1 expected points are rare, 8.8 in every 100 of your moves in 1+0, yet they carry 51% of what you give away.
-- Your curve and your opponents' nearly coincide in every control; the small clear gaps go both ways: in 1+0 your costliest 10% carry slightly less of your total (55.4% against 56.1%), in 10+0 your costliest 20% slightly more (81.8% against 81.0%).
+- Your curve and your opponents' nearly coincide in every control.
+- The few clear gaps are small and go both ways: in 1+0 your costliest 10% carry slightly less of your total than your opponents' (55.4% against 56.1%), in 10+0 your costliest 20% slightly more (81.8% against 81.0%).
 
 Data: [2_concentration.csv](data/01_decomposition/2_concentration.csv) · [2b_big_errors.csv](data/01_decomposition/2b_big_errors.csv) · [all tables](data/01_decomposition/_index.csv) · [script](../analysis/01_decomposition.py) · source: [moves_analysed.parquet](../data/zakihussa1n/moves_analysed.parquet)
 
@@ -83,9 +85,11 @@ Data: [2_concentration.csv](data/01_decomposition/2_concentration.csv) · [2b_bi
 ![How often does one move decide a lost game?](figures/01_decomposition/3_decisive.svg)
 
 - When a game was lost on the board, one costly move of the loser can be named in 81% to 92% of games, for you and your opponents alike, in every control with enough such games.
-- In 1+0, 57% of your losses were decided by one identifiable blunder of yours (CI 54% to 59%), against 60% of your opponents' losses (CI 58% to 63%); most of the rest were lost while you still had chances (see the last sub-question).
+- In 1+0, 57% of your losses were decided by one identifiable blunder of yours (CI 54% to 59%), against 60% of your opponents' losses (CI 58% to 63%): 3.6 percentage points fewer (CI 0.1 to 7.4).
+- Most of the rest of your 1+0 losses came while you still had chances (see [the last sub-question](#17-how-many-of-your-losses-came-while-you-still-had-chances)).
 - In 10+0 the gap is large: 47% of your losses came from one decisive blunder against 68% of your opponents', 20.6 percentage points fewer (CI 12.0 to 28.5).
-- In 1+0 the decisive blunder came with about 21 seconds left for both sides (21.0 against 21.4, no clear difference); in 3+2 yours came with 80 seconds left (78 beyond the increment) against 95 for your opponents, 14.8 seconds less (CI 7.3 to 22.0).
+- In 1+0 the decisive blunder came with about 21 seconds left for both sides (21.0 against 21.4, no clear difference).
+- In 3+2 your decisive blunder came with 80 seconds left (78 beyond the increment) against 95 for your opponents, 14.8 seconds less (CI 7.3 to 22.0).
 
 Data: [3_decisive.csv](data/01_decomposition/3_decisive.csv) · [3c_decisive_clock.csv](data/01_decomposition/3c_decisive_clock.csv) · [3b_decisive_profile.csv](data/01_decomposition/3b_decisive_profile.csv) · [all tables](data/01_decomposition/_index.csv) · [script](../analysis/01_decomposition.py) · source: [games_decomposed.parquet](../data/zakihussa1n/games_decomposed.parquet)
 
@@ -93,9 +97,11 @@ Data: [3_decisive.csv](data/01_decomposition/3_decisive.csv) · [3c_decisive_clo
 
 ![In which phase do you give away the most?](figures/01_decomposition/4_phase.svg)
 
-- In 1+0 the endgame costs the most per game, 0.322 expected points for you and 0.334 for your opponents: you give away 0.012 less (CI 0.006 to 0.017).
+- In 1+0 the endgame costs the most per game: 0.322 expected points for you and 0.334 for your opponents.
+- In the 1+0 endgame you give away 0.012 less than your opponents (CI 0.006 to 0.017).
 - In 1+0 you give away slightly more than your opponents in the opening: +0.006 per game (CI +0.002 to +0.011).
-- In 10+0 the opening costs the most (0.320 per game) and the endgame the least (0.234); there you give away 0.012 less than your opponents, a borderline difference (CI 0.000 to 0.025).
+- In 10+0 the opening costs the most (0.320 per game) and the endgame the least (0.234).
+- In the 10+0 endgame you give away 0.012 less than your opponents, a borderline difference (CI 0.000 to 0.025).
 - Per move, the middlegame is your most expensive phase in every control (narrowly in 3+0): in 1+0 you lose 0.032 expected points per middlegame move against 0.026 per opening move.
 
 Data: [4_phase.csv](data/01_decomposition/4_phase.csv) · [4b_phase_per_move.csv](data/01_decomposition/4b_phase_per_move.csv) · [all tables](data/01_decomposition/_index.csv) · [script](../analysis/01_decomposition.py) · source: [games_decomposed.parquet](../data/zakihussa1n/games_decomposed.parquet)
@@ -105,8 +111,9 @@ Data: [4_phase.csv](data/01_decomposition/4_phase.csv) · [4b_phase_per_move.csv
 ![How often do you convert a winning position?](figures/01_decomposition/5_conversion.svg)
 
 - In 1+0, from positions the model rated at least 80% to win, you scored 0.919 where it expected 0.846: +0.073 (CI +0.058 to +0.087), about +126 Elo (CI +93 to +162).
-- Your opponents scored 0.878 where the model expected 0.854, +0.024, about +36 Elo (CI +12 to +65), so in 1+0 you convert better by +0.041 in score (CI +0.018 to +0.063).
-- The edge is also clear in 3+2, +0.048 (CI +0.013 to +0.079), and in 10+0, +0.089 (CI +0.042 to +0.137); in the smaller controls the CIs include zero.
+- In 1+0 your opponents scored 0.878 from such positions where the model expected 0.854, +0.024, about +36 Elo (CI +12 to +65).
+- So in 1+0 you convert better than your opponents by +0.041 in score (CI +0.018 to +0.063).
+- The edge is also clear in 3+2, +0.048 (CI +0.013 to +0.079), and in 10+0, +0.089 (CI +0.042 to +0.137); in the smaller controls there is no clear difference.
 - Both sides beat the model from winning positions because it is cautious there: over all games, from positions it rates 80% to 90%, you won 95.8% and your opponents 92.0%.
 
 Data: [5_conversion.csv](data/01_decomposition/5_conversion.csv) · [5b_conversion_diff.csv](data/01_decomposition/5b_conversion_diff.csv) · [5d_model_by_side.csv](data/01_decomposition/5d_model_by_side.csv) · [all tables](data/01_decomposition/_index.csv) · [script](../analysis/01_decomposition.py) · source: [expected_points.parquet](../data/zakihussa1n/expected_points.parquet)
@@ -115,10 +122,11 @@ Data: [5_conversion.csv](data/01_decomposition/5_conversion.csv) · [5b_conversi
 
 ![How often do you save a lost position, and how?](figures/01_decomposition/6_saves.svg)
 
-- From positions the model rated nearly lost you avoid losing more often than your opponents in 1+0 (21.9% against 17.3%, 4.6 percentage points more, CI 2.1 to 7.1), 3+2 (5.8 more, CI 1.9 to 9.8) and 10+0 (9.6 more, CI 3.7 to 16.0).
-- Both sides score below the model from such positions: in 1+0 you scored 0.185 where it expected 0.212, about -30 Elo (CI -49 to -10), your opponents about -90 Elo (CI -112 to -70); your edge is losing less than the model expects, not beating it.
+- From positions the model rated at most 20% to win, you avoid losing more often than your opponents in 1+0 (21.9% against 17.3%, 4.6 percentage points more, CI 2.1 to 7.1), 3+2 (5.8 more, CI 1.9 to 9.8) and 10+0 (9.6 more, CI 3.7 to 16.0).
+- Both sides score below the model from such positions: in 1+0 you scored 0.185 where it expected 0.212, -0.027 (CI -0.044 to -0.010), about -30 Elo (CI -49 to -10).
+- Your opponents fall further short, about -90 Elo (CI -112 to -70): your edge is falling short of the model by less than they do, not beating it.
 - In 1+0, 49% of your saves were wins on time and 20% draws on time (your opponent ran out of time but you had too little material to win), against 35% and 25% of your opponents' saves.
-- In longer games saves mostly come on the board: 50% of your blitz saves and 58% in 10+0, with only 14% (blitz) and 1% (10+0) won on time.
+- In longer games saves mostly come on the board: 50% of your blitz saves and 58% in 10+0 were wins on the board, with only 14% (blitz) and 1% (10+0) won on time.
 
 Data: [5_conversion.csv](data/01_decomposition/5_conversion.csv) · [5b_conversion_diff.csv](data/01_decomposition/5b_conversion_diff.csv) · [6_saves_how.csv](data/01_decomposition/6_saves_how.csv) · [all tables](data/01_decomposition/_index.csv) · [script](../analysis/01_decomposition.py) · source: [games_decomposed.parquet](../data/zakihussa1n/games_decomposed.parquet)
 
@@ -127,8 +135,10 @@ Data: [5_conversion.csv](data/01_decomposition/5_conversion.csv) · [5b_conversi
 ![How many of your losses came while you still had chances?](figures/01_decomposition/7_lost_with_chances.svg)
 
 - In 1+0, 34% of your losses (CI 31% to 36%) ended while the model still gave you real chances after your last move, against 29% of your opponents' losses: 4.4 percentage points more (CI 1.1 to 7.5).
-- In 1+0 the difference is checkmates delivered while the clock still gave the loser chances: 18.5% of your losses against 9.0% of your opponents'; you lose on time with chances less often (8.8% against 12.1%).
-- In 10+0, 48% of your losses came while you still had chances, against 26% of your opponents', almost all resignations: 41% of your losses against 17%.
+- In 1+0 the gap comes from checkmates: 18.5% of your losses were mates delivered while the model still gave you chances, against 9.0% of your opponents' losses, 9.5 percentage points more (CI 7.0 to 12.0).
+- In 1+0 you lose on time with chances less often than your opponents: 8.8% of your losses against 12.1%.
+- In 10+0, 48% of your losses came while you still had chances, against 26% of your opponents', 21.6 percentage points more (CI 14.2 to 28.9).
+- Most of those 10+0 losses were resignations: 41% of your losses against 17% of your opponents'.
 - The same resignation pattern shows in 1+1 (32% of your losses against 18%, 13.5 percentage points more, CI 4.9 to 21.9) and across blitz (25.3% against 19.9%).
 
 Data: [7_lost_with_chances.csv](data/01_decomposition/7_lost_with_chances.csv) · [all tables](data/01_decomposition/_index.csv) · [script](../analysis/01_decomposition.py) · source: [games_decomposed.parquet](../data/zakihussa1n/games_decomposed.parquet)
@@ -158,16 +168,17 @@ Data: [7_lost_with_chances.csv](data/01_decomposition/7_lost_with_chances.csv) �
 
 ## 2. How did your rating move, and what changed in your play as it rose?
 
-**Short answer:** Your rating rose in every pool (bullet has since fallen back from its 1300 peak), but your opponents' play improved in step with yours; what was yours was losing on time less often in 1+0, getting faster than the field in several longer controls, and scoring well above expectation against much stronger players (about +112 Elo), at low and high ratings alike.
+**Short answer:** Your rating rose in every pool (bullet has since fallen back from its 1300 peak), but your opponents' move quality improved at least as much as yours (in 1+0 slightly more in centipawns); what was yours was losing on time less often in 1+0, getting faster than your opponents in several longer controls, and scoring well above expectation against much stronger players (about +112 Elo), at low and high ratings alike.
 
 ### 2.1 How did your rating move over time?
 
 ![How did your rating move over time?](figures/02_trajectory/1_rating_by_year.svg)
 
-- Bullet went from 695 (Aug 2021) to a peak of 1300 (Apr 2025) and has since fallen 493 points, to 807.
-- Blitz went from 800 (Aug 2021) to a peak of 1050 (Feb 2024) and stands at 956.
+- Bullet started at 695 (Aug 2021), fell to 160 (Apr 2022), peaked at 1300 (Apr 2025) and has since fallen 493 points, to 807.
+- Blitz started at 800 (Aug 2021), fell to 252 (Mar 2022), peaked at 1050 (Feb 2024) and stands at 956.
 - Rapid climbed 590 points, from 616 (Feb 2022) to 1206, close to its 1222 peak (Apr 2023).
-- Each rating line mixes controls: in 2025, 17% of your bullet games were 1+1, and in blitz 3+0 replaced 3+2 as the main control (66% of the year's games).
+- Each rating line mixes controls: in 2025, 17% of your bullet games were 1+1.
+- In blitz, 3+0 replaced 3+2 as the main control in 2025 (66% of the year's games).
 
 Data: [1_rating_by_year.csv](data/02_trajectory/1_rating_by_year.csv) · [1b_rating_milestones.csv](data/02_trajectory/1b_rating_milestones.csv) · [1c_games_by_year.csv](data/02_trajectory/1c_games_by_year.csv) · [all tables](data/02_trajectory/_index.csv) · [script](../analysis/02_trajectory.py) · source: [my_games.parquet](../data/zakihussa1n/my_games.parquet)
 
@@ -177,7 +188,7 @@ Data: [1_rating_by_year.csv](data/02_trajectory/1_rating_by_year.csv) · [1b_rat
 
 - In 1+0, from your lowest-rated third of games (168 to 982) to your highest (1085 to 1300), you lost 9.7 fewer centipawns per move (CI 6.6 to 13.3).
 - Your opponents in those games improved more, by 13.6 centipawns per move (CI 10.0 to 17.5): the field gained 3.9 per move on you (CI 1.4 to 6.3).
-- In expected points lost per move (the main measure, which already allows for both ratings) your change in 1+0 matched the field's: difference +0.0007 (CI -0.0002 to +0.0014), no clear difference.
+- In expected points lost per move (the main measure, which already allows for both ratings) there is no clear difference between your change in 1+0 and your opponents': +0.0007 (CI -0.0002 to +0.0014).
 - In 3+2 and 10+0 the centipawn gap also leans towards the field (2.1 and 3.5 per move), but both CIs include zero (-1.2 to 5.5; -1.6 to 9.5).
 
 Data: [2_quality_by_band.csv](data/02_trajectory/2_quality_by_band.csv) · [2c_quality_change.csv](data/02_trajectory/2c_quality_change.csv) · [all tables](data/02_trajectory/_index.csv) · [script](../analysis/02_trajectory.py) · source: [games_decomposed.parquet](../data/zakihussa1n/games_decomposed.parquet)
@@ -186,10 +197,11 @@ Data: [2_quality_by_band.csv](data/02_trajectory/2_quality_by_band.csv) · [2c_q
 
 ![Did you get faster?](figures/02_trajectory/3_speed_by_band.svg)
 
-- In 1+0 you went from 1.66 to 1.36 seconds per move between your lowest- and highest-rated thirds of games, and your opponents sped up by about the same (no clear difference: 0.03 s, CI 0.00 to 0.06).
+- In 1+0 you went from 1.66 to 1.36 seconds per move between your lowest- and highest-rated thirds of games.
+- Your 1+0 opponents sped up slightly more, by 0.030 s per move, but the CI (-0.001 to 0.064) includes zero: no clear difference.
 - You sped up more than your opponents in 3+2 (0.21 s per move more, CI 0.02 to 0.44), 5+2 (0.86, CI 0.04 to 1.70), 5+5 (2.14, CI 1.18 to 3.16) and 10+0 (0.73, CI 0.15 to 1.34); in 1+1, 3+0 and 5+0 there is no clear difference.
-- Playing faster did not mean living on the clock: in 3+2 your share of moves with under 10 s beyond the increment fell from 5.1% to 2.3%.
-- Even within a single year, games where you spent less of your clock per move go with a higher rating: about 28 rating points per standard deviation in 1+0 (CI 5 to 43) and 25 in 3+2 (CI 1 to 39).
+- Playing faster did not mean living on the clock: in 3+2 your share of moves with under 10 s beyond the increment fell from 5.1% to 2.3%, and your opponents' from 4.5% to 2.3% (no clear difference).
+- Even within a single year, games where you spent a smaller share of your clock per move go with a higher rating: about 28 rating points for each typical step down in that share (one standard deviation) in 1+0 (CI 5 to 43) and 25 in 3+2 (CI 1 to 39); this is an association, not proof that playing faster raised your rating.
 
 Data: [3_speed_by_band.csv](data/02_trajectory/3_speed_by_band.csv) · [3c_speed_change.csv](data/02_trajectory/3c_speed_change.csv) · [3d_rating_regression.csv](data/02_trajectory/3d_rating_regression.csv) · [all tables](data/02_trajectory/_index.csv) · [script](../analysis/02_trajectory.py) · source: [moves_enriched.parquet](../data/zakihussa1n/moves_enriched.parquet)
 
@@ -206,14 +218,14 @@ Data: [4_time_losses.csv](data/02_trajectory/4_time_losses.csv) · [4b_time_loss
 
 ### 2.5 How do you score against stronger and weaker players?
 
-![How do you score against stronger and weaker players?](figures/02_trajectory/5_score_vs_gap.svg)
+![How do you score against stronger and weaker players?](figures/02_trajectory/5b_score_vs_gap_pooled.svg)
 
 - Against opponents more than 100 points stronger you scored 0.393 where Elo expects 0.254: +0.139 (CI +0.083 to +0.205), about +112 Elo (CI +70 to +159), over all rated games.
 - The excess is clearest in 1+0, +0.238 (CI +0.125 to +0.349), about +187 Elo (CI +106 to +265) from 66 games, and in 3+2, +0.128 (CI +0.005 to +0.240), about +105 Elo (CI +5 to +185).
 - Against opponents 100 or more points weaker, over all rated games, you scored 0.699 where Elo expects 0.723: -0.023 (CI -0.092 to +0.038), about -20 Elo (CI -73 to +34), no clear difference.
-- Splitting the 197 games against much stronger opponents at their median rating gives the same excess in both halves: +0.137 (CI +0.050 to +0.231) in the lower half and +0.141 (CI +0.057 to +0.234) in the upper, about +110 and +113 Elo.
+- Splitting the 197 games against much stronger opponents at the median of your own rating gives the same excess in both halves: +0.137 (CI +0.050 to +0.231) in your lower half and +0.141 (CI +0.057 to +0.234) in your upper half, about +110 and +113 Elo.
 
-Data: [5_score_vs_gap.csv](data/02_trajectory/5_score_vs_gap.csv) · [5b_score_vs_gap_pooled.csv](data/02_trajectory/5b_score_vs_gap_pooled.csv) · [5d_level_split.csv](data/02_trajectory/5d_level_split.csv) · [all tables](data/02_trajectory/_index.csv) · [script](../analysis/02_trajectory.py) · source: [my_games.parquet](../data/zakihussa1n/my_games.parquet)
+Data: [5_score_vs_gap.csv](data/02_trajectory/5_score_vs_gap.csv) ([per-control chart](figures/02_trajectory/5_score_vs_gap.svg)) · [5b_score_vs_gap_pooled.csv](data/02_trajectory/5b_score_vs_gap_pooled.csv) · [5d_level_split.csv](data/02_trajectory/5d_level_split.csv) · [all tables](data/02_trajectory/_index.csv) · [script](../analysis/02_trajectory.py) · source: [my_games.parquet](../data/zakihussa1n/my_games.parquet)
 
 ### 2.6 How do upsets happen?
 
@@ -221,8 +233,8 @@ Data: [5_score_vs_gap.csv](data/02_trajectory/5_score_vs_gap.csv) · [5b_score_v
 
 - Upsets are rare: 91 wins against opponents at least 100 points stronger and 68 losses to opponents at least 100 weaker, against 1568 ordinary wins and 1508 ordinary losses.
 - Upset wins look like ordinary wins: the stronger opponent lost 0.038 expected points per move to your 0.029, much as opponents do in your ordinary wins (0.031 to your 0.024).
-- Upset losses are your worst games: you lost 0.050 expected points per move (CI 0.039 to 0.063), against 0.032 in ordinary losses.
-- They end the usual way for the time class: in bullet, 64% of upset wins came on time, as did 61% of ordinary wins.
+- Upset losses are badly played on both sides: you lost 0.050 expected points per move (CI 0.039 to 0.063) against 0.032 in ordinary losses, and your opponent 0.039 against 0.025.
+- Upsets end the usual way for the time class: in bullet, 64% of upset wins came on time, as did 61% of ordinary wins.
 
 Data: [6_upsets.csv](data/02_trajectory/6_upsets.csv) · [all tables](data/02_trajectory/_index.csv) · [script](../analysis/02_trajectory.py) · source: [games_decomposed.parquet](../data/zakihussa1n/games_decomposed.parquet)
 
@@ -260,7 +272,7 @@ Data: [6_upsets.csv](data/02_trajectory/6_upsets.csv) · [all tables](data/02_tr
 
 ![How often are you short of time?](figures/03_time_pressure/1_low_clock_share.svg)
 
-- In 1+0, 12.1% of your moves are played with under 10 s left; your opponents' share is 11.6%.
+- In 1+0, 12.1% of your moves are played with under 10 s left and 11.6% of your opponents': no clear difference.
 - In 3+0 you play 3.9% of your moves under 10 s and your opponents 1.3% (difference 2.6% of moves, CI 1.2% to 4.2%).
 - In 1+1, counting the increment out, 10.3% of your moves have under 10 s of buffer, against 8.9% with under 10 s on the clock.
 - In rapid 10+0 it almost never happens: 0.1% of your moves.
@@ -271,8 +283,8 @@ Data: [1_low_clock_share.csv](data/03_time_pressure/1_low_clock_share.csv) · [a
 
 ![How often do you drop under 10 seconds in a game?](figures/03_time_pressure/2_games_under_line.svg)
 
-- In 1+0 you drop under 10 s in 52.2% of games, your opponents in 54.4% (difference CI -4.3% to -0.2%).
-- In 1+1 it is 25.5% of games for you and 32.0% for your opponents (difference CI -11.2% to -1.0%).
+- In 1+0 you drop under 10 s in 52.2% of games and your opponents in 54.4%: slightly less often (CI of the difference -4.3% to -0.2% of games).
+- In 1+1 you drop under 10 s less often than your opponents: 25.5% of games against 32.0% (CI of the difference -11.2% to -1.0% of games).
 - In 5+0 you drop under 10 s in 23.3% of games, your opponents in only 6.7%.
 - In 3+0 you get low in 17.2% of games against 11.5%, but the CI of the difference (-0.7% to 11.5%) includes zero.
 
@@ -284,10 +296,11 @@ Data: [2_games_under_line.csv](data/03_time_pressure/2_games_under_line.csv) · 
 
 ![The same by clock buffer, in the controls with an increment](figures/03_time_pressure/3b_quality_by_buffer.svg)
 
-- In 1+0, expected points lost per move rise from 0.029 with 30-60 s left to 0.040 under 5 s, the same for you and your opponents (difference under 5 s -0.0001, CI -0.0035 to 0.0026).
+- In 1+0, expected points lost per move rise from 0.029 with 30-60 s left to 0.040 under 5 s.
+- Under 5 s in 1+0 there is no clear difference between you and your opponents (-0.0001, CI -0.0035 to 0.0026).
 - In 3+2, under 5 s you lose 0.045 per move and your opponents 0.035, but the CI of the difference (-0.009 to 0.032) includes zero.
 - Counting the increment out changes little: in 1+1, under 5 s of buffer you lose 0.041 per move and your opponents 0.043, no clear difference (CI -0.015 to 0.012).
-- Part of the rise is the position, not the clock: in 1+0, 94.6% of moves under 5 s are endgame moves, against 9.5% with 30 s or more.
+- Low-clock moves are played in sharper positions: in 1+0 the best move is worth on average 0.047 expected points more than the second-best under 5 s, against 0.026 with 30 s or more; [3.4](#34-are-you-worse-than-your-opponents-under-pressure-once-the-positions-stakes-are-held-fixed) holds this fixed.
 
 Data: [3_quality_by_clock.csv](data/03_time_pressure/3_quality_by_clock.csv) · [3b_quality_by_buffer.csv](data/03_time_pressure/3b_quality_by_buffer.csv) · [3e_low_clock_positions.csv](data/03_time_pressure/3e_low_clock_positions.csv) · [all tables](data/03_time_pressure/_index.csv) · [script](../analysis/03_time_pressure.py) · source: [expected_points.parquet](../data/zakihussa1n/expected_points.parquet)
 
@@ -295,10 +308,10 @@ Data: [3_quality_by_clock.csv](data/03_time_pressure/3_quality_by_clock.csv) · 
 
 ![Are you worse than your opponents under pressure, once the position's stakes are held fixed?](figures/03_time_pressure/4_adjusted_gap.svg)
 
-- In 1+0 under 5 s, with stakes, phase, material and the opponent's clock held fixed, the gap between you and your opponents is -0.0015 expected points per move (CI -0.0040 to 0.0011): no clear difference.
-- In centipawns you do lose more there: 8.6 more per move than your opponents under 5 s in 1+0 (CI 1.1 to 15.9).
-- In 1+1 with 5-10 s left you hold up better than your opponents: 0.0099 fewer expected points lost per move (CI 0.0038 to 0.0190).
-- Except 3+2, blitz controls have too few low-clock moves on their own; pooled, the gap under 5 s is 0.0025 (CI -0.0069 to 0.0125): no clear difference.
+- In 1+0, with stakes, phase, material and the opponent's clock held fixed, the change in expected points lost per move when dropping under 5 s (compared with moves at 30 s or more) shows no clear difference between you and your opponents: -0.0015 (CI -0.0040 to 0.0011).
+- In centipawns the drop under 5 s in 1+0 hurts you more: compared with moves at 30 s or more, your loss rises 8.6 centipawns per move more than your opponents' (CI 1.1 to 15.9).
+- In 1+1 with 5-10 s left you hold up better: compared with moves at 30 s or more, your expected points lost per move come out 0.0099 better than your opponents' (CI 0.0038 to 0.0190).
+- Except 3+2, blitz controls have too few low-clock moves on their own; pooled, the difference between your rise under 5 s and your opponents' is 0.0025 (CI -0.0069 to 0.0125): no clear difference.
 
 Data: [4_adjusted_gap.csv](data/03_time_pressure/4_adjusted_gap.csv) · [all tables](data/03_time_pressure/_index.csv) · [script](../analysis/03_time_pressure.py) · source: [expected_points.parquet](../data/zakihussa1n/expected_points.parquet)
 
@@ -306,9 +319,11 @@ Data: [4_adjusted_gap.csv](data/03_time_pressure/4_adjusted_gap.csv) · [all tab
 
 ![What rating do you play like at each clock level?](figures/03_time_pressure/5_rating_equivalent.svg)
 
-- In 1+0, your moves under 10 s look like those of a 813-rated player (CI 649 to 941); your mean rating there is 968.
+- In 1+0, your moves under 10 s look like those of an 813-rated player (CI 649 to 941), against your mean rating of 968.
+- The yardstick is your opponents' moves at all clock levels, so it largely reflects what a low clock does to anyone, not a weakness of yours: under 5 s there is no clear difference between you and your opponents ([3.3](#33-how-does-move-quality-change-as-the-clock-runs-down)).
 - Your 1+0 moves with 30 s or more look like a 1078 player (CI 1035 to 1130).
-- In 3+2 your moves under 10 s look like a 287 player, but the CI is very wide (up to 687, just below your mean of 709); with 30 s or more, 775.
+- In 3+2 your moves under 10 s look like those of a 287-rated player, but the CI is very wide (-222 to 687), though its top is still below your mean of 709.
+- In 3+2 your moves with 30 s or more look like a 775 player (CI 735 to 823).
 - In the other controls there is either no estimate (the opponents' rating line has no clear slope, or there are too few low-clock moves) or its CI spans several hundred rating points.
 
 Data: [5_rating_equivalent.csv](data/03_time_pressure/5_rating_equivalent.csv) · [all tables](data/03_time_pressure/_index.csv) · [script](../analysis/03_time_pressure.py) · source: [moves_analysed.parquet](../data/zakihussa1n/moves_analysed.parquet)
@@ -342,14 +357,15 @@ Data: [6_low_clock_cost.csv](data/03_time_pressure/6_low_clock_cost.csv) · [6b_
 
 ## 4. How do you use your clock, and what do losses on time cost you?
 
-**Short answer:** In bullet 1+0 your clock keeps pace with your opponents' and losses on time are a net gain for you, in blitz 3+2 and 5+0 you spend more time in the opening and fall behind by move 20, but only in 5+0 does that turn into clearly more losses on time; your long thinks end no better than your opponents'.
+**Short answer:** In bullet 1+0 your clock keeps pace with your opponents', and their losses on time cost them more than yours cost you (about +22 Elo for you); in blitz 3+2 and 5+0 you spend more time in the opening and fall behind by move 20, but only 5+0 shows more losses on time for you than for your opponents, and that rests on just 90 games; in 1+0 your longer thinks lose more centipawns than your opponents'.
 
 ### 4.1 How does your clock compare with your opponent's through the game?
 
 ![How does your clock compare with your opponent's through the game?](figures/04_clock_allocation/1_clock_by_move.svg)
 
 - In 1+0 the two clocks run level: before move 20 you are 0.2 s ahead on average (CI -0.1 to 0.5).
-- In 3+2 you fall behind early: 10.0 s behind at move 20 (CI 7.5 to 12.5), and more than 5% of the base time behind in 51.5% of games.
+- In 3+2 you fall behind early: 10.0 s behind at move 20 (CI 7.5 to 12.5).
+- At move 20 of a 3+2 game you are more than 5% of the base time behind in 51.5% of games.
 - In 5+0 you are 31.3 s behind at move 20 (CI 17.4 to 46.6).
 - In 5+2 it is the other way round: you are 19.0 s ahead at move 20 (CI 7.0 to 28.6).
 
@@ -362,7 +378,7 @@ Data: [1b_clock_gap.csv](data/04_clock_allocation/1b_clock_gap.csv) · [1_clock_
 - In 3+2 you spend 5.06 s per opening move and your opponents 4.45 s (difference 0.60, CI 0.47 to 0.72).
 - In 5+0 the opening gap is larger: 8.06 s against 5.85 s per move.
 - In 1+0 the gap is small: 1.36 s against 1.26 s per opening move.
-- Priced by the win model, your slower pace in 3+2 costs you 0.034 expected points per game more than your opponents' pace costs them (CI 0.018 to 0.053).
+- The win model charges your 3+2 time use 0.034 expected points per game more than your opponents' (CI 0.018 to 0.053): its price for the extra seconds, not points you actually lost.
 
 Data: [2_time_by_phase.csv](data/04_clock_allocation/2_time_by_phase.csv) · [4d_clock_charge.csv](data/04_clock_allocation/4d_clock_charge.csv) · [all tables](data/04_clock_allocation/_index.csv) · [script](../analysis/04_clock_allocation.py) · source: [moves_enriched.parquet](../data/zakihussa1n/moves_enriched.parquet), [expected_points.parquet](../data/zakihussa1n/expected_points.parquet)
 
@@ -381,10 +397,10 @@ Data: [3_time_by_stakes.csv](data/04_clock_allocation/3_time_by_stakes.csv) · [
 
 ![Do longer thinks produce better moves?](figures/04_clock_allocation/4_quality_by_think.svg)
 
-- For both sides, the longer the think the worse the move, because time goes to hard positions: in 1+0, 35 centipawns lost on moves under 0.38 s against 156 on thinks of 6 s or more.
+- For both sides, the longer the think the worse the move, most likely because long thinks go to hard positions: in 1+0, 35 centipawns lost on moves under 0.38 s against 156 on thinks of 6 s or more.
 - Your quick moves are cleaner than your opponents': in 1+0, 10.7 fewer centipawns lost per move under 0.38 s (CI 7.3 to 13.7).
-- Your move quality falls off faster with thinking time than theirs: with the position held fixed and relative to each side's own quick moves, your 1+0 thinks of 6 s or more lose 31.6 centipawns more (CI 13.7 to 48.5).
-- On the long thinks themselves the gap is clear at 3-6 s (+11.1 centipawns, CI 5.6 to 16.1) but not at 6 s or more (+12.5, CI -4.1 to 28.8).
+- Your move quality falls off faster with thinking time than theirs: comparing similar positions (same phase, stakes, clocks and material) and measuring from each side's own quick moves, your 1+0 thinks of 6 s or more lose 31.6 centipawns more (CI 13.7 to 48.5).
+- In 1+0, on thinks of 3-6 s you lose 11.1 more centipawns per move than your opponents (CI 5.6 to 16.1); on thinks of 6 s or more there is no clear difference (+12.5, CI -4.1 to 28.8).
 
 Data: [4b_cp_loss_by_think.csv](data/04_clock_allocation/4b_cp_loss_by_think.csv) · [4c_adjusted_think_gradient.csv](data/04_clock_allocation/4c_adjusted_think_gradient.csv) · [all tables](data/04_clock_allocation/_index.csv) · [script](../analysis/04_clock_allocation.py) · source: [moves_analysed.parquet](../data/zakihussa1n/moves_analysed.parquet)
 
@@ -395,7 +411,8 @@ Data: [4b_cp_loss_by_think.csv](data/04_clock_allocation/4b_cp_loss_by_think.csv
 - In 1+0 you lost 705 games on time, 52.1% of your losses; your opponents lost 946 (64.9% of theirs).
 - Most flags fall in positions that were still open: 74.4% of your 1+0 flags, with only 5.7% from winning positions.
 - Net, the clock gives you 0.032 expected points per 1+0 game (CI 0.020 to 0.042), about +22 Elo (CI +14 to +29).
-- In 5+0 it runs the other way: 22 losses on time against 4 for your opponents, about -44 Elo (CI -76 to -11), from only 90 games and only 4 opponent flags.
+- In 5+0 it runs the other way: you lost 22 games on time, your opponents 4.
+- Net, losses on time cost you about -44 Elo in 5+0 (CI -76 to -11), but from only 90 games and 4 opponent flags: too few for a firm reading.
 
 Data: [5b_flag_counts.csv](data/04_clock_allocation/5b_flag_counts.csv) · [5_flag_board_state.csv](data/04_clock_allocation/5_flag_board_state.csv) · [5d_clock_cost_per_game.csv](data/04_clock_allocation/5d_clock_cost_per_game.csv) · [all tables](data/04_clock_allocation/_index.csv) · [script](../analysis/04_clock_allocation.py) · source: [expected_points.parquet](../data/zakihussa1n/expected_points.parquet)
 
@@ -431,7 +448,7 @@ Data: [6_clock_before_flag.csv](data/04_clock_allocation/6_clock_before_flag.csv
 
 ## 5. How do your playing sessions shape your results?
 
-**Short answer:** Your sessions are short (a median of 3 games) and you stop far more often after a loss; once that stopping habit is accounted for there is no sign of fatigue or a slow start, and the one real effect is a dip in the game right after a loss (about −38 Elo across all games).
+**Short answer:** Your sessions are short (a median of 3 games) and you stop far more often after a loss (33% against 17% after a win); once that stopping habit is accounted for there is no clear sign of fatigue or a slow start. The previous result does carry over: you score 0.054 less after a loss than after a win (about −38 Elo), mostly because you play above expectation after wins, and after 3+ wins in a row you score 0.092 more than after none (about +65 Elo).
 
 ### 5.1 How long are your sessions?
 
@@ -460,8 +477,10 @@ Data: [2_stop_by_result.csv](data/05_sessions/2_stop_by_result.csv) · [2b_stop_
 ![Do you get worse as a session goes on?](figures/05_sessions/3_minus_game1.svg)
 
 - At first sight you get better: across all games, games 6-9 score +0.038 above expectation (CI +0.006 to +0.071), about +26 Elo (CI +4 to +49), against +0.010 in game 1.
-- Against game 1 of the same session, no later game number differs clearly in any control with enough sessions; across all games, games 6-9 minus game 1 is −0.017 (CI −0.080 to +0.049), about −12 Elo (CI −56 to +34).
-- The regression agrees: comparing sessions with each other, score rises +0.041 per doubling of the game number (CI +0.018 to +0.065), but within the same session the change is −0.002 (CI −0.024 to +0.024).
+- Against game 1 of the same session, no later game number differs clearly in any control with enough sessions.
+- Across all games, games 6-9 minus game 1 is −0.017 (CI −0.080 to +0.049), about −12 Elo (CI −56 to +34): no clear difference.
+- Comparing sessions with each other, score vs expectation rises +0.041 per doubling of the game number (CI +0.018 to +0.065), about +28 Elo (CI +13 to +46).
+- Within the same session there is no clear change: −0.002 per doubling (CI −0.024 to +0.024), about −1 Elo (CI −17 to +17).
 - Your move quality does not drift: within a session, your expected points lost per move change by −0.0010 per doubling of the game number (CI −0.0027 to +0.0006).
 
 Data: [3_minus_game1.csv](data/05_sessions/3_minus_game1.csv) · [3b_game_number.csv](data/05_sessions/3b_game_number.csv) · [3c_regression.csv](data/05_sessions/3c_regression.csv) · [all tables](data/05_sessions/_index.csv) · [script](../analysis/05_sessions.py) · source: [games_decomposed.parquet](../data/zakihussa1n/games_decomposed.parquet)
@@ -471,8 +490,8 @@ Data: [3_minus_game1.csv](data/05_sessions/3_minus_game1.csv) · [3b_game_number
 ![Is there a warm-up effect?](figures/05_sessions/4_warmup.svg)
 
 - Across all games, game 2 scores −0.013 against game 1 of the same session (CI −0.060 to +0.027), about −9 Elo (CI −42 to +19): no clear difference.
-- Your expected points lost per move change by −0.0009 from game 1 to game 2 (CI −0.0039 to +0.0021), much like your opponents' −0.0004: you do not start cold.
-- In 1+1 game 2 looks worse, −0.146 (CI −0.312 to +0.024), about −103 Elo (CI −246 to +17), but the interval includes zero.
+- Your expected points lost per move change by −0.0009 from game 1 to game 2 (CI −0.0039 to +0.0021), much like your opponents' −0.0004: no clear sign that you start cold.
+- In 1+1 game 2 looks worse, −0.146 (CI −0.312 to +0.024), about −103 Elo (CI −246 to +17), but this is no clear difference: the interval includes zero.
 - 2+1, 3+0, 5+0, 5+2 and 5+5 have too few sessions of 3+ games to tell.
 
 Data: [4_warmup.csv](data/05_sessions/4_warmup.csv) · [all tables](data/05_sessions/_index.csv) · [script](../analysis/05_sessions.py) · source: [games_decomposed.parquet](../data/zakihussa1n/games_decomposed.parquet)
@@ -481,10 +500,13 @@ Data: [4_warmup.csv](data/05_sessions/4_warmup.csv) · [all tables](data/05_sess
 
 ![What happens in the game after a loss?](figures/05_sessions/5_after_loss.svg)
 
-- Across all games you score −0.054 less after a loss than after a win (CI −0.083 to −0.027), about −38 Elo (CI −58 to −19): +0.041 above expectation after a win, −0.014 after a loss.
-- In 1+0 the dip is −0.057 (CI −0.099 to −0.016), about −40 Elo (CI −70 to −11).
-- Blitz splits: in 3+2 there is no clear difference (−0.014, CI −0.068 to +0.038, about −10 Elo, CI −48 to +26); in 3+0 the dip looks far larger (−0.211, about −157 Elo, CI −344 to −15) but rests on only 39 games after a loss, too few sessions for a firm reading.
-- After a loss you lose +0.0024 more expected points per move (CI +0.0006 to +0.0044), and your opponents in those games +0.0018 (CI −0.0001 to +0.0037): the games get messier for both sides, slightly more for you.
+- Across all games you score 0.054 less after a loss than after a win (CI −0.083 to −0.027), about −38 Elo (CI −58 to −19).
+- The gap comes mostly from the wins: after a win you score +0.040 above expectation (about +28 Elo, CI +13 to +42); after a loss −0.014 (about −10 Elo, CI −24 to +4), no clear difference from expectation.
+- In 1+0 the gap is −0.057 (CI −0.099 to −0.016), about −40 Elo (CI −70 to −11).
+- In 3+2 there is no clear difference between the game after a loss and the game after a win (−0.014, CI −0.068 to +0.038), about −10 Elo (CI −48 to +26).
+- In 3+0 the gap looks far larger (−0.211, about −157 Elo, CI −344 to −15), but it rests on only 39 games after a loss: too few for a firm reading.
+- After a loss you lose 0.0024 more expected points per move than after a win (CI +0.0006 to +0.0044).
+- Your opponents in those games show no clear difference (+0.0018, CI −0.0001 to +0.0037), so your gap to them widens by 0.0007 per move (CI +0.0002 to +0.0012).
 
 Data: [5b_after_loss_minus_after_win.csv](data/05_sessions/5b_after_loss_minus_after_win.csv) · [5_after_result.csv](data/05_sessions/5_after_result.csv) · [all tables](data/05_sessions/_index.csv) · [script](../analysis/05_sessions.py) · source: [games_decomposed.parquet](../data/zakihussa1n/games_decomposed.parquet)
 
@@ -492,7 +514,7 @@ Data: [5b_after_loss_minus_after_win.csv](data/05_sessions/5b_after_loss_minus_a
 
 ![What about after a losing streak?](figures/05_sessions/6_loss_streak.svg)
 
-- Across all games, after 3 or more losses in a row you score −0.083 less than when the previous game was not a loss (CI −0.153 to −0.019), about −59 Elo (CI −112 to −14).
+- Across all games, after 3 or more losses in a row you score 0.083 less than when the previous game was not a loss (CI −0.153 to −0.019), about −59 Elo (CI −112 to −14).
 - In 1+0, the only control with enough streaks of 3+, the gap is −0.102 (CI −0.191 to −0.011), about −73 Elo (CI −144 to −7).
 - The streak does not clearly deepen the dip: 3+ losses against a single loss is −0.038 (CI −0.109 to +0.036), about −27 Elo (CI −78 to +25).
 - Winning streaks run the other way: after 3+ wins you score +0.092 more than after none (CI +0.040 to +0.136), about +65 Elo (CI +28 to +98).
@@ -507,7 +529,7 @@ Data: [6d_streak_contrasts.csv](data/05_sessions/6d_streak_contrasts.csv) · [6_
 - After a 5-30 minute pause you score −0.049 (CI −0.098 to +0.004), about −34 Elo (CI −69 to +3): the lowest of the bins, but no clear difference from zero.
 - That pause partly reflects the previous result: 58% of those games follow a loss, against 40% of instant re-queues.
 - Breaks of a day or more show no clear difference where there are enough games (all games, 1+0, 3+2; all games after 1-3 days: −0.006, CI −0.104 to +0.081); the other controls are too thin.
-- After a loss you still start the next game within a minute 83% of the time (87% after a win).
+- When you play on after a loss, you start the next game within a minute 83% of the time (87% after a win).
 
 Data: [7_break_before.csv](data/05_sessions/7_break_before.csv) · [7b_requeue_speed.csv](data/05_sessions/7b_requeue_speed.csv) · [all tables](data/05_sessions/_index.csv) · [script](../analysis/05_sessions.py) · source: [games_decomposed.parquet](../data/zakihussa1n/games_decomposed.parquet)
 
@@ -532,13 +554,14 @@ Data: [7_break_before.csv](data/05_sessions/7_break_before.csv) · [7b_requeue_s
 
 ## 6. Does the time of day or the day of the week matter?
 
-**Short answer:** Mostly no: across all games the better and worse hours look like chance (shuffle test p = 0.41) and do not repeat between 2021-2023 and 2024-2026; the exceptions are a late-evening dip in 1+0 and an hour pattern in 3+0, a small control, that chance does not easily explain.
+**Short answer:** Mostly no: across all games the better and worse hours look like chance (shuffle test p = 0.41) and do not repeat between 2021-2023 and 2024-2026. Two hints remain, neither firm: in 1+0 late evening scores below expectation, but the 1+0 shuffle test (p = 0.47) and the split by years do not back it up; 3+0 shows an hour pattern on only 208 games (p = 0.06 after allowing for the nine controls tested).
 
 ### 6.1 Do you score better at some hours?
 
 ![Do you score better at some hours?](figures/06_time_of_day/1_hour_band.svg)
 
-- Across all games, midday (12-14) is your best band, +0.047 above expectation (CI +0.013 to +0.083), about +33 Elo (CI +9 to +58), and late evening (21-23) the lowest, −0.029 (CI −0.069 to +0.006): no clear difference from zero there.
+- Across all games, midday (12-14) is your best band: +0.047 above expectation (CI +0.013 to +0.083), about +33 Elo (CI +9 to +58).
+- Late evening (21-23) is the lowest band, −0.029 (CI −0.069 to +0.006): no clear difference from zero.
 - In 1+0 the late band is clearly below expectation: −0.049 (CI −0.103 to −0.003), about −35 Elo (CI −73 to −2).
 - Your move quality and your opponents' move together hour by hour: across all games the gap between you never exceeds 0.0009 expected points per move in any band.
 - Only 14 control-by-band cells have enough games and sessions to read; 2 of them have an interval clear of zero (1+0 late, 10+0 evening), against 0.7 expected by chance.
@@ -571,10 +594,12 @@ Data: [3_band_weekday.csv](data/06_time_of_day/3_band_weekday.csv) · [3b_grid_s
 
 ![Does any effect survive accounting for sessions, rating and year?](figures/06_time_of_day/4_raw_vs_adjusted.svg)
 
-- Across all games, adjusting barely moves the bands against the afternoon: late evening is −0.041 raw and −0.038 adjusted (CI −0.087 to +0.006), about −27 Elo (CI −61 to +4); midday +0.036 raw and +0.031 adjusted (CI −0.012 to +0.073).
+- Across all games, adjusting barely moves late evening against the afternoon: −0.041 raw, −0.038 adjusted (CI −0.087 to +0.006), about −27 Elo (CI −61 to +4): no clear difference.
+- Midday against the afternoon is +0.036 raw and +0.031 adjusted (CI −0.012 to +0.073): no clear difference either.
 - In 1+0 late evening stays below the afternoon after adjustment: −0.058 (CI −0.124 to −0.003), about −41 Elo (CI −88 to −2).
 - Shuffling the hour band between whole sessions often gives band effects as large as yours: p = 0.41 across all games, 0.47 in 1+0, 0.55 in 3+2 and 0.09 in 10+0.
-- 3+0 is the exception: p = 0.007 on 208 games in 73 sessions (about 0.06 after allowing for the nine controls tested), but each of its bands has under 30 sessions, so which hours drive it cannot be read.
+- 3+0 is the exception: testing all its bands together gives p = 0.007 on 208 games in 73 sessions (about 0.06 after allowing for the nine controls tested); on the largest-band measure used for the other controls it is 0.023 (about 0.21 after that allowance).
+- Each 3+0 band has under 30 sessions, so which hours drive it cannot be read.
 
 Data: [4_raw_vs_adjusted.csv](data/06_time_of_day/4_raw_vs_adjusted.csv) · [4b_permutation.csv](data/06_time_of_day/4b_permutation.csv) · [4c_regression.csv](data/06_time_of_day/4c_regression.csv) · [all tables](data/06_time_of_day/_index.csv) · [script](../analysis/06_time_of_day.py) · source: [games_decomposed.parquet](../data/zakihussa1n/games_decomposed.parquet)
 
@@ -582,7 +607,7 @@ Data: [4_raw_vs_adjusted.csv](data/06_time_of_day/4_raw_vs_adjusted.csv) · [4b_
 
 ![Does any effect repeat across years?](figures/06_time_of_day/5_halves.svg)
 
-- The midday edge belongs to 2021-2023 only: +0.082 (CI +0.038 to +0.124), about +58 Elo (CI +27 to +88), then −0.012 (CI −0.066 to +0.038), about −9 Elo (CI −46 to +26), in 2024-2026.
+- The midday edge belongs to 2021-2023 only: +0.082 (CI +0.038 to +0.124), about +58 Elo (CI +27 to +88), then −0.012 (CI −0.066 to +0.038), about −9 Elo (CI −46 to +26), in 2024-2026: no clear difference from zero.
 - Across all games only 2 of the 5 comparable bands keep the same sign in both periods, and none is clearly above or below zero in both.
 - Late evening is below zero in both periods (−0.020, then −0.037) but clearly so in neither.
 - 1+0 tells the same story (2 of 5 bands keep their sign); 3+2 has 3 comparable bands and the other controls are too thin to split in two.
@@ -593,10 +618,11 @@ Data: [5_halves.csv](data/06_time_of_day/5_halves.csv) · [5b_sign_agreement.csv
 
 ![Do you lose on time more late at night?](figures/06_time_of_day/6_flags_by_band.svg)
 
-- Of the games you lost from 21:00 to 06:59, +0.046 more were on time than at other hours (CI −0.004 to +0.108): no clear difference.
-- Of your opponents' losses at those hours, +0.083 more were on time (CI +0.018 to +0.151).
-- Counting all games, you lose +0.038 more of them on time late (CI +0.008 to +0.072), but 72% of late games are bullet against 54% of the rest: mostly the mix of games.
-- Within 1+0 there is no clear difference: +0.031 more games lost on time late (CI −0.014 to +0.081).
+- Of the games you lost from 21:00 to 06:59, the share lost on time is 0.046 higher than at other hours (CI −0.004 to +0.108): no clear difference.
+- For your opponents' losses at those hours the share lost on time is clearly higher: +0.083 (CI +0.018 to +0.151).
+- Counting all games, the share of games you lose on time is 0.038 higher late (CI +0.008 to +0.072).
+- Part of that may be the mix of games: 72% of late games are bullet against 54% of the rest.
+- Within 1+0 alone, where the mix is fixed, the gap is +0.031, nearly as large, but with no clear difference (CI −0.014 to +0.081).
 
 Data: [6_flags_by_band.csv](data/06_time_of_day/6_flags_by_band.csv) · [6b_late_minus_rest.csv](data/06_time_of_day/6b_late_minus_rest.csv) · [all tables](data/06_time_of_day/_index.csv) · [script](../analysis/06_time_of_day.py) · source: [games_decomposed.parquet](../data/zakihussa1n/games_decomposed.parquet)
 
@@ -619,7 +645,7 @@ Data: [6_flags_by_band.csv](data/06_time_of_day/6_flags_by_band.csv) · [6b_late
 
 ## 7. Does resigning cost you points?
 
-**Short answer:** A little overall: your resignations gave away about 2.2 expected points per 100 games (about 15 Elo), more than your opponents' resignations handed back; the net cost sits in 1+1 and rapid 10+0, where you resign more of your losses than your opponents do, and in 1+0 an opponent short of time turns even lost positions into real chances.
+**Short answer:** A little overall: your resignations gave away about 1.7 to 2.2 expected points per 100 games (about 15 Elo at the higher value), more than your opponents' resignations handed back; the net cost sits in 1+1 and rapid 10+0, where you resign more of your losses than your opponents do, and in 1+0 an opponent short of time turns even lost positions into real chances.
 
 ### 7.1 How often do you resign compared with your opponents?
 
@@ -661,7 +687,7 @@ Data: [3_played_out_by_ev.csv](data/07_resignation/3_played_out_by_ev.csv) · [3
 
 - In 1+0, with your opponent under 10 s, your positions at mate or 20+ pawns down scored 0.335 when played on (CI 0.287 to 0.386), against 0.098 with your opponent on 30+ s.
 - In 1+1 the increment takes most of that away: with your opponent under 10 s beyond the increment the same lost positions scored 0.139 (CI 0.052 to 0.240).
-- You rarely resign into a short clock: in 1+0, 77% of your resignations came with your opponent on 30+ s, and in blitz 97%.
+- You rarely resign when your opponent is short of time: in 1+0 only 1 of your 119 resignations came with them under 10 s and 77% with them on 30+ s; in blitz 97% came with them on 30+ s.
 - The model's expected score already allows for the clock: in 1+0 at 10-15% your positions scored 0.089 with the opponent under 10 s and 0.082 with 30+ s.
 
 Data: [4_clock_by_eval.csv](data/07_resignation/4_clock_by_eval.csv) · [4b_clock_by_ev.csv](data/07_resignation/4b_clock_by_ev.csv) · [4c_resign_clock.csv](data/07_resignation/4c_resign_clock.csv) · [all tables](data/07_resignation/_index.csv) · [script](../analysis/07_resignation.py) · source: [moves_analysed.parquet](../data/zakihussa1n/moves_analysed.parquet)
@@ -670,10 +696,13 @@ Data: [4_clock_by_eval.csv](data/07_resignation/4_clock_by_eval.csv) · [4b_cloc
 
 ![How much has resigning cost you?](figures/07_resignation/5_cost.svg)
 
-- Across all games your resignations gave away 2.2 expected points per 100 games (CI 1.9 to 2.5), about 15 Elo (CI 13 to 17).
-- Your opponents' resignations handed you 1.6 per 100 games, so resigning nets you −0.55 per 100 games (CI −0.92 to −0.19), about −4 Elo (CI −6 to −1).
-- The net is clearly negative only in rapid 10+0, −4.0 (CI −6.3 to −2.4), and 1+1, −2.2 (CI −4.1 to −0.6): there your resignations cost 6.0 per 100 games (about 43 Elo) and 4.1 (about 29 Elo).
-- In 5+5 the cost is as high, 5.6 per 100 games (CI 2.8 to 9.0), about 39 Elo, but the net is unclear: −2.2 (CI −6.1 to +1.9).
+- Across all games your resignations gave away 2.2 expected points per 100 games (CI 1.9 to 2.5), about 15 Elo (CI 13 to 17), valuing each at what similar positions scored when played on.
+- That valuation leans high, since people play on when they see a chance; counting every position of resigned games as lost gives 1.7 per 100 games.
+- Your opponents' resignations handed you 1.6 per 100 games.
+- So resigning nets you −0.55 per 100 games (CI −0.92 to −0.19), about −4 Elo (CI −6 to −1).
+- Among single controls the net is clearly negative only in rapid 10+0, −4.0 (CI −6.3 to −2.4), and 1+1, −2.2 (CI −4.1 to −0.6).
+- In those two controls your own resignations cost 6.0 per 100 games (about 43 Elo) and 4.1 (about 29 Elo).
+- In 5+5 the cost is as high, 5.6 per 100 games (CI 2.8 to 9.0), about 39 Elo, but there is no clear net effect: −2.2 (CI −6.1 to +1.9).
 - In 1+0 the cost is small, 0.64 per 100 games (about 4 Elo), about what your opponents' resignations hand you (0.88): no clear net effect (+0.24, CI −0.05 to +0.54).
 
 Data: [5_cost.csv](data/07_resignation/5_cost.csv) · [5b_net.csv](data/07_resignation/5b_net.csv) · [all tables](data/07_resignation/_index.csv) · [script](../analysis/07_resignation.py) · source: [games_decomposed.parquet](../data/zakihussa1n/games_decomposed.parquet)
@@ -682,9 +711,10 @@ Data: [5_cost.csv](data/07_resignation/5_cost.csv) · [5b_net.csv](data/07_resig
 
 ![When is resigning safe?](figures/07_resignation/6_safe_map.svg)
 
-- By engine eval, no band is safe anywhere: even at mate or 20+ pawns down with the opponent on 30+ s, your positions scored 0.091 in bullet (CI 0.059 to 0.129), 0.071 in blitz and 0.116 in rapid.
-- With the opponent under 10 s, bullet positions at mate or 20+ pawns down scored 0.316 and at 5-10 pawns down 0.598; that is mostly 1+0, and in 1+1 the first cell is only 0.139, as the previous chart shows.
-- By the model's expected score, resigning gives away at most 0.05 per resignation only up to the 2-5% band in 1+0 and 10+0, and up to 5-10% in 1+1 and 3+2.
+- By engine eval alone no band is safe (safe = resigning gives away at most 0.05 per resignation): even at mate or 20+ pawns down with the opponent on 30+ s, your positions scored 0.091 in bullet (CI 0.059 to 0.129), 0.071 in blitz and 0.116 in rapid.
+- With the opponent under 10 s, bullet positions at mate or 20+ pawns down scored 0.316 and at 5-10 pawns down 0.598, mostly from 1+0 games.
+- In 1+1 the same lost positions with the opponent under 10 s beyond the increment scored only 0.139.
+- Judged by the model's expected score, resigning is safe (costs at most 0.05 per resignation) only when the model gives you no more than 5% in 1+0 and 10+0 (the 2-5% band and below), or no more than 10% in 1+1 and 3+2 (the 5-10% band and below).
 - Per control most cells are too thin for a map; the bullet and blitz panels are mostly 1+0 and 3+2, and 1+1 differs, as the previous chart shows.
 
 Data: [6_safe_map.csv](data/07_resignation/6_safe_map.csv) · [6b_safe_threshold.csv](data/07_resignation/6b_safe_threshold.csv) · [4_clock_by_eval.csv](data/07_resignation/4_clock_by_eval.csv) · [all tables](data/07_resignation/_index.csv) · [script](../analysis/07_resignation.py) · source: [moves_analysed.parquet](../data/zakihussa1n/moves_analysed.parquet)
@@ -711,7 +741,7 @@ Data: [6_safe_map.csv](data/07_resignation/6_safe_map.csv) · [6b_safe_threshold
 
 ## 8. Which openings work for you, and how well do you play them?
 
-**Short answer:** Your openings decide little: most opening families score no clearly different from your average with that colour (2 of 17 as White and 4 of 24 as Black clearly differ, against 0.85 and 1.2 expected by chance), staying longer in known lines does not clearly help, and your opening moves lose about as much as your opponents' (slightly more as Black); your costliest repeated move, 6. Qf3 in the Italian Game (66 times), is one you have nearly stopped playing.
+**Short answer:** Your openings decide little: most opening families show no clear difference from your average with that colour (2 of 17 as White and 4 of 24 as Black clearly differ, against 0.85 and 1.2 expected by chance), staying longer in known lines does not clearly help, and your opening moves lose about as much as your opponents' (slightly more as Black); your costliest repeated move, 6. Qf3 in the Italian Game (66 times), is one you have nearly stopped playing.
 
 ### 8.1 What do you play as White and as Black?
 
@@ -730,8 +760,9 @@ Data: [1_line_starts.csv](data/08_openings/1_line_starts.csv) · [1b_families.cs
 
 - Over all your White games you score +0.030 above the Elo expectation (CI +0.012 to +0.048), about +21 Elo (CI +8 to +33); as Black +0.004, no clear difference.
 - Part of that White +0.030 is just the first move, which the Elo formula ignores, so each family is compared with your own average for its colour (the chart's zero).
-- As White, two families are clearly above your White average: the Zukertort Opening, +0.117 (CI +0.027 to +0.212), about +85 Elo (CI +19 to +165), and, only just, the Queen's Gambit Declined, +0.107 (CI +0.005 to +0.218).
-- As Black, the Bishop's Opening (+0.091, CI +0.022 to +0.163) and the Queen's Gambit Declined (+0.090, CI +0.018 to +0.166) are clearly above your Black average; the Sicilian (−0.104, CI −0.197 to −0.009) and the Zukertort (−0.212, CI −0.321 to −0.091) are clearly below.
+- As White, two families are clearly above your White average: the Zukertort Opening, +0.117 (CI +0.027 to +0.212), about +85 Elo (CI +19 to +165), and, only just, the Queen's Gambit Declined, +0.107 (CI +0.005 to +0.218), about +78 Elo (CI +4 to +171).
+- As Black, two families are clearly above your Black average: the Bishop's Opening, +0.091 (CI +0.022 to +0.163), about +64 Elo (CI +15 to +119), and the Queen's Gambit Declined, +0.090 (CI +0.018 to +0.166), about +63 Elo (CI +12 to +121).
+- As Black, two families are clearly below it: the Sicilian, −0.104 (CI −0.197 to −0.009), about −76 Elo (CI −154 to −6), and the Zukertort, −0.212 (CI −0.321 to −0.091), about −157 Elo (CI −264 to −64).
 
 Data: [2_family_score.csv](data/08_openings/2_family_score.csv) · [2c_colour_score.csv](data/08_openings/2c_colour_score.csv) · [2e_chance_check.csv](data/08_openings/2e_chance_check.csv) · [2b_family_score_by_class.csv](data/08_openings/2b_family_score_by_class.csv) · [all tables](data/08_openings/_index.csv) · [script](../analysis/08_openings.py) · source: [games_decomposed.parquet](../data/zakihussa1n/games_decomposed.parquet)
 
@@ -739,7 +770,7 @@ Data: [2_family_score.csv](data/08_openings/2_family_score.csv) · [2c_colour_sc
 
 ![Are you still playing the openings that work?](figures/08_openings/3_recency.svg)
 
-- As White, about as rarely as before: the two clearly better families were 3% of your 212 recent White games against 5% earlier; the Zukertort holds its 3%, and the Queen's Gambit Declined has not been played in the last 12 months.
+- As White, a little less often than before: the two clearly better families were 3% of your 212 recent White games against 5% earlier, because the Queen's Gambit Declined has not been played in the last 12 months; the Zukertort holds its 3%.
 - As Black, a little more than before: 13% of your 205 recent Black games were in the two clearly better families, against 10% earlier (as Black your opponent picks most of the family).
 - Of the two clearly worse Black families, the Sicilian has gone (no games in the last 12 months), but the Zukertort now comes up more often: 3% of recent Black games against 1% before (only 6 games).
 - Weighting each family's long-run score above the Elo expectation by how often you play it now gives about the same edge as before: +0.027 against +0.032 as White, −0.002 against −0.001 as Black.
@@ -753,7 +784,7 @@ Data: [3_recency.csv](data/08_openings/3_recency.csv) · [3b_recency_summary.csv
 - You play the first move outside the named lines in 64% of games (CI 63% to 65%); every control is between 55% (2+1) and 70% (5+2).
 - That move costs you less than it costs your opponents when they leave first: 2.60 against 2.90 expected points per 100 such moves (difference −0.30, CI −0.54 to −0.05).
 - The saving is clearest in 1+0, −0.44 per 100 (CI −0.74 to −0.14), and also clear in 5+5 (−1.73, CI −3.23 to −0.33); in 3+2 there is no clear difference (+0.10, CI −0.40 to +0.59).
-- Who leaves first does not change the result: your score above expectation differs by −0.001 (CI −0.025 to +0.024), about −1 Elo (CI −17 to +17).
+- Who leaves first makes no clear difference to the result: your score above expectation differs by −0.001 (CI −0.025 to +0.024), about −1 Elo (CI −17 to +17).
 
 Data: [4_deviation.csv](data/08_openings/4_deviation.csv) · [4c_deviation_score_diff.csv](data/08_openings/4c_deviation_score_diff.csv) · [4b_deviation_score.csv](data/08_openings/4b_deviation_score.csv) · [all tables](data/08_openings/_index.csv) · [script](../analysis/08_openings.py) · source: [moves_analysed.parquet](../data/zakihussa1n/moves_analysed.parquet)
 
@@ -762,7 +793,8 @@ Data: [4_deviation.csv](data/08_openings/4_deviation.csv) · [4c_deviation_score
 ![Does going deeper into known lines help?](figures/08_openings/5_book_depth.svg)
 
 - No clear effect: across all games each extra move of named line changes your score above expectation by −0.007 (CI −0.017 to +0.003), and by −0.006 with your colour held fixed.
-- Games that leave the list after one move score +0.029 above expectation (CI +0.001 to +0.060); games that stay 5+ moves score +0.008 (CI −0.033 to +0.050).
+- Games that leave the list after one move score +0.029 above expectation (CI +0.001 to +0.060), about +20 Elo (CI 0 to +42).
+- Games that stay 5+ moves score +0.008 above expectation (CI −0.033 to +0.050), about +6 Elo (CI −23 to +35): no clear difference from expectation, and the two groups' CIs overlap.
 - The big controls agree: −0.012 per move in 1+0 (CI −0.027 to +0.002) and −0.011 in 3+2 (CI −0.032 to +0.010); no control with enough games shows a clear trend.
 - Deep lines are mostly your Black games (23% White at 5+ moves against 60% at one move), which is why the colour-adjusted slope matters.
 
@@ -774,7 +806,9 @@ Data: [5_book_depth.csv](data/08_openings/5_book_depth.csv) · [5b_book_depth_sl
 
 - As White there is no clear difference from your opponents: 2.75 against 2.78 expected points per 100 opening moves (difference −0.03, CI −0.08 to +0.02).
 - As Black you lose slightly more, +0.08 per 100 moves (CI +0.03 to +0.13), clearest in 1+0: +0.12 (CI +0.06 to +0.19).
-- Over all games your first five moves as White lose less than your opponents' (−0.10 per 100, CI −0.15 to −0.05), and as Black your moves six to ten lose more (+0.11 per 100, CI +0.02 to +0.20); the largest single-control gap is 10+0 as White, first five moves, −0.34 per 100.
+- Over all games your first five moves as White lose less than your opponents' (−0.10 per 100, CI −0.15 to −0.05).
+- Over all games your moves six to ten as Black lose more than your opponents' (+0.11 per 100, CI +0.02 to +0.20).
+- In a single control, the largest clear gap in the first five moves is 10+0 as White: −0.34 per 100 (CI −0.53 to −0.16).
 - In centipawns your White opening moves lose clearly less than your opponents': −5.8 per move (CI −7.1 to −4.4).
 
 Data: [6_opening_quality.csv](data/08_openings/6_opening_quality.csv) · [6b_opening_cp_loss.csv](data/08_openings/6b_opening_cp_loss.csv) · [6c_opening_by_ply.csv](data/08_openings/6c_opening_by_ply.csv) · [all tables](data/08_openings/_index.csv) · [script](../analysis/08_openings.py) · source: [moves_analysed.parquet](../data/zakihussa1n/moves_analysed.parquet)
@@ -822,7 +856,7 @@ Data: [7_costly_moves.csv](data/08_openings/7_costly_moves.csv) · [7b_costly_mo
 
 - In 1+0 you blunder 6.18 times per 100 moves and your opponents 6.04: no clear difference (you minus them +0.14, CI -0.02 to +0.29).
 - In 3+0 you blunder less than your opponents, 4.74 against 5.64 per 100 moves (difference -0.90, CI -1.43 to -0.39); in every other control the difference is not clear.
-- A blunder costs more in slower games: 0.125 expected points in 1+0, 0.181 in 3+2 and 0.185 in 10+0, the same for you and your opponents.
+- A blunder costs more in slower games: 0.125 expected points in 1+0, 0.181 in 3+2 and 0.185 in 10+0, with no clear difference between you and your opponents.
 - Counting big errors in expected points instead (a move that gives away at least 0.2 points), in 1+0 you make fewer than your opponents: 1.88 against 2.05 per 100 moves (difference -0.16, CI -0.26 to -0.07).
 - The 3+0 result is one clear difference among nine controls in a group of 209 games, so it may be chance.
 - In bullet your blunder rate fell from 7.89 per 100 moves in 2021-22 to 5.42 in 2025-26, and your opponents' fell just as much (7.73 to 5.29).
@@ -834,8 +868,10 @@ Data: [1_blunder_rate.csv](data/09_blunder_anatomy/1_blunder_rate.csv) · [9_dat
 ![In which phase do your blunders happen?](figures/09_blunder_anatomy/2_blunders_by_phase.svg)
 
 - The middlegame is the dangerous phase for both of you: in 1+0 you blunder 8.77 times per 100 middlegame moves (your opponents 8.25) against 4.03 per 100 opening moves (4.29); in 3+2 8.83 (8.45) against 3.67 (4.00); in 10+0 8.25 (8.03) against 3.98 (4.37).
-- In 1+0 you blunder a little more than your opponents in the middlegame (+0.52 per 100 moves, CI +0.17 to +0.86) and a little less in the opening (-0.26, CI -0.51 to -0.07).
-- In 3+0 you blunder less than your opponents in the middlegame (5.59 against 7.61 per 100 moves), so 51% of your blunders there come in the endgame, against 42% of theirs.
+- In 1+0 you blunder a little more than your opponents in the middlegame: +0.52 per 100 moves (CI +0.17 to +0.86).
+- In 1+0 you blunder a little less than your opponents in the opening: -0.26 per 100 moves (CI -0.51 to -0.07).
+- In 3+0 you blunder less than your opponents in the middlegame: 5.59 against 7.61 per 100 moves (difference -2.02, CI -3.29 to -0.93), in the same small 209-game group as in [9.1](#91-how-often-do-you-blunder).
+- So in 3+0, 51% of your blunders come in the endgame, against 42% of your opponents'.
 - In 1+0 your extra allowed mates come in the middlegame (1.16 against 0.71 per 100 moves) and the endgame (0.98 against 0.63); in 3+2 only in the middlegame (1.31 against 0.79; endgame difference +0.12, CI -0.11 to +0.35).
 
 Data: [2_blunders_by_phase.csv](data/09_blunder_anatomy/2_blunders_by_phase.csv) · [2b_families_by_phase.csv](data/09_blunder_anatomy/2b_families_by_phase.csv) · [all tables](data/09_blunder_anatomy/_index.csv) · [script](../analysis/09_blunder_anatomy.py) · source: [moves_analysed.parquet](../data/zakihussa1n/moves_analysed.parquet)
@@ -844,10 +880,11 @@ Data: [2_blunders_by_phase.csv](data/09_blunder_anatomy/2_blunders_by_phase.csv)
 
 ![What kinds of blunder?](figures/09_blunder_anatomy/3_what_played.svg)
 
-- Leaving material to be taken is the biggest family for both sides: 46% of your blunders in 1+0 (46% of your opponents'), 36% in 3+2 (38%) and 37% in 10+0 (38%).
+- Leaving material to be taken (the four kinds from losing capture to exposed another piece in the chart, together) is the biggest family for both sides: 46% of your blunders in 1+0 (46% of your opponents'), 36% in 3+2 (38%) and 37% in 10+0 (38%).
 - In 1+0 you move a piece to a square where it is taken for free more often than your opponents: 1.10 against 0.94 per 100 moves (difference +0.16, CI +0.07 to +0.25).
-- In 3+2 you walk into check tactics (forks, skewers, mating attacks) more often: 0.87 against 0.63 per 100 moves (difference +0.23, CI +0.10 to +0.36).
-- Only about a third of blunders can be followed on the board (the punisher kept playing the engine's best move; 66% of yours in 1+0 cannot); of those, 69% of yours lost material on the very next move in 1+0 (74% of your opponents'), 57% in 3+2 (65%) and 61% in 10+0 (61%).
+- In 3+2 you more often blunder into a reply that starts with a check (not counting forced mates): 0.87 against 0.63 per 100 moves (difference +0.24, CI +0.10 to +0.36).
+- Only about a third of blunders can be traced move by move, because only then did the punishing side keep playing the engine's best move; 66% of yours in 1+0 cannot.
+- Of the blunders that can be traced, 69% of yours lost material on the very next move in 1+0 (74% of your opponents'), 57% in 3+2 (65%) and 61% in 10+0 (61%).
 
 Data: [3_what_played.csv](data/09_blunder_anatomy/3_what_played.csv) · [3b_families.csv](data/09_blunder_anatomy/3b_families.csv) · [3d_refutation_depth.csv](data/09_blunder_anatomy/3d_refutation_depth.csv) · [all tables](data/09_blunder_anatomy/_index.csv) · [script](../analysis/09_blunder_anatomy.py) · source: [moves_analysed.parquet](../data/zakihussa1n/moves_analysed.parquet)
 
@@ -927,7 +964,7 @@ Data: [8_winning_blunders.csv](data/09_blunder_anatomy/8_winning_blunders.csv) �
 
 ## 10. How well do you play endgames?
 
-**Short answer:** In the simplest endings you spoil wins less often than your opponents and convert about as well, but in 1+0 the clock costs you: 36 of every 100 of your won endings (your opponents: 21) ended on the clock without a single wrong move.
+**Short answer:** In the simplest endings you convert about as well as your opponents and spoil wins less often, but let drawn pawn endings slip more often; in 1+0, 36 of every 100 of your won endings (your opponents: 21) were lost or drawn on time without a single wrong move, yet with fewer wrong moves your 1+0 wins fail about as often overall (40 against 34 per 100: no clear difference).
 
 ### 10.1 Which endgames do you reach?
 
@@ -946,7 +983,8 @@ Data: [1_endgames_reached.csv](data/10_endgames/1_endgames_reached.csv) · [1b_t
 
 - Across all games you won 75.7% of your tablebase-won endings (CI 69.5% to 81.9%) and your opponents 72.2% of theirs: no clear difference.
 - The control matters more than the side: in 1+0 you converted 59.7% (CI 49.4% to 70.1%), in 3+2 89.0% (CI 80.8% to 95.9%).
-- Across all games, against the model's expectation at entry (it knows both clocks), you scored +0.035 (CI +0.010 to +0.060), about +44 Elo (CI +12 to +81); your opponents −0.018 (CI −0.045 to +0.008).
+- Across all games, against the model's expectation at entry (it knows both clocks), you scored +0.035 (CI +0.010 to +0.060), about +44 Elo (CI +12 to +81).
+- Your opponents scored −0.018 against that expectation (CI −0.045 to +0.008), about −25 Elo (CI −59 to +12): no clear difference.
 - In 1+0 you scored +0.035 above that expectation (CI −0.012 to +0.083), about +30 Elo (CI −10 to +77): no clear difference, so the low 1+0 conversion is about what your clock and position at entry predict.
 - Move by move, across all games, you spoil a win less often: 1.40 moves in 100 turn a win into a draw, against 2.81 for your opponents (−1.40, CI −2.58 to −0.33).
 
@@ -957,9 +995,10 @@ Data: [2_conversion.csv](data/10_endgames/2_conversion.csv) · [2b_errors_by_kin
 ![How often do you hold a drawn ending?](figures/10_endgames/3_hold.svg)
 
 - Only 61 games entered a drawn tablebase ending; you avoided losing 80.3% of them, your opponents 86.9%: no clear difference (−0.066, CI −0.213 to +0.066).
-- In 1+0 you lost 6 of 15 drawn endings and your opponents 2 (difference −0.267, CI −0.600 to +0.067); per move that is 12.84 against 1.98 draw-to-loss errors per 100 moves, but from only 24 games, too few to be sure.
+- In 1+0 you lost 6 of 15 drawn endings and your opponents 2: no clear difference (−0.267, CI −0.600 to +0.067), and too few endings to be sure.
+- Per move in 1+0, 12.84 of every 100 of your moves from a drawn position lost the draw, against 1.98 for your opponents, but from only 24 games: too few to be sure.
 - In 3+2, no clear difference: 4.95 against 4.81 per 100 moves (difference CI −4.67 to +5.09).
-- Across all games, pawn endings are where you let draws slip: 5.26 per 100 moves from drawn pawn endings against 1.11 for your opponents (+4.15, CI +0.55 to +8.70).
+- Across all games you let drawn pawn endings slip more often than your opponents do: 5.26 per 100 moves from drawn pawn endings against 1.11 (+4.15, CI +0.55 to +8.70); in drawn rook endings there is no clear difference.
 
 Data: [3_hold.csv](data/10_endgames/3_hold.csv) · [2b_errors_by_kind.csv](data/10_endgames/2b_errors_by_kind.csv) · [4b_errors_by_material_kind.csv](data/10_endgames/4b_errors_by_material_kind.csv) · [all tables](data/10_endgames/_index.csv) · [script](../analysis/10_endgames.py) · source: [moves_analysed.parquet](../data/zakihussa1n/moves_analysed.parquet)
 
@@ -970,7 +1009,8 @@ Data: [3_hold.csv](data/10_endgames/3_hold.csv) · [2b_errors_by_kind.csv](data/
 - Rook endings are the hardest for both sides: 12.95 errors per 100 at-risk moves for you and 13.64 for your opponents, against 2.97 and 3.53 in pawn endings.
 - A rook or queen against pawns or a bare king almost never goes wrong: 0.40 and 0.74 errors per 100 of your moves.
 - The balance with the most errors is rook against rook and pawn: as the defender you erred 13 times in 54 moves, your opponents 16 times in 60.
-- Beyond five pieces there is no clear difference in rook endings (0.0267 against 0.0270 expected points lost per move); across all endings there you make slightly fewer big mistakes (8.99 against 9.23 per 100 moves, CI −0.46 to −0.03).
+- Beyond five pieces there is no clear difference in rook endings: 0.0267 against 0.0270 expected points lost per move.
+- Across all endings beyond five pieces you make slightly fewer big mistakes: 8.99 against 9.23 per 100 moves (difference −0.24, CI −0.46 to −0.03).
 
 Data: [4_errors_by_material.csv](data/10_endgames/4_errors_by_material.csv) · [4c_exact_material.csv](data/10_endgames/4c_exact_material.csv) · [4e_big_endgames_ep_loss.csv](data/10_endgames/4e_big_endgames_ep_loss.csv) · [4f_big_mistakes.csv](data/10_endgames/4f_big_mistakes.csv) · [all tables](data/10_endgames/_index.csv) · [script](../analysis/10_endgames.py) · source: [moves_analysed.parquet](../data/zakihussa1n/moves_analysed.parquet)
 
@@ -978,10 +1018,12 @@ Data: [4_errors_by_material.csv](data/10_endgames/4_errors_by_material.csv) · [
 
 ![How did failed wins end: a wrong move or the clock?](figures/10_endgames/5_failed_conversions.svg)
 
-- In 1+0, 36 of every 100 of your won endings (CI 26 to 47) ended on the clock without a single wrong move; for your opponents 21 (difference +15, CI +2 to +30).
+- In 1+0, 36 of every 100 of your won endings (CI 26 to 47) were lost or drawn on time without a single wrong move; for your opponents 21 (difference +15, CI +2 to +30).
 - Most were draws: your flag fell but your opponent had too little material to mate (21 of your 31 failed 1+0 conversions).
-- You arrive with less time: in 1+0 your median clock at entry was 6.2 s, your opponents' 8.7 s; from under 5 s, 16 of your 25 and 10 of your opponents' 19 won endings ended on the clock (both small groups).
-- For you the increment nearly removes it: 1 of your 16 won endings in bullet with increment ended on the clock, 30 per 100 fewer than in 1+0 (CI 6 to 42); for your opponents no clear difference (21 against 17 per 100), and both rest on few endings.
+- You arrive with less time: in 1+0 your median clock at entry was 6.2 s, your opponents' 8.7 s.
+- From under 5 s at entry, 16 of your 25 and 10 of your opponents' 19 won endings ended on the clock (both small groups).
+- For you the increment nearly removes the clock problem: 1 of your 16 won endings in bullet with increment ended on the clock, 30 per 100 fewer than in 1+0 (CI 6 to 42), though from few endings.
+- For your opponents there is no clear difference between 1+0 and bullet with increment (21 against 17 per 100 won endings ended on the clock), also from few endings.
 - A wrong move spoiled only 3.9 of every 100 of your 1+0 won endings, against 12.7 for your opponents.
 
 Data: [5_failed_conversions.csv](data/10_endgames/5_failed_conversions.csv) · [5b_increment_contrast.csv](data/10_endgames/5b_increment_contrast.csv) · [5d_entry_clock.csv](data/10_endgames/5d_entry_clock.csv) · [2_conversion.csv](data/10_endgames/2_conversion.csv) · [all tables](data/10_endgames/_index.csv) · [script](../analysis/10_endgames.py) · source: [moves_analysed.parquet](../data/zakihussa1n/moves_analysed.parquet)
@@ -1016,7 +1058,7 @@ Data: [5_failed_conversions.csv](data/10_endgames/5_failed_conversions.csv) · [
 
 ![How well can a model tell your games from your opponents'?](figures/12_fingerprint/1_auc.svg)
 
-- In 1+0 the model picks out which side was you in 91% of games (AUC 0.949, CI 0.943 to 0.955; 0.5 would be guessing).
+- In 1+0 the model picks out which side was you in 91% of games (AUC 0.949, CI 0.943 to 0.955; AUC is the chance it rates a random game of yours as more like you than a random opponent's, so 0.5 would be guessing).
 - In 1+1, 3+0, 3+2 and 10+0 it is less sure but still clear: AUC 0.844 to 0.855.
 - On a year it never trained on, 1+0 holds up (AUC 0.929) but 3+2 drops to 0.708, largely because 830 of its 1,344 games are from 2022, the odd year out (see below).
 - Against strangers of your rating playing the same control it still works: AUC 0.919 in 1+0, and 0.781 to 0.823 in 1+1, 3+0, 3+2 and 10+0.
@@ -1028,8 +1070,9 @@ Data: [1_auc.csv](data/12_fingerprint/1_auc.csv) · [1b_vs_strangers.csv](data/1
 ![What gives you away?](figures/12_fingerprint/2_drop_group.svg)
 
 - Your opening choices are the biggest tell: leaving them out costs 0.131 AUC in 1+0 (CI 0.120 to 0.141), and 0.127 to 0.145 in 1+1, 3+2 and 10+0.
-- 3+0 is the exception: there your move habits (captures, castling, piece use) give away more than your openings (0.078 against 0.047 AUC lost).
-- Your mistakes say almost nothing about who you are: leaving out the engine-based error profile makes no clear difference in any control, and on its own it scores 0.521 in 1+0 (CI 0.507 to 0.537), barely above guessing.
+- 3+0 is the one control where leaving out your move habits (captures, castling, piece use) costs more than leaving out your openings (0.078 against 0.047), but the two intervals overlap widely (CI 0.039 to 0.119 and 0.011 to 0.091) and rest on 203 games: no clear difference between them.
+- Your mistakes say almost nothing about who you are: leaving out the engine-based error profile makes no clear difference in any control.
+- On its own, that error profile scores 0.521 in 1+0 (CI 0.507 to 0.537), barely above guessing.
 - The clock looks like a tell in blitz mostly because of the increment: leaving it out costs 0.075 AUC (CI 0.059 to 0.090) against strangers matched on rating alone, but 0.024 (CI 0.013 to 0.036) when they also play the same control.
 
 Data: [2_drop_group.csv](data/12_fingerprint/2_drop_group.csv) · [2b_drop_group_strangers.csv](data/12_fingerprint/2b_drop_group_strangers.csv) · [all tables](data/12_fingerprint/_index.csv) · [script](../analysis/12_fingerprint.py) · source: [moves_analysed.parquet](../data/zakihussa1n/moves_analysed.parquet), [fingerprint_features.parquet](../data/opponents/fingerprint_features.parquet)
@@ -1049,7 +1092,7 @@ Data: [3_vs_rest.csv](data/12_fingerprint/3_vs_rest.csv) · [3c_per_pair.csv](da
 
 ![Which habits set you apart?](figures/12_fingerprint/4_habits.svg)
 
-- Against 1.e4 you almost always reply 1...e5 or 1...c5: in bullet another reply comes in 1.3% of your Black games against 1.e4, against 68% for strangers of your rating.
+- Against 1.e4 you almost always reply 1...e5 (rarely 1...c5): in bullet another reply comes in 1.3% of your Black games against 1.e4, against 68% for strangers of your rating.
 - As White you open 1.e4 or 1.d4: another first move in 0.2% of your bullet White games, against 31% for strangers.
 - You castle one to two moves earlier: on your move 9.0 against 10.9 for strangers in bullet, 9.9 against 11.1 in blitz, 9.8 against 11.9 in rapid.
 - Instant moves go opposite ways: in bullet 32.0% of your moves take under 1 second against 36.0% for strangers, in rapid 10.0% against 8.1%.
@@ -1062,8 +1105,10 @@ Data: [4_habits.csv](data/12_fingerprint/4_habits.csv) · [all tables](data/12_f
 
 - 2022 is the odd year out: trained on the other years, the model recognises your 2022 games with AUC 0.782 in 1+0 and 0.640 in 3+2.
 - In 1+0 and 3+2 the years from 2023 on look alike: on a year it never saw, the model scores 0.957 to 0.967 in 1+0 and 0.846 to 0.910 in 3+2.
-- In 1+1 (2025: 0.689) and 10+0 (2023: 0.777) the unseen-year score stays below the same-years score (0.844 and 0.850).
-- In 1+0 in 2022 you castled later (on your move 13.4, against 9.3 in 2023 and 8.5 in 2025) and played fewer instant moves (26.2% under 1 second, against 35.8% in 2023).
+- In 1+1 the unseen-year score swings by year: 0.531 for 2022, 0.882 for 2023 and 0.689 for 2025, against 0.844 with all years mixed.
+- In 10+0 both testable years score below the same-years 0.850: 0.716 for 2022 and 0.777 for 2023.
+- In 1+0 in 2022 you castled later: on your move 13.4, against 9.3 in 2023 and 8.5 in 2025.
+- In 1+0 in 2022 you played fewer instant moves: 26.2% under 1 second, against 35.8% in 2023.
 
 Data: [5_unseen_year.csv](data/12_fingerprint/5_unseen_year.csv) · [5b_habits_by_year.csv](data/12_fingerprint/5b_habits_by_year.csv) · [all tables](data/12_fingerprint/_index.csv) · [script](../analysis/12_fingerprint.py) · source: [moves_analysed.parquet](../data/zakihussa1n/moves_analysed.parquet)
 
@@ -1092,13 +1137,13 @@ Data: [5_unseen_year.csv](data/12_fingerprint/5_unseen_year.csv) · [5b_habits_b
 
 ## A. How good is the win-chance model behind every number?
 
-**Short answer:** Good enough to lean on: it predicts game results better than the Lichess eval curve, Stockfish's own win chances or ratings alone (an error score of 0.179 against 0.216, 0.267 and 0.228), its 70% means close to 70% in every time control you play, and its edge is largest in fast controls without an increment (1+0, 5+0).
+**Short answer:** Good enough to lean on: it predicts game results better than the Lichess eval curve, Stockfish's own win chances or ratings alone (an error score, lower is better, of 0.179 against 0.216, 0.267 and 0.228), its 70% means close to 70% in every time control you play, and its edge is largest in fast controls without an increment (1+0, 5+0).
 
 ### A.1 How well does it predict results overall, compared with simpler models?
 
 ![How well does it predict results overall, compared with simpler models?](figures/00_calibration/1_overall.svg)
 
-- Over 365,561 positions from 6,045 games, the model's Brier score (mean squared gap between predicted and actual score) is 0.179 (CI 0.176 to 0.182).
+- Over 365,561 positions from 6,045 games, the model's Brier score (mean squared gap between predicted and actual score; lower is better) is 0.179 (CI 0.176 to 0.182).
 - The Lichess eval curve scores 0.216, ratings alone 0.228 and Stockfish's win/draw/loss model 0.267: all clearly worse.
 - The model removes 17% of the Lichess curve's error (0.037 less, CI 0.033 to 0.040).
 - By mean absolute error Stockfish looks as good (0.365 vs 0.367), but that measure rewards over-confident guesses; the Brier score does not.
@@ -1111,7 +1156,7 @@ Data: [1_overall.csv](data/00_calibration/1_overall.csv) · [all tables](data/00
 
 - Yes: in every tenth of positions the model's prediction is within 0.017 of the actual score; when it says 0.648, players score 0.642.
 - On average players score +0.0013 more than it predicts (CI +0.0004 to +0.0022), about +0.9 Elo (CI +0.3 to +1.5): tiny, but not zero.
-- Its largest miss is at the bottom: positions it gives 0.076 end up scoring 0.093, so lost-looking positions are saved a little more often than it expects.
+- Its largest miss is at the bottom: positions it gives 0.076 end up scoring 0.093, about +38 Elo (CI +18 to +56), so lost-looking positions are saved a little more often than it expects.
 - The simpler models are over-confident: where the Lichess curve predicts 0.968 players score 0.833, and positions Stockfish calls certain wins (exactly 1) score only 0.716 (CI 0.706 to 0.727).
 
 Data: [2_reliability.csv](data/00_calibration/2_reliability.csv) · [1_overall.csv](data/00_calibration/1_overall.csv) · [all tables](data/00_calibration/_index.csv) · [script](../src/chess_analysis/calibrate.py) · source: [moves_analysed.parquet](../data/zakihussa1n/moves_analysed.parquet)
@@ -1121,9 +1166,10 @@ Data: [2_reliability.csv](data/00_calibration/2_reliability.csv) · [1_overall.c
 ![Is it as good for every time control?](figures/00_calibration/3_by_tc.svg)
 
 - In every reported control its average prediction is within about 0.005 of the actual score (at most 3.5 Elo, in 5+5); the CIs in the thinner 5+0 and 5+5 reach up to 8.7 Elo.
-- Its edge over the Lichess curve is biggest without an increment: in 1+0 it removes 26% of the curve's error (Brier 0.182 vs 0.245), in 5+0 24%, in 3+0 14%.
-- With an increment the edge is small (1+1 6%, 3+2 3.5%), and in 2+1, 5+2, 5+5 and 10+0 there is no clear difference (10+0: 0.0015, CI −0.0045 to +0.0084).
-- Within controls the misses are small; the clearest is 3+2's middle range, slightly too confident: positions it gives 0.577 score 0.543, and 0.430 score 0.461 (second chart).
+- Its edge over the Lichess curve is biggest in fast controls without an increment: in 1+0 it removes 26% of the curve's error (Brier 0.182 vs 0.245), in 5+0 24%, in 3+0 14%.
+- With an increment the edge is small (1+1 6%, 3+2 3.5%), and in 2+1, 5+2 and 5+5 there is no clear difference.
+- In rapid 10+0, which has no increment, there is no clear difference either (Brier 0.0015 lower, CI −0.0045 to +0.0084).
+- Within controls the misses are small; the clearest is 3+2's middle range, slightly too confident: positions it gives 0.577 score 0.543 (about −24 Elo), and 0.430 score 0.461 (about +22 Elo) (second chart).
 
 Data: [3_by_tc.csv](data/00_calibration/3_by_tc.csv) · [3b_reliability_by_tc.csv](data/00_calibration/3b_reliability_by_tc.csv) ([chart](figures/00_calibration/3b_reliability_by_tc.svg)) · [3c_metrics_by_tc.csv](data/00_calibration/3c_metrics_by_tc.csv) · [all tables](data/00_calibration/_index.csv) · [script](../src/chess_analysis/calibrate.py) · source: [moves_analysed.parquet](../data/zakihussa1n/moves_analysed.parquet)
 
@@ -1168,16 +1214,4 @@ Data: [3_by_tc.csv](data/00_calibration/3_by_tc.csv) · [3b_reliability_by_tc.cs
 
 ```bash
 git checkout 73c6c53 -- reports analysis/findings analysis/13_findings.py data/zakihussa1n/findings.parquet tests/test_findings.py
-```
-
-- The same commit is tagged `reports-archive-2026-11` in the session that made this change; to publish that tag from a clone that has it:
-
-```bash
-git push origin reports-archive-2026-11
-```
-
-- Or create the tag yourself from any clone:
-
-```bash
-git tag -a reports-archive-2026-11 73c6c53 -m "Last commit with the original long-form reports" && git push origin reports-archive-2026-11
 ```

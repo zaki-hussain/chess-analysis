@@ -563,7 +563,8 @@ def chart_concentration(table: pd.DataFrame, groups: list[str]):
         if part.empty:
             charts.thin_note(ax)
             continue
-        ax.plot([0.01, 0.5], [0.01, 0.5], color=charts.AXIS, linewidth=1, linestyle="--", zorder=1)
+        # y = x drawn through every tick so it curves correctly on the log x axis
+        ax.plot(TOP_SHARE_TICKS, TOP_SHARE_TICKS, color=charts.AXIS, linewidth=1, linestyle="--", zorder=1)
         charts.side_lines(ax, part, "top_share_of_moves", markers=True)
         ax.set_xscale("log")
         ax.set_xticks(TOP_SHARE_TICKS, [f"{100 * q:g}%" for q in TOP_SHARE_TICKS])

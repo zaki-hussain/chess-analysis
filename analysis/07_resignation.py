@@ -732,7 +732,7 @@ def q6_safe(results: Results, pos: pd.DataFrame, res: pd.DataFrame, cp_clock: pd
     cbar.set_label("your played-out score", fontsize=8)
     cbar.outline.set_visible(False)
     fig.suptitle("When is resigning safe? What your positions scored when you played on", x=0.01, ha="left", fontweight="bold", fontsize=11, color=charts.INK)
-    charts.footnote(fig, f"Pooled by time class ({pool_note(data)}): per control most cells are thin. Light = little to gain by playing on; dark = resigning gives points away. 'few' = under 30 games.")
+    charts.footnote(fig, f"Pooled by time class ({pool_note(data)}): per control most cells are thin. Each cell is what resigning such a position gives away on average: light = little (0.05 or less counts as safe), dark = more. 'few' = under 30 games.")
     results.figure(fig, "6_safe_map")
 
 
