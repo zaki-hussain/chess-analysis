@@ -206,8 +206,9 @@ def zero_line(ax, value: float = 0.0, horizontal: bool = True) -> None:
 def thin_note(ax, text: str = "too few games") -> None:
     """Grey note on a panel whose data are too thin to draw."""
     ax.text(0.5, 0.5, text, transform=ax.transAxes, ha="center", va="center", color=INK_MUTED, fontsize=8.5)
-    ax.set_xticks([])
-    ax.set_yticks([])
+    # tick_params, not set_*ticks([]): on shared axes the latter would clear every panel's ticks
+    ax.tick_params(left=False, labelleft=False, bottom=False, labelbottom=False)
+    ax.grid(False)
 
 
 def legend(fig_or_ax, loc: str = "upper right", **kwargs) -> None:

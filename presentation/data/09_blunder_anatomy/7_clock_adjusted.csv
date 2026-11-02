@@ -1,0 +1,67 @@
+tc_group,measure,clock_bucket,player,player_lo,player_hi,opponent,opponent_lo,opponent_hi,diff,diff_lo,diff_hi,n_player_moves,n_opponent_moves,games,thin,unit
+bullet 1+0,seconds left,<5 s,5.823902,4.41279,7.208078,3.302968,1.92392,4.392334,2.520934,1.070185,4.117466,4890,4532,2936,False,extra blunders per 100 moves vs 30+ s
+bullet 1+0,seconds left,5-10 s,4.325471,3.187779,5.482239,3.074907,2.02976,4.318539,1.250564,-0.090304,2.508017,6401,6293,2936,False,extra blunders per 100 moves vs 30+ s
+bullet 1+0,seconds left,10-30 s,2.410794,1.687552,3.194212,2.040806,1.309905,2.707058,0.369988,-0.527454,1.414351,26284,25267,2936,False,extra blunders per 100 moves vs 30+ s
+bullet 1+0,seconds beyond increment,<5 s,5.823902,4.41279,7.208078,3.302968,1.92392,4.392334,2.520934,1.070185,4.117466,4890,4532,2936,False,extra blunders per 100 moves vs 30+ s
+bullet 1+0,seconds beyond increment,5-10 s,4.325471,3.187779,5.482239,3.074907,2.02976,4.318539,1.250564,-0.090304,2.508017,6401,6293,2936,False,extra blunders per 100 moves vs 30+ s
+bullet 1+0,seconds beyond increment,10-30 s,2.410794,1.687552,3.194212,2.040806,1.309905,2.707058,0.369988,-0.527454,1.414351,26284,25267,2936,False,extra blunders per 100 moves vs 30+ s
+bullet 1+1,seconds left,<5 s,4.995994,1.074876,9.162037,2.121934,-1.23456,5.896414,2.87406,-2.447698,7.99612,274,443,412,True,extra blunders per 100 moves vs 30+ s
+bullet 1+1,seconds left,5-10 s,2.345814,-0.034168,5.091284,2.022117,-0.559307,4.967161,0.323697,-2.104315,4.270384,767,768,412,False,extra blunders per 100 moves vs 30+ s
+bullet 1+1,seconds left,10-30 s,1.918041,0.248643,3.707556,1.399731,-0.285897,3.190721,0.51831,-1.816486,2.876005,2636,2634,412,False,extra blunders per 100 moves vs 30+ s
+bullet 1+1,seconds beyond increment,<5 s,4.129307,0.767124,8.067086,2.793534,-0.147859,6.81429,1.335773,-3.403331,6.278367,417,565,412,False,extra blunders per 100 moves vs 30+ s
+bullet 1+1,seconds beyond increment,5-10 s,1.274053,-0.839982,3.685283,1.373243,-1.078681,3.688394,-0.09919,-2.978053,2.978711,790,797,412,False,extra blunders per 100 moves vs 30+ s
+bullet 1+1,seconds beyond increment,10-30 s,1.914704,0.199762,3.620203,1.714209,-0.098674,3.363837,0.200495,-2.274876,2.69224,2637,2606,412,False,extra blunders per 100 moves vs 30+ s
+bullet 2+1,seconds left,<5 s,-0.712067,-10.267759,11.631231,3.058107,-7.466553,30.196877,-3.770174,-30.425397,15.531251,70,67,85,True,extra blunders per 100 moves vs 30+ s
+bullet 2+1,seconds left,5-10 s,0.974391,-6.566377,10.662189,11.437397,-3.903129,30.027919,-10.463006,-30.231038,7.29498,92,52,85,True,extra blunders per 100 moves vs 30+ s
+bullet 2+1,seconds left,10-30 s,3.768384,-2.712429,10.496174,2.825553,-1.098393,7.014665,0.942831,-6.181831,8.692877,310,283,85,True,extra blunders per 100 moves vs 30+ s
+bullet 2+1,seconds beyond increment,<5 s,-2.719058,-10.835457,6.850999,1.006764,-8.247708,17.391671,-3.725822,-25.863024,11.625327,89,83,85,True,extra blunders per 100 moves vs 30+ s
+bullet 2+1,seconds beyond increment,5-10 s,2.856697,-5.315881,14.656085,15.521062,-3.372639,35.727027,-12.664365,-31.010708,6.574049,87,51,85,True,extra blunders per 100 moves vs 30+ s
+bullet 2+1,seconds beyond increment,10-30 s,3.386726,-2.521405,10.065698,2.016192,-2.309957,6.009484,1.370534,-5.294379,8.651072,316,279,85,True,extra blunders per 100 moves vs 30+ s
+blitz 3+0,seconds left,<5 s,4.565623,-1.863771,12.824207,7.303804,-3.463028,19.024149,-2.738181,-15.084168,12.473895,127,28,209,True,extra blunders per 100 moves vs 30+ s
+blitz 3+0,seconds left,5-10 s,4.048852,-0.25491,10.28365,9.181568,0.595997,21.588024,-5.132716,-16.031926,6.376031,136,58,209,True,extra blunders per 100 moves vs 30+ s
+blitz 3+0,seconds left,10-30 s,1.172196,-2.426456,5.61292,-0.822083,-4.472048,4.816705,1.994279,-3.477446,8.187388,455,332,209,False,extra blunders per 100 moves vs 30+ s
+blitz 3+0,seconds beyond increment,<5 s,4.565623,-1.863771,12.824207,7.303804,-3.463028,19.024149,-2.738181,-15.084168,12.473895,127,28,209,True,extra blunders per 100 moves vs 30+ s
+blitz 3+0,seconds beyond increment,5-10 s,4.048852,-0.25491,10.28365,9.181568,0.595997,21.588024,-5.132716,-16.031926,6.376031,136,58,209,True,extra blunders per 100 moves vs 30+ s
+blitz 3+0,seconds beyond increment,10-30 s,1.172196,-2.426456,5.61292,-0.822083,-4.472048,4.816705,1.994279,-3.477446,8.187388,455,332,209,False,extra blunders per 100 moves vs 30+ s
+blitz 3+2,seconds left,<5 s,6.010281,1.644929,11.434299,3.767425,-0.991409,9.749383,2.242856,-4.753503,8.894443,204,208,1438,True,extra blunders per 100 moves vs 30+ s
+blitz 3+2,seconds left,5-10 s,4.80477,2.474536,7.847829,3.26934,1.425062,5.480796,1.535431,-1.510394,5.603752,768,751,1438,False,extra blunders per 100 moves vs 30+ s
+blitz 3+2,seconds left,10-30 s,2.630818,1.399983,3.627152,0.974912,-0.396553,2.251412,1.655907,0.015599,3.031554,4783,3334,1438,False,extra blunders per 100 moves vs 30+ s
+blitz 3+2,seconds beyond increment,<5 s,5.288951,2.458945,10.393577,3.950971,0.869271,7.976448,1.337981,-3.465663,6.785746,481,493,1438,False,extra blunders per 100 moves vs 30+ s
+blitz 3+2,seconds beyond increment,5-10 s,4.439666,2.122739,6.598051,2.932414,0.652382,5.365646,1.507253,-1.982656,5.024228,926,824,1438,False,extra blunders per 100 moves vs 30+ s
+blitz 3+2,seconds beyond increment,10-30 s,2.436179,1.340693,3.483476,0.67795,-0.617185,2.017085,1.75823,-0.013618,3.169942,4593,3253,1438,False,extra blunders per 100 moves vs 30+ s
+blitz 5+0,seconds left,<5 s,11.251195,-3.786354,28.0114,-6.650071,-15.400279,3.121743,17.901266,1.370327,38.805275,63,7,90,True,extra blunders per 100 moves vs 30+ s
+blitz 5+0,seconds left,5-10 s,8.652582,-0.66678,22.417928,17.347513,-9.465393,38.011978,-8.694931,-28.591182,24.672136,48,17,90,True,extra blunders per 100 moves vs 30+ s
+blitz 5+0,seconds left,10-30 s,4.868319,-0.953919,13.077921,6.224279,-3.339289,16.466774,-1.35596,-10.633669,9.102528,117,64,90,True,extra blunders per 100 moves vs 30+ s
+blitz 5+0,seconds beyond increment,<5 s,11.251195,-3.786354,28.0114,-6.650071,-15.400279,3.121743,17.901266,1.370327,38.805275,63,7,90,True,extra blunders per 100 moves vs 30+ s
+blitz 5+0,seconds beyond increment,5-10 s,8.652582,-0.66678,22.417928,17.347513,-9.465393,38.011978,-8.694931,-28.591182,24.672136,48,17,90,True,extra blunders per 100 moves vs 30+ s
+blitz 5+0,seconds beyond increment,10-30 s,4.868319,-0.953919,13.077921,6.224279,-3.339289,16.466774,-1.35596,-10.633669,9.102528,117,64,90,True,extra blunders per 100 moves vs 30+ s
+blitz 5+2,seconds left,<5 s,-7.77756,-12.352519,-4.656266,-9.453886,-13.196965,-5.923702,1.676326,-2.6414,6.794671,5,6,113,True,extra blunders per 100 moves vs 30+ s
+blitz 5+2,seconds left,5-10 s,4.467197,-8.179616,45.870209,-3.563353,-9.100109,1.682883,8.03055,-4.423695,51.594547,17,36,113,True,extra blunders per 100 moves vs 30+ s
+blitz 5+2,seconds left,10-30 s,0.914874,-4.658547,6.270176,2.376171,-2.004952,6.995295,-1.461298,-6.923025,6.569087,98,195,113,True,extra blunders per 100 moves vs 30+ s
+blitz 5+2,seconds beyond increment,<5 s,-7.958816,-12.38814,-5.014197,-9.022783,-13.103595,-4.345739,1.063967,-3.632726,6.060699,9,14,113,True,extra blunders per 100 moves vs 30+ s
+blitz 5+2,seconds beyond increment,5-10 s,8.317037,-7.592258,20.839243,4.906301,-5.991783,14.012041,3.410737,-13.720091,23.698703,27,45,113,True,extra blunders per 100 moves vs 30+ s
+blitz 5+2,seconds beyond increment,10-30 s,-0.385495,-5.527477,5.26925,1.509218,-1.786557,5.421556,-1.894713,-7.403716,5.255202,87,196,113,True,extra blunders per 100 moves vs 30+ s
+blitz 5+5,seconds left,<5 s,,,,,,,,,,0,0,137,True,extra blunders per 100 moves vs 30+ s
+blitz 5+5,seconds left,5-10 s,,,,-4.468429,-6.809591,-2.083422,,,,0,6,137,True,extra blunders per 100 moves vs 30+ s
+blitz 5+5,seconds left,10-30 s,-5.436745,-11.16168,-0.59375,2.736494,-6.794828,15.089668,-8.173238,-22.5158,0.934666,36,87,137,True,extra blunders per 100 moves vs 30+ s
+blitz 5+5,seconds beyond increment,<5 s,,,,-4.459837,-6.606432,-1.948381,,,,0,6,137,True,extra blunders per 100 moves vs 30+ s
+blitz 5+5,seconds beyond increment,5-10 s,-9.867589,-14.642316,-6.047477,-0.19711,-4.811984,4.959319,-9.670479,-18.076995,-3.086715,4,17,137,True,extra blunders per 100 moves vs 30+ s
+blitz 5+5,seconds beyond increment,10-30 s,-4.720034,-10.90136,-0.447697,4.140113,-8.40476,22.119351,-8.860147,-28.7757,1.874942,41,84,137,True,extra blunders per 100 moves vs 30+ s
+rapid 10+0,seconds left,<5 s,13.817644,-3.921218,95.231991,-1.456491,-3.314884,0.348859,15.274135,-3.077656,97.500897,12,18,587,True,extra blunders per 100 moves vs 30+ s
+rapid 10+0,seconds left,5-10 s,-3.552264,-6.877454,-2.040121,8.835078,-3.227956,37.828795,-12.387342,-40.419256,0.148263,9,19,587,True,extra blunders per 100 moves vs 30+ s
+rapid 10+0,seconds left,10-30 s,-2.585951,-5.066903,2.645464,-1.081996,-5.29009,3.675125,-1.503955,-6.7159,7.138621,57,47,587,True,extra blunders per 100 moves vs 30+ s
+rapid 10+0,seconds beyond increment,<5 s,13.817644,-3.921218,95.231991,-1.456491,-3.314884,0.348859,15.274135,-3.077656,97.500897,12,18,587,True,extra blunders per 100 moves vs 30+ s
+rapid 10+0,seconds beyond increment,5-10 s,-3.552264,-6.877454,-2.040121,8.835078,-3.227956,37.828795,-12.387342,-40.419256,0.148263,9,19,587,True,extra blunders per 100 moves vs 30+ s
+rapid 10+0,seconds beyond increment,10-30 s,-2.585951,-5.066903,2.645464,-1.081996,-5.29009,3.675125,-1.503955,-6.7159,7.138621,57,47,587,True,extra blunders per 100 moves vs 30+ s
+all bullet,seconds left,<5 s,5.444019,4.17886,6.715929,3.111783,1.872113,4.245378,2.332237,0.731157,3.766169,5234,5042,3433,False,extra blunders per 100 moves vs 30+ s
+all bullet,seconds left,5-10 s,3.907484,2.841618,5.031361,2.951226,2.032344,3.933608,0.956259,-0.308864,2.123773,7260,7113,3433,False,extra blunders per 100 moves vs 30+ s
+all bullet,seconds left,10-30 s,2.299709,1.601088,2.946823,1.922761,1.283801,2.595902,0.376948,-0.716301,1.087492,29230,28184,3433,False,extra blunders per 100 moves vs 30+ s
+all bullet,seconds beyond increment,<5 s,5.312005,4.098524,6.543298,3.166575,1.978217,4.24324,2.145431,0.53455,3.68847,5396,5180,3433,False,extra blunders per 100 moves vs 30+ s
+all bullet,seconds beyond increment,5-10 s,3.795112,2.73488,4.924344,2.91738,2.030629,3.936945,0.877731,-0.457149,1.934988,7278,7141,3433,False,extra blunders per 100 moves vs 30+ s
+all bullet,seconds beyond increment,10-30 s,2.284255,1.562935,2.929862,1.95091,1.316202,2.577797,0.333346,-0.757368,1.097637,29237,28152,3433,False,extra blunders per 100 moves vs 30+ s
+all blitz,seconds left,<5 s,6.863259,2.559896,10.822121,3.770661,-0.20444,8.594848,3.092599,-4.782151,9.451655,399,249,1987,True,extra blunders per 100 moves vs 30+ s
+all blitz,seconds left,5-10 s,4.964803,2.887219,7.046744,3.734579,2.035669,5.671409,1.230224,-1.688139,4.191719,969,868,1987,False,extra blunders per 100 moves vs 30+ s
+all blitz,seconds left,10-30 s,2.4095,1.454483,3.35683,1.094029,0.044161,2.415382,1.315472,-0.10008,2.841177,5489,4012,1987,False,extra blunders per 100 moves vs 30+ s
+all blitz,seconds beyond increment,<5 s,5.775044,2.471365,8.904849,3.700272,0.894337,6.629767,2.074771,-2.773368,6.259362,680,548,1987,False,extra blunders per 100 moves vs 30+ s
+all blitz,seconds beyond increment,5-10 s,4.651062,2.674507,6.690657,3.70345,1.568937,6.073418,0.947613,-1.92321,4.176625,1141,961,1987,False,extra blunders per 100 moves vs 30+ s
+all blitz,seconds beyond increment,10-30 s,2.209317,1.152234,3.184333,0.827586,-0.232176,2.276598,1.381731,-0.054628,2.932471,5293,3929,1987,False,extra blunders per 100 moves vs 30+ s

@@ -1,0 +1,19 @@
+tc_group,metric,label,unit,better,rating_low_min,rating_low_max,rating_high_min,rating_high_max,player_low,player_high,player_change,player_change_lo,player_change_hi,opponent_low,opponent_high,opponent_change,opponent_change_lo,opponent_change_hi,diff_change,diff_change_lo,diff_change_hi,games_low,games_high,n_min,thin
+bullet 1+0,plies,game length (plies),games,n/a,168.0,982.0,1085.0,1300.0,56.072523,69.003067,12.930545,10.675354,15.062685,,,,,,,,,979,978,978.0,False
+bullet 1+0,book_ply,book depth (plies in a named opening line),games,higher,168.0,982.0,1085.0,1300.0,4.478039,4.873211,0.395172,0.167125,0.596614,,,,,,,,,979,978,978.0,False
+bullet 1+1,plies,game length (plies),games,n/a,160.0,794.0,925.0,1003.0,47.731884,62.934307,15.202423,7.400637,23.999954,,,,,,,,,138,137,137.0,False
+bullet 1+1,book_ply,book depth (plies in a named opening line),games,higher,160.0,794.0,925.0,1003.0,4.34058,5.394161,1.053581,0.527818,1.637684,,,,,,,,,138,137,137.0,False
+bullet 2+1,plies,game length (plies),games,n/a,160.0,304.0,375.0,991.0,45.137931,61.892857,16.754926,0.475308,33.144643,,,,,,,,,29,28,28.0,True
+bullet 2+1,book_ply,book depth (plies in a named opening line),games,higher,160.0,304.0,375.0,991.0,3.965517,4.642857,0.67734,-0.483682,1.702371,,,,,,,,,29,28,28.0,True
+blitz 3+0,plies,game length (plies),games,n/a,325.0,883.0,945.0,1018.0,57.214286,68.333333,11.119048,-0.390336,22.321123,,,,,,,,,70,69,69.0,False
+blitz 3+0,book_ply,book depth (plies in a named opening line),games,higher,325.0,883.0,945.0,1018.0,5.271429,5.753623,0.482195,-0.280388,1.241128,,,,,,,,,70,69,69.0,False
+blitz 3+2,plies,game length (plies),games,n/a,252.0,591.0,822.0,1050.0,57.060417,60.912317,3.851901,-0.976247,8.293006,,,,,,,,,480,479,479.0,False
+blitz 3+2,book_ply,book depth (plies in a named opening line),games,higher,252.0,591.0,822.0,1050.0,4.4,5.597077,1.197077,0.906718,1.460115,,,,,,,,,480,479,479.0,False
+blitz 5+0,plies,game length (plies),games,n/a,265.0,348.0,496.0,930.0,49.066667,57.0,7.933333,-7.3375,23.035,,,,,,,,,30,30,30.0,False
+blitz 5+0,book_ply,book depth (plies in a named opening line),games,higher,265.0,348.0,496.0,930.0,3.366667,4.966667,1.6,0.633333,2.434167,,,,,,,,,30,30,30.0,False
+blitz 5+2,plies,game length (plies),games,n/a,597.0,753.0,771.0,808.0,55.868421,66.605263,10.736842,-4.922368,24.971053,,,,,,,,,38,38,38.0,False
+blitz 5+2,book_ply,book depth (plies in a named opening line),games,higher,597.0,753.0,771.0,808.0,5.578947,4.947368,-0.631579,-1.711184,0.395395,,,,,,,,,38,38,38.0,False
+blitz 5+5,plies,game length (plies),games,n/a,252.0,553.0,590.0,828.0,53.108696,58.391304,5.282609,-8.396196,22.060326,,,,,,,,,46,46,46.0,False
+blitz 5+5,book_ply,book depth (plies in a named opening line),games,higher,252.0,553.0,590.0,828.0,3.326087,5.195652,1.869565,1.282609,2.608696,,,,,,,,,46,46,46.0,False
+rapid 10+0,plies,game length (plies),games,n/a,526.0,910.0,1140.0,1222.0,47.714286,59.630769,11.916484,5.30854,19.144964,,,,,,,,,196,195,195.0,False
+rapid 10+0,book_ply,book depth (plies in a named opening line),games,higher,526.0,910.0,1140.0,1222.0,3.969388,5.338462,1.369074,0.953734,1.752671,,,,,,,,,196,195,195.0,False

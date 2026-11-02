@@ -1,0 +1,12 @@
+item,value
+games analysed,6003.0
+rated games,5631.0
+unrated games,372.0
+games after a break,66.0
+"median absolute rating gap, rated",22.0
+share of rated games within 50 points,0.818327
+"median absolute rating gap, unrated",104.0
+rated games against opponents more than 100 stronger,197.0
+of which in 2022 (the year with the most),138.0
+excluded control bullet 0.5+0 (games),19.0
+excluded control rapid 30+0 (games),1.0

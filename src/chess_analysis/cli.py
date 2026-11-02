@@ -66,10 +66,11 @@ def _calibrate(settings: Settings, args: argparse.Namespace) -> None:
     moves = dataset.load_analysed(settings.username)
     games = dataset.load_games(settings.username)
     out_path = settings.user_dir / calibrate.EXPECTED_POINTS_FILE
-    report = settings.data_dir.parent / "reports" / "calibration.md"
+    presentation = settings.data_dir.parent / "presentation"
     print(f"Fitting win-probability model on {len(moves)} positions ({args.folds}-fold CV by game)")
-    out = calibrate.run(moves, games, dataset.load_my_games(settings.username), out_path, report_path=report, folds=args.folds)
-    print(f"Wrote {len(out)} rows to {out_path}" + (f" and the report to {report}" if args.folds else ""))
+    out = calibrate.run(moves, games, dataset.load_my_games(settings.username), out_path, presentation_dir=presentation, folds=args.folds)
+    where = f" and the evaluation to {presentation / 'data' / calibrate.SLUG} (+ figures)" if args.folds else ""
+    print(f"Wrote {len(out)} rows to {out_path}{where}")
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -96,7 +97,7 @@ def build_parser() -> argparse.ArgumentParser:
     tb.add_argument("--syzygy", help="folder with the 3-4-5 piece tables (default: syzygy_dir in config.toml)")
     tb.set_defaults(run=_tablebase)
     cal = commands.add_parser("calibrate", parents=[common], help="fit win probability on the player's own games; writes expected points per move")
-    cal.add_argument("--folds", type=int, default=5, help="cross-validation folds for the report (0 to skip)")
+    cal.add_argument("--folds", type=int, default=5, help="cross-validation folds for the evaluation tables and charts (0 to skip)")
     cal.set_defaults(run=_calibrate)
     return parser
 

@@ -1,13 +1,34 @@
-"""Q8: Opening repertoire.
+"""Q8: opening repertoire.
 
-Which openings the player scores and plays well in, by colour; whether staying
-in book longer helps; the lines that cost most; recurring opening mistakes.
+What do you play, which openings score above or below the rating
+expectation, are you still playing the ones that work, who leaves the known
+lines first and what that costs, whether deeper book helps, how your opening
+moves compare with your opponents', and which repeated opening moves cost the
+most.
 
-Inputs: load_data() (standard live games), data/<user>/games_decomposed.parquet
-(Q1: per-game ep lost by phase, ep at move 1), opening_name / opening_eco /
-book_ply on the games, in_book / phase / ep_loss on the moves.
+Inputs: `load_data()` (standard live games in the reported controls,
+`data.tc_groups`), `data/<user>/games_decomposed.parquet` (Q1: per-game
+expected points lost in the opening phase by each side, the model's
+expectation at move 1), `opening_name` / `book_ply` on the games and
+`in_book` / `phase` / `ep_loss` on the moves.
 
-Run from the repo root: .venv/bin/python analysis/08_openings.py
+What is split how (openings are a repertoire, not a time-control habit):
+- repertoire, family scores, recency and the costliest repeated moves are
+  pooled over every reported control ("all games"; family x colour x control
+  is almost always thin), with a per-time-class table ("all bullet", ...) as
+  a secondary view and the line-start shares per control;
+- who leaves the book, book depth and opening move quality are per control
+  (plus the pool), because they are about how you play, which the clock
+  changes.
+
+Expected score is the Elo formula on your pre-game rating and the opponent's
+reconstructed pre-game rating (`opponent_rating_pre`); every score above
+expectation carries its Elo-equivalent. CIs are bootstrapped by game.
+
+Writes CSVs to presentation/data/08_openings/ and SVGs to
+presentation/figures/08_openings/ (no prose).
+
+Run: .venv/bin/python analysis/08_openings.py   (about a minute)
 """
 
 from __future__ import annotations
@@ -18,128 +39,215 @@ import chess
 import numpy as np
 import pandas as pd
 
+from chess_analysis import charts
 from chess_analysis.toolkit import (
-    SIDE_COLOURS,
-    TIME_CLASSES,
-    Report,
-    ci_column,
+    Results,
+    add_elo,
     cluster_bootstrap_mean,
+    cluster_ols,
     compare_sides,
     elo_expected_score,
-    figure_style,
+    excess_to_elo,
     load_data,
+    opponent_rating_pre,
     repo_root,
 )
 
 SLUG = "08_openings"
-N_BOOT = 500
+ALL = "all games"  # pooled over every reported control (the thin controls are excluded everywhere)
+N_BOOT = 1000
 SEED = 8
-MIN_GAMES = 20
-MIN_MOVES = 30
 COLOURS = ["white", "black"]
-BOOK_BINS = [1, 3, 5, 7, 9, 99]
-BOOK_LABELS = ["1-2", "3-4", "5-6", "7-8", "9+"]
-RECUR_MIN_N = 5
+
+# A family, line or cell with fewer games than this has a score CI of about +-0.18: computed, flagged thin,
+# left out of the charts (the same floor as Q2, Q5 and Q6).
+MIN_CELL_GAMES = 30
+# chess.com's rating floor is 100; a rating below it is a placeholder, so no Elo expectation is formed from it.
+MIN_VALID_RATING = 100
+# "Last 12 months": the year up to the last game in the data, the window the question asks about.
+RECENT_DAYS = 365
+# Book depth in full moves (two plies): the opening list names lines move by move, and the median game leaves
+# it after 4 plies; 5+ moves (9+ plies, rounded up) holds the deepest ~9% of games.
+BOOK_MOVE_EDGES = [0, 1, 2, 3, 4, np.inf]
+BOOK_MOVE_LABELS = ["1", "2", "3", "4", "5+"]
+# Opening-phase move quality by ply: blocks of 10 plies (5 moves each side) over the first 30, where the
+# material-heuristic opening phase almost always ends.
+PLY_EDGES = [1, 11, 21, 31]
+PLY_LABELS = ["1-10", "11-20", "21-30"]
+PER_100 = 100  # expected points per 100 moves: the per-move numbers sit in the third decimal
+# A repeated move: the same move in the same position at least this often (fewer is an anecdote, not a habit)...
+RECUR_MIN_TIMES = 5
+# ...losing at least this much on average: about 1.7x the average move (0.03), i.e. a clear inaccuracy each time.
 RECUR_MIN_EP = 0.05
+# ...and at least this many centipawns on average: the inaccuracy floor of the move labels, so the loss is about the
+# move itself and not only the clock time it took (expected points lost include time spent).
+RECUR_MIN_CP = 50
+RECUR_TOP = 15  # rows in the costliest-moves tables and chart: about one screen
+FIRST_PLIES = 4  # move order shown for each family (labels follow positions, so transpositions hide here)
+CHANCE = 0.05  # share of 95% CIs that exclude zero when nothing is going on
+BELOW = charts.SERIES[7]  # red: an estimate clearly below zero (blue = clearly above, grey = unclear)
+STATUS_COLOUR = {"above": charts.PLAYER, "below": BELOW, "unclear": charts.OPPONENT}
+LABEL_X_GAP, LABEL_Y_GAP = (9, 0.022)  # recency chart: labels closer than this (games, points) are nudged apart
+LABEL_X_PAD = 0.03  # and start this share of the x range right of their dot, clear of the largest bubbles
+LABEL_TOP_RECENT = 4  # recency chart: the most played recent families labelled besides every clear one
+X_HEADROOM = 1.3  # recency chart: x range beyond the rightmost dot, room for its label
+BAR_HEADROOM = 1.15  # costly-moves chart: x range beyond the longest bar, room for its "xN" label
+DARK_CELL = 0.55  # heatmap: shares above this sit on a dark blue cell, so their text is white
+WHITE_BLACK = {"white": charts.SERIES[0], "black": charts.SERIES[1]}  # series colours when both lines are "you"
+
+GAME_STATS = ["my_ep_lost_opening", "opp_ep_lost_opening", "open_diff", "book_gain", "cp_after_book"]
 
 
-# --- small statistics helpers (copied in spirit from analysis/01_decomposition.py) -------
+# --- helpers ---------------------------------------------------------------------------------------
 
 
-def fmt(est: float, lo: float, hi: float, f: str = ".3f") -> str:
-    if pd.isna(est):
-        return ""
-    return f"{est:{f}} [{lo:{f}}, {hi:{f}}]" if pd.notna(lo) else f"{est:{f}}"
+def mean_ci(frame: pd.DataFrame, column: str) -> tuple[float, float, float]:
+    """Mean of a per-game column, CI from resampling games (one row per game)."""
+    return cluster_bootstrap_mean(frame[column].astype("float64"), frame["uuid"], n_boot=N_BOOT, seed=SEED)
 
 
-def game_mean(frame: pd.DataFrame, column: str, n_boot: int = N_BOOT) -> tuple[float, float, float]:
-    """Mean of a per-game column with a game-bootstrap CI (each game is one cluster)."""
-    return cluster_bootstrap_mean(frame[column].astype("float64"), frame["uuid"], n_boot=n_boot, seed=SEED)
-
-
-def paired_diff(frame: pd.DataFrame, a: str, b: str, n_boot: int = N_BOOT) -> tuple[float, float, float]:
-    """mean(a) - mean(b) over the same games, bootstrapped by game."""
-    d = (frame[a].astype("float64") - frame[b].astype("float64")).dropna().to_numpy()
-    if len(d) == 0:
-        return float("nan"), float("nan"), float("nan")
-    if len(d) < 2:
-        return float(d.mean()), float("nan"), float("nan")
-    rng = np.random.default_rng(SEED)
-    idx = rng.integers(0, len(d), size=(n_boot, len(d)))
-    boot = d[idx].mean(axis=1)
-    lo, hi = np.quantile(boot, [0.025, 0.975])
-    return float(d.mean()), float(lo), float(hi)
-
-
-def group_diff(a: np.ndarray, b: np.ndarray, n_boot: int = N_BOOT) -> tuple[float, float, float]:
-    """mean(a) - mean(b) for two disjoint sets of games (independent game bootstraps)."""
-    a, b = np.asarray(a, dtype="float64"), np.asarray(b, dtype="float64")
-    a, b = a[~np.isnan(a)], b[~np.isnan(b)]
+def independent_diff(a: pd.Series, b: pd.Series) -> tuple[float, float, float]:
+    """mean(a) - mean(b) for two disjoint sets of games (independent bootstraps of each)."""
+    a = a.astype("float64").dropna().to_numpy()
+    b = b.astype("float64").dropna().to_numpy()
     if len(a) < 2 or len(b) < 2:
         return float("nan"), float("nan"), float("nan")
     rng = np.random.default_rng(SEED)
-    ba = a[rng.integers(0, len(a), size=(n_boot, len(a)))].mean(axis=1)
-    bb = b[rng.integers(0, len(b), size=(n_boot, len(b)))].mean(axis=1)
+    ba = a[rng.integers(0, len(a), size=(N_BOOT, len(a)))].mean(axis=1)
+    bb = b[rng.integers(0, len(b), size=(N_BOOT, len(b)))].mean(axis=1)
     lo, hi = np.quantile(ba - bb, [0.025, 0.975])
     return float(a.mean() - b.mean()), float(lo), float(hi)
 
 
-def mix(frame: pd.DataFrame) -> str:
-    """'b/bz/r' game counts of a set of games."""
-    counts = frame["time_class"].value_counts()
-    return "/".join(str(int(counts.get(tc, 0))) for tc in TIME_CLASSES)
+def vs_colour(mine: pd.DataFrame, key: str) -> dict:
+    """Each level of `key` minus the whole colour: score above expectation, CI from resampling the colour's games.
+
+    The Elo formula has no colour term, so White sits above it and Black below it for everyone; a family is
+    only special if it differs from your own average with that colour. One bootstrap of the colour's games
+    serves every family at once (a resample-by-game count matrix times the family indicators).
+    """
+    valid = mine[mine["expected"].notna()]
+    y = valid["excess"].to_numpy(dtype="float64")
+    n = len(y)
+    if n < 2:
+        return {}
+    levels = sorted(valid[key].unique())
+    indicator = (valid[key].to_numpy()[:, None] == np.array(levels, dtype=object)[None, :]).astype("float64")
+    rng = np.random.default_rng(SEED)
+    idx = rng.integers(0, n, size=(N_BOOT, n))
+    counts = np.bincount((idx + np.arange(N_BOOT)[:, None] * n).ravel(), minlength=N_BOOT * n).reshape(N_BOOT, n).astype("float64")
+    games_in = counts @ indicator
+    with np.errstate(invalid="ignore", divide="ignore"):
+        boot = (counts @ (indicator * y[:, None])) / games_in - (counts @ y)[:, None] / n
+    point = (indicator * y[:, None]).sum(axis=0) / indicator.sum(axis=0) - y.mean()
+    lo, hi = np.nanquantile(boot, [0.025, 0.975], axis=0)
+    return {name: (float(point[k]), float(lo[k]), float(hi[k]), float(y.mean())) for k, name in enumerate(levels)}
+
+
+def score_stats(part: pd.DataFrame) -> dict:
+    """Score, Elo expectation and score above expectation (games with a usable expectation), with CIs."""
+    valid = part[part["expected"].notna()]
+    s, s_lo, s_hi = mean_ci(valid, "my_score")
+    e, e_lo, e_hi = mean_ci(valid, "excess")
+    return {
+        "score": s,
+        "score_lo": s_lo,
+        "score_hi": s_hi,
+        "expected": float(valid["expected"].mean()) if len(valid) else np.nan,
+        "excess": e,
+        "excess_lo": e_lo,
+        "excess_hi": e_hi,
+        "games": len(part),
+        "games_with_expectation": len(valid),
+    }
+
+
+def opening_stats(part: pd.DataFrame) -> dict:
+    """Per-game opening-phase expected points lost by each side, their difference, and the book gain."""
+    out = {}
+    for column in GAME_STATS:
+        est, lo, hi = mean_ci(part, column)
+        out.update({column: est, f"{column}_lo": lo, f"{column}_hi": hi})
+    return out
+
+
+def with_elo(frame: pd.DataFrame) -> pd.DataFrame:
+    return add_elo(frame, "expected", ["excess", "excess_lo", "excess_hi"])
+
+
+def years(part: pd.DataFrame) -> dict:
+    return {"first_year": int(part["year"].min()), "last_year": int(part["year"].max())}
+
+
+def scopes(games: pd.DataFrame, groups: list[str]) -> list[tuple[str, pd.DataFrame]]:
+    """('all games', every game), then one entry per control."""
+    return [(ALL, games), *[(g, games[games["tc_group"] == g]) for g in groups]]
+
+
+def class_scopes(games: pd.DataFrame, classes: list[str]) -> list[tuple[str, pd.DataFrame]]:
+    return [(f"all {c}", games[games["tc_class"] == c]) for c in classes]
 
 
 def san_of(fen: str, uci: str) -> str:
     try:
         return chess.Board(fen).san(chess.Move.from_uci(uci))
-    except Exception:  # noqa: BLE001 - a non-parsable move is shown raw
+    except (ValueError, AssertionError):
         return uci or ""
 
 
 def move_label(fen: str, san: str) -> str:
     """'7. Ng5' or '7... Nf6' from the position the mover faced."""
     parts = fen.split()
-    number, colour = parts[5], parts[1]
-    return f"{number}. {san}" if colour == "w" else f"{number}... {san}"
+    return f"{parts[5]}. {san}" if parts[1] == "w" else f"{parts[5]}... {san}"
 
 
-# --- data preparation ---------------------------------------------------------------------
+def thin_panel(ax, text: str = "too few games") -> None:
+    """charts.thin_note without clearing ticks (on shared axes that would clear every panel's ticks)."""
+    ax.text(0.5, 0.5, text, transform=ax.transAxes, ha="center", va="center", color=charts.INK_MUTED, fontsize=8.5)
+    ax.tick_params(labelleft=False, labelbottom=False, length=0)
+    ax.grid(False)
+
+
+def short_family(name: str) -> str:
+    return name.replace(" Defense", " Def.").replace(" Opening", " Op.").replace("Queen's Gambit", "QG")
+
+
+# --- data -------------------------------------------------------------------------------------------
 
 
 def prepare(data) -> tuple[pd.DataFrame, pd.DataFrame, dict]:
-    games, moves = data.games.copy(), data.moves.copy()
+    games = data.games[data.games["tc_group"].astype(str).isin(data.tc_groups)].copy()
+    games["tc_group"] = games["tc_group"].astype(str)
+    games["tc_class"] = games["tc_group"].map(data.tc_class)
     decomposed = pd.read_parquet(repo_root() / "data" / data.username / "games_decomposed.parquet")
     games = games.merge(decomposed, on="uuid", how="left")
-    info = {"all_games": len(games), "no_moves": int((games["n_plies"].fillna(0) == 0).sum())}
+    info = {"games_in_controls": len(games), "no_moves": int((games["n_plies"].fillna(0) == 0).sum())}
     games = games[games["n_plies"].fillna(0) > 0].copy()
 
     games["family"] = games["opening_name"].str.split(":").str[0].str.strip()
     games["colour"] = games["my_color"]
-    # Opponent's pre-game rating proxy: post-game rating + my rating change (rated), post-game rating (unrated).
-    rated = games["rated"].astype(bool)
-    opp_pre = np.where(rated, games["opponent_rating_after"].astype("float64") + games["my_rating_change"].astype("float64"), games["opponent_rating_after"].astype("float64"))
-    games["opp_rating_pre"] = opp_pre
+    games["opp_rating_pre"] = opponent_rating_pre(games)
     mine = games["my_rating_before"].astype("float64")
-    valid = mine.notna() & (mine >= 100) & pd.Series(opp_pre, index=games.index).notna() & (pd.Series(opp_pre, index=games.index) >= 100)
-    games["expected"] = np.where(valid, elo_expected_score(mine.fillna(0), pd.Series(opp_pre, index=games.index).fillna(0)), np.nan)
-    games["overperf"] = games["my_score"] - games["expected"]
-    info["no_rating"] = int((~valid).sum())
+    valid = (mine >= MIN_VALID_RATING) & (games["opp_rating_pre"] >= MIN_VALID_RATING)
+    games["expected"] = np.where(valid, elo_expected_score(mine.fillna(0), games["opp_rating_pre"].fillna(0)), np.nan)
+    games["excess"] = games["my_score"] - games["expected"]
+    info["no_expectation"] = int((~valid).sum())
+    games["open_diff"] = games["opp_ep_lost_opening"] - games["my_ep_lost_opening"]
 
-    # Position after the last book move, from the player's view.
+    moves = data.moves[data.moves["game_uuid"].isin(games["uuid"])].copy()
+    # The position after the last book move, from your side.
     last_book = moves[moves["in_book"]].sort_values(["game_uuid", "ply"]).groupby("game_uuid").tail(1)
-    sign = np.where(last_book["is_player_move"], 1.0, -1.0)
     after = pd.DataFrame(
         {
             "uuid": last_book["game_uuid"].to_numpy(),
             "ep_after_book": np.where(last_book["is_player_move"], last_book["ep_after"], 1 - last_book["ep_after"]),
-            "cp_after_book": last_book["cp_after"].to_numpy() * sign,
+            "cp_after_book": last_book["cp_after"].to_numpy() * np.where(last_book["is_player_move"], 1.0, -1.0),
         }
     )
     games = games.merge(after, on="uuid", how="left")
     games["book_gain"] = games["ep_after_book"] - games["my_ep_start"]
 
-    # The first out-of-book move: who played it and what it cost.
+    # The first move outside the named lines: who played it and what it cost.
     deviation = moves[moves["ply"] == moves["book_ply"] + 1]
     dev = pd.DataFrame(
         {
@@ -150,535 +258,851 @@ def prepare(data) -> tuple[pd.DataFrame, pd.DataFrame, dict]:
         }
     )
     games = games.merge(dev, on="uuid", how="left")
-    games["book_bin"] = pd.cut(games["book_ply"].astype("float64"), bins=BOOK_BINS, labels=BOOK_LABELS, right=False)
+    games["you_left_first"] = np.where(games["deviator"].isna(), np.nan, (games["deviator"] == "you").astype(float))
+    games["book_moves"] = np.ceil(games["book_ply"].astype("float64") / 2)
+    games["book_depth"] = pd.cut(games["book_moves"], bins=BOOK_MOVE_EDGES, labels=BOOK_MOVE_LABELS, right=True).astype(str)
 
-    # First moves: the line start from the player's side.
-    first = moves[moves["ply"] == 1][["game_uuid", "san"]].rename(columns={"san": "ply1"})
-    second = moves[moves["ply"] == 2][["game_uuid", "san"]].rename(columns={"san": "ply2"})
-    games = games.merge(first, left_on="uuid", right_on="game_uuid", how="left").drop(columns="game_uuid")
-    games = games.merge(second, left_on="uuid", right_on="game_uuid", how="left").drop(columns="game_uuid")
-    games["line_start"] = np.where(games["colour"] == "white", "1." + games["ply1"].fillna("?"), "1." + games["ply1"].fillna("?") + " " + games["ply2"].fillna("(no reply)"))
+    first = moves[moves["ply"] <= FIRST_PLIES].sort_values(["game_uuid", "ply"])
+    plies = first.pivot(index="game_uuid", columns="ply", values="san")
+    games["ply1"] = games["uuid"].map(plies[1])
+    games["ply2"] = games["uuid"].map(plies[2]) if 2 in plies else np.nan
+    games["line_start"] = np.where(
+        games["colour"] == "white", "1." + games["ply1"].fillna("?"), "1." + games["ply1"].fillna("?") + " " + games["ply2"].fillna("(no reply)")
+    )
+    games["first_moves"] = games["uuid"].map(first.groupby("game_uuid")["san"].agg(" ".join))
 
-    # Recency: games in the 12 months before the last game, and the years a line was played.
-    cutoff = games["start_datetime"].max() - pd.Timedelta(days=365)
+    cutoff = games["start_datetime"].max() - pd.Timedelta(days=RECENT_DAYS)
     games["recent"] = games["start_datetime"] >= cutoff
     info["cutoff"] = cutoff.date().isoformat()
 
-    moves = moves.merge(games[["uuid", "family", "colour", "book_bin", "year"]].rename(columns={"uuid": "game_uuid"}), on="game_uuid", how="inner")
-    return games, moves, info
+    moves = moves.merge(games[["uuid", "family", "colour", "recent", "year", "tc_class"]].rename(columns={"uuid": "game_uuid"}), on="game_uuid", how="inner")
+    return (games.sort_values(["start_datetime", "uuid"]).reset_index(drop=True), moves, info)
 
 
-def years_span(years: pd.Series) -> str:
-    lo, hi = int(years.min()), int(years.max())
-    return f"{lo % 100:02d}" if lo == hi else f"{lo % 100:02d}–{hi % 100:02d}"
+# --- 8.1 repertoire -----------------------------------------------------------------------------------
 
 
-# --- report sections ----------------------------------------------------------------------
-
-
-def section_intro(report: Report, games: pd.DataFrame, info: dict, username: str) -> None:
-    counts = games.groupby(["time_class", "colour"]).size().unstack("colour").reindex(TIME_CLASSES)
-    n_moves = info["n_moves"]
-    report.text(
-        f"Data: {len(games):,} standard live games with at least one move (player {username}; "
-        + ", ".join(f"{tc} {int(counts.loc[tc].sum()):,} = {int(counts.loc[tc, 'white']):,} white / {int(counts.loc[tc, 'black']):,} black" for tc in TIME_CLASSES)
-        + f") and {n_moves:,} analysed moves; {info['no_moves']} game(s) without moves excluded. "
-        f"Every game with moves reached a named opening line (Lichess list); the deepest named line is `opening_name`, "
-        f"its depth `book_ply` (median {games['book_ply'].median():.0f} plies, 75th percentile {games['book_ply'].quantile(0.75):.0f}). "
-        f"Names are grouped into {games['family'].nunique()} *families* (the text before the colon: 'Italian Game: Giuoco Piano' -> 'Italian Game'). "
-        f"Numbers are estimate [95% CI], CIs bootstrapped by game ({N_BOOT} resamples); each game is one cluster. "
-        f"*Score* is your points per game; *expected* is the Elo expectation from your pre-game rating and the opponent's "
-        f"pre-game rating reconstructed as their post-game rating plus your rating change (post-game rating in unrated games; "
-        f"an approximation, {info['no_rating']} game(s) without usable ratings are left out of expected-score columns); "
-        f"*over-performance* = score − expected. *Opening ep lost* is the sum of `ep_loss` over a side's moves in the material-heuristic "
-        f"opening phase (roughly the first 10–12 moves), *ep after book* is the calibrated expected points for you after the last book move, "
-        f"and *book gain* is that minus the model's expectation at move 1, so it measures what the known part of the opening did to your chances. "
-        f"*last 12 mo* counts the games since {info['cutoff']} and *years* the span in which the line occurred (your repertoire changed: a line with no recent games is history, not a target). "
-        f"Cells with fewer than {MIN_GAMES} games are left blank."
-    )
-
-
-def line_rows(games: pd.DataFrame, key: str, min_games: int = MIN_GAMES, with_mix: bool = True) -> pd.DataFrame:
-    """Per-group repertoire statistics (score, expected, over-performance, opening ep lost both sides, eval after book)."""
+def line_starts(games: pd.DataFrame, groups: list[str]) -> pd.DataFrame:
+    """Share of each colour's games per line start, pooled and per control; rare starts lumped as 'other'."""
     rows = []
-    for name, part in games.groupby(key, observed=True):
-        if len(part) < min_games:
-            continue
-        over = game_mean(part, "overperf")
-        me, opp = game_mean(part, "my_ep_lost_opening"), game_mean(part, "opp_ep_lost_opening")
-        diff = paired_diff(part, "opp_ep_lost_opening", "my_ep_lost_opening")
-        gain = game_mean(part, "book_gain")
-        cp = game_mean(part, "cp_after_book")
-        score = game_mean(part, "my_score")
+    for colour in COLOURS:
+        mine = games[games["colour"] == colour]
+        counts = mine["line_start"].value_counts()
+        main = sorted(counts[counts >= MIN_CELL_GAMES].index, key=lambda s: (-counts[s], s))
+        for scope, part in scopes(mine, groups):
+            label = part["line_start"].where(part["line_start"].isin(main), "other")
+            for start in [*main, "other"]:
+                sel = part[label == start]
+                rows.append(
+                    {
+                        "tc_group": scope,
+                        "colour": colour,
+                        "line_start": start,
+                        "games": len(sel),
+                        "colour_games": len(part),
+                        "share": len(sel) / len(part) if len(part) else np.nan,
+                        "recent_games": int(sel["recent"].sum()),
+                        "thin": len(part) < MIN_CELL_GAMES,
+                    }
+                )
+    return pd.DataFrame(rows)
+
+
+def families(games: pd.DataFrame) -> pd.DataFrame:
+    rows = []
+    for colour in COLOURS:
+        mine = games[games["colour"] == colour]
+        for family, part in mine.groupby("family"):
+            rows.append(
+                {
+                    "tc_group": ALL,
+                    "colour": colour,
+                    "family": family,
+                    "games": len(part),
+                    "share": len(part) / len(mine),
+                    "recent_games": int(part["recent"].sum()),
+                    **years(part),
+                    "thin": len(part) < MIN_CELL_GAMES,
+                }
+            )
+    out = pd.DataFrame(rows)
+    out["_c"] = out["colour"].map({c: i for i, c in enumerate(COLOURS)})
+    return out.sort_values(["_c", "games", "family"], ascending=[True, False, True]).drop(columns="_c")
+
+
+def move_orders(games: pd.DataFrame) -> pd.DataFrame:
+    """The most common first plies of each family: names follow positions, so a label can hide its move order."""
+    rows = []
+    for colour in COLOURS:
+        mine = games[games["colour"] == colour]
+        for family, part in mine.groupby("family"):
+            if len(part) < MIN_CELL_GAMES:
+                continue
+            counts = part["first_moves"].value_counts()
+            top = min(counts.index, key=lambda s: (-counts[s], s))
+            rows.append(
+                {
+                    "tc_group": ALL,
+                    "colour": colour,
+                    "family": family,
+                    "most_common_start": top,
+                    "games_with_it": int(counts[top]),
+                    "games": len(part),
+                    "share": counts[top] / len(part),
+                    "thin": False,  # only families with at least MIN_CELL_GAMES games are listed
+                }
+            )
+    return pd.DataFrame(rows)
+
+
+def chart_line_starts(table: pd.DataFrame, groups: list[str], tc_class: dict[str, str]):
+    import matplotlib.pyplot as plt
+    from matplotlib.colors import Normalize
+
+    cols = [ALL, *groups]
+    heights = [table[table["colour"] == c]["line_start"].nunique() for c in COLOURS]
+    fig, axes = plt.subplots(2, 1, figsize=(9.2, 0.36 * sum(heights) + 2.2), gridspec_kw={"height_ratios": heights})
+    norm = Normalize(0, 1)
+    cmap = plt.get_cmap(charts.SEQUENTIAL)
+    for ax, colour in zip(axes, COLOURS):
+        part = table[table["colour"] == colour]
+        rows = list(dict.fromkeys(part["line_start"]))
+        grid = part.pivot(index="line_start", columns="tc_group", values="share").reindex(index=rows, columns=cols)
+        totals = part.drop_duplicates("tc_group").set_index("tc_group")["colour_games"].reindex(cols)
+        ax.imshow(grid.to_numpy(dtype=float), cmap=cmap, norm=norm, aspect="auto")
+        for i in range(len(rows)):
+            for j in range(len(cols)):
+                v = grid.iloc[i, j]
+                if pd.notna(v):
+                    ax.text(j, i, f"{v:.0%}", ha="center", va="center", fontsize=7.5, color="white" if v > DARK_CELL else charts.INK)
+        ax.set_yticks(range(len(rows)), rows)
+        ax.set_xticks(
+            range(len(cols)),
+            [f"{c.removeprefix(tc_class.get(c, '') + ' ')}\n({int(n)})" for c, n in zip(cols, totals)],
+            fontsize=7.5,
+        )
+        ax.grid(False)
+        ax.set_title(f"You as {colour}: share of games by how the game started")
+        for spine in ax.spines.values():
+            spine.set_visible(False)
+    fig.suptitle("What do you play as White and as Black?", x=0.01, ha="left", fontweight="bold", fontsize=11)
+    fig.tight_layout()
+    charts.footnote(
+        fig,
+        "Columns: all games, then each control (games with that colour in brackets). As Black the start is the opponent's first move and your reply. "
+        f"Starts with fewer than {MIN_CELL_GAMES} games overall are lumped into 'other'.",
+    )
+    return fig
+
+
+# --- 8.2 family scores ----------------------------------------------------------------------------------
+
+
+def family_scores(games: pd.DataFrame, scope_list: list[tuple[str, pd.DataFrame]], key: str = "family") -> pd.DataFrame:
+    rows = []
+    for scope, part_scope in scope_list:
+        for colour in COLOURS:
+            mine = part_scope[part_scope["colour"] == colour]
+            versus = vs_colour(mine, key)
+            for name, part in mine.groupby(key):
+                v = versus.get(name, (np.nan,) * 4)
+                rows.append(
+                    {
+                        "tc_group": scope,
+                        "colour": colour,
+                        key: name,
+                        **score_stats(part),
+                        "colour_excess": v[3],
+                        "excess_vs_colour": v[0],
+                        "excess_vs_colour_lo": v[1],
+                        "excess_vs_colour_hi": v[2],
+                        **opening_stats(part),
+                        "recent_games": int(part["recent"].sum()),
+                        **years(part),
+                        "thin": len(part) < MIN_CELL_GAMES,
+                    }
+                )
+    out = with_elo(pd.DataFrame(rows))
+    # Elo-equivalent of the gap to your colour average: relative to the score you would make at that average.
+    out["expected_at_colour_average"] = out["expected"] + out["colour_excess"]
+    out = add_elo(out, "expected_at_colour_average", ["excess_vs_colour", "excess_vs_colour_lo", "excess_vs_colour_hi"])
+    out["vs_colour"] = np.select([out["excess_vs_colour_lo"] > 0, out["excess_vs_colour_hi"] < 0], ["above", "below"], "unclear")
+    out["_c"] = out["colour"].map({c: i for i, c in enumerate(COLOURS)})
+    out["_s"] = out["tc_group"].map({s: i for i, (s, _) in enumerate(scope_list)})
+    return out.sort_values(["_s", "_c", "games", key], ascending=[True, True, False, True]).drop(columns=["_c", "_s"]).reset_index(drop=True)
+
+
+def colour_scores(games: pd.DataFrame, groups: list[str], classes: list[str]) -> pd.DataFrame:
+    rows = []
+    for scope, part_scope in [*scopes(games, groups)[:1], *class_scopes(games, classes), *scopes(games, groups)[1:]]:
+        for colour in COLOURS:
+            part = part_scope[part_scope["colour"] == colour]
+            rows.append({"tc_group": scope, "colour": colour, **score_stats(part), "thin": len(part) < MIN_CELL_GAMES})
+    return with_elo(pd.DataFrame(rows))
+
+
+def chance_check(table: pd.DataFrame, key: str) -> pd.DataFrame:
+    rows = []
+    for (scope, colour), part in table.groupby(["tc_group", "colour"], sort=False):
+        tested = part[~part["thin"]]
         rows.append(
             {
-                key: name, "games": len(part), "recent": int(part["recent"].sum()), "years": years_span(part["year"]), "mix (b/bz/r)": mix(part) if with_mix else None,
-                "score": score[0], "score_lo": score[1], "score_hi": score[2],
-                "expected": float(part["expected"].mean()),
-                "over": over[0], "over_lo": over[1], "over_hi": over[2],
-                "deficit_points": float(-(part["overperf"].sum())),
-                "my_open": me[0], "my_open_lo": me[1], "my_open_hi": me[2],
-                "opp_open": opp[0], "opp_open_lo": opp[1], "opp_open_hi": opp[2],
-                "open_diff": diff[0], "open_diff_lo": diff[1], "open_diff_hi": diff[2],
-                "gain": gain[0], "gain_lo": gain[1], "gain_hi": gain[2],
-                "cp": cp[0], "cp_lo": cp[1], "cp_hi": cp[2],
-                "share_you_deviate": float((part["deviator"] == "you").mean()),
-            }  # fmt: skip
+                "tc_group": scope,
+                "colour": colour,
+                f"{key}_tested": len(tested),
+                "clear_above_average": int((tested["excess_vs_colour_lo"] > 0).sum()),
+                "clear_below_average": int((tested["excess_vs_colour_hi"] < 0).sum()),
+                "clear_above_zero": int((tested["excess_lo"] > 0).sum()),
+                "clear_below_zero": int((tested["excess_hi"] < 0).sum()),
+                "expected_by_chance": CHANCE * len(tested),
+                "games_covered": int(tested["games"].sum()),
+                "thin": len(tested) == 0,  # the counts are over non-thin families only; thin = nothing to test
+            }
         )
     return pd.DataFrame(rows)
 
 
-def present(table: pd.DataFrame, key: str, label: str, with_mix: bool = True) -> pd.DataFrame:
-    out = pd.DataFrame({label: table[key], "games": table["games"], "last 12 mo": table["recent"], "years": table["years"]})
-    if with_mix:
-        out["mix (b/bz/r)"] = table["mix (b/bz/r)"]
-    out["score"] = ci_column(table, "score", "score_lo", "score_hi", ".2f")
-    out["expected"] = table["expected"].map(lambda v: f"{v:.2f}")
-    out["score − expected"] = ci_column(table, "over", "over_lo", "over_hi", ".3f")
-    out["your opening ep lost"] = ci_column(table, "my_open", "my_open_lo", "my_open_hi", ".3f")
-    out["theirs"] = ci_column(table, "opp_open", "opp_open_lo", "opp_open_hi", ".3f")
-    out["theirs − yours"] = ci_column(table, "open_diff", "open_diff_lo", "open_diff_hi", ".3f")
-    out["book gain (ep)"] = ci_column(table, "gain", "gain_lo", "gain_hi", ".3f")
-    out["cp after book"] = ci_column(table, "cp", "cp_lo", "cp_hi", ".0f")
-    return out
-
-
-def section_shape(report: Report, games: pd.DataFrame) -> dict:
-    report.heading("1. The shape of the repertoire: first moves")
-    report.text(
-        "As White the line start is your first move; as Black it is the opponent's first move and your reply. "
-        "Opening ep lost is per game for the opening phase, yours and the opponents' in the same games (theirs − yours positive = they gave away more)."
-    )
-    out = {}
-    for colour in COLOURS:
-        part = games[games["colour"] == colour]
-        table = line_rows(part, "line_start").sort_values("games", ascending=False)
-        out[colour] = table
-        report.heading(f"{colour.capitalize()} ({len(part):,} games)", level=3)
-        report.table(present(table, "line_start", "line start"))
-        total = part["line_start"].isin(table["line_start"]).mean()
-        report.text(f"Lines with ≥ {MIN_GAMES} games cover {total:.1%} of your {colour} games; the overall {colour} over-performance is {fmt(*game_mean(part, 'overperf'))}.")
-    return out
-
-
-def section_repertoire(report: Report, games: pd.DataFrame) -> dict[str, pd.DataFrame]:
-    report.heading("2. Repertoire table by opening family and colour")
-    report.text(
-        f"Families with ≥ {MIN_GAMES} games, all time classes pooled (the mix column gives bullet/blitz/rapid counts), sorted by frequency. "
-        "`score − expected` is the paired per-game mean of your score minus the Elo expectation. "
-        "`book gain` is your expected points after the last book move minus the model's expectation at move 1 (positive = the known part of the line left you better off than the ratings predicted)."
-    )
-    out = {}
-    for colour in COLOURS:
-        part = games[games["colour"] == colour]
-        table = line_rows(part, "family").sort_values("games", ascending=False)
-        out[colour] = table
-        covered = part["family"].isin(table["family"]).mean()
-        report.heading(f"{colour.capitalize()}: {len(table)} families covering {covered:.0%} of {len(part):,} games", level=3)
-        report.table(present(table, "family", "family"))
-    # per time class, compact
-    report.heading("By time class: score − expected per family", level=3)
-    report.text(f"Same families, one column per time class; a cell needs ≥ {MIN_GAMES} games. Opening ep lost difference (theirs − yours) in the second block.")
-    for colour in COLOURS:
-        part = games[games["colour"] == colour]
-        fams = out[colour]["family"].tolist()
-        rows = []
-        for fam in fams:
-            row = {"family": fam}
-            row_d = {"family": fam}
-            for tc in TIME_CLASSES:
-                cell = part[(part["family"] == fam) & (part["time_class"] == tc)]
-                if len(cell) >= MIN_GAMES:
-                    row[f"{tc} (n)"] = f"{fmt(*game_mean(cell, 'overperf'))} ({len(cell)})"
-                    row_d[f"{tc} (n)"] = f"{fmt(*paired_diff(cell, 'opp_ep_lost_opening', 'my_ep_lost_opening'))} ({len(cell)})"
-                else:
-                    row[f"{tc} (n)"] = ""
-                    row_d[f"{tc} (n)"] = ""
-            rows.append((row, row_d))
-        table_over = pd.DataFrame([r for r, _ in rows])
-        table_diff = pd.DataFrame([d for _, d in rows])
-        keep = table_over.drop(columns="family").apply(lambda r: any(v != "" for v in r), axis=1)
-        report.text(f"**{colour.capitalize()}, score − expected:**")
-        report.table(table_over[keep])
-        report.text(f"**{colour.capitalize()}, opening ep lost, theirs − yours:**")
-        report.table(table_diff[keep])
-    return out
-
-
-def figure_repertoire(report: Report, tables: dict[str, pd.DataFrame]) -> None:
+def chart_family_scores(table: pd.DataFrame, colour_table: pd.DataFrame):
     import matplotlib.pyplot as plt
 
-    fig, axes = plt.subplots(1, 2, figsize=(11, 4.5), sharey=True)
+    shown = {c: table[(table["colour"] == c) & ~table["thin"]].sort_values(["excess_vs_colour", "family"], ascending=[False, True]) for c in COLOURS}
+    heights = [max(len(shown[c]), 1) for c in COLOURS]
+    fig, axes = plt.subplots(1, 2, figsize=(11, 0.3 * max(heights) + 1.8), sharex=True)
     for ax, colour in zip(axes, COLOURS):
-        t = tables[colour]
-        ax.axhline(0, color="grey", lw=0.8)
-        ax.axvline(0, color="grey", lw=0.8)
-        ax.errorbar(t["open_diff"], t["over"], yerr=[t["over"] - t["over_lo"], t["over_hi"] - t["over"]], xerr=[t["open_diff"] - t["open_diff_lo"], t["open_diff_hi"] - t["open_diff"]], fmt="none", ecolor="#bbbbbb", elinewidth=0.7, zorder=1)
-        ax.scatter(t["open_diff"], t["over"], s=np.sqrt(t["games"]) * 6, color=SIDE_COLOURS["player"], alpha=0.75, zorder=2)
-        for _, r in t.iterrows():
-            if r["games"] >= 200 or r["over_lo"] > 0 or r["over_hi"] < 0:
-                ax.annotate(r["family"].replace(" Defense", " Def.").replace(" Opening", " Op."), (r["open_diff"], r["over"]), fontsize=7, xytext=(3, 3), textcoords="offset points")
-        ax.set_title(f"{colour.capitalize()} (bubble area ~ games)")
-        ax.set_xlabel("opening-phase ep lost, opponents − you (per game)")
-    axes[0].set_ylabel("score − Elo expectation (per game)")
+        part = shown[colour].assign(label=lambda f: f["family"].map(short_family) + " (" + f["games"].astype(str) + ")")
+        colours = [STATUS_COLOUR[v] for v in part["vs_colour"]]
+        pos = np.arange(len(part))
+        est, lo, hi = part["excess_vs_colour"], part["excess_vs_colour_lo"], part["excess_vs_colour_hi"]
+        ax.errorbar(est, pos, xerr=[est - lo, hi - est], fmt="none", ecolor=colours, elinewidth=1.4)
+        ax.scatter(est, pos, color=colours, s=28, zorder=3)
+        ax.set_yticks(pos, part["label"])
+        ax.invert_yaxis()
+        charts.zero_line(ax, horizontal=False)
+        base = colour_table[(colour_table["tc_group"] == ALL) & (colour_table["colour"] == colour)].iloc[0]["excess"]
+        ax.set_title(f"You as {colour} (0 = your {colour} average, {base:+.3f} vs Elo)")
+        ax.set_xlabel(f"score vs your {colour} average (points per game)")
+        ax.grid(axis="y", visible=False)
+    fig.suptitle("Which openings score above or below expectation?", x=0.01, ha="left", fontweight="bold", fontsize=11)
     fig.tight_layout()
-    report.figure(fig, "repertoire_map", "Each bubble is an opening family with ≥ 20 games: vertical = how far your score exceeds the rating expectation, horizontal = how much more the opponents give away than you in the opening phase. Bars are 95% CIs; labelled: families with ≥ 200 games or a CI that excludes zero.")
-    plt.close(fig)
-
-
-def section_book_depth(report: Report, games: pd.DataFrame) -> dict:
-    report.heading("3. Does staying in book longer help?")
-    report.text(
-        "Games binned by `book_ply`, the depth of the deepest named line reached (a joint property of both players: a game leaves the list when either side plays something unnamed). "
-        "Per bin: your score vs expectation, the opening-phase ep lost by each side, and the expected points after the last book move minus the move-1 expectation (`book gain`)."
+    charts.footnote(
+        fig,
+        f"All controls pooled; opening families with at least {MIN_CELL_GAMES} games (games in brackets). Each family's score above the Elo expectation minus that of all your games "
+        "with the colour (the Elo formula has no colour term). Blue / red: 95% CI clearly above / below your average; grey: no clear difference. CIs bootstrapped by game.",
     )
-    rows, out = [], {}
-    for tc in TIME_CLASSES:
-        for b in BOOK_LABELS:
-            cell = games[(games["time_class"] == tc) & (games["book_bin"] == b)]
-            if len(cell) < MIN_GAMES:
-                continue
-            over, me, opp = game_mean(cell, "overperf"), game_mean(cell, "my_ep_lost_opening"), game_mean(cell, "opp_ep_lost_opening")
-            diff, gain = paired_diff(cell, "opp_ep_lost_opening", "my_ep_lost_opening"), game_mean(cell, "book_gain")
+    return fig
+
+
+# --- 8.3 recency --------------------------------------------------------------------------------------------
+
+
+def recency(games: pd.DataFrame, family_table: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
+    rows = []
+    pooled = family_table[family_table["tc_group"] == ALL].set_index(["colour", "family"])
+    for colour in COLOURS:
+        mine = games[games["colour"] == colour]
+        n_recent, n_before = int(mine["recent"].sum()), int((~mine["recent"]).sum())
+        for family, part in mine.groupby("family"):
+            ref = pooled.loc[(colour, family)]
+            recent = part[part["recent"]]
+            r = score_stats(recent) if len(recent) else {}
             rows.append(
                 {
-                    "time class": tc, "book plies": b, "games": len(cell), "white share": f"{(cell['colour'] == 'white').mean():.2f}",
-                    "score": f"{cell['my_score'].mean():.2f}", "expected": f"{cell['expected'].mean():.2f}", "score − expected": fmt(*over),
-                    "your opening ep lost": fmt(*me), "theirs": fmt(*opp), "theirs − yours": fmt(*diff), "book gain (ep)": fmt(*gain),
-                    "you left book first": f"{(cell['deviator'] == 'you').mean():.2f}",
-                }  # fmt: skip
+                    "tc_group": ALL,
+                    "colour": colour,
+                    "family": family,
+                    "games": len(part),
+                    "games_recent": len(recent),
+                    "games_before": int(len(part) - len(recent)),
+                    "share_recent": len(recent) / n_recent if n_recent else np.nan,
+                    "share_before": (len(part) - len(recent)) / n_before if n_before else np.nan,
+                    "excess": ref["excess"],
+                    "excess_lo": ref["excess_lo"],
+                    "excess_hi": ref["excess_hi"],
+                    "expected": ref["expected"],
+                    "excess_vs_colour": ref["excess_vs_colour"],
+                    "excess_vs_colour_lo": ref["excess_vs_colour_lo"],
+                    "excess_vs_colour_hi": ref["excess_vs_colour_hi"],
+                    "vs_colour": ref["vs_colour"],
+                    "excess_recent": r.get("excess", np.nan),
+                    "excess_recent_lo": r.get("excess_lo", np.nan),
+                    "excess_recent_hi": r.get("excess_hi", np.nan),
+                    "expected_recent": r.get("expected", np.nan),
+                    "last_year": int(part["year"].max()),
+                    "thin": len(part) < MIN_CELL_GAMES,
+                    "thin_recent": len(recent) < MIN_CELL_GAMES,
+                }
             )
-            out[(tc, b)] = over
-    report.table(pd.DataFrame(rows))
+    out = pd.DataFrame(rows)
+    out["share_change"] = out["share_recent"] - out["share_before"]
+    out = add_elo(out, "expected", ["excess", "excess_lo", "excess_hi"])
+    out = add_elo(out, "expected_recent", ["excess_recent", "excess_recent_lo", "excess_recent_hi"])
+    out["_c"] = out["colour"].map({c: i for i, c in enumerate(COLOURS)})
+    out = out.sort_values(["_c", "games", "family"], ascending=[True, False, True]).drop(columns="_c").reset_index(drop=True)
 
-    # correlation-style summary: slope of over-performance on book_ply per time class
-    report.heading("Who leaves the book first, and what it costs", level=3)
-    report.text(
-        "The first move after the last book move is the *deviation*. Below, per time class: how often you were the one to deviate, the ep_loss of the deviating move for each side "
-        "(game-bootstrap CIs; the two sets of games are disjoint, so the difference is an independent bootstrap), and your score vs expectation in the games where you deviated vs where the opponent did."
-    )
-    rows = []
-    dev_out = {}
-    for tc in TIME_CLASSES:
-        part = games[(games["time_class"] == tc) & games["deviator"].notna()]
-        you, opp = part[part["deviator"] == "you"], part[part["deviator"] == "opponent"]
-        d_ep = group_diff(you["deviation_ep_loss"], opp["deviation_ep_loss"])
-        d_over = group_diff(you["overperf"], opp["overperf"])
-        share = cluster_bootstrap_mean((part["deviator"] == "you").astype(float), part["uuid"], n_boot=N_BOOT, seed=SEED)
-        rows.append(
-            {
-                "time class": tc, "games": len(part), "you deviated first": fmt(*share),
-                "your deviation ep_loss": fmt(*game_mean(you, "deviation_ep_loss")), "their deviation ep_loss": fmt(*game_mean(opp, "deviation_ep_loss")),
-                "yours − theirs": fmt(*d_ep),
-                "your deviation cp_loss": fmt(*game_mean(you, "deviation_cp_loss"), f=".0f"), "their deviation cp_loss": fmt(*game_mean(opp, "deviation_cp_loss"), f=".0f"),
-                "score − expected when you deviate": fmt(*game_mean(you, "overperf")), "when they deviate": fmt(*game_mean(opp, "overperf")), "difference": fmt(*d_over),
-            }  # fmt: skip
-        )
-        dev_out[tc] = {"share": share, "d_ep": d_ep, "d_over": d_over}
-    report.table(pd.DataFrame(rows))
-    return {"bins": out, "dev": dev_out}
-
-
-def figure_book_depth(report: Report, games: pd.DataFrame) -> None:
-    import matplotlib.pyplot as plt
-
-    fig, axes = plt.subplots(1, 2, figsize=(11, 4))
-    colours_tc = {"bullet": "#1f6f8b", "blitz": "#c46a2d", "rapid": "#6a994e"}
-    x = np.arange(len(BOOK_LABELS))
-    for k, tc in enumerate(TIME_CLASSES):
-        ys, los, his, gs, glo, ghi = [], [], [], [], [], []
-        for b in BOOK_LABELS:
-            cell = games[(games["time_class"] == tc) & (games["book_bin"] == b)]
-            if len(cell) < MIN_GAMES:
-                ys.append(np.nan), los.append(np.nan), his.append(np.nan), gs.append(np.nan), glo.append(np.nan), ghi.append(np.nan)
-                continue
-            e, lo, hi = game_mean(cell, "overperf")
-            ys.append(e), los.append(lo), his.append(hi)
-            e, lo, hi = game_mean(cell, "book_gain")
-            gs.append(e), glo.append(lo), ghi.append(hi)
-        ys, los, his, gs, glo, ghi = map(np.array, (ys, los, his, gs, glo, ghi))
-        off = (k - 1) * 0.18
-        axes[0].errorbar(x + off, ys, yerr=[ys - los, his - ys], fmt="o-", color=colours_tc[tc], label=tc, capsize=2, lw=1)
-        axes[1].errorbar(x + off, gs, yerr=[gs - glo, ghi - gs], fmt="o-", color=colours_tc[tc], label=tc, capsize=2, lw=1)
-    for ax, title, ylab in zip(axes, ["Score − Elo expectation", "Expected points after book − at move 1"], ["points per game", "expected points"]):
-        ax.axhline(0, color="grey", lw=0.8)
-        ax.set_xticks(x)
-        ax.set_xticklabels(BOOK_LABELS)
-        ax.set_xlabel("book depth (plies)")
-        ax.set_title(title)
-        ax.set_ylabel(ylab)
-    axes[0].legend()
-    fig.tight_layout()
-    report.figure(fig, "book_depth", "Your result relative to expectation (left) and the model's view of the position after the book moves (right) by how deep the game stayed in named theory, per time class. 95% CIs by game.")
-    plt.close(fig)
-
-
-def section_opening_quality(report: Report, moves: pd.DataFrame) -> dict:
-    report.heading("4. Move quality in the opening phase, you vs opponents")
-    report.text(
-        "Opening-phase moves (material heuristic) by colour and time class: mean `ep_loss` per move (main), the share of moves losing ≥ 0.1 ep, and `cp_loss` (secondary). "
-        "The difference is you − opponents within the same games (negative = you lose less)."
-    )
-    opening = moves[moves["phase"] == "opening"].copy()
-    opening["big"] = (opening["ep_loss"] >= 0.1).astype(float)
-    out = {}
-    rows = []
-    ep = compare_sides(opening, "ep_loss", by=["time_class", "colour"], n_boot=N_BOOT)
-    big = compare_sides(opening, "big", by=["time_class", "colour"], n_boot=N_BOOT)
-    cp = compare_sides(opening, "cp_loss", by=["time_class", "colour"], n_boot=N_BOOT)
-    for tc in TIME_CLASSES:
-        for colour in COLOURS:
-            e = ep[(ep["time_class"] == tc) & (ep["colour"] == colour)].iloc[0]
-            b = big[(big["time_class"] == tc) & (big["colour"] == colour)].iloc[0]
-            c = cp[(cp["time_class"] == tc) & (cp["colour"] == colour)].iloc[0]
-            out[(tc, colour)] = e
-            rows.append(
+    summary = []
+    for colour in COLOURS:
+        part = out[out["colour"] == colour]
+        tested = part[~part["thin"]]
+        status = tested["vs_colour"].to_numpy()  # clearly above / below your average with that colour, all years
+        for period, count in (("last 12 months", "games_recent"), ("earlier", "games_before")):
+            total = part[count].sum()
+            weights = tested[count] / total if total else np.nan
+            summary.append(
                 {
-                    "time class": tc, "colour": colour, "games": int(e["games"]), "moves": int(e["n"]),
-                    "your ep_loss": fmt(e["player"], e["player_lo"], e["player_hi"], ".4f"), "their ep_loss": fmt(e["opponent"], e["opponent_lo"], e["opponent_hi"], ".4f"),
-                    "you − them": fmt(e["diff"], e["diff_lo"], e["diff_hi"], ".4f"),
-                    "your share ≥ 0.1": fmt(b["player"], b["player_lo"], b["player_hi"], ".3f"), "their share ≥ 0.1": fmt(b["opponent"], b["opponent_lo"], b["opponent_hi"], ".3f"),
-                    "your cp_loss": fmt(c["player"], c["player_lo"], c["player_hi"], ".1f"), "their cp_loss": fmt(c["opponent"], c["opponent_lo"], c["opponent_hi"], ".1f"),
-                    "cp you − them": fmt(c["diff"], c["diff_lo"], c["diff_hi"], ".1f"),
-                }  # fmt: skip
+                    "tc_group": ALL,
+                    "colour": colour,
+                    "period": period,
+                    "games": int(total),
+                    "share_clear_above": float(tested.loc[status == "above", count].sum() / total),
+                    "share_clear_below": float(tested.loc[status == "below", count].sum() / total),
+                    "share_unclear": float(tested.loc[status == "unclear", count].sum() / total),
+                    "share_thin_families": float(part.loc[part["thin"], count].sum() / total),
+                    # the repertoire's expected edge: each tested family's all-time excess weighted by how often you played it in the period
+                    "weighted_excess": float((weights * tested["excess"]).sum() / weights.sum()),
+                }
             )
-    report.table(pd.DataFrame(rows))
+    return out, pd.DataFrame(summary)
 
-    # by ply, pooled time classes, per colour
-    early = moves[moves["ply"] <= 30]
-    by_ply = compare_sides(early, "ep_loss", by=["colour", "ply"], n_boot=300)
+
+def chart_recency(table: pd.DataFrame):
     import matplotlib.pyplot as plt
 
-    fig, axes = plt.subplots(1, 2, figsize=(11, 4), sharey=True)
+    fig, axes = plt.subplots(1, 2, figsize=(11, 4.4), sharey=True)
     for ax, colour in zip(axes, COLOURS):
-        t = by_ply[by_ply["colour"] == colour].sort_values("ply")
-        mine_plies = t[(t["ply"] % 2 == 1) == (colour == "white")]
-        theirs_plies = t[(t["ply"] % 2 == 1) != (colour == "white")]
-        ax.fill_between(mine_plies["ply"], mine_plies["player_lo"], mine_plies["player_hi"], color=SIDE_COLOURS["player"], alpha=0.2)
-        ax.plot(mine_plies["ply"], mine_plies["player"], "o-", color=SIDE_COLOURS["player"], label="you", ms=3)
-        ax.fill_between(theirs_plies["ply"], theirs_plies["opponent_lo"], theirs_plies["opponent_hi"], color=SIDE_COLOURS["opponent"], alpha=0.2)
-        ax.plot(theirs_plies["ply"], theirs_plies["opponent"], "o-", color=SIDE_COLOURS["opponent"], label="opponents", ms=3)
+        part = table[(table["colour"] == colour) & ~table["thin"]]
+        colours = [STATUS_COLOUR[v] for v in part["vs_colour"]]
+        est, lo, hi = part["excess_vs_colour"], part["excess_vs_colour_lo"], part["excess_vs_colour_hi"]
+        ax.errorbar(part["games_recent"], est, yerr=[est - lo, hi - est], fmt="none", ecolor=colours, elinewidth=1, alpha=0.35, zorder=1)
+        ax.scatter(part["games_recent"], est, s=np.sqrt(part["games"]) * 5, c=colours, alpha=0.85, zorder=2)
+        charts.zero_line(ax)
+        x_max = part["games_recent"].max() * X_HEADROOM
+        pad = LABEL_X_PAD * x_max
+        top = set(part.nlargest(LABEL_TOP_RECENT, "games_recent")["family"])
+        labelled = part[part["family"].isin(top) | (part["vs_colour"] != "unclear")].sort_values(["excess_vs_colour", "family"])
+        placed: list[tuple[float, float]] = []
+        for r in labelled.itertuples():
+            y = r.excess_vs_colour
+            while any(abs(r.games_recent - px) < LABEL_X_GAP and abs(y - py) < LABEL_Y_GAP for px, py in placed):
+                y += LABEL_Y_GAP  # nudge up until clear of labels already placed near this point
+            placed.append((r.games_recent, y))
+            ax.annotate(
+                short_family(r.family),
+                (r.games_recent, r.excess_vs_colour),
+                xytext=(r.games_recent + pad, y),
+                textcoords="data",
+                fontsize=7,
+                color=charts.INK_SECONDARY,
+                va="center",
+            )
+        ax.set_xlim(-2, x_max)
         ax.set_title(f"You as {colour}")
-        ax.set_xlabel("ply (half-move)")
-    axes[0].set_ylabel("mean ep_loss per move")
-    axes[0].legend()
+        ax.set_xlabel("games in the last 12 months")
+    axes[0].set_ylabel("score vs your average with that colour,\nall years (points per game)")
+    fig.suptitle("Are you still playing the openings that work?", x=0.01, ha="left", fontweight="bold", fontsize=11)
     fig.tight_layout()
-    report.figure(fig, "ep_loss_by_ply", "Mean ep_loss per move over the first 30 plies, you vs opponents, by your colour (all time classes pooled; shaded 95% CIs by game). Each side's moves sit on alternate plies.")
-    plt.close(fig)
-    # where in the first 30 plies the gap to the opponents sits: ply bins by colour and time class
-    report.text("The same comparison by ply bin (each side's own moves in that bin), per colour and time class; `you − them` in ep per move:")
-    early = early.copy()
-    early["plies"] = pd.cut(early["ply"], bins=[1, 11, 21, 31], labels=["1-10", "11-20", "21-30"], right=False)
-    by_bin = compare_sides(early, "ep_loss", by=["colour", "time_class", "plies"], n_boot=N_BOOT)
-    rows = []
-    for colour in COLOURS:
-        for tc in TIME_CLASSES:
-            row = {"colour": colour, "time class": tc}
-            for b in ["1-10", "11-20", "21-30"]:
-                r = by_bin[(by_bin["colour"] == colour) & (by_bin["time_class"] == tc) & (by_bin["plies"] == b)]
-                if len(r) and r.iloc[0]["n"] >= MIN_MOVES:
-                    r = r.iloc[0]
-                    row[f"plies {b}: you / them"] = f"{r['player']:.4f} / {r['opponent']:.4f}"
-                    row[f"plies {b}: you − them"] = fmt(r["diff"], r["diff_lo"], r["diff_hi"], ".4f")
-                else:
-                    row[f"plies {b}: you / them"] = ""
-                    row[f"plies {b}: you − them"] = ""
-            rows.append(row)
-    report.table(pd.DataFrame(rows))
-    return out
+    charts.footnote(
+        fig,
+        f"Each dot is an opening family with at least {MIN_CELL_GAMES} games (area ~ all games). Blue / red: 95% CI of the all-years score clearly above / below "
+        f"your average with that colour. Labelled: the {LABEL_TOP_RECENT} most played recently and every clear family.",
+    )
+    return fig
 
 
-def recurring(moves: pd.DataFrame, games: pd.DataFrame, side_player: bool, top: int = 15, min_n: int = RECUR_MIN_N, min_ep: float = RECUR_MIN_EP) -> pd.DataFrame:
-    """Repeated (position, move) pairs in the opening phase with the largest total ep_loss (mean >= min_ep, n >= min_n)."""
-    part = moves[(moves["is_player_move"] == side_player) & (moves["phase"] == "opening")]
-    grp = part.groupby(["fen_before", "san"], sort=False)
-    agg = grp.agg(n=("ep_loss", "size"), total=("ep_loss", "sum"), mean_ep=("ep_loss", "mean"), mean_cp=("cp_loss", "mean"), cp_before=("cp_before", "mean"), best=("best_move", lambda s: s.mode().iloc[0] if len(s.mode()) else ""), colour=("colour", lambda s: s.mode().iloc[0]), family=("family", lambda s: s.mode().iloc[0]), years=("year", years_span)).reset_index()
-    agg = agg[(agg["n"] >= min_n) & (agg["mean_ep"] >= min_ep)].sort_values("total", ascending=False).head(top)
+# --- 8.4 leaving the book -------------------------------------------------------------------------------------
+
+
+def deviation(games: pd.DataFrame, groups: list[str]) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
+    rows, score_rows, diff_rows = [], [], []
+    for scope, part in scopes(games, groups):
+        part = part[part["deviator"].notna()]
+        you, opp = part[part["deviator"] == "you"], part[part["deviator"] == "opponent"]
+        share = mean_ci(part, "you_left_first")
+        row = {"tc_group": scope, "share_you_left_first": share[0], "share_you_left_first_lo": share[1], "share_you_left_first_hi": share[2]}
+        for unit in ("ep", "cp"):
+            col = f"deviation_{unit}_loss"
+            p, o, d = (mean_ci(you, col), mean_ci(opp, col), independent_diff(you[col], opp[col]))
+            scale = PER_100 if unit == "ep" else 1
+            row.update(
+                {
+                    f"{unit}_player": p[0],
+                    f"{unit}_player_lo": p[1],
+                    f"{unit}_player_hi": p[2],
+                    f"{unit}_opponent": o[0],
+                    f"{unit}_opponent_lo": o[1],
+                    f"{unit}_opponent_hi": o[2],
+                    f"{unit}_diff": d[0],
+                    f"{unit}_diff_lo": d[1],
+                    f"{unit}_diff_hi": d[2],
+                }
+            )
+            if unit == "ep":
+                row.update(
+                    {
+                        f"ep_per100_{k}": row[f"ep_{k}"] * scale
+                        for k in ("player", "player_lo", "player_hi", "opponent", "opponent_lo", "opponent_hi", "diff", "diff_lo", "diff_hi")
+                    }
+                )
+        row.update({"games": len(part), "games_you_left": len(you), "games_they_left": len(opp), "thin": min(len(you), len(opp)) < MIN_CELL_GAMES})
+        rows.append(row)
+        for who, sel in (("you", you), ("opponent", opp)):
+            score_rows.append({"tc_group": scope, "left_first": who, **score_stats(sel), "thin": len(sel) < MIN_CELL_GAMES})
+        y, o = you[you["expected"].notna()], opp[opp["expected"].notna()]
+        d = independent_diff(y["excess"], o["excess"])
+        base = float(o["excess"].mean() + o["expected"].mean()) if len(o) else np.nan  # their-deviation score: the reference for the Elo-equivalent
+        diff_rows.append(
+            {
+                "tc_group": scope,
+                "diff": d[0],
+                "diff_lo": d[1],
+                "diff_hi": d[2],
+                "reference_score": base,
+                "diff_elo": float(excess_to_elo(base, d[0])),
+                "diff_lo_elo": float(excess_to_elo(base, d[1])),
+                "diff_hi_elo": float(excess_to_elo(base, d[2])),
+                "games_you_left": len(y),
+                "games_they_left": len(o),
+                "thin": min(len(y), len(o)) < MIN_CELL_GAMES,
+            }
+        )
+    return (pd.DataFrame(rows), with_elo(pd.DataFrame(score_rows)), pd.DataFrame(diff_rows))
+
+
+def chart_deviation(table: pd.DataFrame, order: list[str]):
+    import matplotlib.pyplot as plt
+
+    table = table[~table["thin"]]  # a thin control keeps its slot on the axis but gets no dot or bar
+    fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 6.2), sharex=True)
+    charts.estimate(ax1, table, "tc_group", y="share_you_left_first", lo="share_you_left_first_lo", hi="share_you_left_first_hi", order=order)
+    ax1.axhline(0.5, color=charts.INK_MUTED, linewidth=1, linestyle=":")
+    ax1.set_ylabel("share of games")
+    ax1.set_title("How often you played the first move outside the named lines (dotted: half)")
+    ax1.grid(axis="x", visible=False)
+    charts.side_bars(ax2, table, "tc_group", value="ep_per100_", order=order)
+    ax2.set_ylabel("expected points lost\nper 100 such moves")
+    ax2.set_title("What that first out-of-book move cost: yours vs your opponents'")
+    charts.legend(ax2, loc="upper left")
+    ax2.tick_params(axis="x", labelsize=7.5)
+    fig.suptitle("Who leaves the known lines first, and does it cost?", x=0.01, ha="left", fontweight="bold", fontsize=11)
+    fig.tight_layout()
+    charts.footnote(
+        fig,
+        f"The first move after the deepest named line (Lichess opening list). 95% CIs bootstrapped by game; the two sides' moves come from different games. "
+        f"Controls where either side left first in fewer than {MIN_CELL_GAMES} games are not drawn.",
+    )
+    return fig
+
+
+# --- 8.5 book depth ------------------------------------------------------------------------------------------------
+
+
+def book_depth(games: pd.DataFrame, groups: list[str]) -> tuple[pd.DataFrame, pd.DataFrame]:
+    rows, slopes = [], []
+    for scope, part_scope in scopes(games, groups):
+        for label in BOOK_MOVE_LABELS:
+            part = part_scope[part_scope["book_depth"] == label]
+            gain, diff = mean_ci(part, "book_gain"), mean_ci(part, "open_diff")
+            rows.append(
+                {
+                    "tc_group": scope,
+                    "book_moves": label,
+                    **score_stats(part),
+                    "book_gain": gain[0],
+                    "book_gain_lo": gain[1],
+                    "book_gain_hi": gain[2],
+                    "open_diff": diff[0],
+                    "open_diff_lo": diff[1],
+                    "open_diff_hi": diff[2],
+                    "white_share": float((part["colour"] == "white").mean()) if len(part) else np.nan,
+                    "share_you_left_first": float(part["you_left_first"].mean()) if len(part) else np.nan,
+                    "thin": len(part) < MIN_CELL_GAMES,
+                }
+            )
+        # Score above expectation per extra full move of book, raw and holding colour fixed (deep lines are mostly
+        # your Black games, and you score less above expectation as Black). Each game is its own cluster.
+        valid = part_scope[part_scope["expected"].notna()]
+        depth = np.minimum(valid["book_moves"].to_numpy(dtype=float), BOOK_MOVE_EDGES[-2] + 1)  # cap at the open-ended bin
+        y = valid["excess"].to_numpy(dtype=float)
+        ids = valid["uuid"].to_numpy()
+        row = {"tc_group": scope}
+        for name, X in (
+            ("slope", np.column_stack([np.ones(len(y)), depth])),
+            ("slope_colour_adjusted", np.column_stack([np.ones(len(y)), depth, (valid["colour"] == "white").to_numpy(dtype=float)])),
+        ):
+            beta, draws = cluster_ols(X, y, ids, n_boot=N_BOOT, seed=SEED)
+            lo, hi = np.nanquantile(draws[:, 1], [0.025, 0.975])
+            row.update({name: beta[1], f"{name}_lo": lo, f"{name}_hi": hi})
+        row.update({"games": len(valid), "thin": len(valid) < MIN_CELL_GAMES * len(BOOK_MOVE_LABELS)})
+        slopes.append(row)
+    return with_elo(pd.DataFrame(rows)), pd.DataFrame(slopes)
+
+
+def chart_book_depth(table: pd.DataFrame, groups: list[str]):
+    fig, axes = charts.group_grid([*groups, ALL], sharey=True, title="Does going deeper into known lines help?")
+    for group, ax in axes.items():
+        part = table[(table["tc_group"] == group) & ~table["thin"]]
+        charts.zero_line(ax)
+        if part.empty:
+            thin_panel(ax)
+            continue
+        charts.estimate(ax, part, "book_moves", y="excess", lo="excess_lo", hi="excess_hi", order=BOOK_MOVE_LABELS, line=True)
+        ax.grid(axis="x", visible=False)
+    seen = set()
+    for group, ax in axes.items():
+        row = group.split(" ")[0]
+        if row not in seen:
+            seen.add(row)
+            ax.set_ylabel("score above expectation")
+    charts.footnote(
+        fig,
+        f"x: how many full moves the game stayed in a named opening line; y: score above the Elo expectation (points per game). "
+        f"Depths with fewer than {MIN_CELL_GAMES} games are not drawn. 95% CIs by game.",
+    )
+    return fig
+
+
+# --- 8.6 opening move quality -----------------------------------------------------------------------------------------
+
+
+def opening_quality(moves: pd.DataFrame, groups: list[str]) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
+    opening = moves[moves["phase"] == "opening"].copy()
+    pooled = opening.assign(tc_group=ALL)
+    both = pd.concat([pooled, opening.assign(tc_group=opening["tc_group"].astype(str))], ignore_index=True)
+    order = {g: i for i, g in enumerate([ALL, *groups])}
+
+    def tidy(frame: pd.DataFrame, per100: bool) -> pd.DataFrame:
+        frame = (
+            frame.assign(_g=frame["tc_group"].map(order), _c=frame["colour"].map({c: i for i, c in enumerate(COLOURS)}))
+            .sort_values(["_g", "_c"])
+            .drop(columns=["_g", "_c"])
+        )
+        if per100:
+            for k in ("player", "player_lo", "player_hi", "opponent", "opponent_lo", "opponent_hi", "diff", "diff_lo", "diff_hi"):
+                frame[f"per100_{k}"] = frame[k] * PER_100
+        frame = frame.rename(columns={"n": "moves"})
+        frame["thin"] = frame["games"] < MIN_CELL_GAMES
+        return frame.reset_index(drop=True)
+
+    ep = tidy(compare_sides(both, "ep_loss", by=["tc_group", "colour"], n_boot=N_BOOT), per100=True)
+    cp = tidy(compare_sides(both, "cp_loss", by=["tc_group", "colour"], n_boot=N_BOOT), per100=False)
+    early_all = moves[moves["ply"] < PLY_EDGES[-1]].copy()
+    early_all["plies"] = pd.cut(early_all["ply"], bins=PLY_EDGES, labels=PLY_LABELS, right=False).astype(str)
+    early_all["tc_group"] = early_all["tc_group"].astype(str)
+    early_all = pd.concat([early_all.assign(tc_group=ALL), early_all], ignore_index=True)
+    by_ply = compare_sides(early_all, "ep_loss", by=["tc_group", "colour", "plies"], n_boot=N_BOOT)
+    by_ply = (
+        by_ply.assign(_g=by_ply["tc_group"].map(order), _c=by_ply["colour"].map({c: i for i, c in enumerate(COLOURS)}))
+        .sort_values(["_g", "_c", "plies"])
+        .drop(columns=["_g", "_c"])
+    )
+    for k in ("player", "opponent", "diff", "diff_lo", "diff_hi"):
+        by_ply[f"per100_{k}"] = by_ply[k] * PER_100
+    by_ply = by_ply.rename(columns={"n": "moves"})
+    by_ply["thin"] = by_ply["games"] < MIN_CELL_GAMES
+    return ep, cp, by_ply.reset_index(drop=True)
+
+
+def chart_opening_quality(ep: pd.DataFrame, cp: pd.DataFrame, groups: list[str]):
+    import matplotlib.pyplot as plt
+
+    order = [*groups, ALL]
+    fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 6.4), sharex=True)
+    for ax, table, prefix, label in (
+        (ax1, ep, "per100_", "expected points lost per 100\nopening moves, you minus them"),
+        (ax2, cp, "", "centipawns lost per opening\nmove, you minus them"),
+    ):
+        for k, colour in enumerate(COLOURS):
+            part = table[(table["colour"] == colour) & ~table["thin"]]
+            charts.estimate(
+                ax,
+                part,
+                "tc_group",
+                y=f"{prefix}diff",
+                lo=f"{prefix}diff_lo",
+                hi=f"{prefix}diff_hi",
+                order=order,
+                colour=WHITE_BLACK[colour],
+                label=f"you as {colour}",
+                offset=(k - 0.5) * 0.25,
+            )
+        charts.zero_line(ax)
+        ax.set_ylabel(label)
+        ax.grid(axis="x", visible=False)
+    ax1.set_title("Below zero: you lose less than your opponents in the same games")
+    charts.legend(ax1, loc="upper left")
+    ax2.tick_params(axis="x", labelsize=7.5)
+    fig.suptitle("How does your opening play compare with your opponents'?", x=0.01, ha="left", fontweight="bold", fontsize=11)
+    fig.tight_layout()
+    charts.footnote(fig, "Moves in the opening phase (material heuristic, roughly the first 10-12 moves). 95% CIs from a paired bootstrap of games.")
+    return fig
+
+
+# --- 8.7 costliest repeated moves -----------------------------------------------------------------------------------------
+
+
+def costly_moves(moves: pd.DataFrame, games: pd.DataFrame, classes: list[str], player: bool) -> pd.DataFrame:
+    """Repeated (position, move) pairs in the opening phase with the largest total expected points lost."""
+    part = moves[(moves["is_player_move"] == player) & (moves["phase"] == "opening")]
+    agg = (
+        part.groupby(["fen_before", "san"])
+        .agg(times=("ep_loss", "size"), total=("ep_loss", "sum"), mean_ep=("ep_loss", "mean"), mean_cp=("cp_loss", "mean"), engine_choice=("is_best_move", "mean"))
+        .reset_index()
+    )
+    # A habit, a clear loss in expected points, a real move-quality loss in centipawns, and not the engine's own move.
+    agg = agg[(agg["times"] >= RECUR_MIN_TIMES) & (agg["mean_ep"] >= RECUR_MIN_EP) & (agg["mean_cp"] >= RECUR_MIN_CP) & (agg["engine_choice"] == 0)]
+    agg = agg.sort_values(["total", "fen_before", "san"], ascending=[False, True, True]).head(RECUR_TOP)
     rows = []
-    for r in agg.itertuples():
+    for rank, r in enumerate(agg.itertuples(), start=1):
         occ = part[(part["fen_before"] == r.fen_before) & (part["san"] == r.san)]
         e, lo, hi = cluster_bootstrap_mean(occ["ep_loss"], occ["game_uuid"], n_boot=N_BOOT, seed=SEED)
-        # score in those games
-        uuids = occ["game_uuid"].unique()
-        gs = games[games["uuid"].isin(uuids)]
-        rows.append(
-            {
-                "colour": r.colour, "family": r.family, "move": move_label(r.fen_before, r.san), "best": san_of(r.fen_before, r.best),
-                "times": int(r.n), "years": r.years, "total ep lost": round(float(r.total), 2), "ep_loss per occurrence": fmt(e, lo, hi), "cp_loss": f"{r.mean_cp:.0f}",
-                "eval before (cp, mover)": f"{r.cp_before:+.0f}", "score in those games": f"{gs['my_score'].mean():.2f}", "expected": f"{gs['expected'].mean():.2f}",
-            }  # fmt: skip
-        )
-    return pd.DataFrame(rows)
+        gs = games[games["uuid"].isin(occ["game_uuid"].unique())]
+        best = occ["best_move"].mode()
+        row = {
+            "tc_group": ALL,
+            "rank": rank,
+            "your_colour": occ["colour"].mode().iloc[0],
+            "family": occ["family"].mode().iloc[0],
+            "move": move_label(r.fen_before, r.san),
+            "engine_move": san_of(r.fen_before, best.iloc[0]) if len(best) else "",
+            "times": int(r.times),
+            "games": int(occ["game_uuid"].nunique()),
+            "times_recent": int(occ["recent"].sum()),
+            "first_year": int(occ["year"].min()),
+            "last_year": int(occ["year"].max()),
+            "total_ep_lost": float(r.total),
+            "ep_loss": e,
+            "ep_loss_lo": lo,
+            "ep_loss_hi": hi,
+            "cp_loss": float(occ["cp_loss"].mean()),
+            "eval_before_cp": float(occ["cp_before"].mean()),
+            "your_score": float(gs["my_score"].mean()),
+            "expected": float(gs["expected"].mean()),
+            "excess": float((gs["my_score"] - gs["expected"]).mean()),
+            "thin": occ["game_uuid"].nunique() < MIN_CELL_GAMES,
+        }
+        for c in classes:
+            row[f"times_{c}"] = int((occ["tc_class"] == c).sum())
+        row["fen_before"] = r.fen_before
+        rows.append(row)
+    out = pd.DataFrame(rows)
+    return add_elo(out, "expected", ["excess"]) if len(out) else out
 
 
-def section_fix(report: Report, games: pd.DataFrame, moves: pd.DataFrame) -> dict:
-    report.heading("5. Fix these lines")
-    report.text(
-        f"Named lines (`opening_name`, the deepest named line reached) with ≥ {MIN_GAMES} games, per colour. *Deficit* is the total points below rating expectation accumulated in that line "
-        "(games × (expected − score)); lines are ranked by it, and the per-game `score − expected` CI says how sure the deficit is. "
-        "The opening ep columns show whether the problem is in the opening phase itself (you give away more than the opponents in the same games) or later. "
-        "The best lines by surplus follow for contrast."
+def chart_costly(mine: pd.DataFrame, theirs: pd.DataFrame):
+    import matplotlib.pyplot as plt
+
+    fig, axes = plt.subplots(1, 2, figsize=(11.5, 0.33 * RECUR_TOP + 1.8))
+    for ax, table, colour, title in (
+        (axes[0], mine, charts.PLAYER, "Your costliest repeated opening moves"),
+        (axes[1], theirs, charts.OPPONENT, "Your opponents' costliest repeated moves against you"),
+    ):
+        if table.empty:
+            thin_panel(ax, "none")
+            continue
+        labels = [f"{r.move} ({short_family(r.family)}, you {r.your_colour[0].upper()}); engine {r.engine_move}" for r in table.itertuples()]
+        pos = np.arange(len(table))
+        ax.barh(pos, table["total_ep_lost"], color=colour, height=0.7)
+        for p, r in zip(pos, table.itertuples()):
+            ax.text(r.total_ep_lost, p, f" x{r.times}", va="center", fontsize=7, color=charts.INK_SECONDARY)
+        ax.set_yticks(pos, labels, fontsize=7.5)
+        ax.invert_yaxis()
+        ax.grid(axis="y", visible=False)
+        ax.set_xlabel("expected points lost, all occurrences")
+        ax.set_title(title)
+        ax.set_xlim(0, table["total_ep_lost"].max() * BAR_HEADROOM)
+    fig.suptitle("What are your costliest repeated moves?", x=0.01, ha="left", fontweight="bold", fontsize=11)
+    fig.tight_layout()
+    charts.footnote(
+        fig,
+        f"Same move in the same position in the opening phase, played at least {RECUR_MIN_TIMES} times, losing at least {RECUR_MIN_EP} expected points and "
+        f"{RECUR_MIN_CP} centipawns on average, never the engine's move; xN = times played. All controls pooled.",
     )
-    out = {}
-    for colour in COLOURS:
-        part = games[games["colour"] == colour]
-        table = line_rows(part, "opening_name", with_mix=True)
-        out[colour] = table
-        worst = table.sort_values("deficit_points", ascending=False).head(8)
-        best = table.sort_values("deficit_points", ascending=True).head(5)
-        report.heading(f"{colour.capitalize()}: {len(table)} lines with ≥ {MIN_GAMES} games; the 8 with the largest deficit", level=3)
-        shown = present(worst, "opening_name", "line")
-        shown.insert(2, "deficit (points)", worst["deficit_points"].map(lambda v: f"{v:+.1f}"))
-        report.table(shown)
-        report.text(f"**{colour.capitalize()}: the 5 lines with the largest surplus**")
-        shown = present(best, "opening_name", "line")
-        shown.insert(2, "deficit (points)", best["deficit_points"].map(lambda v: f"{v:+.1f}"))
-        report.table(shown)
-
-        # recurring mistakes inside the worst lines
-        report.text(f"**{colour.capitalize()}: the recurring move inside each deficit line.** For each of the 8 lines above, your repeated (position, move) pair in the opening phase with the largest total ep_loss (played ≥ 3 times, mean ep_loss ≥ {RECUR_MIN_EP}); blank if none.")
-        rows = []
-        for line in worst["opening_name"]:
-            uuids = part.loc[part["opening_name"] == line, "uuid"]
-            mv = moves[moves["game_uuid"].isin(uuids) & moves["is_player_move"] & (moves["phase"] == "opening")]
-            agg = mv.groupby(["fen_before", "san"]).agg(n=("ep_loss", "size"), total=("ep_loss", "sum"), mean_ep=("ep_loss", "mean"), mean_cp=("cp_loss", "mean"), best=("best_move", lambda s: s.mode().iloc[0] if len(s.mode()) else ""), years=("year", years_span)).reset_index()
-            agg = agg[(agg["n"] >= 3) & (agg["mean_ep"] >= RECUR_MIN_EP)].sort_values("total", ascending=False)
-            if agg.empty:
-                rows.append({"line": line, "games": int(len(uuids)), "move": "", "best": "", "times": "", "years": "", "mean ep_loss": "", "mean cp_loss": ""})
-                continue
-            r = agg.iloc[0]
-            rows.append({"line": line, "games": int(len(uuids)), "move": move_label(r["fen_before"], r["san"]), "best": san_of(r["fen_before"], r["best"]), "times": int(r["n"]), "years": r["years"], "mean ep_loss": f"{r['mean_ep']:.3f}", "mean cp_loss": f"{r['mean_cp']:.0f}"})
-        report.table(pd.DataFrame(rows))
-    return out
+    return fig
 
 
-def section_recurring(report: Report, games: pd.DataFrame, moves: pd.DataFrame) -> dict:
-    report.heading("6. Recurring opening mistakes")
-    report.text(
-        f"Across all games: the (position, move) pairs you have played at least {RECUR_MIN_N} times in the opening phase with mean `ep_loss` ≥ {RECUR_MIN_EP}, ranked by total expected points lost. "
-        "`best` is Stockfish's move in that position; `eval before` is the engine's view (centipawns, from your side) before the move; the last two columns are your score and rating expectation in the games where the position arose. "
-        "The second table is the mirror image: the opponents' most expensive repeated moves against you, i.e. the traps and inaccuracies your repertoire keeps provoking."
-    )
-    mine = recurring(moves, games, side_player=True)
-    report.text("**Yours:**")
-    report.table(mine)
-    theirs = recurring(moves, games, side_player=False)
-    report.text("**Opponents' (same filters):**")
-    report.table(theirs)
-    return {"mine": mine, "theirs": theirs}
-
-
-def section_meaning(report: Report, games: pd.DataFrame, shape: dict, rep: dict, book: dict, quality: dict, fix: dict, recur: dict) -> None:
-    report.heading("What this means for the player")
-    white_over = game_mean(games[games["colour"] == "white"], "overperf")
-    black_over = game_mean(games[games["colour"] == "black"], "overperf")
-    # families with the clearest signal: CI excludes zero
-    good, bad = [], []
-    for colour in COLOURS:
-        t = rep[colour]
-        for r in t.itertuples():
-            tag = f"{fmt(r.over, r.over_lo, r.over_hi, '.2f')}, {r.games} games, {r.recent} in the last 12 months"
-            if r.over_lo > 0:
-                good.append(f"{r.family} as {colour} ({tag})")
-            if r.over_hi < 0:
-                bad.append(f"{r.family} as {colour} ({tag})")
-    # opening-phase quality summary
-    qcells = [f"{tc}/{c}: {q['diff']:+.4f} [{q['diff_lo']:+.4f}, {q['diff_hi']:+.4f}]" for (tc, c), q in quality.items()]
-    worse = [k for k, q in quality.items() if q["diff_lo"] > 0]
-    better = [k for k, q in quality.items() if q["diff_hi"] < 0]
-    # book depth: deepest vs shallowest bin per tc
-    book_txt = []
-    for tc in TIME_CLASSES:
-        bins = {b: v for (t, b), v in book["bins"].items() if t == tc}
-        if bins:
-            first, last = list(bins.items())[0], list(bins.items())[-1]
-            book_txt.append(f"{tc}: {first[0]} plies {fmt(*first[1], f='.2f')} vs {last[0]} plies {fmt(*last[1], f='.2f')}")
-    dev = book["dev"]
-    worst_white = fix["white"].sort_values("deficit_points", ascending=False).head(3)
-    worst_black = fix["black"].sort_values("deficit_points", ascending=False).head(3)
-    stale = [f"{r.opening_name} ({c})" for c, t in (("White", worst_white), ("Black", worst_black)) for r in t.itertuples() if r.recent == 0]
-    for colour in COLOURS:
-        t = fix[colour].sort_values("deficit_points", ascending=False).head(8).iloc[3:]
-        stale += [f"{r.opening_name} ({colour.capitalize()})" for r in t.itertuples() if r.recent == 0]
-    mine = recur["mine"]
-    # the most expensive repeated move that is still part of the repertoire (played in the last two calendar years)
-    last_year = int(games["year"].max())
-    current = mine[mine["years"].str[-2:].astype(int) + 2000 >= last_year - 1] if len(mine) else mine
-    top_mistake = current.iloc[0] if len(current) else None
-    report.text(
-        f"Your repertoire is narrow and that is fine: 1.e4 as White ({(games.loc[games['colour'] == 'white', 'ply1'] == 'e4').mean():.0%} of white games) and 1...e5 / 1...d5 as Black. "
-        f"Over all games you score above the rating expectation as White ({fmt(*white_over)}) and as Black ({fmt(*black_over)}); the openings rarely explain much of that: "
-        f"the per-family over-performance CIs mostly straddle zero. Families where the CI is clearly positive: {'; '.join(good) if good else 'none'}. Clearly negative: {'; '.join(bad) if bad else 'none'}. "
-        f"In the opening phase itself you give away about as much as the opponents (you − them per move, {'; '.join(qcells)}); "
-        f"cells where you are measurably worse: {', '.join(f'{tc} {c}' for tc, c in worse) if worse else 'none'}; measurably better: {', '.join(f'{tc} {c}' for tc, c in better) if better else 'none'}. "
-        f"Staying in book longer is not a lever: score − expectation by book depth ({'; '.join(book_txt)}), and you are the one who leaves the book first in "
-        f"{dev['bullet']['share'][0]:.0%} / {dev['blitz']['share'][0]:.0%} / {dev['rapid']['share'][0]:.0%} of bullet / blitz / rapid games, and your deviating move is not the worse one: its ep_loss minus that of the opponents' deviations is "
-        f"{dev['bullet']['d_ep'][0]:+.3f} [{dev['bullet']['d_ep'][1]:+.3f}, {dev['bullet']['d_ep'][2]:+.3f}] in bullet "
-        f"({dev['blitz']['d_ep'][0]:+.3f} blitz, {dev['rapid']['d_ep'][0]:+.3f} rapid), i.e. you leave the named lines by choice, not by blundering. "
-        f"The actionable part is section 5 and 6: the lines with the largest deficits (White: {', '.join(worst_white['opening_name'])}; Black: {', '.join(worst_black['opening_name'])}) "
-        + (f"and a handful of repeated moves still in use, led by {top_mistake['move']} in the {top_mistake['family']} as {top_mistake['colour']} ({top_mistake['times']} times over {top_mistake['years']}, {top_mistake['ep_loss per occurrence']} ep each; the engine prefers {top_mistake['best']}). " if top_mistake is not None else ". ")
-        + (f"Check the years column before working on a line: of the deficit lines above, {', '.join(stale)} had no game in the last 12 months and belong to an earlier repertoire. " if stale else "")
-        + "Learning the engine's reply in the few recurring positions is the cheapest opening work available; the rest of the result is decided after the opening."
-    )
-
-
-def transposition_note(games: pd.DataFrame, moves: pd.DataFrame) -> str:
-    """Families whose label does not match the move order (names are assigned by position), e.g. 'Zukertort Opening' reached via 1.e4 d5 2.Nf3."""
-    notes = []
-    for colour in COLOURS:
-        part = games[games["colour"] == colour]
-        for fam, grp in part.groupby("family"):
-            if len(grp) < MIN_GAMES:
-                continue
-            first = grp["ply1"].mode().iloc[0]
-            conventional = {"Zukertort Opening": "Nf3", "Nimzo-Larsen Attack": "b3", "English Opening": "c4", "Bird Opening": "f4", "Hungarian Opening": "g3", "Van't Kruijs Opening": "e3", "Mieses Opening": "d3"}
-            if fam in conventional and first != conventional[fam]:
-                seq = moves[moves["game_uuid"].isin(grp["uuid"]) & (moves["ply"] <= 4)].sort_values(["game_uuid", "ply"]).groupby("game_uuid")["san"].apply(" ".join).mode().iloc[0]
-                notes.append(f"'{fam}' as {colour} ({len(grp)} games) mostly began {seq}")
-    return "; ".join(notes)
-
-
-def section_caveats(report: Report, info: dict, games: pd.DataFrame, moves: pd.DataFrame) -> None:
-    report.heading("Caveats")
-    trans = transposition_note(games, moves)
-    report.text(
-        "\n".join(
-            [
-                "- Opening names come from the Lichess list and at this level describe the first 2–4 moves (median book depth 4 plies); 'family' is the text before the colon. Treat the tables as repertoire shape, not theory.",
-                "- Names are assigned by position, so transpositions carry labels that do not match the move order" + (f": {trans}." if trans else "."),
-                f"- Expected score is the Elo formula on chess.com ratings, with the opponent's pre-game rating reconstructed as post-game rating + your rating change ({info['no_rating']} game(s) with unusable ratings dropped from those columns). Chess.com uses Glicko, so the expectation is approximate; the over-performance baseline over all games is positive (Q1), so compare families with each other and with the colour's overall value, not with zero.",
-                "- Book depth is a joint property of both players and correlates with the opening family and with the opponents' knowledge; a deep book line is not something you can choose unilaterally. No rating adjustment beyond the expected-score control is made.",
-                "- The opening phase is the material heuristic (roughly the first 10–12 moves), which extends well beyond book; `ep_loss` is relative to Stockfish 17.1 at 1M nodes, so some 'losses' are moves no human would avoid.",
-                "- `ep after book` and `book gain` come from the pooled calibrated model (cross-validated Brier 0.179), which knows ratings, clocks and the time control; it is under-confident at the extremes and both players are judged by the same model.",
-                "- Per-line and per-cell numbers rest on 20–200 games; CIs are wide and many comparisons are made, so expect a few CIs to exclude zero by chance. Rank by deficit is descriptive.",
-                "- Recurring mistakes are identified by exact position (`fen_before`) and move; transpositions into the same position are counted together, slightly different positions separately. The engine's best move is one line, not the only good move.",
-                "- Opponents are matched by rating, so 'their' numbers describe the field at your level in the same games, not an absolute standard.",
-                f"- Bootstrap CIs use {N_BOOT} resamples by game (300 for the per-ply figure); each game is one cluster.",
-            ]
-        )
-    )
+# --- main ---------------------------------------------------------------------------------------------------------------
 
 
 def main() -> None:
     t0 = time.time()
-    figure_style()
     data = load_data()
+    charts.style()
+    results = Results(SLUG)
+    groups = data.tc_groups
+    classes = list(dict.fromkeys(data.tc_class[g] for g in groups))
     games, moves, info = prepare(data)
-    info["n_moves"] = len(moves)
-    report = Report(SLUG, "Opening repertoire: where the score comes from, by colour")
-    section_intro(report, games, info, data.username)
-    shape = section_shape(report, games)
-    rep = section_repertoire(report, games)
-    figure_repertoire(report, rep)
-    book = section_book_depth(report, games)
-    figure_book_depth(report, games)
-    quality = section_opening_quality(report, moves)
-    fix = section_fix(report, games, moves)
-    recur = section_recurring(report, games, moves)
-    section_meaning(report, games, shape, rep, book, quality, fix, recur)
-    section_caveats(report, info, games, moves)
-    path = report.write()
-    print(f"wrote {path} in {time.time() - t0:.0f} s")
+    print(f"{len(games):,} games, {len(moves):,} moves; {info}")
+
+    # 8.1 repertoire
+    starts = line_starts(games, groups)
+    results.table(
+        "1_line_starts",
+        starts,
+        f"Share of your games with each colour by how the game started (as White your first move; as Black the opponent's first move and your reply), all games and per control. Starts with fewer than {MIN_CELL_GAMES} games overall are lumped as 'other'. recent_games: since {info['cutoff']}.",
+    )
+    results.figure(chart_line_starts(starts, groups, data.tc_class), "1_line_starts")
+    results.table(
+        "1b_families",
+        families(games),
+        f"Opening families (opening name before the colon) per colour, all controls pooled: games, share of the colour's games, games since {info['cutoff']}, first and last year. thin: under {MIN_CELL_GAMES} games.",
+    )
+    results.table(
+        "1c_family_move_order",
+        move_orders(games),
+        f"Most common first {FIRST_PLIES} plies of each family with at least {MIN_CELL_GAMES} games: opening names follow positions, so a family can be reached by an unexpected move order.",
+    )
+
+    # 8.2 family scores
+    fam = family_scores(games, scopes(games, groups)[:1])
+    results.table(
+        "2_family_score",
+        fam,
+        "Per opening family and colour, all controls pooled: score, Elo-expected score and score above expectation (with Elo-equivalents); "
+        "excess_vs_colour = that minus the score above expectation of all your games with the colour (colour_excess), CI from one joint bootstrap of the colour's games, "
+        "Elo relative to expected_at_colour_average, vs_colour = clearly above / below / unclear; "
+        "opening-phase expected points lost per game by you and your opponents and the difference (theirs minus yours, positive = they lose more), "
+        "book_gain (your expected points after the last book move minus the model's expectation at move 1) and the engine eval after book (cp, your side). "
+        f"CIs bootstrapped by game; thin under {MIN_CELL_GAMES} games.",
+    )
+    colour_table = colour_scores(games, groups, classes)
+    results.figure(chart_family_scores(fam, colour_table), "2_family_score")
+    fam_class = family_scores(games, class_scopes(games, classes))
+    results.table(
+        "2b_family_score_by_class",
+        fam_class,
+        f"The same per family and colour within each time class (all controls of the class pooled). Most cells are thin (under {MIN_CELL_GAMES} games).",
+    )
+    results.table(
+        "2c_colour_score",
+        colour_table,
+        "Score above the Elo expectation per colour: all games, per time class and per control (the baseline each family is compared with).",
+    )
+    lines = family_scores(games, scopes(games, groups)[:1], key="opening_name")
+    lines["deficit_points"] = lines["games_with_expectation"] * -lines["excess"]
+    results.table(
+        "2d_named_lines",
+        lines,
+        "Per named opening line (deepest named line reached) and colour, all controls pooled: as 2_family_score, plus deficit_points = total points below the expectation over the line's games (negative = above).",
+    )
+    chance = pd.concat(
+        [
+            chance_check(fam, "families"),
+            chance_check(fam_class, "families"),
+            chance_check(lines, "lines").rename(columns={"lines_tested": "families_tested"}).assign(unit="named lines"),
+        ],
+        ignore_index=True,
+    )
+    chance["unit"] = chance["unit"].fillna("families")
+    results.table(
+        "2e_chance_check",
+        chance[
+            [
+                "tc_group",
+                "colour",
+                "unit",
+                "families_tested",
+                "clear_above_average",
+                "clear_below_average",
+                "clear_above_zero",
+                "clear_below_zero",
+                "expected_by_chance",
+                "games_covered",
+                "thin",
+            ]
+        ],
+        f"How many non-thin families (or named lines, at least {MIN_CELL_GAMES} games) have a 95% CI clear of your average with that colour (the main test) and clear of the Elo expectation (zero), against the {CHANCE:.0%} expected by chance alone (in each direction about half of that).",
+    )
+
+    # 8.3 recency
+    rec, rec_summary = recency(games, fam)
+    results.table(
+        "3_recency",
+        rec,
+        f"Per family and colour: games in the last 12 months (since {info['cutoff']}) and before, the share of the colour's games in each period, the all-years score above expectation and versus your average with that colour (vs_colour: clearly above / below / unclear), and the last-12-months score above expectation (thin_recent under {MIN_CELL_GAMES} games).",
+    )
+    results.table(
+        "3b_recency_summary",
+        rec_summary,
+        f"Share of your games per colour and period in families whose all-years score is clearly above your average with that colour, clearly below, unclear, or thin (under {MIN_CELL_GAMES} games); weighted_excess = the families' all-years score above the Elo expectation weighted by how often you played them in the period.",
+    )
+    results.figure(chart_recency(rec), "3_recency")
+
+    # 8.4 leaving the book
+    dev, dev_score, dev_diff = deviation(games, groups)
+    results.table(
+        "4_deviation",
+        dev,
+        "Who played the first move after the deepest named line, per control and pooled: share of games where it was you (CI by game), and the expected points (ep_*, ep_per100_* per 100 such moves) and centipawns (cp_*) that move lost, yours vs your opponents' (disjoint sets of games: independent bootstraps).",
+    )
+    results.table(
+        "4b_deviation_score", dev_score, "Score above the Elo expectation in the games where you left the named lines first vs where your opponent did."
+    )
+    results.table(
+        "4c_deviation_score_diff",
+        dev_diff,
+        "Score above expectation when you left the book first minus when your opponent did (independent bootstraps), with Elo-equivalents relative to the score in the games your opponent left first (reference_score).",
+    )
+    results.figure(chart_deviation(dev, [*groups, ALL]), "4_deviation")
+
+    # 8.5 book depth
+    depth, slopes = book_depth(games, groups)
+    results.table(
+        "5_book_depth",
+        depth,
+        "Per control and pooled, by how many full moves the game stayed in a named line: score above the Elo expectation (with Elo), book_gain (expected points after book minus at move 1), opening-phase expected points lost theirs minus yours per game, share of your White games and share where you left the book first.",
+    )
+    results.table(
+        "5b_book_depth_slope",
+        slopes,
+        f"Score above expectation per extra full move of named line (depth capped at {BOOK_MOVE_EDGES[-2] + 1:.0f}), least squares raw and holding your colour fixed; CIs by bootstrapping games. thin: under {MIN_CELL_GAMES} games per depth bin on average.",
+    )
+    results.figure(chart_book_depth(depth, groups), "5_book_depth")
+
+    # 8.6 opening move quality
+    ep, cp, by_ply = opening_quality(moves, groups)
+    results.table(
+        "6_opening_quality",
+        ep,
+        "Expected points lost per opening-phase move (and per 100 moves, per100_*), you vs your opponents in the same games, per control and colour and pooled; diff = you minus opponents (negative = you lose less), paired bootstrap by game.",
+    )
+    results.table("6b_opening_cp_loss", cp, "The same in centipawns lost per opening-phase move.")
+    results.table(
+        "6c_opening_by_ply",
+        by_ply,
+        "Expected points lost per move in plies 1-10, 11-20 and 21-30 (each side's own moves), you vs opponents, per control, colour and pooled.",
+    )
+    results.figure(chart_opening_quality(ep, cp, groups), "6_opening_quality")
+
+    # 8.7 costliest repeated moves
+    mine = costly_moves(moves, games, classes, player=True)
+    theirs = costly_moves(moves, games, classes, player=False)
+    results.table(
+        "7_costly_moves",
+        mine,
+        f"Your repeated opening-phase moves (same move in the same position at least {RECUR_MIN_TIMES} times, mean loss at least {RECUR_MIN_EP} expected points and {RECUR_MIN_CP} centipawns, never the engine's best move), top {RECUR_TOP} by total expected points lost, all controls pooled: the engine's move, times played (overall, in the last 12 months, per time class), mean loss with CI by game, cp loss, the eval before (cp, your side), your score, Elo expectation and score above it (with Elo) in those games. thin: under {MIN_CELL_GAMES} games, so the score columns are anecdotes.",
+    )
+    results.table("7b_costly_moves_opponents", theirs, "The same for your opponents' moves against you (your_colour is your colour in those games).")
+    results.figure(chart_costly(mine, theirs), "7_costly_moves")
+
+    meta = pd.DataFrame(
+        [
+            {"item": "games_analysed", "value": len(games)},
+            {"item": "games_without_moves", "value": info["no_moves"]},
+            {"item": "games_without_expectation", "value": info["no_expectation"]},
+            {"item": "moves", "value": len(moves)},
+            {"item": "families", "value": games["family"].nunique()},
+            {"item": "named_lines", "value": games["opening_name"].nunique()},
+            {"item": "median_book_ply", "value": float(games["book_ply"].median())},
+            {"item": "recent_cutoff", "value": info["cutoff"]},
+            *[{"item": f"excluded_{g.replace(' ', '_')}_games", "value": n} for g, n in data.tc_noted.items()],
+        ]
+    )
+    results.table(
+        "8_data",
+        meta,
+        "Counts behind this question: games and moves analysed, games left out, distinct families and named lines, the recency cutoff and the thin controls excluded.",
+    )
+    results.finish()
+    print(f"done in {time.time() - t0:.0f} s")
 
 
 if __name__ == "__main__":

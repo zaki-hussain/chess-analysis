@@ -1,0 +1,11 @@
+tc_group,colour,unit,families_tested,clear_above_average,clear_below_average,clear_above_zero,clear_below_zero,expected_by_chance,games_covered,thin
+all games,white,families,17,2,0,2,0,0.85,2692,False
+all games,black,families,24,2,2,2,2,1.2,2651,False
+all bullet,white,families,12,1,0,1,0,0.6,1548,False
+all bullet,black,families,15,2,1,1,1,0.75,1333,False
+all blitz,white,families,10,0,1,1,0,0.5,716,False
+all blitz,black,families,9,0,1,0,0,0.45,690,False
+all rapid,white,families,2,0,0,0,0,0.1,119,False
+all rapid,black,families,2,1,0,1,0,0.1,88,False
+all games,white,named lines,27,0,1,4,0,1.35,1995,False
+all games,black,named lines,26,2,2,2,1,1.3,1599,False

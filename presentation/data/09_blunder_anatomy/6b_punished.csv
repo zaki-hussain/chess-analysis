@@ -1,0 +1,37 @@
+tc_group,blunders,measure,your_blunders,your_blunders_lo,your_blunders_hi,their_blunders,their_blunders_lo,their_blunders_hi,diff,diff_lo,diff_hi,games,n_your_blunders,n_their_blunders,thin,unit
+bullet 1+0,all blunders,punished (reply kept the gift),0.553331,0.539033,0.567525,0.546392,0.532539,0.560047,0.006939,-0.013628,0.027092,2737,5644,5529,False,share of blunders
+bullet 1+0,all blunders,reply was the engine's best move,0.45039,0.435635,0.463926,0.440948,0.427382,0.454069,0.009442,-0.009811,0.026758,2737,5644,5529,False,share of blunders
+bullet 1+0,blunders that hung material,punished (reply kept the gift),0.629032,0.609381,0.64657,0.66105,0.641278,0.681373,-0.032018,-0.061652,-0.007685,2310,2604,2552,False,share of blunders
+bullet 1+0,blunders that hung material,reply was the engine's best move,0.561444,0.541183,0.578728,0.597179,0.578411,0.616985,-0.035735,-0.065352,-0.010843,2310,2604,2552,False,share of blunders
+bullet 1+1,all blunders,punished (reply kept the gift),0.570093,0.533631,0.604442,0.597403,0.555425,0.638187,-0.027309,-0.084197,0.027661,370,642,616,False,share of blunders
+bullet 1+1,all blunders,reply was the engine's best move,0.470405,0.429234,0.508785,0.48539,0.44309,0.519825,-0.014985,-0.067717,0.043431,370,642,616,False,share of blunders
+bullet 1+1,blunders that hung material,punished (reply kept the gift),0.638686,0.575471,0.698303,0.678571,0.622404,0.73397,-0.039885,-0.125594,0.036906,295,274,280,False,share of blunders
+bullet 1+1,blunders that hung material,reply was the engine's best move,0.59854,0.539203,0.660414,0.635714,0.579561,0.693806,-0.037174,-0.119315,0.040678,295,274,280,False,share of blunders
+bullet 2+1,all blunders,punished (reply kept the gift),0.480226,0.395233,0.570466,0.512658,0.427481,0.615158,-0.032432,-0.135916,0.073271,80,177,158,False,share of blunders
+bullet 2+1,all blunders,reply was the engine's best move,0.372881,0.297356,0.458083,0.43038,0.339182,0.523719,-0.057498,-0.166166,0.047231,80,177,158,False,share of blunders
+bullet 2+1,blunders that hung material,punished (reply kept the gift),0.652778,0.544304,0.75,0.708333,0.6,0.820896,-0.055556,-0.201386,0.074903,71,72,72,True,share of blunders
+bullet 2+1,blunders that hung material,reply was the engine's best move,0.569444,0.449801,0.676274,0.652778,0.536585,0.778766,-0.083333,-0.260325,0.062997,71,72,72,True,share of blunders
+blitz 3+0,all blunders,punished (reply kept the gift),0.585761,0.532013,0.641873,0.63807,0.59157,0.686157,-0.052309,-0.128755,0.016912,188,309,373,False,share of blunders
+blitz 3+0,all blunders,reply was the engine's best move,0.491909,0.426904,0.557601,0.538874,0.490921,0.595221,-0.046965,-0.125851,0.039859,188,309,373,False,share of blunders
+blitz 3+0,blunders that hung material,punished (reply kept the gift),0.657143,0.5625,0.757578,0.806897,0.738255,0.871907,-0.149754,-0.268625,-0.029844,140,105,145,False,share of blunders
+blitz 3+0,blunders that hung material,reply was the engine's best move,0.609524,0.511585,0.71,0.772414,0.707926,0.844846,-0.16289,-0.279328,-0.038628,140,105,145,False,share of blunders
+blitz 3+2,all blunders,punished (reply kept the gift),0.56853,0.546472,0.590831,0.610927,0.589689,0.631041,-0.042397,-0.066946,-0.014025,1295,2415,2416,False,share of blunders
+blitz 3+2,all blunders,reply was the engine's best move,0.481988,0.460943,0.505627,0.508278,0.489107,0.529503,-0.026291,-0.052559,0.003071,1295,2415,2416,False,share of blunders
+blitz 3+2,blunders that hung material,punished (reply kept the gift),0.663254,0.628486,0.69297,0.730893,0.699252,0.758959,-0.06764,-0.116529,-0.025049,991,879,929,False,share of blunders
+blitz 3+2,blunders that hung material,reply was the engine's best move,0.609784,0.57599,0.641434,0.674919,0.641665,0.703791,-0.065135,-0.111013,-0.022575,991,879,929,False,share of blunders
+blitz 5+0,all blunders,punished (reply kept the gift),0.630058,0.551519,0.709972,0.554878,0.479942,0.632595,0.07518,-0.023329,0.175355,81,173,164,False,share of blunders
+blitz 5+0,all blunders,reply was the engine's best move,0.491329,0.401686,0.58818,0.469512,0.395534,0.543996,0.021817,-0.077148,0.115503,81,173,164,False,share of blunders
+blitz 5+0,blunders that hung material,punished (reply kept the gift),0.675325,0.56,0.794867,0.735294,0.621367,0.826874,-0.059969,-0.190734,0.07677,61,77,68,True,share of blunders
+blitz 5+0,blunders that hung material,reply was the engine's best move,0.623377,0.489004,0.758939,0.720588,0.609375,0.813766,-0.097212,-0.239259,0.065134,61,77,68,True,share of blunders
+blitz 5+2,all blunders,punished (reply kept the gift),0.584906,0.523642,0.66182,0.68,0.611625,0.752161,-0.095094,-0.176367,0.002207,98,159,175,False,share of blunders
+blitz 5+2,all blunders,reply was the engine's best move,0.496855,0.425383,0.577207,0.525714,0.454998,0.60181,-0.028859,-0.122473,0.065091,98,159,175,False,share of blunders
+blitz 5+2,blunders that hung material,punished (reply kept the gift),0.688889,0.577778,0.809043,0.819672,0.716406,0.912281,-0.130783,-0.283608,0.013721,65,45,61,True,share of blunders
+blitz 5+2,blunders that hung material,reply was the engine's best move,0.644444,0.510204,0.77392,0.754098,0.63314,0.870684,-0.109654,-0.26984,0.043286,65,45,61,True,share of blunders
+blitz 5+5,all blunders,punished (reply kept the gift),0.548387,0.491573,0.602852,0.626459,0.563792,0.683299,-0.078072,-0.153342,-0.001847,120,248,257,False,share of blunders
+blitz 5+5,all blunders,reply was the engine's best move,0.439516,0.385653,0.504232,0.490272,0.433319,0.552153,-0.050756,-0.13324,0.031652,120,248,257,False,share of blunders
+blitz 5+5,blunders that hung material,punished (reply kept the gift),0.662921,0.566136,0.776281,0.71,0.628974,0.794948,-0.047079,-0.188213,0.097094,99,89,100,True,share of blunders
+blitz 5+5,blunders that hung material,reply was the engine's best move,0.539326,0.44508,0.642418,0.62,0.525937,0.710287,-0.080674,-0.237854,0.070231,99,89,100,True,share of blunders
+rapid 10+0,all blunders,punished (reply kept the gift),0.582393,0.549462,0.615957,0.647317,0.619252,0.676976,-0.064924,-0.11161,-0.018849,515,886,913,False,share of blunders
+rapid 10+0,all blunders,reply was the engine's best move,0.489842,0.45775,0.522703,0.544359,0.514978,0.576556,-0.054517,-0.098319,-0.013791,515,886,913,False,share of blunders
+rapid 10+0,blunders that hung material,punished (reply kept the gift),0.7,0.651026,0.74965,0.8,0.759473,0.841046,-0.1,-0.167964,-0.037294,389,330,345,False,share of blunders
+rapid 10+0,blunders that hung material,reply was the engine's best move,0.639394,0.588303,0.689018,0.75942,0.712416,0.806429,-0.120026,-0.193104,-0.061873,389,330,345,False,share of blunders

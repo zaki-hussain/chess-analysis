@@ -1,0 +1,11 @@
+item,value
+games_analysed,6007
+games_without_moves,2
+games_without_expectation,4
+moves,363979
+families,95
+named_lines,496
+median_book_ply,4.0
+recent_cutoff,2025-10-31
+excluded_bullet_0.5+0_games,19
+excluded_rapid_30+0_games,1

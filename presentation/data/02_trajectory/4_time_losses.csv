@@ -1,0 +1,136 @@
+tc_group,metric,label,unit,better,third,rating_min,rating_max,player,player_lo,player_hi,opponent,opponent_lo,opponent_hi,diff,diff_lo,diff_hi,games,n_player,n_opponent,thin
+bullet 1+0,flag_loss,share of losses on time,cases,lower,low,168.0,982.0,0.624161,0.578579,0.675274,0.6917,0.649697,0.729836,-0.067539,-0.130031,0.000318,979,447.0,506.0,False
+bullet 1+0,flag_loss,share of losses on time,cases,lower,mid,983.0,1085.0,0.493119,0.449429,0.540673,0.617587,0.572305,0.662535,-0.124468,-0.190049,-0.05952,978,436.0,489.0,False
+bullet 1+0,flag_loss,share of losses on time,cases,lower,high,1085.0,1300.0,0.446809,0.398241,0.496857,0.636364,0.588359,0.673729,-0.189555,-0.260406,-0.118704,978,470.0,462.0,False
+bullet 1+0,lost_alive,share of losses while still alive (loser's P(win) >= 0.1),cases,lower,low,168.0,982.0,0.308725,0.264519,0.349602,0.247036,0.212048,0.281131,0.061689,0.006431,0.117961,979,447.0,506.0,False
+bullet 1+0,lost_alive,share of losses while still alive (loser's P(win) >= 0.1),cases,lower,mid,983.0,1085.0,0.337156,0.294507,0.380671,0.314928,0.276415,0.35449,0.022228,-0.040476,0.079322,978,436.0,489.0,False
+bullet 1+0,lost_alive,share of losses while still alive (loser's P(win) >= 0.1),cases,lower,high,1085.0,1300.0,0.357447,0.316875,0.400433,0.307359,0.267529,0.349657,0.050088,-0.023523,0.113224,978,470.0,462.0,False
+bullet 1+0,reached_win,share of games reaching P(win) >= 0.8,games,higher,low,168.0,982.0,0.469867,0.435112,0.502554,0.463739,0.434091,0.49645,0.006129,-0.056205,0.064377,979,979.0,979.0,False
+bullet 1+0,reached_win,share of games reaching P(win) >= 0.8,games,higher,mid,983.0,1085.0,0.447853,0.418175,0.47955,0.43456,0.406927,0.464264,0.013292,-0.041973,0.065465,978,978.0,978.0,False
+bullet 1+0,reached_win,share of games reaching P(win) >= 0.8,games,higher,high,1085.0,1300.0,0.43865,0.407899,0.467306,0.468303,0.43865,0.497955,-0.029652,-0.090005,0.022495,978,978.0,978.0,False
+bullet 1+0,conversion,conversion: share of games won after reaching P(win) >= 0.8,cases,higher,low,168.0,982.0,0.932609,0.909297,0.955294,0.863436,0.832618,0.890705,0.069173,0.030746,0.11026,979,460.0,454.0,False
+bullet 1+0,conversion,conversion: share of games won after reaching P(win) >= 0.8,cases,higher,mid,983.0,1085.0,0.894977,0.865071,0.92256,0.844706,0.807127,0.880588,0.050271,0.004895,0.098708,978,438.0,425.0,False
+bullet 1+0,conversion,conversion: share of games won after reaching P(win) >= 0.8,cases,higher,high,1085.0,1300.0,0.897436,0.867298,0.922335,0.875546,0.844295,0.90415,0.02189,-0.01989,0.063599,978,429.0,458.0,False
+bullet 1+0,swindle,swindles: share of games not lost after falling to P(win) <= 0.2,cases,higher,low,168.0,982.0,0.199616,0.17035,0.231217,0.126437,0.098196,0.153708,0.073179,0.031104,0.114783,979,521.0,522.0,False
+bullet 1+0,swindle,swindles: share of games not lost after falling to P(win) <= 0.2,cases,higher,mid,983.0,1085.0,0.239006,0.202293,0.276812,0.191806,0.157026,0.221393,0.047199,-0.004709,0.098179,978,523.0,537.0,False
+bullet 1+0,swindle,swindles: share of games not lost after falling to P(win) <= 0.2,cases,higher,high,1085.0,1300.0,0.219424,0.186482,0.254639,0.199241,0.173244,0.233471,0.020183,-0.032624,0.063641,978,556.0,527.0,False
+bullet 1+1,flag_loss,share of losses on time,cases,lower,low,160.0,794.0,0.352113,0.25325,0.454579,0.47541,0.350801,0.592633,-0.123297,-0.293127,0.032066,138,71.0,61.0,False
+bullet 1+1,flag_loss,share of losses on time,cases,lower,mid,794.0,925.0,0.095238,0.017842,0.181856,0.422535,0.318084,0.542922,-0.327297,-0.471441,-0.188399,137,63.0,71.0,False
+bullet 1+1,flag_loss,share of losses on time,cases,lower,high,925.0,1003.0,0.202899,0.109584,0.300034,0.354839,0.243853,0.487295,-0.15194,-0.305623,0.011305,137,69.0,62.0,False
+bullet 1+1,lost_alive,share of losses while still alive (loser's P(win) >= 0.1),cases,lower,low,160.0,794.0,0.591549,0.469697,0.69877,0.52459,0.391287,0.645161,0.066959,-0.114751,0.232887,138,71.0,61.0,False
+bullet 1+1,lost_alive,share of losses while still alive (loser's P(win) >= 0.1),cases,lower,mid,794.0,925.0,0.492063,0.372834,0.602751,0.492958,0.385714,0.621256,-0.000894,-0.161396,0.153915,137,63.0,71.0,False
+bullet 1+1,lost_alive,share of losses while still alive (loser's P(win) >= 0.1),cases,lower,high,925.0,1003.0,0.536232,0.422519,0.651547,0.403226,0.292143,0.541185,0.133006,-0.04963,0.298675,137,69.0,62.0,False
+bullet 1+1,reached_win,share of games reaching P(win) >= 0.8,games,higher,low,160.0,794.0,0.391304,0.311413,0.478261,0.427536,0.347826,0.514493,-0.036232,-0.188406,0.115942,138,138.0,138.0,False
+bullet 1+1,reached_win,share of games reaching P(win) >= 0.8,games,higher,mid,794.0,925.0,0.416058,0.328467,0.496533,0.437956,0.357664,0.525547,-0.021898,-0.175182,0.116788,137,137.0,137.0,False
+bullet 1+1,reached_win,share of games reaching P(win) >= 0.8,games,higher,high,925.0,1003.0,0.350365,0.270073,0.430657,0.423358,0.343066,0.50365,-0.072993,-0.219161,0.073175,137,137.0,137.0,False
+bullet 1+1,conversion,conversion: share of games won after reaching P(win) >= 0.8,cases,higher,low,160.0,794.0,0.888889,0.808396,0.968988,0.898305,0.824286,0.968266,-0.009416,-0.120534,0.112759,138,54.0,59.0,False
+bullet 1+1,conversion,conversion: share of games won after reaching P(win) >= 0.8,cases,higher,mid,794.0,925.0,0.947368,0.875,1.0,0.9,0.818144,0.964942,0.047368,-0.057797,0.152088,137,57.0,60.0,False
+bullet 1+1,conversion,conversion: share of games won after reaching P(win) >= 0.8,cases,higher,high,925.0,1003.0,0.958333,0.888889,1.0,0.862069,0.769149,0.945502,0.096264,-0.00924,0.197472,137,48.0,58.0,False
+bullet 1+1,swindle,swindles: share of games not lost after falling to P(win) <= 0.2,cases,higher,low,160.0,794.0,0.185714,0.095874,0.261548,0.205882,0.102827,0.306483,-0.020168,-0.149693,0.11911,138,70.0,68.0,False
+bullet 1+1,swindle,swindles: share of games not lost after falling to P(win) <= 0.2,cases,higher,mid,794.0,925.0,0.2,0.109343,0.29436,0.106061,0.044086,0.197254,0.093939,-0.036767,0.216284,137,70.0,66.0,False
+bullet 1+1,swindle,swindles: share of games not lost after falling to P(win) <= 0.2,cases,higher,high,925.0,1003.0,0.242857,0.142801,0.338241,0.133333,0.062353,0.218926,0.109524,-0.005827,0.226669,137,70.0,60.0,False
+bullet 2+1,flag_loss,share of losses on time,cases,lower,low,160.0,304.0,0.4,0.149821,0.647059,0.166667,0.0,0.384615,0.233333,-0.107224,0.563756,29,15.0,12.0,True
+bullet 2+1,flag_loss,share of losses on time,cases,lower,mid,305.0,361.0,0.277778,0.086706,0.5,0.444444,0.125,0.8,-0.166667,-0.582787,0.21457,28,18.0,9.0,True
+bullet 2+1,flag_loss,share of losses on time,cases,lower,high,375.0,991.0,0.3125,0.111111,0.533462,0.272727,0.0,0.545455,0.039773,-0.313239,0.333611,28,16.0,11.0,True
+bullet 2+1,lost_alive,share of losses while still alive (loser's P(win) >= 0.1),cases,lower,low,160.0,304.0,0.466667,0.199688,0.750481,0.583333,0.3075,0.857143,-0.116667,-0.505687,0.286264,29,15.0,12.0,True
+bullet 2+1,lost_alive,share of losses while still alive (loser's P(win) >= 0.1),cases,lower,mid,305.0,361.0,0.611111,0.374836,0.833333,0.333333,0.0,0.75,0.277778,-0.142857,0.646612,28,18.0,9.0,True
+bullet 2+1,lost_alive,share of losses while still alive (loser's P(win) >= 0.1),cases,lower,high,375.0,991.0,0.4375,0.2,0.666667,0.272727,0.0,0.571429,0.164773,-0.180748,0.520908,28,16.0,11.0,True
+bullet 2+1,reached_win,share of games reaching P(win) >= 0.8,games,higher,low,160.0,304.0,0.172414,0.068103,0.310345,0.344828,0.172414,0.517241,-0.172414,-0.413793,0.103448,29,29.0,29.0,True
+bullet 2+1,reached_win,share of games reaching P(win) >= 0.8,games,higher,mid,305.0,361.0,0.25,0.10625,0.428571,0.428571,0.249107,0.608036,-0.178571,-0.5,0.107143,28,28.0,28.0,True
+bullet 2+1,reached_win,share of games reaching P(win) >= 0.8,games,higher,high,375.0,991.0,0.428571,0.25,0.607143,0.5,0.321429,0.678571,-0.071429,-0.428571,0.286607,28,28.0,28.0,True
+bullet 2+1,conversion,conversion: share of games won after reaching P(win) >= 0.8,cases,higher,low,160.0,304.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,29,5.0,10.0,True
+bullet 2+1,conversion,conversion: share of games won after reaching P(win) >= 0.8,cases,higher,mid,305.0,361.0,0.857143,0.5,1.0,1.0,1.0,1.0,-0.142857,-0.5,0.0,28,7.0,12.0,True
+bullet 2+1,conversion,conversion: share of games won after reaching P(win) >= 0.8,cases,higher,high,375.0,991.0,0.916667,0.75,1.0,0.928571,0.76875,1.0,-0.011905,-0.206266,0.197434,28,12.0,14.0,True
+bullet 2+1,swindle,swindles: share of games not lost after falling to P(win) <= 0.2,cases,higher,low,160.0,304.0,0.277778,0.076667,0.5,0.3,0.0,0.6,-0.022222,-0.307183,0.25728,29,18.0,10.0,True
+bullet 2+1,swindle,swindles: share of games not lost after falling to P(win) <= 0.2,cases,higher,mid,305.0,361.0,0.235294,0.058824,0.444444,0.333333,0.0,0.714286,-0.098039,-0.549461,0.251741,28,17.0,9.0,True
+bullet 2+1,swindle,swindles: share of games not lost after falling to P(win) <= 0.2,cases,higher,high,375.0,991.0,0.117647,0.0,0.277976,0.153846,0.0,0.363636,-0.036199,-0.25,0.175345,28,17.0,13.0,True
+blitz 3+0,flag_loss,share of losses on time,cases,lower,low,325.0,883.0,0.192308,0.045405,0.357214,0.142857,0.053985,0.268356,0.049451,-0.132916,0.254574,70,26.0,42.0,False
+blitz 3+0,flag_loss,share of losses on time,cases,lower,mid,887.0,945.0,0.32,0.148016,0.473747,0.184211,0.074954,0.315849,0.135789,-0.084102,0.330193,69,25.0,38.0,False
+blitz 3+0,flag_loss,share of losses on time,cases,lower,high,945.0,1018.0,0.25,0.10705,0.407407,0.171429,0.051282,0.3,0.078571,-0.115114,0.280717,69,32.0,35.0,False
+blitz 3+0,lost_alive,share of losses while still alive (loser's P(win) >= 0.1),cases,lower,low,325.0,883.0,0.423077,0.222101,0.611275,0.333333,0.20907,0.472292,0.089744,-0.170034,0.35203,70,26.0,42.0,False
+blitz 3+0,lost_alive,share of losses while still alive (loser's P(win) >= 0.1),cases,lower,mid,887.0,945.0,0.12,0.0,0.261079,0.342105,0.205114,0.500266,-0.222105,-0.421811,-0.004908,69,25.0,38.0,False
+blitz 3+0,lost_alive,share of losses while still alive (loser's P(win) >= 0.1),cases,lower,high,945.0,1018.0,0.40625,0.23669,0.571429,0.371429,0.225518,0.529458,0.034821,-0.188033,0.24291,69,32.0,35.0,False
+blitz 3+0,reached_win,share of games reaching P(win) >= 0.8,games,higher,low,325.0,883.0,0.585714,0.457143,0.700357,0.3,0.185714,0.4,0.285714,0.099643,0.5,70,70.0,70.0,False
+blitz 3+0,reached_win,share of games reaching P(win) >= 0.8,games,higher,mid,887.0,945.0,0.565217,0.463406,0.667029,0.391304,0.289493,0.507246,0.173913,-0.028986,0.376812,69,69.0,69.0,False
+blitz 3+0,reached_win,share of games reaching P(win) >= 0.8,games,higher,high,945.0,1018.0,0.521739,0.405797,0.652174,0.521739,0.405797,0.623188,0.0,-0.202899,0.217754,69,69.0,69.0,False
+blitz 3+0,conversion,conversion: share of games won after reaching P(win) >= 0.8,cases,higher,low,325.0,883.0,0.926829,0.841886,1.0,0.857143,0.705882,1.0,0.069686,-0.088993,0.222733,70,41.0,21.0,False
+blitz 3+0,conversion,conversion: share of games won after reaching P(win) >= 0.8,cases,higher,mid,887.0,945.0,0.871795,0.756084,0.952409,0.925926,0.80629,1.0,-0.054131,-0.204454,0.093499,69,39.0,27.0,False
+blitz 3+0,conversion,conversion: share of games won after reaching P(win) >= 0.8,cases,higher,high,945.0,1018.0,0.944444,0.846154,1.0,0.805556,0.676451,0.928744,0.138889,-0.036146,0.296356,69,36.0,36.0,False
+blitz 3+0,swindle,swindles: share of games not lost after falling to P(win) <= 0.2,cases,higher,low,325.0,883.0,0.230769,0.083333,0.387142,0.093023,0.023256,0.191489,0.137746,-0.01386,0.291667,70,26.0,43.0,False
+blitz 3+0,swindle,swindles: share of games not lost after falling to P(win) <= 0.2,cases,higher,mid,887.0,945.0,0.242424,0.11406,0.394091,0.217391,0.118978,0.340923,0.025033,-0.146682,0.196804,69,33.0,46.0,False
+blitz 3+0,swindle,swindles: share of games not lost after falling to P(win) <= 0.2,cases,higher,high,945.0,1018.0,0.25641,0.118912,0.388988,0.105263,0.0,0.212121,0.151147,-0.023337,0.30299,69,39.0,38.0,False
+blitz 3+2,flag_loss,share of losses on time,cases,lower,low,252.0,591.0,0.236967,0.180897,0.295987,0.206612,0.155364,0.264504,0.030355,-0.050104,0.114398,480,211.0,242.0,False
+blitz 3+2,flag_loss,share of losses on time,cases,lower,mid,591.0,821.0,0.106977,0.070459,0.151376,0.149378,0.108775,0.195657,-0.042401,-0.099164,0.018037,479,215.0,241.0,False
+blitz 3+2,flag_loss,share of losses on time,cases,lower,high,822.0,1050.0,0.13242,0.089614,0.173937,0.171806,0.123269,0.222222,-0.039386,-0.107348,0.024375,479,219.0,227.0,False
+blitz 3+2,lost_alive,share of losses while still alive (loser's P(win) >= 0.1),cases,lower,low,252.0,591.0,0.483412,0.41817,0.560297,0.466942,0.406371,0.527214,0.01647,-0.078197,0.119167,480,211.0,242.0,False
+blitz 3+2,lost_alive,share of losses while still alive (loser's P(win) >= 0.1),cases,lower,mid,591.0,821.0,0.446512,0.382006,0.514725,0.360996,0.305241,0.418264,0.085516,-0.002154,0.166691,479,215.0,241.0,False
+blitz 3+2,lost_alive,share of losses while still alive (loser's P(win) >= 0.1),cases,lower,high,822.0,1050.0,0.406393,0.342392,0.471435,0.409692,0.344502,0.478098,-0.003299,-0.096563,0.091276,479,219.0,227.0,False
+blitz 3+2,reached_win,share of games reaching P(win) >= 0.8,games,higher,low,252.0,591.0,0.433333,0.385365,0.475052,0.408333,0.366615,0.447917,0.025,-0.052083,0.095833,480,480.0,480.0,False
+blitz 3+2,reached_win,share of games reaching P(win) >= 0.8,games,higher,mid,591.0,821.0,0.448852,0.402923,0.48643,0.419624,0.377871,0.465605,0.029228,-0.050157,0.096033,479,479.0,479.0,False
+blitz 3+2,reached_win,share of games reaching P(win) >= 0.8,games,higher,high,822.0,1050.0,0.436326,0.390397,0.482307,0.461378,0.415449,0.505271,-0.025052,-0.102401,0.050209,479,479.0,479.0,False
+blitz 3+2,conversion,conversion: share of games won after reaching P(win) >= 0.8,cases,higher,low,252.0,591.0,0.932692,0.899026,0.962621,0.857143,0.804466,0.908109,0.075549,0.012037,0.139011,480,208.0,196.0,False
+blitz 3+2,conversion,conversion: share of games won after reaching P(win) >= 0.8,cases,higher,mid,591.0,821.0,0.925581,0.884615,0.955692,0.875622,0.833333,0.921792,0.04996,-0.012772,0.107211,479,215.0,201.0,False
+blitz 3+2,conversion,conversion: share of games won after reaching P(win) >= 0.8,cases,higher,high,822.0,1050.0,0.913876,0.876133,0.947665,0.891403,0.851103,0.931834,0.022473,-0.032899,0.081838,479,209.0,221.0,False
+blitz 3+2,swindle,swindles: share of games not lost after falling to P(win) <= 0.2,cases,higher,low,252.0,591.0,0.286822,0.23202,0.342657,0.168675,0.127987,0.219238,0.118147,0.037681,0.182576,480,258.0,249.0,False
+blitz 3+2,swindle,swindles: share of games not lost after falling to P(win) <= 0.2,cases,higher,mid,591.0,821.0,0.227273,0.173725,0.280339,0.176471,0.137117,0.22315,0.050802,-0.017876,0.117376,479,242.0,255.0,False
+blitz 3+2,swindle,swindles: share of games not lost after falling to P(win) <= 0.2,cases,higher,high,822.0,1050.0,0.182186,0.132283,0.233877,0.179592,0.137083,0.225951,0.002594,-0.058701,0.064369,479,247.0,245.0,False
+blitz 5+0,flag_loss,share of losses on time,cases,lower,low,265.0,348.0,0.4,0.133125,0.642857,0.153846,0.0,0.357143,0.246154,-0.10149,0.550139,30,15.0,13.0,True
+blitz 5+0,flag_loss,share of losses on time,cases,lower,mid,350.0,496.0,0.5,0.262829,0.733421,0.0,0.0,0.0,0.5,0.262829,0.733421,29,18.0,9.0,True
+blitz 5+0,flag_loss,share of losses on time,cases,lower,high,496.0,930.0,0.35,0.157697,0.529412,0.2,0.0,0.5,0.15,-0.193321,0.435459,30,20.0,10.0,True
+blitz 5+0,lost_alive,share of losses while still alive (loser's P(win) >= 0.1),cases,lower,low,265.0,348.0,0.266667,0.083173,0.538636,0.307692,0.083333,0.6,-0.041026,-0.369785,0.284255,30,15.0,13.0,True
+blitz 5+0,lost_alive,share of losses while still alive (loser's P(win) >= 0.1),cases,lower,mid,350.0,496.0,0.055556,0.0,0.1875,0.666667,0.285714,1.0,-0.611111,-0.950163,-0.238036,29,18.0,9.0,True
+blitz 5+0,lost_alive,share of losses while still alive (loser's P(win) >= 0.1),cases,lower,high,496.0,930.0,0.25,0.086866,0.428571,0.1,0.0,0.333333,0.15,-0.133704,0.388949,30,20.0,10.0,True
+blitz 5+0,reached_win,share of games reaching P(win) >= 0.8,games,higher,low,265.0,348.0,0.4,0.2325,0.566667,0.566667,0.4,0.733333,-0.166667,-0.466667,0.133333,30,30.0,30.0,False
+blitz 5+0,reached_win,share of games reaching P(win) >= 0.8,games,higher,mid,350.0,496.0,0.241379,0.103448,0.413793,0.655172,0.482759,0.827586,-0.413793,-0.690517,-0.102586,29,29.0,29.0,True
+blitz 5+0,reached_win,share of games reaching P(win) >= 0.8,games,higher,high,496.0,930.0,0.4,0.233333,0.566667,0.6,0.433333,0.766667,-0.2,-0.5,0.1,30,30.0,30.0,False
+blitz 5+0,conversion,conversion: share of games won after reaching P(win) >= 0.8,cases,higher,low,265.0,348.0,0.916667,0.727273,1.0,0.823529,0.642857,1.0,0.093137,-0.163712,0.333333,30,12.0,17.0,True
+blitz 5+0,conversion,conversion: share of games won after reaching P(win) >= 0.8,cases,higher,mid,350.0,496.0,1.0,1.0,1.0,0.947368,0.833333,1.0,0.052632,0.0,0.166667,29,7.0,19.0,True
+blitz 5+0,conversion,conversion: share of games won after reaching P(win) >= 0.8,cases,higher,high,496.0,930.0,0.833333,0.6,1.0,0.944444,0.823254,1.0,-0.111111,-0.375,0.125,30,12.0,18.0,True
+blitz 5+0,swindle,swindles: share of games not lost after falling to P(win) <= 0.2,cases,higher,low,265.0,348.0,0.263158,0.095238,0.466765,0.153846,0.0,0.400417,0.109312,-0.166865,0.388889,30,19.0,13.0,True
+blitz 5+0,swindle,swindles: share of games not lost after falling to P(win) <= 0.2,cases,higher,mid,350.0,496.0,0.142857,0.0,0.304552,0.222222,0.0,0.501136,-0.079365,-0.369941,0.2,29,21.0,9.0,True
+blitz 5+0,swindle,swindles: share of games not lost after falling to P(win) <= 0.2,cases,higher,high,496.0,930.0,0.090909,0.0,0.227543,0.166667,0.0,0.4,-0.075758,-0.336558,0.157947,30,22.0,12.0,True
+blitz 5+2,flag_loss,share of losses on time,cases,lower,low,597.0,753.0,0.071429,0.0,0.250417,0.090909,0.0,0.217512,-0.019481,-0.200263,0.221607,38,14.0,22.0,True
+blitz 5+2,flag_loss,share of losses on time,cases,lower,mid,753.0,770.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,37,17.0,16.0,True
+blitz 5+2,flag_loss,share of losses on time,cases,lower,high,771.0,808.0,0.058824,0.0,0.1875,0.1875,0.0,0.37524,-0.128676,-0.368421,0.081031,38,17.0,16.0,True
+blitz 5+2,lost_alive,share of losses while still alive (loser's P(win) >= 0.1),cases,lower,low,597.0,753.0,0.428571,0.153846,0.68817,0.318182,0.136215,0.521791,0.11039,-0.204957,0.466855,38,14.0,22.0,True
+blitz 5+2,lost_alive,share of losses while still alive (loser's P(win) >= 0.1),cases,lower,mid,753.0,770.0,0.470588,0.222024,0.714484,0.3125,0.066563,0.538889,0.158088,-0.200088,0.502711,37,17.0,16.0,True
+blitz 5+2,lost_alive,share of losses while still alive (loser's P(win) >= 0.1),cases,lower,high,771.0,808.0,0.352941,0.142619,0.600278,0.25,0.058824,0.5,0.102941,-0.238571,0.428795,38,17.0,16.0,True
+blitz 5+2,reached_win,share of games reaching P(win) >= 0.8,games,higher,low,597.0,753.0,0.526316,0.394737,0.657895,0.394737,0.263158,0.552632,0.131579,-0.131579,0.368421,38,38.0,38.0,False
+blitz 5+2,reached_win,share of games reaching P(win) >= 0.8,games,higher,mid,753.0,770.0,0.432432,0.27027,0.594595,0.378378,0.243243,0.541216,0.054054,-0.243243,0.351351,37,37.0,37.0,False
+blitz 5+2,reached_win,share of games reaching P(win) >= 0.8,games,higher,high,771.0,808.0,0.421053,0.236842,0.578947,0.421053,0.263158,0.578947,0.0,-0.2375,0.289474,38,38.0,38.0,False
+blitz 5+2,conversion,conversion: share of games won after reaching P(win) >= 0.8,cases,higher,low,597.0,753.0,1.0,1.0,1.0,0.866667,0.649821,1.0,0.133333,0.0,0.350179,38,20.0,15.0,True
+blitz 5+2,conversion,conversion: share of games won after reaching P(win) >= 0.8,cases,higher,mid,753.0,770.0,0.9375,0.823396,1.0,0.928571,0.777564,1.0,0.008929,-0.142857,0.200263,37,16.0,14.0,True
+blitz 5+2,conversion,conversion: share of games won after reaching P(win) >= 0.8,cases,higher,high,771.0,808.0,0.875,0.666667,1.0,0.875,0.714286,1.0,0.0,-0.187556,0.158114,38,16.0,16.0,True
+blitz 5+2,swindle,swindles: share of games not lost after falling to P(win) <= 0.2,cases,higher,low,597.0,753.0,0.235294,0.0,0.438021,0.043478,0.0,0.130435,0.191816,-0.047619,0.428622,38,17.0,23.0,True
+blitz 5+2,swindle,swindles: share of games not lost after falling to P(win) <= 0.2,cases,higher,mid,753.0,770.0,0.3,0.110833,0.524048,0.117647,0.0,0.285714,0.182353,-0.025208,0.40901,37,20.0,17.0,True
+blitz 5+2,swindle,swindles: share of games not lost after falling to P(win) <= 0.2,cases,higher,high,771.0,808.0,0.25,0.08325,0.461667,0.304348,0.117484,0.5,-0.054348,-0.254624,0.148148,38,20.0,23.0,False
+blitz 5+5,flag_loss,share of losses on time,cases,lower,low,252.0,553.0,0.16,0.035714,0.333333,0.105263,0.0,0.25,0.054737,-0.117653,0.280008,46,25.0,19.0,True
+blitz 5+5,flag_loss,share of losses on time,cases,lower,mid,553.0,590.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,45,20.0,18.0,True
+blitz 5+5,flag_loss,share of losses on time,cases,lower,high,590.0,828.0,0.0,0.0,0.0,0.095238,0.0,0.25,-0.095238,-0.25,0.0,46,24.0,21.0,False
+blitz 5+5,lost_alive,share of losses while still alive (loser's P(win) >= 0.1),cases,lower,low,252.0,553.0,0.36,0.192262,0.538542,0.368421,0.1665,0.6,-0.008421,-0.296867,0.289652,46,25.0,19.0,True
+blitz 5+5,lost_alive,share of losses while still alive (loser's P(win) >= 0.1),cases,lower,mid,553.0,590.0,0.65,0.439938,0.866667,0.333333,0.111111,0.571617,0.316667,-0.004739,0.636744,45,20.0,18.0,True
+blitz 5+5,lost_alive,share of losses while still alive (loser's P(win) >= 0.1),cases,lower,high,590.0,828.0,0.375,0.191964,0.560286,0.380952,0.173732,0.61131,-0.005952,-0.323914,0.300011,46,24.0,21.0,False
+blitz 5+5,reached_win,share of games reaching P(win) >= 0.8,games,higher,low,252.0,553.0,0.326087,0.195652,0.478261,0.543478,0.391304,0.695652,-0.217391,-0.456522,0.065217,46,46.0,46.0,False
+blitz 5+5,reached_win,share of games reaching P(win) >= 0.8,games,higher,mid,553.0,590.0,0.466667,0.332778,0.6,0.355556,0.222222,0.511111,0.111111,-0.133333,0.333333,45,45.0,45.0,False
+blitz 5+5,reached_win,share of games reaching P(win) >= 0.8,games,higher,high,590.0,828.0,0.413043,0.26087,0.565217,0.434783,0.304348,0.586957,-0.021739,-0.304348,0.23913,46,46.0,46.0,False
+blitz 5+5,conversion,conversion: share of games won after reaching P(win) >= 0.8,cases,higher,low,252.0,553.0,0.933333,0.76875,1.0,0.84,0.692308,0.962996,0.093333,-0.126028,0.269318,46,15.0,25.0,True
+blitz 5+5,conversion,conversion: share of games won after reaching P(win) >= 0.8,cases,higher,mid,553.0,590.0,0.809524,0.639789,0.958333,0.8125,0.6,1.0,-0.002976,-0.273214,0.291736,45,21.0,16.0,True
+blitz 5+5,conversion,conversion: share of games won after reaching P(win) >= 0.8,cases,higher,high,590.0,828.0,0.894737,0.75,1.0,1.0,1.0,1.0,-0.105263,-0.25,0.0,46,19.0,20.0,True
+blitz 5+5,swindle,swindles: share of games not lost after falling to P(win) <= 0.2,cases,higher,low,252.0,553.0,0.222222,0.08,0.384615,0.2,0.041587,0.388889,0.022222,-0.212783,0.260143,46,27.0,20.0,False
+blitz 5+5,swindle,swindles: share of games not lost after falling to P(win) <= 0.2,cases,higher,mid,553.0,590.0,0.238095,0.058742,0.428727,0.346154,0.173876,0.565373,-0.108059,-0.363109,0.139872,45,21.0,26.0,False
+blitz 5+5,swindle,swindles: share of games not lost after falling to P(win) <= 0.2,cases,higher,high,590.0,828.0,0.16,0.04,0.320333,0.217391,0.04994,0.384615,-0.057391,-0.300238,0.22737,46,25.0,23.0,False
+rapid 10+0,flag_loss,share of losses on time,cases,lower,low,526.0,910.0,0.059524,0.0135,0.116902,0.030612,0.0,0.067416,0.028912,-0.032388,0.094091,196,84.0,98.0,False
+rapid 10+0,flag_loss,share of losses on time,cases,lower,mid,910.0,1140.0,0.0,0.0,0.0,0.036697,0.008696,0.074074,-0.036697,-0.074074,-0.008696,195,72.0,109.0,False
+rapid 10+0,flag_loss,share of losses on time,cases,lower,high,1140.0,1222.0,0.0,0.0,0.0,0.041237,0.009077,0.083378,-0.041237,-0.083378,-0.009077,195,89.0,97.0,False
+rapid 10+0,lost_alive,share of losses while still alive (loser's P(win) >= 0.1),cases,lower,low,526.0,910.0,0.416667,0.303371,0.526316,0.367347,0.274465,0.46002,0.04932,-0.098787,0.184476,196,84.0,98.0,False
+rapid 10+0,lost_alive,share of losses while still alive (loser's P(win) >= 0.1),cases,lower,mid,910.0,1140.0,0.555556,0.447368,0.662604,0.201835,0.1296,0.283216,0.353721,0.212428,0.489097,195,72.0,109.0,False
+rapid 10+0,lost_alive,share of losses while still alive (loser's P(win) >= 0.1),cases,lower,high,1140.0,1222.0,0.460674,0.355521,0.554285,0.216495,0.135922,0.300994,0.244179,0.117058,0.370229,195,89.0,97.0,False
+rapid 10+0,reached_win,share of games reaching P(win) >= 0.8,games,higher,low,526.0,910.0,0.464286,0.397959,0.540816,0.377551,0.311224,0.438776,0.086735,-0.02551,0.22449,196,196.0,196.0,False
+rapid 10+0,reached_win,share of games reaching P(win) >= 0.8,games,higher,mid,910.0,1140.0,0.564103,0.487051,0.635897,0.384615,0.317949,0.45641,0.179487,0.05641,0.302692,195,195.0,195.0,False
+rapid 10+0,reached_win,share of games reaching P(win) >= 0.8,games,higher,high,1140.0,1222.0,0.466667,0.384615,0.54359,0.471795,0.405128,0.54359,-0.005128,-0.138462,0.128333,195,195.0,195.0,False
+rapid 10+0,conversion,conversion: share of games won after reaching P(win) >= 0.8,cases,higher,low,526.0,910.0,0.901099,0.833294,0.965527,0.837838,0.753425,0.920469,0.063261,-0.049289,0.163382,196,91.0,74.0,False
+rapid 10+0,conversion,conversion: share of games won after reaching P(win) >= 0.8,cases,higher,mid,910.0,1140.0,0.954545,0.909908,0.983058,0.746667,0.649926,0.833333,0.207879,0.105172,0.310631,195,110.0,75.0,False
+rapid 10+0,conversion,conversion: share of games won after reaching P(win) >= 0.8,cases,higher,high,1140.0,1222.0,0.945055,0.891304,0.987346,0.880435,0.813135,0.94793,0.06462,-0.034462,0.145745,195,91.0,92.0,False
+rapid 10+0,swindle,swindles: share of games not lost after falling to P(win) <= 0.2,cases,higher,low,526.0,910.0,0.297872,0.204432,0.402174,0.225225,0.151729,0.313154,0.072647,-0.048556,0.189597,196,94.0,111.0,False
+rapid 10+0,swindle,swindles: share of games not lost after falling to P(win) <= 0.2,cases,higher,mid,910.0,1140.0,0.340909,0.241738,0.451249,0.152,0.089413,0.221313,0.188909,0.081776,0.308093,195,88.0,125.0,False
+rapid 10+0,swindle,swindles: share of games not lost after falling to P(win) <= 0.2,cases,higher,high,1140.0,1222.0,0.18,0.108906,0.255107,0.141509,0.080309,0.216537,0.038491,-0.069957,0.130568,195,100.0,106.0,False

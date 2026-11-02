@@ -1,0 +1,31 @@
+tc_group,rank,what_played,what_missed,share_player,share_opponent,blunders_player,mean_ep_loss_player
+all bullet,1,quiet refutation / deeper,quiet move,0.095527,0.096256,630,0.090215
+all bullet,2,ignored a threatened piece,saving a threatened piece,0.089917,0.093604,593,0.116605
+all bullet,3,moved piece en prise,quiet move,0.086732,0.067551,572,0.11533
+all bullet,4,quiet refutation / deeper,free material,0.064746,0.094696,427,0.112766
+all bullet,5,allowed a check tactic,quiet move,0.044276,0.042122,292,0.119724
+all bullet,6,allowed mate (longer),quiet move,0.037756,0.024181,249,0.166634
+all bullet,7,moved piece en prise,saving a threatened piece,0.037604,0.035257,248,0.133209
+all bullet,8,quiet refutation / deeper,saving a threatened piece,0.037453,0.032917,247,0.104507
+all bullet,9,exposed another piece,quiet move,0.032752,0.026989,216,0.109719
+all bullet,10,ignored a threatened piece,free material,0.027445,0.036661,181,0.150806
+all blitz,1,quiet refutation / deeper,quiet move,0.139237,0.129727,467,0.157808
+all blitz,2,ignored a threatened piece,saving a threatened piece,0.07096,0.069226,238,0.17259
+all blitz,3,allowed a check tactic,quiet move,0.069469,0.04683,233,0.183879
+all blitz,4,moved piece en prise,quiet move,0.056052,0.048575,188,0.179094
+all blitz,5,quiet refutation / deeper,saving a threatened piece,0.045319,0.047993,152,0.139872
+all blitz,6,allowed mate (longer),quiet move,0.043828,0.031123,147,0.176448
+all blitz,7,quiet refutation / deeper,free material,0.039356,0.067481,132,0.167853
+all blitz,8,moved piece en prise,saving a threatened piece,0.0322,0.033741,108,0.177549
+all blitz,9,exposed another piece,quiet move,0.030113,0.024142,101,0.163808
+all blitz,10,allowed a combination,quiet move,0.028324,0.021233,95,0.139918
+all rapid,1,quiet refutation / deeper,quiet move,0.134529,0.130435,120,0.151533
+all rapid,2,allowed a check tactic,quiet move,0.066143,0.045652,59,0.213775
+all rapid,3,ignored a threatened piece,saving a threatened piece,0.065022,0.073913,58,0.173028
+all rapid,4,quiet refutation / deeper,saving a threatened piece,0.052691,0.056522,47,0.153589
+all rapid,5,moved piece en prise,quiet move,0.05157,0.053261,46,0.213115
+all rapid,6,allowed mate (longer),quiet move,0.043722,0.028261,39,0.124508
+all rapid,7,quiet refutation / deeper,free material,0.04148,0.057609,37,0.205832
+all rapid,8,quiet refutation / deeper,mate (longer),0.039238,0.041304,35,0.08572
+all rapid,9,moved piece en prise,saving a threatened piece,0.036996,0.034783,33,0.207133
+all rapid,10,exposed another piece,quiet move,0.032511,0.025,29,0.225003
