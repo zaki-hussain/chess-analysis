@@ -1,0 +1,345 @@
+tc_group,year,feature,habit,measure,you,you_lo,you_hi,games,thin
+bullet 1+0,2021,B_e4_other,other reply to 1.e4,share of Black games vs 1.e4,0.0,0.0,0.0,2,True
+bullet 1+0,2021,castle_ply,castling move (own move number),moves,9.0,,,1,True
+bullet 1+0,2021,W_other,other first move as White,share of White games,0.0,,,1,True
+bullet 1+0,2021,fast1,moves played in under 1 s,share of moves,0.241799,0.047619,0.527778,3,True
+bullet 1+0,2021,capture_rate,captures,share of moves,0.27381,0.238095,0.333333,3,True
+bullet 1+0,2021,t_sd,spread (SD) of time per move,seconds,1.727064,0.899784,2.590293,3,True
+bullet 1+0,2021,left_m10,clock left after your 10th move,share of base,0.715,0.653333,0.805625,3,True
+bullet 1+0,2021,left_book_first,you left the named lines first,share of games,0.0,0.0,0.0,3,True
+bullet 1+0,2022,B_e4_other,other reply to 1.e4,share of Black games vs 1.e4,0.029586,0.005917,0.059172,169,False
+bullet 1+0,2022,castle_ply,castling move (own move number),moves,13.364238,12.622517,14.14255,151,False
+bullet 1+0,2022,W_other,other first move as White,share of White games,0.004274,0.0,0.012821,234,False
+bullet 1+0,2022,fast1,moves played in under 1 s,share of moves,0.262375,0.252491,0.272941,490,False
+bullet 1+0,2022,capture_rate,captures,share of moves,0.299884,0.293137,0.30732,490,False
+bullet 1+0,2022,t_sd,spread (SD) of time per move,seconds,1.455846,1.382867,1.535625,490,False
+bullet 1+0,2022,left_m10,clock left after your 10th move,share of base,0.700816,0.687898,0.713056,480,False
+bullet 1+0,2022,left_book_first,you left the named lines first,share of games,0.67551,0.638776,0.720408,490,False
+bullet 1+0,2023,B_e4_other,other reply to 1.e4,share of Black games vs 1.e4,0.004132,0.0,0.012397,242,False
+bullet 1+0,2023,castle_ply,castling move (own move number),moves,9.288344,8.957554,9.622776,652,False
+bullet 1+0,2023,W_other,other first move as White,share of White games,0.0,0.0,0.0,424,False
+bullet 1+0,2023,fast1,moves played in under 1 s,share of moves,0.358093,0.350329,0.365159,851,False
+bullet 1+0,2023,capture_rate,captures,share of moves,0.287689,0.282933,0.292707,851,False
+bullet 1+0,2023,t_sd,spread (SD) of time per move,seconds,1.129843,1.095088,1.165671,851,False
+bullet 1+0,2023,left_m10,clock left after your 10th move,share of base,0.795806,0.791256,0.800813,835,False
+bullet 1+0,2023,left_book_first,you left the named lines first,share of games,0.631022,0.59812,0.663367,851,False
+bullet 1+0,2024,B_e4_other,other reply to 1.e4,share of Black games vs 1.e4,0.022989,0.0,0.057471,87,False
+bullet 1+0,2024,castle_ply,castling move (own move number),moves,7.614545,7.161545,8.051091,275,False
+bullet 1+0,2024,W_other,other first move as White,share of White games,0.0,0.0,0.0,153,False
+bullet 1+0,2024,fast1,moves played in under 1 s,share of moves,0.381094,0.367511,0.393916,307,False
+bullet 1+0,2024,capture_rate,captures,share of moves,0.26941,0.261304,0.276305,307,False
+bullet 1+0,2024,t_sd,spread (SD) of time per move,seconds,1.176512,1.115268,1.236518,307,False
+bullet 1+0,2024,left_m10,clock left after your 10th move,share of base,0.822494,0.814464,0.830364,302,False
+bullet 1+0,2024,left_book_first,you left the named lines first,share of games,0.65798,0.609121,0.713355,307,False
+bullet 1+0,2025,B_e4_other,other reply to 1.e4,share of Black games vs 1.e4,0.003367,0.0,0.011869,297,False
+bullet 1+0,2025,castle_ply,castling move (own move number),moves,8.462802,8.198865,8.706329,1035,False
+bullet 1+0,2025,W_other,other first move as White,share of White games,0.003361,0.0,0.008403,595,False
+bullet 1+0,2025,fast1,moves played in under 1 s,share of moves,0.341531,0.334768,0.348382,1183,False
+bullet 1+0,2025,capture_rate,captures,share of moves,0.271148,0.266778,0.274945,1183,False
+bullet 1+0,2025,t_sd,spread (SD) of time per move,seconds,1.110148,1.08123,1.138568,1183,False
+bullet 1+0,2025,left_m10,clock left after your 10th move,share of base,0.80655,0.802658,0.810334,1175,False
+bullet 1+0,2025,left_book_first,you left the named lines first,share of games,0.631445,0.604797,0.659383,1183,False
+bullet 1+0,2026,B_e4_other,other reply to 1.e4,share of Black games vs 1.e4,0.0,0.0,0.0,2,True
+bullet 1+0,2026,castle_ply,castling move (own move number),moves,13.5,10.75,16.39375,4,True
+bullet 1+0,2026,W_other,other first move as White,share of White games,0.0,0.0,0.0,3,True
+bullet 1+0,2026,fast1,moves played in under 1 s,share of moves,0.218691,0.17961,0.276162,5,True
+bullet 1+0,2026,capture_rate,captures,share of moves,0.291979,0.243103,0.338531,5,True
+bullet 1+0,2026,t_sd,spread (SD) of time per move,seconds,1.633022,1.323653,1.9292,5,True
+bullet 1+0,2026,left_m10,clock left after your 10th move,share of base,0.756,0.696333,0.808508,5,True
+bullet 1+0,2026,left_book_first,you left the named lines first,share of games,0.6,0.2,1.0,5,True
+bullet 1+1,2022,B_e4_other,other reply to 1.e4,share of Black games vs 1.e4,0.047619,0.0,0.142857,21,True
+bullet 1+1,2022,castle_ply,castling move (own move number),moves,12.766667,11.7,13.950833,30,True
+bullet 1+1,2022,W_other,other first move as White,share of White games,0.0,0.0,0.0,38,True
+bullet 1+1,2022,fast1,moves played in under 1 s,share of moves,0.173614,0.151774,0.198418,73,False
+bullet 1+1,2022,capture_rate,captures,share of moves,0.279175,0.262906,0.293648,73,False
+bullet 1+1,2022,t_sd,spread (SD) of time per move,seconds,2.303233,2.068218,2.548756,73,False
+bullet 1+1,2022,left_m10,clock left after your 10th move,share of base,0.740459,0.696374,0.778496,69,False
+bullet 1+1,2022,left_book_first,you left the named lines first,share of games,0.726027,0.616438,0.821918,73,False
+bullet 1+1,2023,B_e4_other,other reply to 1.e4,share of Black games vs 1.e4,0.0,0.0,0.0,11,True
+bullet 1+1,2023,castle_ply,castling move (own move number),moves,10.125,8.836875,11.375,40,True
+bullet 1+1,2023,W_other,other first move as White,share of White games,0.0,0.0,0.0,29,True
+bullet 1+1,2023,fast1,moves played in under 1 s,share of moves,0.224487,0.20125,0.246958,55,False
+bullet 1+1,2023,capture_rate,captures,share of moves,0.28329,0.266676,0.300382,55,False
+bullet 1+1,2023,t_sd,spread (SD) of time per move,seconds,2.309168,2.100676,2.545798,55,False
+bullet 1+1,2023,left_m10,clock left after your 10th move,share of base,0.800321,0.773649,0.830539,52,False
+bullet 1+1,2023,left_book_first,you left the named lines first,share of games,0.636364,0.517727,0.763636,55,False
+bullet 1+1,2025,B_e4_other,other reply to 1.e4,share of Black games vs 1.e4,0.0,0.0,0.0,73,False
+bullet 1+1,2025,castle_ply,castling move (own move number),moves,8.273632,7.753358,8.746269,201,False
+bullet 1+1,2025,W_other,other first move as White,share of White games,0.0,0.0,0.0,120,False
+bullet 1+1,2025,fast1,moves played in under 1 s,share of moves,0.247266,0.233512,0.260705,234,False
+bullet 1+1,2025,capture_rate,captures,share of moves,0.265556,0.256151,0.274794,234,False
+bullet 1+1,2025,t_sd,spread (SD) of time per move,seconds,1.859236,1.762614,1.954389,234,False
+bullet 1+1,2025,left_m10,clock left after your 10th move,share of base,0.910541,0.897821,0.921745,228,False
+bullet 1+1,2025,left_book_first,you left the named lines first,share of games,0.602564,0.538462,0.65812,234,False
+bullet 1+1,2026,B_e4_other,other reply to 1.e4,share of Black games vs 1.e4,0.0,0.0,0.0,4,True
+bullet 1+1,2026,castle_ply,castling move (own move number),moves,8.846154,6.421154,11.425,13,True
+bullet 1+1,2026,W_other,other first move as White,share of White games,0.0,0.0,0.0,9,True
+bullet 1+1,2026,fast1,moves played in under 1 s,share of moves,0.233281,0.190018,0.285251,18,True
+bullet 1+1,2026,capture_rate,captures,share of moves,0.28507,0.25571,0.315389,18,True
+bullet 1+1,2026,t_sd,spread (SD) of time per move,seconds,1.829292,1.544055,2.129861,18,True
+bullet 1+1,2026,left_m10,clock left after your 10th move,share of base,0.911019,0.872262,0.943537,18,True
+bullet 1+1,2026,left_book_first,you left the named lines first,share of games,0.777778,0.555556,0.944444,18,True
+bullet 2+1,2022,B_e4_other,other reply to 1.e4,share of Black games vs 1.e4,0.111111,0.0,0.277778,18,True
+bullet 2+1,2022,castle_ply,castling move (own move number),moves,14.636364,12.363636,17.0,11,True
+bullet 2+1,2022,W_other,other first move as White,share of White games,0.034483,0.0,0.103448,29,True
+bullet 2+1,2022,fast1,moves played in under 1 s,share of moves,0.115395,0.095587,0.134407,58,False
+bullet 2+1,2022,capture_rate,captures,share of moves,0.263911,0.24152,0.289733,58,False
+bullet 2+1,2022,t_sd,spread (SD) of time per move,seconds,4.117664,3.709033,4.547606,58,False
+bullet 2+1,2022,left_m10,clock left after your 10th move,share of base,0.705586,0.665006,0.741222,54,False
+bullet 2+1,2022,left_book_first,you left the named lines first,share of games,0.551724,0.431034,0.681466,58,False
+bullet 2+1,2023,B_e4_other,other reply to 1.e4,share of Black games vs 1.e4,0.0,0.0,0.0,7,True
+bullet 2+1,2023,castle_ply,castling move (own move number),moves,9.666667,7.25,12.166667,12,True
+bullet 2+1,2023,W_other,other first move as White,share of White games,0.0,0.0,0.0,6,True
+bullet 2+1,2023,fast1,moves played in under 1 s,share of moves,0.15383,0.113354,0.195086,17,True
+bullet 2+1,2023,capture_rate,captures,share of moves,0.277892,0.2466,0.31263,17,True
+bullet 2+1,2023,t_sd,spread (SD) of time per move,seconds,2.824838,2.468847,3.264508,17,True
+bullet 2+1,2023,left_m10,clock left after your 10th move,share of base,0.861471,0.816163,0.900995,17,True
+bullet 2+1,2023,left_book_first,you left the named lines first,share of games,0.529412,0.294118,0.764706,17,True
+blitz 3+0,2022,B_e4_other,other reply to 1.e4,share of Black games vs 1.e4,0.5,0.0,1.0,2,True
+blitz 3+0,2022,castle_ply,castling move (own move number),moves,11.0,8.0,13.525,3,True
+blitz 3+0,2022,W_other,other first move as White,share of White games,0.0,0.0,0.0,5,True
+blitz 3+0,2022,fast1,moves played in under 1 s,share of moves,0.123329,0.075763,0.169099,7,True
+blitz 3+0,2022,capture_rate,captures,share of moves,0.240048,0.208374,0.274893,7,True
+blitz 3+0,2022,t_sd,spread (SD) of time per move,seconds,4.430446,3.661868,5.243033,7,True
+blitz 3+0,2022,left_m10,clock left after your 10th move,share of base,0.764841,0.729538,0.801637,7,True
+blitz 3+0,2022,left_book_first,you left the named lines first,share of games,0.571429,0.285714,0.857143,7,True
+blitz 3+0,2023,B_e4_other,other reply to 1.e4,share of Black games vs 1.e4,0.0,0.0,0.0,8,True
+blitz 3+0,2023,castle_ply,castling move (own move number),moves,9.454545,7.497727,11.727273,22,True
+blitz 3+0,2023,W_other,other first move as White,share of White games,0.0,0.0,0.0,13,True
+blitz 3+0,2023,fast1,moves played in under 1 s,share of moves,0.163379,0.13314,0.195581,28,True
+blitz 3+0,2023,capture_rate,captures,share of moves,0.279782,0.253076,0.304833,28,True
+blitz 3+0,2023,t_sd,spread (SD) of time per move,seconds,2.73795,2.22369,3.266853,28,True
+blitz 3+0,2023,left_m10,clock left after your 10th move,share of base,0.864362,0.837594,0.884117,27,True
+blitz 3+0,2023,left_book_first,you left the named lines first,share of games,0.714286,0.535714,0.857143,28,True
+blitz 3+0,2025,B_e4_other,other reply to 1.e4,share of Black games vs 1.e4,0.017241,0.0,0.051724,58,False
+blitz 3+0,2025,castle_ply,castling move (own move number),moves,7.659864,7.064456,8.156463,147,False
+blitz 3+0,2025,W_other,other first move as White,share of White games,0.0,0.0,0.0,84,False
+blitz 3+0,2025,fast1,moves played in under 1 s,share of moves,0.176781,0.162572,0.190632,168,False
+blitz 3+0,2025,capture_rate,captures,share of moves,0.273164,0.262089,0.284752,168,False
+blitz 3+0,2025,t_sd,spread (SD) of time per move,seconds,3.626104,3.362156,3.89294,168,False
+blitz 3+0,2025,left_m10,clock left after your 10th move,share of base,0.867456,0.856371,0.877776,164,False
+blitz 3+0,2025,left_book_first,you left the named lines first,share of games,0.684524,0.60997,0.75,168,False
+blitz 3+2,2022,B_e4_other,other reply to 1.e4,share of Black games vs 1.e4,0.05,0.025,0.075,280,False
+blitz 3+2,2022,castle_ply,castling move (own move number),moves,12.564232,12.133375,13.046662,397,False
+blitz 3+2,2022,W_other,other first move as White,share of White games,0.0,0.0,0.0,409,False
+blitz 3+2,2022,fast1,moves played in under 1 s,share of moves,0.089032,0.084775,0.093129,830,False
+blitz 3+2,2022,capture_rate,captures,share of moves,0.284511,0.278997,0.290458,830,False
+blitz 3+2,2022,t_sd,spread (SD) of time per move,seconds,5.649828,5.486588,5.807042,830,False
+blitz 3+2,2022,left_m10,clock left after your 10th move,share of base,0.805508,0.796736,0.813738,800,False
+blitz 3+2,2022,left_book_first,you left the named lines first,share of games,0.618072,0.586114,0.65003,830,False
+blitz 3+2,2023,B_e4_other,other reply to 1.e4,share of Black games vs 1.e4,0.0,0.0,0.0,36,True
+blitz 3+2,2023,castle_ply,castling move (own move number),moves,7.719101,6.971629,8.551685,89,False
+blitz 3+2,2023,W_other,other first move as White,share of White games,0.0,0.0,0.0,60,False
+blitz 3+2,2023,fast1,moves played in under 1 s,share of moves,0.141352,0.127527,0.157248,112,False
+blitz 3+2,2023,capture_rate,captures,share of moves,0.281937,0.265356,0.298591,112,False
+blitz 3+2,2023,t_sd,spread (SD) of time per move,seconds,5.42434,4.954754,5.934904,112,False
+blitz 3+2,2023,left_m10,clock left after your 10th move,share of base,0.903645,0.881946,0.921323,107,False
+blitz 3+2,2023,left_book_first,you left the named lines first,share of games,0.732143,0.651786,0.8125,112,False
+blitz 3+2,2024,B_e4_other,other reply to 1.e4,share of Black games vs 1.e4,0.0,0.0,0.0,104,False
+blitz 3+2,2024,castle_ply,castling move (own move number),moves,7.66426,7.200271,8.106949,277,False
+blitz 3+2,2024,W_other,other first move as White,share of White games,0.006289,0.0,0.018868,159,False
+blitz 3+2,2024,fast1,moves played in under 1 s,share of moves,0.133506,0.124106,0.142955,318,False
+blitz 3+2,2024,capture_rate,captures,share of moves,0.269636,0.26258,0.277743,318,False
+blitz 3+2,2024,t_sd,spread (SD) of time per move,seconds,5.23976,4.980426,5.471285,318,False
+blitz 3+2,2024,left_m10,clock left after your 10th move,share of base,0.912875,0.90229,0.924384,310,False
+blitz 3+2,2024,left_book_first,you left the named lines first,share of games,0.679245,0.628931,0.726415,318,False
+blitz 3+2,2025,B_e4_other,other reply to 1.e4,share of Black games vs 1.e4,0.0,0.0,0.0,24,True
+blitz 3+2,2025,castle_ply,castling move (own move number),moves,8.459459,7.533446,9.392568,74,False
+blitz 3+2,2025,W_other,other first move as White,share of White games,0.0,0.0,0.0,37,True
+blitz 3+2,2025,fast1,moves played in under 1 s,share of moves,0.102315,0.08678,0.121549,84,False
+blitz 3+2,2025,capture_rate,captures,share of moves,0.261494,0.248394,0.275916,84,False
+blitz 3+2,2025,t_sd,spread (SD) of time per move,seconds,5.126624,4.733381,5.51231,84,False
+blitz 3+2,2025,left_m10,clock left after your 10th move,share of base,0.90131,0.884294,0.918105,84,False
+blitz 3+2,2025,left_book_first,you left the named lines first,share of games,0.738095,0.630952,0.827679,84,False
+blitz 5+0,2021,B_e4_other,other reply to 1.e4,share of Black games vs 1.e4,0.0,,,1,True
+blitz 5+0,2021,castle_ply,castling move (own move number),moves,,,,0,True
+blitz 5+0,2021,W_other,other first move as White,share of White games,0.0,0.0,0.0,2,True
+blitz 5+0,2021,fast1,moves played in under 1 s,share of moves,0.078042,0.027778,0.111111,3,True
+blitz 5+0,2021,capture_rate,captures,share of moves,0.167989,0.111111,0.25,3,True
+blitz 5+0,2021,t_sd,spread (SD) of time per move,seconds,5.620497,3.519509,7.380468,3,True
+blitz 5+0,2021,left_m10,clock left after your 10th move,share of base,0.7695,0.736333,0.802667,2,True
+blitz 5+0,2021,left_book_first,you left the named lines first,share of games,0.666667,0.158333,1.0,3,True
+blitz 5+0,2022,B_e4_other,other reply to 1.e4,share of Black games vs 1.e4,0.125,0.0,0.271875,24,True
+blitz 5+0,2022,castle_ply,castling move (own move number),moves,12.409091,10.5,14.409091,22,True
+blitz 5+0,2022,W_other,other first move as White,share of White games,0.0,0.0,0.0,42,True
+blitz 5+0,2022,fast1,moves played in under 1 s,share of moves,0.064905,0.053444,0.075341,83,False
+blitz 5+0,2022,capture_rate,captures,share of moves,0.280502,0.264213,0.298632,83,False
+blitz 5+0,2022,t_sd,spread (SD) of time per move,seconds,7.315321,6.572963,8.110082,83,False
+blitz 5+0,2022,left_m10,clock left after your 10th move,share of base,0.749468,0.726102,0.773765,74,False
+blitz 5+0,2022,left_book_first,you left the named lines first,share of games,0.578313,0.481928,0.686747,83,False
+blitz 5+0,2025,B_e4_other,other reply to 1.e4,share of Black games vs 1.e4,,,,0,True
+blitz 5+0,2025,castle_ply,castling move (own move number),moves,12.0,,,1,True
+blitz 5+0,2025,W_other,other first move as White,share of White games,,,,0,True
+blitz 5+0,2025,fast1,moves played in under 1 s,share of moves,0.084746,,,1,True
+blitz 5+0,2025,capture_rate,captures,share of moves,0.20339,,,1,True
+blitz 5+0,2025,t_sd,spread (SD) of time per move,seconds,2.721838,,,1,True
+blitz 5+0,2025,left_m10,clock left after your 10th move,share of base,0.914,,,1,True
+blitz 5+0,2025,left_book_first,you left the named lines first,share of games,1.0,,,1,True
+blitz 5+2,2023,B_e4_other,other reply to 1.e4,share of Black games vs 1.e4,0.0,0.0,0.0,34,True
+blitz 5+2,2023,castle_ply,castling move (own move number),moves,10.115942,9.042754,11.152536,69,False
+blitz 5+2,2023,W_other,other first move as White,share of White games,0.0,0.0,0.0,51,False
+blitz 5+2,2023,fast1,moves played in under 1 s,share of moves,0.121175,0.105515,0.137281,106,False
+blitz 5+2,2023,capture_rate,captures,share of moves,0.290417,0.276114,0.306292,106,False
+blitz 5+2,2023,t_sd,spread (SD) of time per move,seconds,6.934667,6.279074,7.636113,106,False
+blitz 5+2,2023,left_m10,clock left after your 10th move,share of base,0.886057,0.867514,0.903213,100,False
+blitz 5+2,2023,left_book_first,you left the named lines first,share of games,0.688679,0.613208,0.773585,106,False
+blitz 5+5,2022,B_e4_other,other reply to 1.e4,share of Black games vs 1.e4,0.189189,0.081081,0.324324,37,True
+blitz 5+5,2022,castle_ply,castling move (own move number),moves,13.313725,11.763725,15.284804,51,False
+blitz 5+5,2022,W_other,other first move as White,share of White games,0.0,0.0,0.0,59,False
+blitz 5+5,2022,fast1,moves played in under 1 s,share of moves,0.065686,0.055578,0.077585,112,False
+blitz 5+5,2022,capture_rate,captures,share of moves,0.283136,0.268222,0.299589,112,False
+blitz 5+5,2022,t_sd,spread (SD) of time per move,seconds,8.212099,7.346319,9.221191,112,False
+blitz 5+5,2022,left_m10,clock left after your 10th move,share of base,0.91075,0.889997,0.930462,108,False
+blitz 5+5,2022,left_book_first,you left the named lines first,share of games,0.517857,0.4375,0.616071,112,False
+blitz 5+5,2023,B_e4_other,other reply to 1.e4,share of Black games vs 1.e4,0.0,0.0,0.0,5,True
+blitz 5+5,2023,castle_ply,castling move (own move number),moves,10.9,8.4,13.3525,10,True
+blitz 5+5,2023,W_other,other first move as White,share of White games,0.0,0.0,0.0,6,True
+blitz 5+5,2023,fast1,moves played in under 1 s,share of moves,0.119778,0.091489,0.153128,14,True
+blitz 5+5,2023,capture_rate,captures,share of moves,0.298189,0.269101,0.325282,14,True
+blitz 5+5,2023,t_sd,spread (SD) of time per move,seconds,6.23376,5.213451,7.218881,14,True
+blitz 5+5,2023,left_m10,clock left after your 10th move,share of base,0.986718,0.960828,1.00999,13,True
+blitz 5+5,2023,left_book_first,you left the named lines first,share of games,0.857143,0.642857,1.0,14,True
+blitz 5+5,2025,B_e4_other,other reply to 1.e4,share of Black games vs 1.e4,,,,0,True
+blitz 5+5,2025,castle_ply,castling move (own move number),moves,4.0,,,1,True
+blitz 5+5,2025,W_other,other first move as White,share of White games,0.0,,,1,True
+blitz 5+5,2025,fast1,moves played in under 1 s,share of moves,0.1,,,1,True
+blitz 5+5,2025,capture_rate,captures,share of moves,0.233333,,,1,True
+blitz 5+5,2025,t_sd,spread (SD) of time per move,seconds,11.788604,,,1,True
+blitz 5+5,2025,left_m10,clock left after your 10th move,share of base,1.093667,,,1,True
+blitz 5+5,2025,left_book_first,you left the named lines first,share of games,1.0,,,1,True
+rapid 10+0,2022,B_e4_other,other reply to 1.e4,share of Black games vs 1.e4,0.039216,0.0,0.098039,51,False
+rapid 10+0,2022,castle_ply,castling move (own move number),moves,12.238636,11.261364,13.199148,88,False
+rapid 10+0,2022,W_other,other first move as White,share of White games,0.0,0.0,0.0,92,False
+rapid 10+0,2022,fast1,moves played in under 1 s,share of moves,0.068462,0.060244,0.078396,184,False
+rapid 10+0,2022,capture_rate,captures,share of moves,0.283518,0.272687,0.296431,184,False
+rapid 10+0,2022,t_sd,spread (SD) of time per move,seconds,8.181654,7.48547,8.941196,184,False
+rapid 10+0,2022,left_m10,clock left after your 10th move,share of base,0.870681,0.863663,0.878166,173,False
+rapid 10+0,2022,left_book_first,you left the named lines first,share of games,0.668478,0.597826,0.733696,184,False
+rapid 10+0,2023,B_e4_other,other reply to 1.e4,share of Black games vs 1.e4,0.0,0.0,0.0,110,False
+rapid 10+0,2023,castle_ply,castling move (own move number),moves,9.04661,8.503814,9.633792,236,False
+rapid 10+0,2023,W_other,other first move as White,share of White games,0.0,0.0,0.0,157,False
+rapid 10+0,2023,fast1,moves played in under 1 s,share of moves,0.117399,0.108747,0.125358,318,False
+rapid 10+0,2023,capture_rate,captures,share of moves,0.285108,0.27666,0.294232,318,False
+rapid 10+0,2023,t_sd,spread (SD) of time per move,seconds,7.465367,7.046335,7.911989,318,False
+rapid 10+0,2023,left_m10,clock left after your 10th move,share of base,0.91612,0.911054,0.921006,308,False
+rapid 10+0,2023,left_book_first,you left the named lines first,share of games,0.622642,0.562893,0.676101,318,False
+rapid 10+0,2025,B_e4_other,other reply to 1.e4,share of Black games vs 1.e4,0.0,0.0,0.0,10,True
+rapid 10+0,2025,castle_ply,castling move (own move number),moves,8.592593,7.331481,9.908333,27,True
+rapid 10+0,2025,W_other,other first move as White,share of White games,0.0,0.0,0.0,17,True
+rapid 10+0,2025,fast1,moves played in under 1 s,share of moves,0.113587,0.087747,0.144636,33,True
+rapid 10+0,2025,capture_rate,captures,share of moves,0.240907,0.214753,0.265222,33,True
+rapid 10+0,2025,t_sd,spread (SD) of time per move,seconds,7.287374,5.588944,9.346643,33,True
+rapid 10+0,2025,left_m10,clock left after your 10th move,share of base,0.929682,0.909997,0.944745,32,True
+rapid 10+0,2025,left_book_first,you left the named lines first,share of games,0.636364,0.484848,0.787879,33,True
+all bullet,2021,B_e4_other,other reply to 1.e4,share of Black games vs 1.e4,0.0,0.0,0.0,2,True
+all bullet,2021,castle_ply,castling move (own move number),moves,9.0,,,1,True
+all bullet,2021,W_other,other first move as White,share of White games,0.0,,,1,True
+all bullet,2021,fast1,moves played in under 1 s,share of moves,0.241799,0.063829,0.401852,3,True
+all bullet,2021,capture_rate,captures,share of moves,0.27381,0.238095,0.333333,3,True
+all bullet,2021,t_sd,spread (SD) of time per move,seconds,1.727064,0.899784,2.590293,3,True
+all bullet,2021,left_m10,clock left after your 10th move,share of base,0.715,0.653333,0.833333,3,True
+all bullet,2021,left_book_first,you left the named lines first,share of games,0.0,0.0,0.0,3,True
+all bullet,2022,B_e4_other,other reply to 1.e4,share of Black games vs 1.e4,0.038462,0.014423,0.0625,208,False
+all bullet,2022,castle_ply,castling move (own move number),moves,13.34375,12.723958,13.914193,192,False
+all bullet,2022,W_other,other first move as White,share of White games,0.006645,0.0,0.016611,301,False
+all bullet,2022,fast1,moves played in under 1 s,share of moves,0.238213,0.229204,0.24713,621,False
+all bullet,2022,capture_rate,captures,share of moves,0.29409,0.287111,0.301162,621,False
+all bullet,2022,t_sd,spread (SD) of time per move,seconds,1.804066,1.718575,1.91268,621,False
+all bullet,2022,left_m10,clock left after your 10th move,share of base,0.705779,0.695199,0.716554,603,False
+all bullet,2022,left_book_first,you left the named lines first,share of games,0.669887,0.63277,0.706924,621,False
+all bullet,2023,B_e4_other,other reply to 1.e4,share of Black games vs 1.e4,0.003846,0.0,0.011538,260,False
+all bullet,2023,castle_ply,castling move (own move number),moves,9.34233,8.987891,9.682031,704,False
+all bullet,2023,W_other,other first move as White,share of White games,0.0,0.0,0.0,459,False
+all bullet,2023,fast1,moves played in under 1 s,share of moves,0.346369,0.338801,0.353993,923,False
+all bullet,2023,capture_rate,captures,share of moves,0.287246,0.282391,0.291505,923,False
+all bullet,2023,t_sd,spread (SD) of time per move,seconds,1.231335,1.189273,1.274878,923,False
+all bullet,2023,left_m10,clock left after your 10th move,share of base,0.797301,0.792932,0.801756,904,False
+all bullet,2023,left_book_first,you left the named lines first,share of games,0.629469,0.596398,0.65604,923,False
+all bullet,2024,B_e4_other,other reply to 1.e4,share of Black games vs 1.e4,0.022989,0.0,0.068966,87,False
+all bullet,2024,castle_ply,castling move (own move number),moves,7.614545,7.24,8.08,275,False
+all bullet,2024,W_other,other first move as White,share of White games,0.0,0.0,0.0,153,False
+all bullet,2024,fast1,moves played in under 1 s,share of moves,0.381094,0.367359,0.393341,307,False
+all bullet,2024,capture_rate,captures,share of moves,0.26941,0.26201,0.27692,307,False
+all bullet,2024,t_sd,spread (SD) of time per move,seconds,1.176512,1.109384,1.248132,307,False
+all bullet,2024,left_m10,clock left after your 10th move,share of base,0.822494,0.81358,0.830852,302,False
+all bullet,2024,left_book_first,you left the named lines first,share of games,0.65798,0.604153,0.713355,307,False
+all bullet,2025,B_e4_other,other reply to 1.e4,share of Black games vs 1.e4,0.002703,0.0,0.008108,370,False
+all bullet,2025,castle_ply,castling move (own move number),moves,8.432039,8.211125,8.685902,1236,False
+all bullet,2025,W_other,other first move as White,share of White games,0.002797,0.0,0.006993,715,False
+all bullet,2025,fast1,moves played in under 1 s,share of moves,0.325964,0.320255,0.332407,1417,False
+all bullet,2025,capture_rate,captures,share of moves,0.270225,0.266671,0.273791,1417,False
+all bullet,2025,t_sd,spread (SD) of time per move,seconds,1.233851,1.201198,1.26611,1417,False
+all bullet,2025,left_m10,clock left after your 10th move,share of base,0.82345,0.818862,0.827814,1403,False
+all bullet,2025,left_book_first,you left the named lines first,share of games,0.626676,0.598783,0.652452,1417,False
+all bullet,2026,B_e4_other,other reply to 1.e4,share of Black games vs 1.e4,0.0,0.0,0.0,6,True
+all bullet,2026,castle_ply,castling move (own move number),moves,9.941176,7.761765,12.058824,17,True
+all bullet,2026,W_other,other first move as White,share of White games,0.0,0.0,0.0,12,True
+all bullet,2026,fast1,moves played in under 1 s,share of moves,0.230109,0.19547,0.269603,23,True
+all bullet,2026,capture_rate,captures,share of moves,0.286572,0.263035,0.310095,23,True
+all bullet,2026,t_sd,spread (SD) of time per move,seconds,1.786625,1.53552,2.014325,23,True
+all bullet,2026,left_m10,clock left after your 10th move,share of base,0.877319,0.83815,0.915484,23,True
+all bullet,2026,left_book_first,you left the named lines first,share of games,0.73913,0.521739,0.913043,23,True
+all blitz,2021,B_e4_other,other reply to 1.e4,share of Black games vs 1.e4,0.0,,,1,True
+all blitz,2021,castle_ply,castling move (own move number),moves,,,,0,True
+all blitz,2021,W_other,other first move as White,share of White games,0.0,0.0,0.0,2,True
+all blitz,2021,fast1,moves played in under 1 s,share of moves,0.078042,0.027778,0.111111,3,True
+all blitz,2021,capture_rate,captures,share of moves,0.167989,0.111111,0.25,3,True
+all blitz,2021,t_sd,spread (SD) of time per move,seconds,5.620497,3.519509,7.380468,3,True
+all blitz,2021,left_m10,clock left after your 10th move,share of base,0.7695,0.736333,0.802667,2,True
+all blitz,2021,left_book_first,you left the named lines first,share of games,0.666667,0.0,1.0,3,True
+all blitz,2022,B_e4_other,other reply to 1.e4,share of Black games vs 1.e4,0.072886,0.046647,0.102041,343,False
+all blitz,2022,castle_ply,castling move (own move number),moves,12.627907,12.191173,13.093129,473,False
+all blitz,2022,W_other,other first move as White,share of White games,0.0,0.0,0.0,515,False
+all blitz,2022,fast1,moves played in under 1 s,share of moves,0.084791,0.080884,0.08827,1032,False
+all blitz,2022,capture_rate,captures,share of moves,0.283738,0.27874,0.28883,1032,False
+all blitz,2022,t_sd,spread (SD) of time per move,seconds,6.053582,5.87359,6.243675,1032,False
+all blitz,2022,left_m10,clock left after your 10th move,share of base,0.812519,0.80528,0.819421,989,False
+all blitz,2022,left_book_first,you left the named lines first,share of games,0.603682,0.574104,0.635199,1032,False
+all blitz,2023,B_e4_other,other reply to 1.e4,share of Black games vs 1.e4,0.0,0.0,0.0,83,False
+all blitz,2023,castle_ply,castling move (own move number),moves,8.957895,8.334079,9.653158,190,False
+all blitz,2023,W_other,other first move as White,share of White games,0.0,0.0,0.0,130,False
+all blitz,2023,fast1,moves played in under 1 s,share of moves,0.134337,0.123851,0.145474,260,False
+all blitz,2023,capture_rate,captures,share of moves,0.286038,0.275641,0.295814,260,False
+all blitz,2023,t_sd,spread (SD) of time per move,seconds,5.794369,5.412406,6.141113,260,False
+all blitz,2023,left_m10,clock left after your 10th move,share of base,0.896602,0.883924,0.908652,247,False
+all blitz,2023,left_book_first,you left the named lines first,share of games,0.719231,0.657692,0.773077,260,False
+all blitz,2024,B_e4_other,other reply to 1.e4,share of Black games vs 1.e4,0.0,0.0,0.0,104,False
+all blitz,2024,castle_ply,castling move (own move number),moves,7.66426,7.227076,8.131859,277,False
+all blitz,2024,W_other,other first move as White,share of White games,0.006289,0.0,0.018868,159,False
+all blitz,2024,fast1,moves played in under 1 s,share of moves,0.133506,0.125023,0.143324,318,False
+all blitz,2024,capture_rate,captures,share of moves,0.269636,0.262194,0.277111,318,False
+all blitz,2024,t_sd,spread (SD) of time per move,seconds,5.23976,4.996036,5.484468,318,False
+all blitz,2024,left_m10,clock left after your 10th move,share of base,0.912875,0.902569,0.922853,310,False
+all blitz,2024,left_book_first,you left the named lines first,share of games,0.679245,0.628931,0.732704,318,False
+all blitz,2025,B_e4_other,other reply to 1.e4,share of Black games vs 1.e4,0.012195,0.0,0.036585,82,False
+all blitz,2025,castle_ply,castling move (own move number),moves,7.928251,7.461435,8.426233,223,False
+all blitz,2025,W_other,other first move as White,share of White games,0.0,0.0,0.0,122,False
+all blitz,2025,fast1,moves played in under 1 s,share of moves,0.15149,0.139759,0.16259,254,False
+all blitz,2025,capture_rate,captures,share of moves,0.268873,0.259824,0.277709,254,False
+all blitz,2025,t_sd,spread (SD) of time per move,seconds,4.150915,3.941176,4.396928,254,False
+all blitz,2025,left_m10,clock left after your 10th move,share of base,0.879922,0.870497,0.889906,250,False
+all blitz,2025,left_book_first,you left the named lines first,share of games,0.704724,0.645669,0.76378,254,False
+all rapid,2022,B_e4_other,other reply to 1.e4,share of Black games vs 1.e4,0.039216,0.0,0.098039,51,False
+all rapid,2022,castle_ply,castling move (own move number),moves,12.238636,11.289489,13.239205,88,False
+all rapid,2022,W_other,other first move as White,share of White games,0.0,0.0,0.0,92,False
+all rapid,2022,fast1,moves played in under 1 s,share of moves,0.068462,0.060337,0.077724,184,False
+all rapid,2022,capture_rate,captures,share of moves,0.283518,0.270766,0.293635,184,False
+all rapid,2022,t_sd,spread (SD) of time per move,seconds,8.181654,7.508722,8.948635,184,False
+all rapid,2022,left_m10,clock left after your 10th move,share of base,0.870681,0.862482,0.877624,173,False
+all rapid,2022,left_book_first,you left the named lines first,share of games,0.668478,0.592391,0.728261,184,False
+all rapid,2023,B_e4_other,other reply to 1.e4,share of Black games vs 1.e4,0.0,0.0,0.0,110,False
+all rapid,2023,castle_ply,castling move (own move number),moves,9.04661,8.472352,9.627119,236,False
+all rapid,2023,W_other,other first move as White,share of White games,0.0,0.0,0.0,157,False
+all rapid,2023,fast1,moves played in under 1 s,share of moves,0.117399,0.10865,0.127007,318,False
+all rapid,2023,capture_rate,captures,share of moves,0.285108,0.276155,0.294472,318,False
+all rapid,2023,t_sd,spread (SD) of time per move,seconds,7.465367,7.052947,7.869415,318,False
+all rapid,2023,left_m10,clock left after your 10th move,share of base,0.91612,0.910891,0.921125,308,False
+all rapid,2023,left_book_first,you left the named lines first,share of games,0.622642,0.569182,0.676101,318,False
+all rapid,2025,B_e4_other,other reply to 1.e4,share of Black games vs 1.e4,0.0,0.0,0.0,10,True
+all rapid,2025,castle_ply,castling move (own move number),moves,8.592593,7.407407,9.834259,27,True
+all rapid,2025,W_other,other first move as White,share of White games,0.0,0.0,0.0,17,True
+all rapid,2025,fast1,moves played in under 1 s,share of moves,0.113587,0.087045,0.147603,33,True
+all rapid,2025,capture_rate,captures,share of moves,0.240907,0.219801,0.263523,33,True
+all rapid,2025,t_sd,spread (SD) of time per move,seconds,7.287374,5.60607,9.426124,33,True
+all rapid,2025,left_m10,clock left after your 10th move,share of base,0.929682,0.912204,0.944829,32,True
+all rapid,2025,left_book_first,you left the named lines first,share of games,0.636364,0.484848,0.787879,33,True

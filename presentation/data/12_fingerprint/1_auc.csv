@@ -1,0 +1,39 @@
+tc_group,test,model,auc,auc_lo,auc_hi,pairwise,pairwise_lo,pairwise_hi,games,thin
+bullet 1+0,same years (5-fold by game),boosting,0.948996,0.942991,0.954946,0.905953,0.893792,0.916872,2839,False
+bullet 1+0,same years (5-fold by game),logistic,0.925224,0.917454,0.932203,0.874604,0.862443,0.887469,2839,False
+bullet 1+1,same years (5-fold by game),boosting,0.843975,0.814044,0.87449,0.807895,0.772303,0.842105,380,False
+bullet 1+1,same years (5-fold by game),logistic,0.884176,0.858403,0.908618,0.85,0.815789,0.889474,380,False
+bullet 2+1,same years (5-fold by game),boosting,0.482133,0.382382,0.575987,0.506667,0.4,0.613333,75,True
+bullet 2+1,same years (5-fold by game),logistic,0.752533,0.655422,0.841342,0.76,0.666667,0.853333,75,True
+blitz 3+0,same years (5-fold by game),boosting,0.84581,0.80025,0.888707,0.827586,0.778325,0.876847,203,False
+blitz 3+0,same years (5-fold by game),logistic,0.903443,0.868179,0.933158,0.862069,0.812808,0.91133,203,False
+blitz 3+2,same years (5-fold by game),boosting,0.854875,0.837662,0.872008,0.816964,0.797228,0.838542,1344,False
+blitz 3+2,same years (5-fold by game),logistic,0.810031,0.790276,0.830256,0.764881,0.741425,0.78869,1344,False
+blitz 5+0,same years (5-fold by game),boosting,0.698639,0.62352,0.772784,0.701149,0.603161,0.793103,87,True
+blitz 5+0,same years (5-fold by game),logistic,0.808958,0.736663,0.877289,0.793103,0.689655,0.873563,87,True
+blitz 5+2,same years (5-fold by game),boosting,0.710484,0.63519,0.778464,0.688679,0.59434,0.773585,106,True
+blitz 5+2,same years (5-fold by game),logistic,0.905749,0.857044,0.946956,0.839623,0.764151,0.90566,106,True
+blitz 5+5,same years (5-fold by game),boosting,0.695951,0.627308,0.757686,0.708661,0.629921,0.771654,127,True
+blitz 5+5,same years (5-fold by game),logistic,0.660983,0.588917,0.733689,0.645669,0.570669,0.724409,127,True
+rapid 10+0,same years (5-fold by game),boosting,0.849566,0.82075,0.873775,0.814953,0.781308,0.84486,535,False
+rapid 10+0,same years (5-fold by game),logistic,0.821997,0.79206,0.849731,0.786916,0.748551,0.816822,535,False
+all bullet,same years (5-fold by game),boosting,0.944425,0.938741,0.950153,0.900121,0.890855,0.910443,3294,False
+all bullet,same years (5-fold by game),logistic,0.916083,0.907299,0.923074,0.867942,0.858068,0.879478,3294,False
+all blitz,same years (5-fold by game),boosting,0.853046,0.838565,0.866463,0.813605,0.796465,0.830745,1867,False
+all blitz,same years (5-fold by game),logistic,0.805235,0.790329,0.82215,0.754687,0.737266,0.776647,1867,False
+all rapid,same years (5-fold by game),boosting,0.849566,0.823637,0.874142,0.814953,0.783178,0.84486,535,False
+all rapid,same years (5-fold by game),logistic,0.821997,0.792116,0.851965,0.786916,0.751402,0.821542,535,False
+bullet 1+0,unseen year (trained on other years),boosting,0.928882,0.92048,0.936716,0.891558,0.880608,0.902861,2831,False
+bullet 1+0,unseen year (trained on other years),logistic,0.901714,0.891736,0.911306,0.856235,0.842626,0.870196,2831,False
+bullet 1+1,unseen year (trained on other years),boosting,0.685541,0.638316,0.727321,0.674033,0.624309,0.718232,362,False
+bullet 1+1,unseen year (trained on other years),logistic,0.742445,0.703437,0.786488,0.709945,0.662983,0.756906,362,False
+blitz 3+2,unseen year (trained on other years),boosting,0.707977,0.678402,0.730855,0.692708,0.670387,0.714286,1344,False
+blitz 3+2,unseen year (trained on other years),logistic,0.640164,0.611162,0.668462,0.642113,0.614583,0.666313,1344,False
+rapid 10+0,unseen year (trained on other years),boosting,0.747933,0.712086,0.781941,0.711155,0.675299,0.752988,502,False
+rapid 10+0,unseen year (trained on other years),logistic,0.754274,0.718495,0.78908,0.727092,0.687251,0.76494,502,False
+all bullet,unseen year (trained on other years),boosting,0.909441,0.900008,0.918394,0.874541,0.864137,0.885106,3268,False
+all bullet,unseen year (trained on other years),logistic,0.883302,0.872454,0.89306,0.842717,0.830623,0.855118,3268,False
+all blitz,unseen year (trained on other years),boosting,0.694998,0.672752,0.716819,0.69367,0.673538,0.713519,1864,False
+all blitz,unseen year (trained on other years),logistic,0.643729,0.620171,0.665406,0.652361,0.629292,0.674893,1864,False
+all rapid,unseen year (trained on other years),boosting,0.747933,0.714516,0.778063,0.711155,0.670269,0.749004,502,False
+all rapid,unseen year (trained on other years),logistic,0.754274,0.719537,0.79055,0.727092,0.685259,0.765986,502,False

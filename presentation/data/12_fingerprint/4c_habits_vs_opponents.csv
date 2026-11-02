@@ -1,0 +1,553 @@
+tc_group,feature,habit,measure,you,you_lo,you_hi,opponents,opponents_lo,opponents_hi,diff,diff_lo,diff_hi,games,n,thin
+bullet 1+0,t_opening,"time per move, opening",seconds,1.342107,1.321491,1.36331,1.23977,1.21582,1.26431,0.102337,0.080428,0.124258,2839,5678,False
+bullet 1+0,t_middlegame,"time per move, middlegame",seconds,1.914767,1.888056,1.942252,1.996669,1.964371,2.027046,-0.081902,-0.112847,-0.049733,2839,5482,False
+bullet 1+0,t_endgame,"time per move, endgame",seconds,1.279943,1.257439,1.303014,1.363542,1.334085,1.391732,-0.083599,-0.114944,-0.05348,2839,4192,False
+bullet 1+0,t_sd,spread (SD) of time per move,seconds,1.184467,1.164796,1.206539,1.357102,1.331387,1.383658,-0.172635,-0.205432,-0.141229,2839,5678,False
+bullet 1+0,t_max,longest think,seconds,5.163473,5.070713,5.268584,5.917506,5.811774,6.030606,-0.754033,-0.902764,-0.609918,2839,5678,False
+bullet 1+0,left_m10,clock left after your 10th move,share of base,0.786752,0.783382,0.789977,0.80436,0.800366,0.808022,-0.017608,-0.021135,-0.014243,2839,5600,False
+bullet 1+0,left_m20,clock left after your 20th move,share of base,0.480844,0.475338,0.486271,0.492292,0.485994,0.498635,-0.011447,-0.017222,-0.005664,2839,4803,False
+bullet 1+0,left_m40,clock left after your 40th move,share of base,0.132747,0.127283,0.139189,0.159427,0.152477,0.16697,-0.02668,-0.034972,-0.018297,2839,1705,False
+bullet 1+0,left_end,clock left at the end,share of base,0.205197,0.197661,0.213114,0.201664,0.193322,0.209412,0.003533,-0.00253,0.009126,2839,5678,False
+bullet 1+0,under10,moves started under 10 s,share of moves,0.097806,0.093223,0.101737,0.098034,0.094655,0.102168,-0.000227,-0.005102,0.00438,2839,5678,False
+bullet 1+0,fast1,moves played in under 1 s,share of moves,0.33679,0.332971,0.341088,0.391721,0.386186,0.3975,-0.054931,-0.060539,-0.04972,2839,5678,False
+bullet 1+0,n_moves,own moves per game,moves,32.647059,32.234229,33.067621,32.629799,32.204192,33.057406,0.01726,-0.010937,0.044382,2839,5678,False
+bullet 1+0,game_plies,game length,plies,65.276858,64.441141,66.125026,65.276858,64.441141,66.125026,0.0,0.0,0.0,2839,5678,False
+bullet 1+0,capture_rate,captures,share of moves,0.280918,0.278033,0.283603,0.27359,0.271249,0.276198,0.007328,0.003778,0.010797,2839,5678,False
+bullet 1+0,check_rate,checks,share of moves,0.08277,0.079953,0.085552,0.083366,0.08045,0.086282,-0.000596,-0.00515,0.004254,2839,5678,False
+bullet 1+0,castled,games where you castled,share of games,0.746037,0.728945,0.762425,0.676294,0.658683,0.693572,0.069743,0.048758,0.091414,2839,5678,False
+bullet 1+0,castle_ply,castling move (own move number),moves,8.966006,8.780678,9.141336,11.126562,10.938789,11.333346,-2.160557,-2.455564,-1.907827,2839,4038,False
+bullet 1+0,castle_long,castling queenside,share of castled games,0.037299,0.029273,0.044854,0.205729,0.186706,0.224479,-0.16843,-0.190282,-0.149314,2839,4038,False
+bullet 1+0,pawn_share,pawn moves,share of moves,0.303295,0.299504,0.306803,0.276206,0.272678,0.279374,0.027089,0.023256,0.031297,2839,5678,False
+bullet 1+0,knight_share,knight moves,share of moves,0.188703,0.18527,0.192563,0.179092,0.175323,0.18244,0.009611,0.005238,0.014171,2839,5678,False
+bullet 1+0,bishop_share,bishop moves,share of moves,0.150517,0.147859,0.152982,0.159325,0.156656,0.162416,-0.008809,-0.012734,-0.005421,2839,5678,False
+bullet 1+0,rook_share,rook moves,share of moves,0.126337,0.122321,0.130162,0.132608,0.128816,0.136297,-0.006271,-0.010791,-0.001981,2839,5678,False
+bullet 1+0,queen_share,queen moves,share of moves,0.110436,0.106897,0.113919,0.126818,0.122915,0.130576,-0.016382,-0.021457,-0.011402,2839,5678,False
+bullet 1+0,king_share,king moves (not castling),share of moves,0.095987,0.091976,0.100109,0.103637,0.099172,0.108016,-0.00765,-0.014027,-0.00136,2839,5678,False
+bullet 1+0,promotions,promotions,per game,0.110602,0.099331,0.122948,0.102501,0.089468,0.114477,0.008101,-0.008101,0.026066,2839,5678,False
+bullet 1+0,en_passant,en-passant captures,per game,0.016555,0.012328,0.021486,0.004579,0.002113,0.007397,0.011976,0.006692,0.017964,2839,5678,False
+bullet 1+0,queen_early,queen moves in the first 10,per game,0.710461,0.674868,0.747631,1.066221,1.024119,1.108691,-0.355759,-0.408612,-0.306261,2839,5678,False
+bullet 1+0,W_e4,1.e4 as White,share of White games,0.963121,0.95461,0.972713,0.559132,0.53464,0.585024,0.403988,0.380188,0.435091,2839,2839,False
+bullet 1+0,W_d4,1.d4 as White,share of White games,0.034752,0.025532,0.043635,0.235129,0.212369,0.257523,-0.200378,-0.226855,-0.176584,2839,2839,False
+bullet 1+0,W_other,other first move as White,share of White games,0.002128,0.0,0.004965,0.205738,0.185444,0.226732,-0.203611,-0.224431,-0.182216,2839,2839,False
+bullet 1+0,B_e4_e5,1...e5 against 1.e4,share of Black games vs 1.e4,0.982478,0.971809,0.991239,0.382916,0.357879,0.409076,0.599562,0.571362,0.62564,2839,2157,False
+bullet 1+0,B_e4_c5,1...c5 against 1.e4,share of Black games vs 1.e4,0.006258,0.001252,0.012516,0.078056,0.065538,0.092047,-0.071798,-0.08743,-0.054369,2839,2157,False
+bullet 1+0,B_e4_other,other reply to 1.e4,share of Black games vs 1.e4,0.011264,0.003755,0.020025,0.539028,0.512482,0.565538,-0.527764,-0.555076,-0.500705,2839,2157,False
+bullet 1+0,B_d4_d5,1...d5 against 1.d4,share of Black games vs 1.d4,0.895833,0.863095,0.927158,0.387755,0.244898,0.510204,0.508078,0.371316,0.657291,2839,385,False
+bullet 1+0,B_d4_Nf6,1...Nf6 against 1.d4,share of Black games vs 1.d4,0.0,0.0,0.0,0.040816,0.0,0.102041,-0.040816,-0.108903,0.0,2839,385,False
+bullet 1+0,B_d4_other,other reply to 1.d4,share of Black games vs 1.d4,0.104167,0.072842,0.136905,0.571429,0.44898,0.714286,-0.467262,-0.611463,-0.341791,2839,385,False
+bullet 1+0,B_other,Black games where White opened neither e4 nor d4,share of Black games,0.205738,0.185444,0.226732,0.002128,0.0,0.004965,0.203611,0.182216,0.224431,2839,2839,False
+bullet 1+0,eco_A,games ending in an A-code line,share of games,0.14019,0.12751,0.152518,0.14019,0.12751,0.152518,0.0,0.0,0.0,2839,5678,False
+bullet 1+0,eco_B,games ending in a B-code line,share of games,0.24093,0.225044,0.255372,0.24093,0.225044,0.255372,0.0,0.0,0.0,2839,5678,False
+bullet 1+0,eco_C,games ending in a C-code line,share of games,0.5118,0.492075,0.528707,0.5118,0.492075,0.528707,0.0,0.0,0.0,2839,5678,False
+bullet 1+0,eco_D,games ending in a D-code line,share of games,0.106375,0.095623,0.118352,0.106375,0.095623,0.118352,0.0,0.0,0.0,2839,5678,False
+bullet 1+0,eco_E,games ending in an E-code line,share of games,0.000704,0.0,0.001761,0.000704,0.0,0.001761,0.0,0.0,0.0,2839,5678,False
+bullet 1+0,eco_none,games with no named line,share of games,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,2839,5678,False
+bullet 1+0,book_ply,book depth,plies,4.810144,4.717533,4.902642,4.810144,4.717533,4.902642,0.0,0.0,0.0,2839,5678,False
+bullet 1+0,left_book_first,you left the named lines first,share of games,0.641071,0.622754,0.658163,0.358929,0.341837,0.377246,0.282142,0.245509,0.316326,2839,5678,False
+bullet 1+0,under10_buffer,moves started under 10 s beyond one increment,share of moves,0.097806,0.093223,0.101737,0.098034,0.094655,0.102168,-0.000227,-0.005102,0.00438,2839,5678,False
+bullet 1+1,t_opening,"time per move, opening",seconds,1.976198,1.887492,2.07023,1.855252,1.76143,1.954878,0.120946,0.026837,0.20497,380,760,False
+bullet 1+1,t_middlegame,"time per move, middlegame",seconds,2.953445,2.849458,3.057228,3.066769,2.939164,3.237495,-0.113324,-0.272005,0.046878,380,695,False
+bullet 1+1,t_endgame,"time per move, endgame",seconds,2.154138,2.03799,2.274973,2.302677,2.10749,2.585671,-0.148539,-0.435129,0.058545,380,442,False
+bullet 1+1,t_sd,spread (SD) of time per move,seconds,2.008233,1.915087,2.091892,2.170184,2.073235,2.284887,-0.161951,-0.30338,-0.046803,380,760,False
+bullet 1+1,t_max,longest think,seconds,8.402895,8.017151,8.766217,9.246842,8.852572,9.71077,-0.843947,-1.492586,-0.357849,380,760,False
+bullet 1+1,left_m10,clock left after your 10th move,share of base,0.86297,0.848542,0.876917,0.874973,0.85948,0.890868,-0.012003,-0.025049,0.002049,380,733,False
+bullet 1+1,left_m20,clock left after your 20th move,share of base,0.559266,0.535559,0.58182,0.548019,0.518458,0.573093,0.011248,-0.011648,0.034144,380,538,False
+bullet 1+1,left_m40,clock left after your 40th move,share of base,0.278789,0.240695,0.316761,0.242553,0.209405,0.282325,0.036236,-0.001772,0.078714,380,189,False
+bullet 1+1,left_end,clock left at the end,share of base,0.383167,0.353986,0.40933,0.376285,0.346527,0.408226,0.006882,-0.015715,0.028337,380,760,False
+bullet 1+1,under10,moves started under 10 s,share of moves,0.060535,0.048364,0.072998,0.074128,0.06078,0.087098,-0.013593,-0.027477,0.000255,380,760,False
+bullet 1+1,fast1,moves played in under 1 s,share of moves,0.229157,0.218762,0.238463,0.264465,0.250806,0.277907,-0.035308,-0.050184,-0.021714,380,760,False
+bullet 1+1,n_moves,own moves per game,moves,30.35,28.886447,31.904145,30.313158,28.866776,31.865066,0.036842,-0.030329,0.106645,380,760,False
+bullet 1+1,game_plies,game length,plies,60.663158,57.742566,63.775395,60.663158,57.742566,63.775395,0.0,0.0,0.0,380,760,False
+bullet 1+1,capture_rate,captures,share of moves,0.271663,0.26371,0.278932,0.267059,0.259995,0.274585,0.004604,-0.005244,0.012546,380,760,False
+bullet 1+1,check_rate,checks,share of moves,0.073496,0.065841,0.082533,0.071724,0.063899,0.080323,0.001772,-0.011651,0.014362,380,760,False
+bullet 1+1,castled,games where you castled,share of games,0.747368,0.70125,0.789474,0.705263,0.655263,0.747368,0.042105,-0.006645,0.092105,380,760,False
+bullet 1+1,castle_ply,castling move (own move number),moves,9.035211,8.573768,9.524824,11.0,10.410261,11.53181,-1.964789,-2.619851,-1.255471,380,552,False
+bullet 1+1,castle_long,castling queenside,share of castled games,0.024648,0.007042,0.042254,0.190299,0.143563,0.238806,-0.165651,-0.21181,-0.118225,380,552,False
+bullet 1+1,pawn_share,pawn moves,share of moves,0.306611,0.295919,0.317487,0.278155,0.269417,0.286497,0.028455,0.014979,0.040079,380,760,False
+bullet 1+1,knight_share,knight moves,share of moves,0.196321,0.187537,0.207371,0.193401,0.183005,0.204784,0.00292,-0.011388,0.016873,380,760,False
+bullet 1+1,bishop_share,bishop moves,share of moves,0.155264,0.147192,0.163162,0.170286,0.161901,0.17908,-0.015023,-0.025915,-0.002985,380,760,False
+bullet 1+1,rook_share,rook moves,share of moves,0.113186,0.101828,0.124196,0.116633,0.105975,0.12751,-0.003447,-0.014766,0.007434,380,760,False
+bullet 1+1,queen_share,queen moves,share of moves,0.120045,0.108826,0.131725,0.128864,0.11745,0.14163,-0.008819,-0.023468,0.006008,380,760,False
+bullet 1+1,king_share,king moves (not castling),share of moves,0.080608,0.068591,0.092979,0.084757,0.07306,0.096675,-0.004149,-0.020576,0.012563,380,760,False
+bullet 1+1,promotions,promotions,per game,0.107895,0.076316,0.143487,0.102632,0.063158,0.142105,0.005263,-0.04875,0.056645,380,760,False
+bullet 1+1,en_passant,en-passant captures,per game,0.005263,0.0,0.013158,0.0,0.0,0.0,0.005263,0.0,0.013158,380,760,False
+bullet 1+1,queen_early,queen moves in the first 10,per game,0.726316,0.626184,0.832961,0.965789,0.843355,1.092105,-0.239474,-0.389605,-0.094737,380,760,False
+bullet 1+1,W_e4,1.e4 as White,share of White games,0.913265,0.872449,0.94898,0.592391,0.521739,0.655027,0.320874,0.242841,0.396544,380,380,False
+bullet 1+1,W_d4,1.d4 as White,share of White games,0.086735,0.05102,0.127551,0.266304,0.206522,0.331522,-0.17957,-0.258065,-0.108085,380,380,False
+bullet 1+1,W_other,other first move as White,share of White games,0.0,0.0,0.0,0.141304,0.092391,0.195652,-0.141304,-0.192416,-0.092428,380,380,False
+bullet 1+1,B_e4_e5,1...e5 against 1.e4,share of Black games vs 1.e4,0.93578,0.880734,0.972477,0.396648,0.329609,0.469274,0.539132,0.446289,0.621386,380,288,False
+bullet 1+1,B_e4_c5,1...c5 against 1.e4,share of Black games vs 1.e4,0.055046,0.018349,0.100917,0.083799,0.044693,0.128492,-0.028753,-0.086404,0.034536,380,288,False
+bullet 1+1,B_e4_other,other reply to 1.e4,share of Black games vs 1.e4,0.009174,0.0,0.027523,0.519553,0.446927,0.586592,-0.510379,-0.58098,-0.429074,380,288,False
+bullet 1+1,B_d4_d5,1...d5 against 1.d4,share of Black games vs 1.d4,0.959184,0.897959,1.0,0.235294,0.058824,0.470588,0.72389,0.527375,0.913725,380,66,False
+bullet 1+1,B_d4_Nf6,1...Nf6 against 1.d4,share of Black games vs 1.d4,0.0,0.0,0.0,0.117647,0.0,0.266176,-0.117647,-0.277778,0.0,380,66,False
+bullet 1+1,B_d4_other,other reply to 1.d4,share of Black games vs 1.d4,0.040816,0.0,0.102041,0.647059,0.411765,0.882353,-0.606242,-0.827536,-0.369397,380,66,False
+bullet 1+1,B_other,Black games where White opened neither e4 nor d4,share of Black games,0.141304,0.092391,0.195652,0.0,0.0,0.0,0.141304,0.092428,0.192416,380,380,False
+bullet 1+1,eco_A,games ending in an A-code line,share of games,0.105263,0.073684,0.135592,0.105263,0.073684,0.135592,0.0,0.0,0.0,380,760,False
+bullet 1+1,eco_B,games ending in a B-code line,share of games,0.271053,0.226316,0.317171,0.271053,0.226316,0.317171,0.0,0.0,0.0,380,760,False
+bullet 1+1,eco_C,games ending in a C-code line,share of games,0.486842,0.432829,0.534211,0.486842,0.432829,0.534211,0.0,0.0,0.0,380,760,False
+bullet 1+1,eco_D,games ending in a D-code line,share of games,0.131579,0.098618,0.165789,0.131579,0.098618,0.165789,0.0,0.0,0.0,380,760,False
+bullet 1+1,eco_E,games ending in an E-code line,share of games,0.005263,0.0,0.013158,0.005263,0.0,0.013158,0.0,0.0,0.0,380,760,False
+bullet 1+1,eco_none,games with no named line,share of games,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,380,760,False
+bullet 1+1,book_ply,book depth,plies,5.071053,4.815658,5.327697,5.071053,4.815658,5.327697,0.0,0.0,0.0,380,760,False
+bullet 1+1,left_book_first,you left the named lines first,share of games,0.639474,0.592105,0.689474,0.360526,0.310526,0.407895,0.278947,0.184211,0.378947,380,760,False
+bullet 1+1,under10_buffer,moves started under 10 s beyond one increment,share of moves,0.070469,0.057721,0.084342,0.084192,0.070117,0.098246,-0.013724,-0.029277,0.001518,380,760,False
+bullet 2+1,t_opening,"time per move, opening",seconds,4.046265,3.675742,4.461586,3.785287,3.385578,4.205254,0.260979,-0.111504,0.573021,75,150,False
+bullet 2+1,t_middlegame,"time per move, middlegame",seconds,5.127318,4.660467,5.639238,4.353117,3.935736,4.761932,0.774201,0.255328,1.344479,75,131,False
+bullet 2+1,t_endgame,"time per move, endgame",seconds,2.96309,2.507591,3.50269,2.690465,2.369467,3.022479,0.272625,-0.108299,0.642821,75,75,False
+bullet 2+1,t_sd,spread (SD) of time per move,seconds,3.824623,3.510372,4.24726,3.617627,3.198434,4.13757,0.206997,-0.337523,0.702127,75,150,False
+bullet 2+1,t_max,longest think,seconds,15.593333,14.3064,17.022933,14.818667,13.199233,16.601,0.774667,-1.458733,2.7938,75,150,False
+bullet 2+1,left_m10,clock left after your 10th move,share of base,0.742911,0.71011,0.773074,0.777148,0.744317,0.809349,-0.034237,-0.067019,-0.002052,75,142,False
+bullet 2+1,left_m20,clock left after your 20th move,share of base,0.45165,0.390652,0.511053,0.518467,0.462664,0.570732,-0.066817,-0.130159,-0.005171,75,99,False
+bullet 2+1,left_m40,clock left after your 40th move,share of base,0.17869,0.13478,0.236906,0.220079,0.158389,0.288313,-0.041389,-0.115178,0.038144,75,42,False
+bullet 2+1,left_end,clock left at the end,share of base,0.313467,0.25027,0.371689,0.396367,0.329865,0.463584,-0.0829,-0.13232,-0.037066,75,150,False
+bullet 2+1,under10,moves started under 10 s,share of moves,0.052781,0.028759,0.079904,0.035978,0.015286,0.058874,0.016803,-0.015568,0.045918,75,150,False
+bullet 2+1,fast1,moves played in under 1 s,share of moves,0.124107,0.105943,0.141604,0.16179,0.135436,0.189941,-0.037683,-0.068356,-0.009328,75,150,False
+bullet 2+1,n_moves,own moves per game,moves,29.12,25.312333,32.700333,29.2,25.432333,32.793667,-0.08,-0.24,0.08,75,150,False
+bullet 2+1,game_plies,game length,plies,58.32,50.772667,65.501,58.32,50.772667,65.501,0.0,0.0,0.0,75,150,False
+bullet 2+1,capture_rate,captures,share of moves,0.26708,0.24728,0.288593,0.279371,0.260465,0.30026,-0.012291,-0.042975,0.014184,75,150,False
+bullet 2+1,check_rate,checks,share of moves,0.07958,0.062922,0.09681,0.095564,0.075095,0.116323,-0.015984,-0.043541,0.015702,75,150,False
+bullet 2+1,castled,games where you castled,share of games,0.306667,0.193,0.426667,0.426667,0.333333,0.533333,-0.12,-0.260333,0.013333,75,150,False
+bullet 2+1,castle_ply,castling move (own move number),moves,12.043478,10.0,14.086957,11.1875,9.59375,12.703906,0.855978,-1.3758,3.395614,75,55,False
+bullet 2+1,castle_long,castling queenside,share of castled games,0.217391,0.043478,0.391304,0.25,0.125,0.40625,-0.032609,-0.234702,0.195823,75,55,False
+bullet 2+1,pawn_share,pawn moves,share of moves,0.327011,0.303947,0.353868,0.314803,0.29112,0.338118,0.012208,-0.016518,0.042215,75,150,False
+bullet 2+1,knight_share,knight moves,share of moves,0.19518,0.171122,0.221082,0.218261,0.187866,0.251191,-0.023081,-0.058061,0.010583,75,150,False
+bullet 2+1,bishop_share,bishop moves,share of moves,0.120824,0.104125,0.137905,0.159528,0.1406,0.181639,-0.038704,-0.067234,-0.012539,75,150,False
+bullet 2+1,rook_share,rook moves,share of moves,0.102224,0.078928,0.12532,0.087668,0.070132,0.105089,0.014556,-0.011239,0.04169,75,150,False
+bullet 2+1,queen_share,queen moves,share of moves,0.143016,0.117659,0.171329,0.103168,0.07952,0.126365,0.039848,0.008503,0.076249,75,150,False
+bullet 2+1,king_share,king moves (not castling),share of moves,0.101595,0.074553,0.131988,0.099433,0.070339,0.128453,0.002161,-0.036001,0.044021,75,150,False
+bullet 2+1,promotions,promotions,per game,0.226667,0.106667,0.346667,0.106667,0.04,0.186667,0.12,0.0,0.253333,75,150,False
+bullet 2+1,en_passant,en-passant captures,per game,0.013333,0.0,0.04,0.0,0.0,0.0,0.013333,0.0,0.04,75,150,False
+bullet 2+1,queen_early,queen moves in the first 10,per game,1.373333,1.04,1.706667,0.866667,0.619667,1.106667,0.506667,0.12,0.946667,75,150,False
+bullet 2+1,W_e4,1.e4 as White,share of White games,0.971429,0.914286,1.0,0.625,0.475,0.775,0.346429,0.197439,0.509016,75,75,False
+bullet 2+1,W_d4,1.d4 as White,share of White games,0.0,0.0,0.0,0.225,0.125,0.375,-0.225,-0.363636,-0.112619,75,75,False
+bullet 2+1,W_other,other first move as White,share of White games,0.028571,0.0,0.085714,0.15,0.05,0.25,-0.121429,-0.236131,0.004423,75,75,False
+bullet 2+1,B_e4_e5,1...e5 against 1.e4,share of Black games vs 1.e4,0.32,0.16,0.52,0.411765,0.264706,0.588235,-0.091765,-0.318287,0.131473,75,59,False
+bullet 2+1,B_e4_c5,1...c5 against 1.e4,share of Black games vs 1.e4,0.6,0.4,0.8,0.058824,0.0,0.147059,0.541176,0.34447,0.740192,75,59,False
+bullet 2+1,B_e4_other,other reply to 1.e4,share of Black games vs 1.e4,0.08,0.0,0.2,0.529412,0.352941,0.676471,-0.449412,-0.642981,-0.235149,75,59,False
+bullet 2+1,B_d4_d5,1...d5 against 1.d4,share of Black games vs 1.d4,0.888889,0.666667,1.0,,,,,,,75,9,False
+bullet 2+1,B_d4_Nf6,1...Nf6 against 1.d4,share of Black games vs 1.d4,0.0,0.0,0.0,,,,,,,75,9,False
+bullet 2+1,B_d4_other,other reply to 1.d4,share of Black games vs 1.d4,0.111111,0.0,0.333333,,,,,,,75,9,False
+bullet 2+1,B_other,Black games where White opened neither e4 nor d4,share of Black games,0.15,0.05,0.25,0.028571,0.0,0.085714,0.121429,-0.004423,0.236131,75,75,False
+bullet 2+1,eco_A,games ending in an A-code line,share of games,0.12,0.053333,0.193667,0.12,0.053333,0.193667,0.0,0.0,0.0,75,150,False
+bullet 2+1,eco_B,games ending in a B-code line,share of games,0.4,0.293333,0.52,0.4,0.293333,0.52,0.0,0.0,0.0,75,150,False
+bullet 2+1,eco_C,games ending in a C-code line,share of games,0.373333,0.253333,0.493333,0.373333,0.253333,0.493333,0.0,0.0,0.0,75,150,False
+bullet 2+1,eco_D,games ending in a D-code line,share of games,0.106667,0.04,0.173333,0.106667,0.04,0.173333,0.0,0.0,0.0,75,150,False
+bullet 2+1,eco_E,games ending in an E-code line,share of games,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,75,150,False
+bullet 2+1,eco_none,games with no named line,share of games,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,75,150,False
+bullet 2+1,book_ply,book depth,plies,4.266667,3.846333,4.727,4.266667,3.846333,4.727,0.0,0.0,0.0,75,150,False
+bullet 2+1,left_book_first,you left the named lines first,share of games,0.546667,0.433,0.653333,0.453333,0.346667,0.567,0.093333,-0.134,0.306667,75,150,False
+bullet 2+1,under10_buffer,moves started under 10 s beyond one increment,share of moves,0.057782,0.032253,0.086709,0.040149,0.018552,0.062729,0.017632,-0.016292,0.048955,75,150,False
+blitz 3+0,t_opening,"time per move, opening",seconds,2.698703,2.526379,2.877162,2.508351,2.320738,2.701537,0.190352,0.025582,0.371361,203,406,False
+blitz 3+0,t_middlegame,"time per move, middlegame",seconds,5.03091,4.717899,5.433581,4.566729,4.287664,4.897389,0.464181,0.112013,0.817681,203,382,False
+blitz 3+0,t_endgame,"time per move, endgame",seconds,3.335606,3.088757,3.624692,3.153151,2.856485,3.491111,0.182455,-0.181936,0.515166,203,262,False
+blitz 3+0,t_sd,spread (SD) of time per move,seconds,3.531336,3.300552,3.792319,3.424911,3.175926,3.647123,0.106424,-0.209556,0.429113,203,406,False
+blitz 3+0,t_max,longest think,seconds,15.123153,14.032882,16.300505,14.821675,13.749926,15.789507,0.301478,-1.210209,1.780419,203,406,False
+blitz 3+0,left_m10,clock left after your 10th move,share of base,0.863406,0.853487,0.872573,0.872006,0.862102,0.881218,-0.0086,-0.01911,0.001822,203,396,False
+blitz 3+0,left_m20,clock left after your 20th move,share of base,0.608358,0.586338,0.628361,0.644957,0.621144,0.666119,-0.036599,-0.058526,-0.016331,203,313,False
+blitz 3+0,left_m40,clock left after your 40th move,share of base,0.23075,0.198381,0.262862,0.304778,0.26953,0.341778,-0.074028,-0.117772,-0.029343,203,120,False
+blitz 3+0,left_end,clock left at the end,share of base,0.370706,0.336744,0.40963,0.412781,0.375505,0.449143,-0.042074,-0.063859,-0.020186,203,406,False
+blitz 3+0,under10,moves started under 10 s,share of moves,0.023357,0.015838,0.031706,0.009888,0.005782,0.013917,0.013469,0.004738,0.022542,203,406,False
+blitz 3+0,fast1,moves played in under 1 s,share of moves,0.17309,0.161219,0.185492,0.192319,0.176068,0.207511,-0.019229,-0.034151,-0.004326,203,406,False
+blitz 3+0,n_moves,own moves per game,moves,32.842365,30.545074,35.317857,32.743842,30.416256,35.25197,0.098522,0.014778,0.192118,203,406,False
+blitz 3+0,game_plies,game length,plies,65.586207,60.964778,70.578818,65.586207,60.964778,70.578818,0.0,0.0,0.0,203,406,False
+blitz 3+0,capture_rate,captures,share of moves,0.272935,0.263097,0.282676,0.252743,0.242801,0.262904,0.020192,0.007953,0.030118,203,406,False
+blitz 3+0,check_rate,checks,share of moves,0.08889,0.076153,0.102946,0.070096,0.06014,0.080149,0.018795,0.001087,0.037359,203,406,False
+blitz 3+0,castled,games where you castled,share of games,0.847291,0.79803,0.899138,0.684729,0.615764,0.748768,0.162562,0.098522,0.231527,203,406,False
+blitz 3+0,castle_ply,castling move (own move number),moves,7.947674,7.411919,8.51468,11.007194,10.26241,11.726619,-3.05952,-3.932762,-2.251263,203,311,False
+blitz 3+0,castle_long,castling queenside,share of castled games,0.005814,0.0,0.017442,0.23741,0.168885,0.309353,-0.231596,-0.301995,-0.158382,203,311,False
+blitz 3+0,pawn_share,pawn moves,share of moves,0.298906,0.287254,0.310354,0.27151,0.258885,0.285765,0.027395,0.010989,0.041573,203,406,False
+blitz 3+0,knight_share,knight moves,share of moves,0.201564,0.187891,0.216227,0.180466,0.167575,0.192304,0.021098,0.003887,0.040189,203,406,False
+blitz 3+0,bishop_share,bishop moves,share of moves,0.164897,0.152788,0.175915,0.158488,0.147387,0.169052,0.006409,-0.009019,0.020867,203,406,False
+blitz 3+0,rook_share,rook moves,share of moves,0.107785,0.095475,0.119561,0.130021,0.115616,0.143252,-0.022236,-0.034806,-0.008744,203,406,False
+blitz 3+0,queen_share,queen moves,share of moves,0.116458,0.103466,0.133307,0.134211,0.121226,0.147156,-0.017753,-0.036659,0.002503,203,406,False
+blitz 3+0,king_share,king moves (not castling),share of moves,0.079127,0.065445,0.094322,0.1017,0.086306,0.11976,-0.022574,-0.040691,-0.004594,203,406,False
+blitz 3+0,promotions,promotions,per game,0.128079,0.083744,0.182266,0.103448,0.059113,0.162562,0.024631,-0.051847,0.093596,203,406,False
+blitz 3+0,en_passant,en-passant captures,per game,0.024631,0.004926,0.049261,0.004926,0.0,0.014778,0.019704,0.0,0.044335,203,406,False
+blitz 3+0,queen_early,queen moves in the first 10,per game,0.729064,0.586207,0.891626,1.226601,1.073892,1.37931,-0.497537,-0.70702,-0.258498,203,406,False
+blitz 3+0,W_e4,1.e4 as White,share of White games,0.990196,0.970588,1.0,0.673267,0.574257,0.762376,0.316929,0.22405,0.420233,203,203,False
+blitz 3+0,W_d4,1.d4 as White,share of White games,0.009804,0.0,0.029412,0.19802,0.128713,0.277228,-0.188216,-0.275035,-0.1082,203,203,False
+blitz 3+0,W_other,other first move as White,share of White games,0.0,0.0,0.0,0.128713,0.069307,0.193317,-0.128713,-0.203902,-0.064156,203,203,False
+blitz 3+0,B_e4_e5,1...e5 against 1.e4,share of Black games vs 1.e4,0.955882,0.911765,1.0,0.49505,0.386139,0.584158,0.460833,0.353717,0.567781,203,169,False
+blitz 3+0,B_e4_c5,1...c5 against 1.e4,share of Black games vs 1.e4,0.014706,0.0,0.044118,0.039604,0.0,0.079208,-0.024898,-0.074888,0.018541,203,169,False
+blitz 3+0,B_e4_other,other reply to 1.e4,share of Black games vs 1.e4,0.029412,0.0,0.073529,0.465347,0.376238,0.574257,-0.435935,-0.540021,-0.335043,203,169,False
+blitz 3+0,B_d4_d5,1...d5 against 1.d4,share of Black games vs 1.d4,0.85,0.7,1.0,0.0,,,0.85,0.684211,1.0,203,21,False
+blitz 3+0,B_d4_Nf6,1...Nf6 against 1.d4,share of Black games vs 1.d4,0.0,0.0,0.0,1.0,,,-1.0,-1.0,0.0,203,21,False
+blitz 3+0,B_d4_other,other reply to 1.d4,share of Black games vs 1.d4,0.15,0.0,0.3,0.0,,,0.15,0.0,0.315789,203,21,False
+blitz 3+0,B_other,Black games where White opened neither e4 nor d4,share of Black games,0.128713,0.069307,0.193317,0.0,0.0,0.0,0.128713,0.064156,0.203902,203,203,False
+blitz 3+0,eco_A,games ending in an A-code line,share of games,0.059113,0.029557,0.093596,0.059113,0.029557,0.093596,0.0,0.0,0.0,203,406,False
+blitz 3+0,eco_B,games ending in a B-code line,share of games,0.246305,0.189532,0.300493,0.246305,0.189532,0.300493,0.0,0.0,0.0,203,406,False
+blitz 3+0,eco_C,games ending in a C-code line,share of games,0.605911,0.541872,0.672537,0.605911,0.541872,0.672537,0.0,0.0,0.0,203,406,False
+blitz 3+0,eco_D,games ending in a D-code line,share of games,0.08867,0.049261,0.128079,0.08867,0.049261,0.128079,0.0,0.0,0.0,203,406,False
+blitz 3+0,eco_E,games ending in an E-code line,share of games,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,203,406,False
+blitz 3+0,eco_none,games with no named line,share of games,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,203,406,False
+blitz 3+0,book_ply,book depth,plies,5.423645,5.058867,5.721798,5.423645,5.058867,5.721798,0.0,0.0,0.0,203,406,False
+blitz 3+0,left_book_first,you left the named lines first,share of games,0.684729,0.618103,0.743842,0.315271,0.256158,0.381897,0.369458,0.236207,0.487685,203,406,False
+blitz 3+0,under10_buffer,moves started under 10 s beyond one increment,share of moves,0.023357,0.015838,0.031706,0.009888,0.005782,0.013917,0.013469,0.004738,0.022542,203,406,False
+blitz 3+2,t_opening,"time per move, opening",seconds,4.993884,4.87729,5.102985,4.390411,4.267849,4.522468,0.603474,0.482153,0.718572,1344,2688,False
+blitz 3+2,t_middlegame,"time per move, middlegame",seconds,7.409516,7.237683,7.594153,6.743743,6.550004,6.923206,0.665773,0.450266,0.879222,1344,2446,False
+blitz 3+2,t_endgame,"time per move, endgame",seconds,4.253022,4.108227,4.415179,4.279513,4.132839,4.424425,-0.026491,-0.194425,0.121574,1344,1576,False
+blitz 3+2,t_sd,spread (SD) of time per move,seconds,5.501312,5.382987,5.636476,5.39046,5.245782,5.533441,0.110852,-0.037389,0.272772,1344,2688,False
+blitz 3+2,t_max,longest think,seconds,23.627679,23.050746,24.235456,22.720015,22.064903,23.369544,0.907664,0.173542,1.733728,1344,2688,False
+blitz 3+2,left_m10,clock left after your 10th move,share of base,0.845348,0.839329,0.852376,0.880544,0.873658,0.887873,-0.035197,-0.04184,-0.028197,1344,2597,False
+blitz 3+2,left_m20,clock left after your 20th move,share of base,0.547728,0.533359,0.559518,0.619776,0.605184,0.632896,-0.072047,-0.086819,-0.056034,1344,1905,False
+blitz 3+2,left_m40,clock left after your 40th move,share of base,0.273723,0.252888,0.293263,0.355897,0.33085,0.380569,-0.082174,-0.108483,-0.055624,1344,739,False
+blitz 3+2,left_end,clock left at the end,share of base,0.422856,0.407943,0.435456,0.490846,0.475197,0.505665,-0.06799,-0.080547,-0.056233,1344,2688,False
+blitz 3+2,under10,moves started under 10 s,share of moves,0.015151,0.012321,0.018547,0.015484,0.012315,0.018559,-0.000333,-0.004169,0.003736,1344,2688,False
+blitz 3+2,fast1,moves played in under 1 s,share of moves,0.104745,0.101114,0.108858,0.132125,0.127383,0.137799,-0.02738,-0.033364,-0.022058,1344,2688,False
+blitz 3+2,n_moves,own moves per game,moves,31.469494,30.525577,32.529501,31.457589,30.512128,32.530748,0.011905,-0.02314,0.04801,1344,2688,False
+blitz 3+2,game_plies,game length,plies,62.927083,61.038058,65.077437,62.927083,61.038058,65.077437,0.0,0.0,0.0,1344,2688,False
+blitz 3+2,capture_rate,captures,share of moves,0.279339,0.274856,0.283445,0.269239,0.265374,0.272851,0.0101,0.005138,0.014698,1344,2688,False
+blitz 3+2,check_rate,checks,share of moves,0.079072,0.074604,0.083263,0.092126,0.087229,0.096935,-0.013055,-0.020306,-0.00597,1344,2688,False
+blitz 3+2,castled,games where you castled,share of games,0.622768,0.596336,0.647321,0.643601,0.619048,0.666313,-0.020833,-0.050242,0.010417,1344,2688,False
+blitz 3+2,castle_ply,castling move (own move number),moves,10.064516,9.751374,10.433393,11.107514,10.825925,11.394509,-1.042998,-1.466703,-0.639067,1344,1702,False
+blitz 3+2,castle_long,castling queenside,share of castled games,0.091995,0.071685,0.111738,0.175723,0.150289,0.2,-0.083727,-0.11294,-0.052555,1344,1702,False
+blitz 3+2,pawn_share,pawn moves,share of moves,0.30917,0.303478,0.314635,0.287058,0.281032,0.292808,0.022113,0.014744,0.029148,1344,2688,False
+blitz 3+2,knight_share,knight moves,share of moves,0.187432,0.181753,0.192774,0.189749,0.184553,0.194717,-0.002318,-0.00951,0.004489,1344,2688,False
+blitz 3+2,bishop_share,bishop moves,share of moves,0.153546,0.149349,0.157885,0.167346,0.162472,0.172015,-0.0138,-0.019982,-0.007816,1344,2688,False
+blitz 3+2,rook_share,rook moves,share of moves,0.110609,0.104879,0.116275,0.116284,0.110931,0.121976,-0.005676,-0.011452,9.3e-05,1344,2688,False
+blitz 3+2,queen_share,queen moves,share of moves,0.118996,0.112973,0.125396,0.124144,0.118656,0.130342,-0.005147,-0.012458,0.002866,1344,2688,False
+blitz 3+2,king_share,king moves (not castling),share of moves,0.097019,0.090313,0.103783,0.091504,0.084914,0.098833,0.005515,-0.002065,0.01345,1344,2688,False
+blitz 3+2,promotions,promotions,per game,0.134673,0.113095,0.15625,0.122768,0.1008,0.145089,0.011905,-0.01676,0.042057,1344,2688,False
+blitz 3+2,en_passant,en-passant captures,per game,0.012649,0.00744,0.018601,0.004464,0.001488,0.008185,0.008185,0.001488,0.015625,1344,2688,False
+blitz 3+2,queen_early,queen moves in the first 10,per game,0.859375,0.805413,0.913337,1.016369,0.954892,1.07926,-0.156994,-0.244438,-0.071429,1344,2688,False
+blitz 3+2,W_e4,1.e4 as White,share of White games,0.714286,0.67891,0.747368,0.653903,0.614838,0.690722,0.060383,0.010521,0.108368,1344,1344,False
+blitz 3+2,W_d4,1.d4 as White,share of White games,0.284211,0.251842,0.318797,0.243004,0.212776,0.276178,0.041206,-0.005814,0.084342,1344,1344,False
+blitz 3+2,W_other,other first move as White,share of White games,0.001504,0.0,0.005301,0.103093,0.083947,0.123711,-0.101589,-0.124115,-0.077493,1344,1344,False
+blitz 3+2,B_e4_e5,1...e5 against 1.e4,share of Black games vs 1.e4,0.921171,0.898649,0.943694,0.534737,0.489421,0.578947,0.386434,0.338747,0.439088,1344,919,False
+blitz 3+2,B_e4_c5,1...c5 against 1.e4,share of Black games vs 1.e4,0.047297,0.029279,0.065315,0.084211,0.059947,0.110579,-0.036913,-0.071398,-0.005745,1344,919,False
+blitz 3+2,B_e4_other,other reply to 1.e4,share of Black games vs 1.e4,0.031532,0.015766,0.04955,0.381053,0.337842,0.428474,-0.349521,-0.397394,-0.30969,1344,919,False
+blitz 3+2,B_d4_d5,1...d5 against 1.d4,share of Black games vs 1.d4,0.951515,0.915152,0.981818,0.582011,0.51045,0.645503,0.369505,0.290453,0.447511,1344,354,False
+blitz 3+2,B_d4_Nf6,1...Nf6 against 1.d4,share of Black games vs 1.d4,0.042424,0.012121,0.072727,0.068783,0.037037,0.108598,-0.026359,-0.07279,0.019722,1344,354,False
+blitz 3+2,B_d4_other,other reply to 1.d4,share of Black games vs 1.d4,0.006061,0.0,0.018182,0.349206,0.285714,0.412698,-0.343146,-0.412609,-0.271004,1344,354,False
+blitz 3+2,B_other,Black games where White opened neither e4 nor d4,share of Black games,0.103093,0.083947,0.123711,0.001504,0.0,0.005301,0.101589,0.077493,0.124115,1344,1344,False
+blitz 3+2,eco_A,games ending in an A-code line,share of games,0.089286,0.073661,0.103423,0.089286,0.073661,0.103423,0.0,0.0,0.0,1344,2688,False
+blitz 3+2,eco_B,games ending in a B-code line,share of games,0.180804,0.161421,0.200893,0.180804,0.161421,0.200893,0.0,0.0,0.0,1344,2688,False
+blitz 3+2,eco_C,games ending in a C-code line,share of games,0.513393,0.489583,0.539081,0.513393,0.489583,0.539081,0.0,0.0,0.0,1344,2688,False
+blitz 3+2,eco_D,games ending in a D-code line,share of games,0.212054,0.193452,0.234766,0.212054,0.193452,0.234766,0.0,0.0,0.0,1344,2688,False
+blitz 3+2,eco_E,games ending in an E-code line,share of games,0.004464,0.001488,0.008185,0.004464,0.001488,0.008185,0.0,0.0,0.0,1344,2688,False
+blitz 3+2,eco_none,games with no named line,share of games,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1344,2688,False
+blitz 3+2,book_ply,book depth,plies,5.202381,5.088114,5.334115,5.202381,5.088114,5.334115,0.0,0.0,0.0,1344,2688,False
+blitz 3+2,left_book_first,you left the named lines first,share of games,0.649554,0.623512,0.678218,0.350446,0.321782,0.376488,0.299107,0.247024,0.356436,1344,2688,False
+blitz 3+2,under10_buffer,moves started under 10 s beyond one increment,share of moves,0.021474,0.017404,0.025931,0.020877,0.017053,0.024709,0.000597,-0.003923,0.005537,1344,2688,False
+blitz 5+0,t_opening,"time per move, opening",seconds,7.901125,7.174323,8.657711,5.707932,5.113752,6.345251,2.193193,1.405248,2.897238,87,174,False
+blitz 5+0,t_middlegame,"time per move, middlegame",seconds,9.130696,8.378218,9.905911,7.75149,7.004921,8.56329,1.379206,0.604575,2.153577,87,145,False
+blitz 5+0,t_endgame,"time per move, endgame",seconds,4.612587,3.733506,5.575862,4.566468,3.856066,5.346844,0.046119,-0.934182,1.101819,87,90,False
+blitz 5+0,t_sd,spread (SD) of time per move,seconds,7.20408,6.488137,7.898832,5.559098,4.983508,6.140702,1.644983,0.727887,2.470927,87,174,False
+blitz 5+0,t_max,longest think,seconds,29.145977,26.262356,31.986609,22.458621,19.992443,24.986782,6.687356,3.04592,10.10523,87,174,False
+blitz 5+0,left_m10,clock left after your 10th move,share of base,0.752126,0.72972,0.773213,0.81377,0.792509,0.832003,-0.061644,-0.087797,-0.035377,87,158,False
+blitz 5+0,left_m20,clock left after your 20th move,share of base,0.41947,0.37566,0.472864,0.537251,0.489681,0.589997,-0.117781,-0.169031,-0.068194,87,113,False
+blitz 5+0,left_m40,clock left after your 40th move,share of base,0.193431,0.102526,0.281857,0.304667,0.211649,0.415846,-0.111235,-0.192381,-0.033173,87,33,False
+blitz 5+0,left_end,clock left at the end,share of base,0.34505,0.283831,0.405088,0.469111,0.403786,0.527423,-0.124061,-0.168576,-0.07903,87,174,False
+blitz 5+0,under10,moves started under 10 s,share of moves,0.03121,0.018783,0.046294,0.00674,0.001713,0.012823,0.024471,0.011685,0.03895,87,174,False
+blitz 5+0,fast1,moves played in under 1 s,share of moves,0.065586,0.056068,0.076705,0.106782,0.084564,0.13121,-0.041196,-0.066752,-0.017362,87,174,False
+blitz 5+0,n_moves,own moves per game,moves,26.643678,23.888793,29.764655,26.781609,23.965517,30.017529,-0.137931,-0.275862,0.0,87,174,False
+blitz 5+0,game_plies,game length,plies,53.425287,47.848851,59.765805,53.425287,47.848851,59.765805,0.0,0.0,0.0,87,174,False
+blitz 5+0,capture_rate,captures,share of moves,0.275736,0.258301,0.294467,0.272543,0.254174,0.289214,0.003194,-0.019065,0.027652,87,174,False
+blitz 5+0,check_rate,checks,share of moves,0.08945,0.072921,0.104461,0.111078,0.089709,0.132615,-0.021628,-0.051071,0.007595,87,174,False
+blitz 5+0,castled,games where you castled,share of games,0.264368,0.183908,0.362356,0.425287,0.321839,0.523276,-0.16092,-0.275862,-0.034483,87,174,False
+blitz 5+0,castle_ply,castling move (own move number),moves,12.391304,10.391304,14.26087,11.054054,9.756757,12.433784,1.33725,-0.558182,3.281997,87,60,False
+blitz 5+0,castle_long,castling queenside,share of castled games,0.086957,0.0,0.217391,0.243243,0.108108,0.405405,-0.156287,-0.327322,0.013557,87,60,False
+blitz 5+0,pawn_share,pawn moves,share of moves,0.32972,0.302029,0.358772,0.30442,0.280953,0.32808,0.0253,-0.006418,0.058601,87,174,False
+blitz 5+0,knight_share,knight moves,share of moves,0.205089,0.179235,0.232394,0.207714,0.183608,0.231137,-0.002625,-0.031907,0.0337,87,174,False
+blitz 5+0,bishop_share,bishop moves,share of moves,0.12173,0.104422,0.138738,0.171405,0.152512,0.192773,-0.049675,-0.079082,-0.021412,87,174,False
+blitz 5+0,rook_share,rook moves,share of moves,0.093504,0.07465,0.11389,0.089004,0.068016,0.113803,0.004501,-0.019558,0.028045,87,174,False
+blitz 5+0,queen_share,queen moves,share of moves,0.14341,0.119139,0.169257,0.135869,0.109624,0.162765,0.007541,-0.030866,0.042536,87,174,False
+blitz 5+0,king_share,king moves (not castling),share of moves,0.097064,0.0742,0.118592,0.073375,0.05316,0.095133,0.023689,-0.007004,0.055427,87,174,False
+blitz 5+0,promotions,promotions,per game,0.057471,0.011494,0.126437,0.091954,0.034483,0.172414,-0.034483,-0.103448,0.034483,87,174,False
+blitz 5+0,en_passant,en-passant captures,per game,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,87,174,False
+blitz 5+0,queen_early,queen moves in the first 10,per game,1.091954,0.821552,1.362356,1.172414,0.896552,1.471264,-0.08046,-0.494253,0.310345,87,174,False
+blitz 5+0,W_e4,1.e4 as White,share of White games,0.681818,0.545455,0.818182,0.581395,0.44186,0.72093,0.100423,-0.105416,0.296522,87,87,False
+blitz 5+0,W_d4,1.d4 as White,share of White games,0.318182,0.181818,0.454545,0.209302,0.093023,0.325581,0.108879,-0.083703,0.286678,87,87,False
+blitz 5+0,W_other,other first move as White,share of White games,0.0,0.0,0.0,0.209302,0.093023,0.325581,-0.209302,-0.32632,-0.090909,87,87,False
+blitz 5+0,B_e4_e5,1...e5 against 1.e4,share of Black games vs 1.e4,0.64,0.44,0.8,0.6,0.433333,0.766667,0.04,-0.236103,0.290451,87,55,False
+blitz 5+0,B_e4_c5,1...c5 against 1.e4,share of Black games vs 1.e4,0.24,0.08,0.4,0.033333,0.0,0.1,0.206667,0.046667,0.401855,87,55,False
+blitz 5+0,B_e4_other,other reply to 1.e4,share of Black games vs 1.e4,0.12,0.0,0.261,0.366667,0.2,0.5,-0.246667,-0.444293,-0.043694,87,55,False
+blitz 5+0,B_d4_d5,1...d5 against 1.d4,share of Black games vs 1.d4,1.0,1.0,1.0,0.642857,0.428571,0.857143,0.357143,0.125,0.630966,87,23,False
+blitz 5+0,B_d4_Nf6,1...Nf6 against 1.d4,share of Black games vs 1.d4,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,87,23,False
+blitz 5+0,B_d4_other,other reply to 1.d4,share of Black games vs 1.d4,0.0,0.0,0.0,0.357143,0.142857,0.571429,-0.357143,-0.630966,-0.125,87,23,False
+blitz 5+0,B_other,Black games where White opened neither e4 nor d4,share of Black games,0.209302,0.093023,0.325581,0.0,0.0,0.0,0.209302,0.090909,0.32632,87,87,False
+blitz 5+0,eco_A,games ending in an A-code line,share of games,0.126437,0.057471,0.195402,0.126437,0.057471,0.195402,0.0,0.0,0.0,87,174,False
+blitz 5+0,eco_B,games ending in a B-code line,share of games,0.206897,0.137931,0.293391,0.206897,0.137931,0.293391,0.0,0.0,0.0,87,174,False
+blitz 5+0,eco_C,games ending in a C-code line,share of games,0.45977,0.361782,0.563218,0.45977,0.361782,0.563218,0.0,0.0,0.0,87,174,False
+blitz 5+0,eco_D,games ending in a D-code line,share of games,0.206897,0.120402,0.298851,0.206897,0.120402,0.298851,0.0,0.0,0.0,87,174,False
+blitz 5+0,eco_E,games ending in an E-code line,share of games,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,87,174,False
+blitz 5+0,eco_none,games with no named line,share of games,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,87,174,False
+blitz 5+0,book_ply,book depth,plies,4.218391,3.793103,4.580747,4.218391,3.793103,4.580747,0.0,0.0,0.0,87,174,False
+blitz 5+0,left_book_first,you left the named lines first,share of games,0.586207,0.494253,0.689655,0.413793,0.310345,0.505747,0.172414,-0.011494,0.37931,87,174,False
+blitz 5+0,under10_buffer,moves started under 10 s beyond one increment,share of moves,0.03121,0.018783,0.046294,0.00674,0.001713,0.012823,0.024471,0.011685,0.03895,87,174,False
+blitz 5+2,t_opening,"time per move, opening",seconds,5.769411,5.282831,6.319387,6.181355,5.559736,6.801551,-0.411944,-0.961739,0.120742,106,212,False
+blitz 5+2,t_middlegame,"time per move, middlegame",seconds,8.099367,7.350007,8.789536,9.703135,8.924641,10.510904,-1.603768,-2.499341,-0.792859,106,184,False
+blitz 5+2,t_endgame,"time per move, endgame",seconds,5.369092,4.820416,5.87628,5.413427,4.786278,6.141104,-0.044335,-0.71146,0.49547,106,127,False
+blitz 5+2,t_sd,spread (SD) of time per move,seconds,6.934667,6.318061,7.606456,7.33604,6.694871,8.025672,-0.401373,-1.168473,0.300365,106,212,False
+blitz 5+2,t_max,longest think,seconds,29.94717,26.411108,32.952005,29.338679,26.576675,31.943467,0.608491,-3.143538,4.024057,106,212,False
+blitz 5+2,left_m10,clock left after your 10th move,share of base,0.886057,0.868144,0.901796,0.868017,0.846577,0.890685,0.01804,-0.00257,0.038634,106,200,False
+blitz 5+2,left_m20,clock left after your 20th move,share of base,0.666208,0.623415,0.701992,0.613889,0.570146,0.655597,0.052319,0.017815,0.087498,106,144,False
+blitz 5+2,left_m40,clock left after your 40th move,share of base,0.387695,0.312999,0.467167,0.368537,0.274662,0.462384,0.019158,-0.054906,0.092814,106,71,False
+blitz 5+2,left_end,clock left at the end,share of base,0.553484,0.500217,0.607453,0.510431,0.450052,0.564989,0.043053,0.010111,0.075725,106,212,False
+blitz 5+2,under10,moves started under 10 s,share of moves,0.003573,0.0,0.008622,0.008414,0.002367,0.015175,-0.004841,-0.012016,0.002328,106,212,False
+blitz 5+2,fast1,moves played in under 1 s,share of moves,0.121175,0.104033,0.138274,0.102851,0.088838,0.117676,0.018324,0.001054,0.038684,106,212,False
+blitz 5+2,n_moves,own moves per game,moves,31.103774,28.025943,34.388679,31.075472,27.979717,34.323585,0.028302,-0.113208,0.160377,106,212,False
+blitz 5+2,game_plies,game length,plies,62.179245,56.032547,68.707783,62.179245,56.032547,68.707783,0.0,0.0,0.0,106,212,False
+blitz 5+2,capture_rate,captures,share of moves,0.290417,0.27445,0.30515,0.257851,0.246244,0.268771,0.032567,0.014774,0.048806,106,212,False
+blitz 5+2,check_rate,checks,share of moves,0.100845,0.080569,0.122366,0.093449,0.076056,0.11736,0.007396,-0.030481,0.039437,106,212,False
+blitz 5+2,castled,games where you castled,share of games,0.650943,0.556604,0.735849,0.575472,0.471698,0.669811,0.075472,-0.042689,0.198113,106,212,False
+blitz 5+2,castle_ply,castling move (own move number),moves,10.115942,9.144928,11.32029,10.672131,9.868852,11.591803,-0.556189,-2.046717,0.990499,106,130,False
+blitz 5+2,castle_long,castling queenside,share of castled games,0.0,0.0,0.0,0.147541,0.065574,0.229508,-0.147541,-0.237712,-0.066074,106,130,False
+blitz 5+2,pawn_share,pawn moves,share of moves,0.307522,0.2891,0.329763,0.276419,0.25787,0.295579,0.031103,0.011053,0.051727,106,212,False
+blitz 5+2,knight_share,knight moves,share of moves,0.202654,0.181963,0.226401,0.19681,0.174244,0.217902,0.005844,-0.016604,0.031122,106,212,False
+blitz 5+2,bishop_share,bishop moves,share of moves,0.142013,0.126709,0.15541,0.152527,0.13799,0.167565,-0.010514,-0.03214,0.009559,106,212,False
+blitz 5+2,rook_share,rook moves,share of moves,0.104778,0.088176,0.123056,0.10918,0.090444,0.128865,-0.004402,-0.024712,0.014396,106,212,False
+blitz 5+2,queen_share,queen moves,share of moves,0.122249,0.101962,0.142193,0.121979,0.101279,0.144338,0.00027,-0.029786,0.028877,106,212,False
+blitz 5+2,king_share,king moves (not castling),share of moves,0.097269,0.075044,0.121506,0.12265,0.096825,0.145024,-0.025381,-0.05791,0.009282,106,212,False
+blitz 5+2,promotions,promotions,per game,0.141509,0.079953,0.198113,0.132075,0.056604,0.221934,0.009434,-0.09434,0.103774,106,212,False
+blitz 5+2,en_passant,en-passant captures,per game,0.037736,0.009434,0.075472,0.009434,0.0,0.028302,0.028302,-0.009434,0.066038,106,212,False
+blitz 5+2,queen_early,queen moves in the first 10,per game,1.103774,0.924528,1.297406,1.018868,0.783019,1.292453,0.084906,-0.212972,0.401179,106,212,False
+blitz 5+2,W_e4,1.e4 as White,share of White games,1.0,1.0,1.0,0.618182,0.490909,0.736818,0.381818,0.252159,0.509271,106,106,False
+blitz 5+2,W_d4,1.d4 as White,share of White games,0.0,0.0,0.0,0.272727,0.163636,0.381818,-0.272727,-0.385965,-0.166667,106,106,False
+blitz 5+2,W_other,other first move as White,share of White games,0.0,0.0,0.0,0.109091,0.036364,0.2,-0.109091,-0.192308,-0.028379,106,106,False
+blitz 5+2,B_e4_e5,1...e5 against 1.e4,share of Black games vs 1.e4,1.0,1.0,1.0,0.470588,0.333333,0.607843,0.529412,0.406112,0.669848,106,85,False
+blitz 5+2,B_e4_c5,1...c5 against 1.e4,share of Black games vs 1.e4,0.0,0.0,0.0,0.058824,0.0,0.137255,-0.058824,-0.134615,0.0,106,85,False
+blitz 5+2,B_e4_other,other reply to 1.e4,share of Black games vs 1.e4,0.0,0.0,0.0,0.470588,0.333333,0.607843,-0.470588,-0.606358,-0.329968,106,85,False
+blitz 5+2,B_d4_d5,1...d5 against 1.d4,share of Black games vs 1.d4,1.0,1.0,1.0,,,,,,,106,15,False
+blitz 5+2,B_d4_Nf6,1...Nf6 against 1.d4,share of Black games vs 1.d4,0.0,0.0,0.0,,,,,,,106,15,False
+blitz 5+2,B_d4_other,other reply to 1.d4,share of Black games vs 1.d4,0.0,0.0,0.0,,,,,,,106,15,False
+blitz 5+2,B_other,Black games where White opened neither e4 nor d4,share of Black games,0.109091,0.036364,0.2,0.0,0.0,0.0,0.109091,0.028379,0.192308,106,106,False
+blitz 5+2,eco_A,games ending in an A-code line,share of games,0.04717,0.009434,0.09434,0.04717,0.009434,0.09434,0.0,0.0,0.0,106,212,False
+blitz 5+2,eco_B,games ending in a B-code line,share of games,0.226415,0.150943,0.30684,0.226415,0.150943,0.30684,0.0,0.0,0.0,106,212,False
+blitz 5+2,eco_C,games ending in a C-code line,share of games,0.584906,0.481132,0.66533,0.584906,0.481132,0.66533,0.0,0.0,0.0,106,212,False
+blitz 5+2,eco_D,games ending in a D-code line,share of games,0.141509,0.075472,0.207547,0.141509,0.075472,0.207547,0.0,0.0,0.0,106,212,False
+blitz 5+2,eco_E,games ending in an E-code line,share of games,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,106,212,False
+blitz 5+2,eco_none,games with no named line,share of games,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,106,212,False
+blitz 5+2,book_ply,book depth,plies,5.339623,4.937972,5.792925,5.339623,4.937972,5.792925,0.0,0.0,0.0,106,212,False
+blitz 5+2,left_book_first,you left the named lines first,share of games,0.688679,0.603774,0.773585,0.311321,0.226415,0.396226,0.377358,0.207547,0.54717,106,212,False
+blitz 5+2,under10_buffer,moves started under 10 s beyond one increment,share of moves,0.005861,0.0,0.013932,0.012071,0.004484,0.020792,-0.00621,-0.016214,0.004672,106,212,False
+blitz 5+5,t_opening,"time per move, opening",seconds,7.742732,7.219496,8.260416,7.097285,6.431121,7.813011,0.645447,-0.033139,1.345038,127,254,False
+blitz 5+5,t_middlegame,"time per move, middlegame",seconds,10.480886,9.365611,11.876141,10.117488,9.095224,11.087416,0.363399,-0.940766,1.791162,127,226,False
+blitz 5+5,t_endgame,"time per move, endgame",seconds,6.399158,5.721231,7.100993,7.360069,6.29603,8.364056,-0.960911,-2.154084,0.115781,127,138,False
+blitz 5+5,t_sd,spread (SD) of time per move,seconds,8.022176,7.290524,8.910867,7.971987,7.265367,8.770767,0.05019,-1.280639,1.182386,127,254,False
+blitz 5+5,t_max,longest think,seconds,33.656693,30.081575,37.423819,32.554331,29.133681,36.15561,1.102362,-4.596122,6.344587,127,254,False
+blitz 5+5,left_m10,clock left after your 10th move,share of base,0.920344,0.90154,0.938301,0.939923,0.91453,0.9623,-0.019579,-0.044276,0.003919,127,244,False
+blitz 5+5,left_m20,clock left after your 20th move,share of base,0.743696,0.699805,0.786822,0.748922,0.687764,0.801282,-0.005226,-0.055747,0.051574,127,156,False
+blitz 5+5,left_m40,clock left after your 40th move,share of base,0.555773,0.451707,0.66317,0.495641,0.381851,0.636013,0.060132,-0.047557,0.163612,127,51,False
+blitz 5+5,left_end,clock left at the end,share of base,0.712635,0.674379,0.758499,0.709155,0.653218,0.766798,0.00348,-0.038743,0.050844,127,254,False
+blitz 5+5,under10,moves started under 10 s,share of moves,0.0,0.0,0.0,0.001243,0.0,0.00373,-0.001243,-0.00373,0.0,127,254,False
+blitz 5+5,fast1,moves played in under 1 s,share of moves,0.071919,0.060876,0.083758,0.071444,0.060125,0.085526,0.000475,-0.015157,0.016336,127,254,False
+blitz 5+5,n_moves,own moves per game,moves,28.070866,25.007874,31.17185,28.110236,25.073031,31.15,-0.03937,-0.165354,0.07874,127,254,False
+blitz 5+5,game_plies,game length,plies,56.181102,50.01063,62.32185,56.181102,50.01063,62.32185,0.0,0.0,0.0,127,254,False
+blitz 5+5,capture_rate,captures,share of moves,0.284403,0.271003,0.299488,0.287012,0.273915,0.301106,-0.002609,-0.020129,0.014902,127,254,False
+blitz 5+5,check_rate,checks,share of moves,0.076016,0.064614,0.089941,0.108521,0.09371,0.125577,-0.032506,-0.053533,-0.013202,127,254,False
+blitz 5+5,castled,games where you castled,share of games,0.488189,0.393701,0.574803,0.551181,0.464567,0.637795,-0.062992,-0.15748,0.031496,127,254,False
+blitz 5+5,castle_ply,castling move (own move number),moves,12.774194,11.208065,14.209677,10.414286,9.556429,11.357143,2.359908,0.989486,4.093151,127,132,False
+blitz 5+5,castle_long,castling queenside,share of castled games,0.177419,0.096774,0.274194,0.142857,0.071429,0.214286,0.034562,-0.099394,0.180082,127,132,False
+blitz 5+5,pawn_share,pawn moves,share of moves,0.326999,0.302809,0.349325,0.298326,0.27928,0.31621,0.028673,0.003104,0.052597,127,254,False
+blitz 5+5,knight_share,knight moves,share of moves,0.179069,0.160256,0.19832,0.192302,0.172874,0.214275,-0.013233,-0.039958,0.013391,127,254,False
+blitz 5+5,bishop_share,bishop moves,share of moves,0.156623,0.144145,0.168934,0.15432,0.141636,0.167685,0.002303,-0.015893,0.01909,127,254,False
+blitz 5+5,rook_share,rook moves,share of moves,0.108479,0.09237,0.126372,0.101127,0.084574,0.115625,0.007351,-0.010872,0.024924,127,254,False
+blitz 5+5,queen_share,queen moves,share of moves,0.110446,0.092769,0.130754,0.155735,0.134695,0.17973,-0.045289,-0.076332,-0.017775,127,254,False
+blitz 5+5,king_share,king moves (not castling),share of moves,0.09906,0.080715,0.121307,0.073801,0.054878,0.092417,0.025258,0.005796,0.046936,127,254,False
+blitz 5+5,promotions,promotions,per game,0.110236,0.055118,0.173228,0.11811,0.055118,0.188976,-0.007874,-0.094488,0.07874,127,254,False
+blitz 5+5,en_passant,en-passant captures,per game,0.047244,0.015748,0.086614,0.007874,0.0,0.023622,0.03937,0.0,0.086614,127,254,False
+blitz 5+5,queen_early,queen moves in the first 10,per game,0.779528,0.590551,0.972638,1.094488,0.88563,1.326969,-0.314961,-0.634055,-0.019488,127,254,False
+blitz 5+5,W_e4,1.e4 as White,share of White games,0.424242,0.30303,0.545455,0.688525,0.557377,0.803279,-0.264282,-0.425249,-0.112161,127,127,False
+blitz 5+5,W_d4,1.d4 as White,share of White games,0.575758,0.454545,0.69697,0.245902,0.131148,0.360656,0.329856,0.20006,0.492698,127,127,False
+blitz 5+5,W_other,other first move as White,share of White games,0.0,0.0,0.0,0.065574,0.016393,0.147541,-0.065574,-0.139345,-0.015625,127,127,False
+blitz 5+5,B_e4_e5,1...e5 against 1.e4,share of Black games vs 1.e4,0.738095,0.619048,0.857143,0.642857,0.464286,0.821429,0.095238,-0.128794,0.319827,127,70,False
+blitz 5+5,B_e4_c5,1...c5 against 1.e4,share of Black games vs 1.e4,0.095238,0.02381,0.190476,0.071429,0.0,0.178571,0.02381,-0.102869,0.153906,127,70,False
+blitz 5+5,B_e4_other,other reply to 1.e4,share of Black games vs 1.e4,0.166667,0.071429,0.285714,0.285714,0.142857,0.464286,-0.119048,-0.325718,0.074935,127,70,False
+blitz 5+5,B_d4_d5,1...d5 against 1.d4,share of Black games vs 1.d4,0.866667,0.666667,1.0,0.578947,0.421053,0.724342,0.287719,0.048821,0.517242,127,53,False
+blitz 5+5,B_d4_Nf6,1...Nf6 against 1.d4,share of Black games vs 1.d4,0.133333,0.0,0.333333,0.105263,0.026316,0.224342,0.02807,-0.147593,0.220415,127,53,False
+blitz 5+5,B_d4_other,other reply to 1.d4,share of Black games vs 1.d4,0.0,0.0,0.0,0.315789,0.184211,0.447368,-0.315789,-0.475625,-0.176319,127,53,False
+blitz 5+5,B_other,Black games where White opened neither e4 nor d4,share of Black games,0.065574,0.016393,0.147541,0.0,0.0,0.0,0.065574,0.015625,0.139345,127,127,False
+blitz 5+5,eco_A,games ending in an A-code line,share of games,0.11811,0.070866,0.173228,0.11811,0.070866,0.173228,0.0,0.0,0.0,127,254,False
+blitz 5+5,eco_B,games ending in a B-code line,share of games,0.173228,0.110236,0.244094,0.173228,0.110236,0.244094,0.0,0.0,0.0,127,254,False
+blitz 5+5,eco_C,games ending in a C-code line,share of games,0.409449,0.330709,0.488189,0.409449,0.330709,0.488189,0.0,0.0,0.0,127,254,False
+blitz 5+5,eco_D,games ending in a D-code line,share of games,0.283465,0.204724,0.354331,0.283465,0.204724,0.354331,0.0,0.0,0.0,127,254,False
+blitz 5+5,eco_E,games ending in an E-code line,share of games,0.015748,0.0,0.03937,0.015748,0.0,0.03937,0.0,0.0,0.0,127,254,False
+blitz 5+5,eco_none,games with no named line,share of games,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,127,254,False
+blitz 5+5,book_ply,book depth,plies,4.527559,4.184843,4.91752,4.527559,4.184843,4.91752,0.0,0.0,0.0,127,254,False
+blitz 5+5,left_book_first,you left the named lines first,share of games,0.559055,0.472441,0.645669,0.440945,0.354331,0.527559,0.11811,-0.055118,0.291339,127,254,False
+blitz 5+5,under10_buffer,moves started under 10 s beyond one increment,share of moves,0.000716,0.0,0.002147,0.003836,0.0,0.010365,-0.00312,-0.009522,0.001165,127,254,False
+rapid 10+0,t_opening,"time per move, opening",seconds,6.268683,5.963554,6.534314,6.307372,6.024063,6.614142,-0.038689,-0.343181,0.241035,535,1070,False
+rapid 10+0,t_middlegame,"time per move, middlegame",seconds,9.18317,8.749034,9.626674,9.686988,9.155283,10.159746,-0.503818,-1.009462,0.00547,535,941,False
+rapid 10+0,t_endgame,"time per move, endgame",seconds,6.711857,6.219323,7.241263,6.67608,6.044992,7.303744,0.035777,-0.622783,0.61036,535,562,False
+rapid 10+0,t_sd,spread (SD) of time per move,seconds,7.700737,7.335203,8.090026,7.92986,7.528519,8.386237,-0.229123,-0.643377,0.257283,535,1070,False
+rapid 10+0,t_max,longest think,seconds,33.022056,31.152444,34.972159,32.941495,31.059075,34.847449,0.080561,-2.153481,2.468005,535,1070,False
+rapid 10+0,left_m10,clock left after your 10th move,share of base,0.901642,0.896796,0.905794,0.901225,0.896131,0.906223,0.000417,-0.004548,0.005159,535,1024,False
+rapid 10+0,left_m20,clock left after your 20th move,share of base,0.747159,0.737046,0.758553,0.736004,0.722862,0.748808,0.011154,-0.00076,0.022983,535,694,False
+rapid 10+0,left_m40,clock left after your 40th move,share of base,0.521944,0.498453,0.549,0.528761,0.498754,0.559098,-0.006817,-0.036379,0.020825,535,280,False
+rapid 10+0,left_end,clock left at the end,share of base,0.6424,0.622054,0.659921,0.640075,0.618856,0.659342,0.002325,-0.008605,0.014138,535,1070,False
+rapid 10+0,under10,moves started under 10 s,share of moves,0.000679,0.000136,0.001354,0.001302,0.000251,0.002374,-0.000623,-0.001718,0.000477,535,1070,False
+rapid 10+0,fast1,moves played in under 1 s,share of moves,0.100333,0.093585,0.10668,0.084982,0.078056,0.093301,0.015351,0.006129,0.02415,535,1070,False
+rapid 10+0,n_moves,own moves per game,moves,29.633645,28.198084,31.171963,29.566355,28.162336,31.077991,0.06729,0.004626,0.128972,535,1070,False
+rapid 10+0,game_plies,game length,plies,59.2,56.360421,62.248178,59.2,56.360421,62.248178,0.0,0.0,0.0,535,1070,False
+rapid 10+0,capture_rate,captures,share of moves,0.281835,0.27516,0.289274,0.26067,0.254404,0.266695,0.021165,0.013562,0.029517,535,1070,False
+rapid 10+0,check_rate,checks,share of moves,0.103772,0.096794,0.11102,0.080385,0.072682,0.087504,0.023387,0.012779,0.034412,535,1070,False
+rapid 10+0,castled,games where you castled,share of games,0.656075,0.618692,0.700047,0.53271,0.486869,0.572944,0.123364,0.075654,0.170093,535,1070,False
+rapid 10+0,castle_ply,castling move (own move number),moves,9.811966,9.341738,10.300783,11.157895,10.650263,11.658158,-1.345929,-1.980387,-0.658888,535,636,False
+rapid 10+0,castle_long,castling queenside,share of castled games,0.059829,0.03839,0.088319,0.182456,0.14386,0.231579,-0.122627,-0.178984,-0.073402,535,636,False
+rapid 10+0,pawn_share,pawn moves,share of moves,0.29256,0.284752,0.301354,0.291905,0.282549,0.30199,0.000655,-0.010679,0.012295,535,1070,False
+rapid 10+0,knight_share,knight moves,share of moves,0.201707,0.190916,0.212058,0.193451,0.184159,0.202884,0.008256,-0.004832,0.02122,535,1070,False
+rapid 10+0,bishop_share,bishop moves,share of moves,0.152321,0.1455,0.159265,0.163054,0.155189,0.170375,-0.010732,-0.019992,-0.000899,535,1070,False
+rapid 10+0,rook_share,rook moves,share of moves,0.106095,0.097822,0.116134,0.104877,0.096575,0.114171,0.001217,-0.00745,0.010791,535,1070,False
+rapid 10+0,queen_share,queen moves,share of moves,0.144498,0.135304,0.154837,0.12657,0.116155,0.136991,0.017927,0.004839,0.031024,535,1070,False
+rapid 10+0,king_share,king moves (not castling),share of moves,0.076563,0.06739,0.085751,0.099114,0.089272,0.108918,-0.022551,-0.034665,-0.010912,535,1070,False
+rapid 10+0,promotions,promotions,per game,0.114019,0.086869,0.146776,0.080374,0.055093,0.106542,0.033645,-0.001869,0.068271,535,1070,False
+rapid 10+0,en_passant,en-passant captures,per game,0.028037,0.014953,0.041121,0.001869,0.0,0.005607,0.026168,0.013084,0.041121,535,1070,False
+rapid 10+0,queen_early,queen moves in the first 10,per game,1.13271,1.033645,1.252336,1.142056,1.031776,1.250561,-0.009346,-0.154346,0.156215,535,1070,False
+rapid 10+0,W_e4,1.e4 as White,share of White games,0.924812,0.890977,0.954887,0.635688,0.568773,0.687732,0.289124,0.221851,0.351073,535,535,False
+rapid 10+0,W_d4,1.d4 as White,share of White games,0.075188,0.045113,0.109023,0.267658,0.215613,0.327138,-0.19247,-0.254335,-0.130085,535,535,False
+rapid 10+0,W_other,other first move as White,share of White games,0.0,0.0,0.0,0.096654,0.063197,0.137546,-0.096654,-0.133268,-0.066914,535,535,False
+rapid 10+0,B_e4_e5,1...e5 against 1.e4,share of Black games vs 1.e4,0.947368,0.912281,0.976608,0.621951,0.565041,0.680996,0.325417,0.256523,0.388419,535,417,False
+rapid 10+0,B_e4_c5,1...c5 against 1.e4,share of Black games vs 1.e4,0.040936,0.014474,0.070175,0.04878,0.022256,0.081301,-0.007845,-0.047934,0.038434,535,417,False
+rapid 10+0,B_e4_other,other reply to 1.e4,share of Black games vs 1.e4,0.011696,0.0,0.02924,0.329268,0.272358,0.386179,-0.317572,-0.378609,-0.263932,535,417,False
+rapid 10+0,B_d4_d5,1...d5 against 1.d4,share of Black games vs 1.d4,0.958333,0.902778,1.0,0.6,0.37375,0.8,0.358333,0.137813,0.574622,535,92,False
+rapid 10+0,B_d4_Nf6,1...Nf6 against 1.d4,share of Black games vs 1.d4,0.013889,0.0,0.041667,0.05,0.0,0.15,-0.036111,-0.161115,0.029209,535,92,False
+rapid 10+0,B_d4_other,other reply to 1.d4,share of Black games vs 1.d4,0.027778,0.0,0.069444,0.35,0.15,0.55,-0.322222,-0.552795,-0.1051,535,92,False
+rapid 10+0,B_other,Black games where White opened neither e4 nor d4,share of Black games,0.096654,0.063197,0.137546,0.0,0.0,0.0,0.096654,0.066914,0.133268,535,535,False
+rapid 10+0,eco_A,games ending in an A-code line,share of games,0.059813,0.041121,0.079486,0.059813,0.041121,0.079486,0.0,0.0,0.0,535,1070,False
+rapid 10+0,eco_B,games ending in a B-code line,share of games,0.166355,0.135467,0.198131,0.166355,0.135467,0.198131,0.0,0.0,0.0,535,1070,False
+rapid 10+0,eco_C,games ending in a C-code line,share of games,0.624299,0.586916,0.66729,0.624299,0.586916,0.66729,0.0,0.0,0.0,535,1070,False
+rapid 10+0,eco_D,games ending in a D-code line,share of games,0.149533,0.121495,0.175701,0.149533,0.121495,0.175701,0.0,0.0,0.0,535,1070,False
+rapid 10+0,eco_E,games ending in an E-code line,share of games,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,535,1070,False
+rapid 10+0,eco_none,games with no named line,share of games,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,535,1070,False
+rapid 10+0,book_ply,book depth,plies,4.86729,4.680374,5.063645,4.86729,4.680374,5.063645,0.0,0.0,0.0,535,1070,False
+rapid 10+0,left_book_first,you left the named lines first,share of games,0.639252,0.6,0.682243,0.360748,0.317757,0.4,0.278505,0.2,0.364486,535,1070,False
+rapid 10+0,under10_buffer,moves started under 10 s beyond one increment,share of moves,0.000679,0.000136,0.001354,0.001302,0.000251,0.002374,-0.000623,-0.001718,0.000477,535,1070,False
+all bullet,t_opening,"time per move, opening",seconds,1.476827,1.449661,1.501498,1.368731,1.338689,1.396996,0.108095,0.088331,0.129679,3294,6588,False
+all bullet,t_middlegame,"time per move, middlegame",seconds,2.095148,2.06571,2.128123,2.164177,2.128844,2.200711,-0.06903,-0.103387,-0.032859,3294,6308,False
+all bullet,t_endgame,"time per move, endgame",seconds,1.38835,1.362813,1.41603,1.473412,1.437137,1.516233,-0.085061,-0.123196,-0.053251,3294,4709,False
+all bullet,t_sd,spread (SD) of time per move,seconds,1.339611,1.313546,1.368341,1.50237,1.471918,1.532118,-0.162759,-0.194841,-0.130116,3294,6588,False
+all bullet,t_max,longest think,seconds,5.774651,5.666799,5.903193,6.50425,6.36895,6.636737,-0.729599,-0.86677,-0.577725,3294,6588,False
+all bullet,left_m10,clock left after your 10th move,share of base,0.794429,0.791261,0.798136,0.811747,0.807424,0.815691,-0.017318,-0.020424,-0.014133,3294,6475,False
+all bullet,left_m20,clock left after your 20th move,share of base,0.488053,0.482594,0.493233,0.498298,0.492749,0.504426,-0.010245,-0.015653,-0.004745,3294,5440,False
+all bullet,left_m40,clock left after your 40th move,share of base,0.148108,0.141659,0.15477,0.168796,0.161196,0.177432,-0.020687,-0.029079,-0.012972,3294,1936,False
+all bullet,left_end,clock left at the end,share of base,0.228193,0.221362,0.235662,0.226242,0.218466,0.234531,0.001951,-0.003297,0.007833,3294,6588,False
+all bullet,under10,moves started under 10 s,share of moves,0.092481,0.088553,0.096425,0.093863,0.089798,0.098091,-0.001382,-0.006096,0.003272,3294,6588,False
+all bullet,fast1,moves played in under 1 s,share of moves,0.319531,0.314742,0.323947,0.371806,0.366294,0.37746,-0.052275,-0.057078,-0.047188,3294,6588,False
+all bullet,n_moves,own moves per game,moves,32.301761,31.792448,32.716181,32.284457,31.787401,32.707886,0.017304,-0.009123,0.039929,3294,6588,False
+all bullet,game_plies,game length,plies,64.586217,63.57985,65.419095,64.586217,63.57985,65.419095,0.0,0.0,0.0,3294,6588,False
+all bullet,capture_rate,captures,share of moves,0.279535,0.277225,0.281947,0.272968,0.27071,0.275308,0.006567,0.003248,0.009752,3294,6588,False
+all bullet,check_rate,checks,share of moves,0.081628,0.078772,0.084325,0.082301,0.079551,0.084918,-0.000673,-0.005282,0.003749,3294,6588,False
+all bullet,castled,games where you castled,share of games,0.736187,0.722222,0.750152,0.673953,0.657703,0.688525,0.062234,0.042949,0.081967,3294,6588,False
+all bullet,castle_ply,castling move (own move number),moves,9.003299,8.832206,9.186,11.112162,10.945023,11.292646,-2.108863,-2.335949,-1.861374,3294,4645,False
+all bullet,castle_long,castling queenside,share of castled games,0.037526,0.029887,0.045361,0.204505,0.188739,0.220507,-0.166979,-0.184335,-0.147641,3294,4645,False
+all bullet,pawn_share,pawn moves,share of moves,0.304218,0.301047,0.307844,0.27731,0.274071,0.280584,0.026908,0.023024,0.031248,3294,6588,False
+all bullet,knight_share,knight moves,share of moves,0.189729,0.186385,0.193156,0.181634,0.178708,0.185048,0.008095,0.003835,0.011935,3294,6588,False
+all bullet,bishop_share,bishop moves,share of moves,0.150388,0.148083,0.152812,0.160594,0.157801,0.163133,-0.010206,-0.013474,-0.006707,3294,6588,False
+all bullet,rook_share,rook moves,share of moves,0.124271,0.120573,0.127936,0.129742,0.126279,0.133177,-0.005471,-0.009771,-0.001208,3294,6588,False
+all bullet,queen_share,queen moves,share of moves,0.112286,0.108709,0.115545,0.126515,0.123027,0.130538,-0.01423,-0.019235,-0.009285,3294,6588,False
+all bullet,king_share,king moves (not castling),share of moves,0.09434,0.090339,0.098127,0.101364,0.097057,0.105386,-0.007023,-0.012814,-0.000745,3294,6588,False
+all bullet,promotions,promotions,per game,0.112933,0.100934,0.125076,0.102611,0.08986,0.116591,0.010322,-0.007286,0.027785,3294,6588,False
+all bullet,en_passant,en-passant captures,per game,0.015179,0.010929,0.019429,0.003947,0.001821,0.006072,0.011233,0.006375,0.015786,3294,6588,False
+all bullet,queen_early,queen moves in the first 10,per game,0.727383,0.695492,0.762629,1.050091,1.010003,1.096858,-0.322708,-0.379189,-0.272442,3294,6588,False
+all bullet,W_e4,1.e4 as White,share of White games,0.957343,0.946374,0.966194,0.564428,0.54144,0.592257,0.392915,0.368376,0.417035,3294,3294,False
+all bullet,W_d4,1.d4 as White,share of White games,0.040219,0.031079,0.051188,0.238355,0.216576,0.258318,-0.198135,-0.219743,-0.177651,3294,3294,False
+all bullet,W_other,other first move as White,share of White games,0.002438,0.000609,0.004875,0.197217,0.176649,0.215366,-0.19478,-0.212983,-0.175101,3294,3294,False
+all bullet,B_e4_e5,1...e5 against 1.e4,share of Black games vs 1.e4,0.959271,0.946409,0.971624,0.385105,0.363431,0.409293,0.574166,0.545215,0.600484,3294,2504,False
+all bullet,B_e4_c5,1...c5 against 1.e4,share of Black games vs 1.e4,0.027867,0.018221,0.038585,0.078294,0.065229,0.091661,-0.050427,-0.067962,-0.031836,3294,2504,False
+all bullet,B_e4_other,other reply to 1.e4,share of Black games vs 1.e4,0.012862,0.006431,0.020927,0.536601,0.512412,0.560487,-0.523739,-0.548646,-0.49621,3294,2504,False
+all bullet,B_d4_d5,1...d5 against 1.d4,share of Black games vs 1.d4,0.903553,0.875635,0.93401,0.348485,0.242424,0.454545,0.555068,0.437025,0.671164,3294,460,False
+all bullet,B_d4_Nf6,1...Nf6 against 1.d4,share of Black games vs 1.d4,0.0,0.0,0.0,0.060606,0.015152,0.121212,-0.060606,-0.127273,-0.014085,3294,460,False
+all bullet,B_d4_other,other reply to 1.d4,share of Black games vs 1.d4,0.096447,0.06599,0.124365,0.590909,0.469697,0.712121,-0.494462,-0.6114,-0.37257,3294,460,False
+all bullet,B_other,Black games where White opened neither e4 nor d4,share of Black games,0.197217,0.176649,0.215366,0.002438,0.000609,0.004875,0.19478,0.175101,0.212983,3294,3294,False
+all bullet,eco_A,games ending in an A-code line,share of games,0.135701,0.124006,0.148004,0.135701,0.124006,0.148004,0.0,0.0,0.0,3294,6588,False
+all bullet,eco_B,games ending in a B-code line,share of games,0.248027,0.232848,0.262454,0.248027,0.232848,0.262454,0.0,0.0,0.0,3294,6588,False
+all bullet,eco_C,games ending in a C-code line,share of games,0.505768,0.488912,0.522928,0.505768,0.488912,0.522928,0.0,0.0,0.0,3294,6588,False
+all bullet,eco_D,games ending in a D-code line,share of games,0.10929,0.099719,0.119164,0.10929,0.099719,0.119164,0.0,0.0,0.0,3294,6588,False
+all bullet,eco_E,games ending in an E-code line,share of games,0.001214,0.000304,0.002732,0.001214,0.000304,0.002732,0.0,0.0,0.0,3294,6588,False
+all bullet,eco_none,games with no named line,share of games,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,3294,6588,False
+all bullet,book_ply,book depth,plies,4.827869,4.7506,4.917077,4.827869,4.7506,4.917077,0.0,0.0,0.0,3294,6588,False
+all bullet,left_book_first,you left the named lines first,share of games,0.638737,0.621274,0.654986,0.361263,0.345014,0.378726,0.277474,0.242547,0.309973,3294,6588,False
+all bullet,under10_buffer,moves started under 10 s beyond one increment,share of moves,0.093741,0.089727,0.097713,0.095119,0.091048,0.099317,-0.001378,-0.006142,0.003256,3294,6588,False
+all blitz,t_opening,"time per move, opening",seconds,5.110819,4.98838,5.228106,4.532981,4.408597,4.668278,0.577838,0.459383,0.692246,1867,3734,False
+all blitz,t_middlegame,"time per move, middlegame",seconds,7.456464,7.27945,7.629584,6.927566,6.766969,7.09208,0.528898,0.340129,0.722677,1867,3383,False
+all blitz,t_endgame,"time per move, endgame",seconds,4.359961,4.222193,4.506145,4.413,4.256424,4.553129,-0.053038,-0.199083,0.108572,1867,2193,False
+all blitz,t_sd,spread (SD) of time per move,seconds,5.61932,5.49359,5.743809,5.470669,5.337091,5.615281,0.148651,-0.011496,0.300549,1867,3734,False
+all blitz,t_max,longest think,seconds,24.001125,23.440706,24.60748,22.893787,22.330645,23.478218,1.107338,0.40771,1.849223,1867,3734,False
+all blitz,left_m10,clock left after your 10th move,share of base,0.850697,0.845076,0.856409,0.879928,0.873713,0.885847,-0.029231,-0.035355,-0.023486,1867,3595,False
+all blitz,left_m20,clock left after your 20th move,share of base,0.567781,0.556471,0.578175,0.626412,0.613227,0.638395,-0.058631,-0.069036,-0.047302,1867,2631,False
+all blitz,left_m40,clock left after your 40th move,share of base,0.287776,0.267224,0.305927,0.356293,0.335346,0.377146,-0.068517,-0.091233,-0.045809,1867,1014,False
+all blitz,left_end,clock left at the end,share of base,0.440688,0.427208,0.453888,0.497307,0.481647,0.51191,-0.056619,-0.066788,-0.046174,1867,3734,False
+all blitz,under10,moves started under 10 s,share of moves,0.015104,0.012662,0.017726,0.013098,0.010768,0.015648,0.002006,-0.001485,0.005264,1867,3734,False
+all blitz,fast1,moves played in under 1 s,share of moves,0.109052,0.105456,0.112328,0.131699,0.127032,0.13641,-0.022648,-0.027693,-0.01785,1867,3734,False
+all blitz,n_moves,own moves per game,moves,31.141939,30.472737,31.976419,31.130155,30.463913,31.95778,0.011784,-0.018773,0.045836,1867,3734,False
+all blitz,game_plies,game length,plies,62.272094,60.936877,63.932673,62.272094,60.936877,63.932673,0.0,0.0,0.0,1867,3734,False
+all blitz,capture_rate,captures,share of moves,0.279448,0.275987,0.283156,0.268162,0.264806,0.271447,0.011286,0.007418,0.015429,1867,3734,False
+all blitz,check_rate,checks,share of moves,0.081651,0.077595,0.085602,0.091804,0.088012,0.096082,-0.010153,-0.016934,-0.004933,1867,3734,False
+all blitz,castled,games where you castled,share of games,0.622924,0.598286,0.64463,0.627745,0.605503,0.650777,-0.004821,-0.034561,0.021706,1867,3734,False
+all blitz,castle_ply,castling move (own move number),moves,9.94497,9.669819,10.227945,11.029863,10.771694,11.268366,-1.084894,-1.398212,-0.73713,1867,2335,False
+all blitz,castle_long,castling queenside,share of castled games,0.078246,0.065348,0.095443,0.181741,0.16041,0.201365,-0.103495,-0.127386,-0.075253,1867,2335,False
+all blitz,pawn_share,pawn moves,share of moves,0.310131,0.305149,0.315206,0.286339,0.281349,0.290448,0.023792,0.018093,0.029152,1867,3734,False
+all blitz,knight_share,knight moves,share of moves,0.190086,0.185172,0.194763,0.190152,0.185942,0.194655,-6.5e-05,-0.006105,0.00574,1867,3734,False
+all blitz,bishop_share,bishop moves,share of moves,0.152852,0.148824,0.156936,0.164845,0.161381,0.16889,-0.011993,-0.017005,-0.006915,1867,3734,False
+all blitz,rook_share,rook moves,share of moves,0.109029,0.104311,0.113536,0.115072,0.110735,0.119991,-0.006044,-0.0107,-0.001639,1867,3734,False
+all blitz,queen_share,queen moves,share of moves,0.119461,0.114633,0.124043,0.127811,0.123346,0.132533,-0.00835,-0.014758,-0.001982,1867,3734,False
+all blitz,king_share,king moves (not castling),share of moves,0.095228,0.09028,0.101024,0.092332,0.087255,0.098236,0.002896,-0.003887,0.009242,1867,3734,False
+all blitz,promotions,promotions,per game,0.129084,0.112734,0.148112,0.119443,0.102839,0.138471,0.009641,-0.014488,0.034815,1867,3734,False
+all blitz,en_passant,en-passant captures,per game,0.01714,0.011248,0.024103,0.004821,0.001861,0.008034,0.012319,0.004821,0.019282,1867,3734,False
+all blitz,queen_early,queen moves in the first 10,per game,0.864488,0.817354,0.91726,1.051955,1.001071,1.107659,-0.187467,-0.258985,-0.119443,1867,3734,False
+all blitz,W_e4,1.e4 as White,share of White games,0.738147,0.711207,0.766164,0.652822,0.621379,0.68107,0.085324,0.046487,0.126896,1867,1867,False
+all blitz,W_d4,1.d4 as White,share of White games,0.260776,0.232193,0.287716,0.238552,0.212993,0.265735,0.022224,-0.01691,0.061273,1867,1867,False
+all blitz,W_other,other first move as White,share of White games,0.001078,0.0,0.003233,0.108626,0.090522,0.126731,-0.107549,-0.12929,-0.089214,1867,1867,False
+all blitz,B_e4_e5,1...e5 against 1.e4,share of Black games vs 1.e4,0.905383,0.882545,0.928222,0.531387,0.491204,0.564964,0.373996,0.331127,0.413243,1867,1298,False
+all blitz,B_e4_c5,1...c5 against 1.e4,share of Black games vs 1.e4,0.052202,0.035889,0.070147,0.072993,0.054015,0.092737,-0.02079,-0.044638,0.007393,1867,1298,False
+all blitz,B_e4_other,other reply to 1.e4,share of Black games vs 1.e4,0.042414,0.027732,0.057953,0.39562,0.366423,0.435036,-0.353206,-0.392204,-0.314808,1867,1298,False
+all blitz,B_d4_d5,1...d5 against 1.d4,share of Black games vs 1.d4,0.941964,0.910714,0.96875,0.582645,0.524793,0.640496,0.35932,0.290179,0.428973,1867,466,False
+all blitz,B_d4_Nf6,1...Nf6 against 1.d4,share of Black games vs 1.d4,0.040179,0.017857,0.066964,0.07438,0.041322,0.107438,-0.034202,-0.077628,0.008875,1867,466,False
+all blitz,B_d4_other,other reply to 1.d4,share of Black games vs 1.d4,0.017857,0.004464,0.038058,0.342975,0.285124,0.398864,-0.325118,-0.383789,-0.261957,1867,466,False
+all blitz,B_other,Black games where White opened neither e4 nor d4,share of Black games,0.108626,0.090522,0.126731,0.001078,0.0,0.003233,0.107549,0.089214,0.12929,1867,1867,False
+all blitz,eco_A,games ending in an A-code line,share of games,0.087306,0.074987,0.100696,0.087306,0.074987,0.100696,0.0,0.0,0.0,1867,3734,False
+all blitz,eco_B,games ending in a B-code line,share of games,0.191216,0.176754,0.20782,0.191216,0.176754,0.20782,0.0,0.0,0.0,1867,3734,False
+all blitz,eco_C,games ending in a C-code line,share of games,0.517943,0.494376,0.540975,0.517943,0.494376,0.540975,0.0,0.0,0.0,1867,3734,False
+all blitz,eco_D,games ending in a D-code line,share of games,0.19925,0.180503,0.217742,0.19925,0.180503,0.217742,0.0,0.0,0.0,1867,3734,False
+all blitz,eco_E,games ending in an E-code line,share of games,0.004285,0.001607,0.007499,0.004285,0.001607,0.007499,0.0,0.0,0.0,1867,3734,False
+all blitz,eco_none,games with no named line,share of games,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1867,3734,False
+all blitz,book_ply,book depth,plies,5.142475,5.029178,5.247991,5.142475,5.029178,5.247991,0.0,0.0,0.0,1867,3734,False
+all blitz,left_book_first,you left the named lines first,share of games,0.646492,0.624531,0.667662,0.353508,0.332338,0.375469,0.292983,0.249063,0.335324,1867,3734,False
+all blitz,under10_buffer,moves started under 10 s beyond one increment,share of moves,0.019834,0.017033,0.023082,0.017364,0.014457,0.020519,0.00247,-0.001502,0.005921,1867,3734,False
+all rapid,t_opening,"time per move, opening",seconds,6.268683,5.963554,6.534314,6.307372,6.024063,6.614142,-0.038689,-0.343181,0.241035,535,1070,False
+all rapid,t_middlegame,"time per move, middlegame",seconds,9.18317,8.749034,9.626674,9.686988,9.155283,10.159746,-0.503818,-1.009462,0.00547,535,941,False
+all rapid,t_endgame,"time per move, endgame",seconds,6.711857,6.219323,7.241263,6.67608,6.044992,7.303744,0.035777,-0.622783,0.61036,535,562,False
+all rapid,t_sd,spread (SD) of time per move,seconds,7.700737,7.335203,8.090026,7.92986,7.528519,8.386237,-0.229123,-0.643377,0.257283,535,1070,False
+all rapid,t_max,longest think,seconds,33.022056,31.152444,34.972159,32.941495,31.059075,34.847449,0.080561,-2.153481,2.468005,535,1070,False
+all rapid,left_m10,clock left after your 10th move,share of base,0.901642,0.896796,0.905794,0.901225,0.896131,0.906223,0.000417,-0.004548,0.005159,535,1024,False
+all rapid,left_m20,clock left after your 20th move,share of base,0.747159,0.737046,0.758553,0.736004,0.722862,0.748808,0.011154,-0.00076,0.022983,535,694,False
+all rapid,left_m40,clock left after your 40th move,share of base,0.521944,0.498453,0.549,0.528761,0.498754,0.559098,-0.006817,-0.036379,0.020825,535,280,False
+all rapid,left_end,clock left at the end,share of base,0.6424,0.622054,0.659921,0.640075,0.618856,0.659342,0.002325,-0.008605,0.014138,535,1070,False
+all rapid,under10,moves started under 10 s,share of moves,0.000679,0.000136,0.001354,0.001302,0.000251,0.002374,-0.000623,-0.001718,0.000477,535,1070,False
+all rapid,fast1,moves played in under 1 s,share of moves,0.100333,0.093585,0.10668,0.084982,0.078056,0.093301,0.015351,0.006129,0.02415,535,1070,False
+all rapid,n_moves,own moves per game,moves,29.633645,28.198084,31.171963,29.566355,28.162336,31.077991,0.06729,0.004626,0.128972,535,1070,False
+all rapid,game_plies,game length,plies,59.2,56.360421,62.248178,59.2,56.360421,62.248178,0.0,0.0,0.0,535,1070,False
+all rapid,capture_rate,captures,share of moves,0.281835,0.27516,0.289274,0.26067,0.254404,0.266695,0.021165,0.013562,0.029517,535,1070,False
+all rapid,check_rate,checks,share of moves,0.103772,0.096794,0.11102,0.080385,0.072682,0.087504,0.023387,0.012779,0.034412,535,1070,False
+all rapid,castled,games where you castled,share of games,0.656075,0.618692,0.700047,0.53271,0.486869,0.572944,0.123364,0.075654,0.170093,535,1070,False
+all rapid,castle_ply,castling move (own move number),moves,9.811966,9.341738,10.300783,11.157895,10.650263,11.658158,-1.345929,-1.980387,-0.658888,535,636,False
+all rapid,castle_long,castling queenside,share of castled games,0.059829,0.03839,0.088319,0.182456,0.14386,0.231579,-0.122627,-0.178984,-0.073402,535,636,False
+all rapid,pawn_share,pawn moves,share of moves,0.29256,0.284752,0.301354,0.291905,0.282549,0.30199,0.000655,-0.010679,0.012295,535,1070,False
+all rapid,knight_share,knight moves,share of moves,0.201707,0.190916,0.212058,0.193451,0.184159,0.202884,0.008256,-0.004832,0.02122,535,1070,False
+all rapid,bishop_share,bishop moves,share of moves,0.152321,0.1455,0.159265,0.163054,0.155189,0.170375,-0.010732,-0.019992,-0.000899,535,1070,False
+all rapid,rook_share,rook moves,share of moves,0.106095,0.097822,0.116134,0.104877,0.096575,0.114171,0.001217,-0.00745,0.010791,535,1070,False
+all rapid,queen_share,queen moves,share of moves,0.144498,0.135304,0.154837,0.12657,0.116155,0.136991,0.017927,0.004839,0.031024,535,1070,False
+all rapid,king_share,king moves (not castling),share of moves,0.076563,0.06739,0.085751,0.099114,0.089272,0.108918,-0.022551,-0.034665,-0.010912,535,1070,False
+all rapid,promotions,promotions,per game,0.114019,0.086869,0.146776,0.080374,0.055093,0.106542,0.033645,-0.001869,0.068271,535,1070,False
+all rapid,en_passant,en-passant captures,per game,0.028037,0.014953,0.041121,0.001869,0.0,0.005607,0.026168,0.013084,0.041121,535,1070,False
+all rapid,queen_early,queen moves in the first 10,per game,1.13271,1.033645,1.252336,1.142056,1.031776,1.250561,-0.009346,-0.154346,0.156215,535,1070,False
+all rapid,W_e4,1.e4 as White,share of White games,0.924812,0.890977,0.954887,0.635688,0.568773,0.687732,0.289124,0.221851,0.351073,535,535,False
+all rapid,W_d4,1.d4 as White,share of White games,0.075188,0.045113,0.109023,0.267658,0.215613,0.327138,-0.19247,-0.254335,-0.130085,535,535,False
+all rapid,W_other,other first move as White,share of White games,0.0,0.0,0.0,0.096654,0.063197,0.137546,-0.096654,-0.133268,-0.066914,535,535,False
+all rapid,B_e4_e5,1...e5 against 1.e4,share of Black games vs 1.e4,0.947368,0.912281,0.976608,0.621951,0.565041,0.680996,0.325417,0.256523,0.388419,535,417,False
+all rapid,B_e4_c5,1...c5 against 1.e4,share of Black games vs 1.e4,0.040936,0.014474,0.070175,0.04878,0.022256,0.081301,-0.007845,-0.047934,0.038434,535,417,False
+all rapid,B_e4_other,other reply to 1.e4,share of Black games vs 1.e4,0.011696,0.0,0.02924,0.329268,0.272358,0.386179,-0.317572,-0.378609,-0.263932,535,417,False
+all rapid,B_d4_d5,1...d5 against 1.d4,share of Black games vs 1.d4,0.958333,0.902778,1.0,0.6,0.37375,0.8,0.358333,0.137813,0.574622,535,92,False
+all rapid,B_d4_Nf6,1...Nf6 against 1.d4,share of Black games vs 1.d4,0.013889,0.0,0.041667,0.05,0.0,0.15,-0.036111,-0.161115,0.029209,535,92,False
+all rapid,B_d4_other,other reply to 1.d4,share of Black games vs 1.d4,0.027778,0.0,0.069444,0.35,0.15,0.55,-0.322222,-0.552795,-0.1051,535,92,False
+all rapid,B_other,Black games where White opened neither e4 nor d4,share of Black games,0.096654,0.063197,0.137546,0.0,0.0,0.0,0.096654,0.066914,0.133268,535,535,False
+all rapid,eco_A,games ending in an A-code line,share of games,0.059813,0.041121,0.079486,0.059813,0.041121,0.079486,0.0,0.0,0.0,535,1070,False
+all rapid,eco_B,games ending in a B-code line,share of games,0.166355,0.135467,0.198131,0.166355,0.135467,0.198131,0.0,0.0,0.0,535,1070,False
+all rapid,eco_C,games ending in a C-code line,share of games,0.624299,0.586916,0.66729,0.624299,0.586916,0.66729,0.0,0.0,0.0,535,1070,False
+all rapid,eco_D,games ending in a D-code line,share of games,0.149533,0.121495,0.175701,0.149533,0.121495,0.175701,0.0,0.0,0.0,535,1070,False
+all rapid,eco_E,games ending in an E-code line,share of games,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,535,1070,False
+all rapid,eco_none,games with no named line,share of games,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,535,1070,False
+all rapid,book_ply,book depth,plies,4.86729,4.680374,5.063645,4.86729,4.680374,5.063645,0.0,0.0,0.0,535,1070,False
+all rapid,left_book_first,you left the named lines first,share of games,0.639252,0.6,0.682243,0.360748,0.317757,0.4,0.278505,0.2,0.364486,535,1070,False
+all rapid,under10_buffer,moves started under 10 s beyond one increment,share of moves,0.000679,0.000136,0.001354,0.001302,0.000251,0.002374,-0.000623,-0.001718,0.000477,535,1070,False

@@ -1,0 +1,97 @@
+tc_group,matching,time_class,feature,habit,measure,perm_auc_drop,perm_sd,logistic_coef,rank
+bullet 1+0,band and control,bullet,B_e4_other,other reply to 1.e4,share of Black games vs 1.e4,0.052429,0.00338,-0.975537,1
+bullet 1+0,band and control,bullet,fast1,moves played in under 1 s,share of moves,0.030672,0.002545,-0.958847,2
+bullet 1+0,band and control,bullet,castle_ply,castling move (own move number),moves,0.02777,0.002557,-0.325197,3
+bullet 1+0,band and control,bullet,W_other,other first move as White,share of White games,0.025296,0.00253,-1.136514,4
+bullet 1+0,band and control,bullet,left_m10,clock left after your 10th move,share of base,0.023325,0.002933,-0.184685,5
+bullet 1+0,band and control,bullet,W_e4,1.e4 as White,share of White games,0.013218,0.001238,0.602907,6
+bullet 1+0,band and control,bullet,W_d4,1.d4 as White,share of White games,0.012267,0.004261,-0.227186,7
+bullet 1+0,band and control,bullet,castle_long,castling queenside,share of castled games,0.011896,0.001796,-0.364335,8
+bullet 1+0,band and control,bullet,book_ply,book depth,plies,0.011701,0.001953,0.461383,9
+bullet 1+0,band and control,bullet,B_e4_e5,1...e5 against 1.e4,share of Black games vs 1.e4,0.010169,0.002504,0.693958,10
+bullet 1+0,band and control,bullet,left_book_first,you left the named lines first,share of games,0.008751,0.002187,0.189716,11
+bullet 1+0,band and control,bullet,capture_rate,captures,share of moves,0.007717,0.002273,0.364084,12
+bullet 1+1,band and control,bullet,B_e4_other,other reply to 1.e4,share of Black games vs 1.e4,0.052981,0.020478,-0.950392,1
+bullet 1+1,band and control,bullet,B_e4_e5,1...e5 against 1.e4,share of Black games vs 1.e4,0.04021,0.006696,0.7472,2
+bullet 1+1,band and control,bullet,t_sd,spread (SD) of time per move,seconds,0.025678,0.009368,-0.37146,3
+bullet 1+1,band and control,bullet,castle_ply,castling move (own move number),moves,0.019173,0.007824,-0.260349,4
+bullet 1+1,band and control,bullet,book_ply,book depth,plies,0.019106,0.002724,0.221887,5
+bullet 1+1,band and control,bullet,B_d4_d5,1...d5 against 1.d4,share of Black games vs 1.d4,0.010671,0.002403,0.198748,6
+bullet 1+1,band and control,bullet,W_e4,1.e4 as White,share of White games,0.010196,0.004094,0.433012,7
+bullet 1+1,band and control,bullet,capture_rate,captures,share of moves,0.010129,0.009464,0.437334,8
+bullet 1+1,band and control,bullet,castle_long,castling queenside,share of castled games,0.007622,0.005632,-0.581045,9
+bullet 1+1,band and control,bullet,t_middlegame,"time per move, middlegame",seconds,0.007385,0.003006,0.009256,10
+bullet 1+1,band and control,bullet,left_m40,clock left after your 40th move,share of base,0.007249,0.000978,-0.020891,11
+bullet 1+1,band and control,bullet,rook_share,rook moves,share of moves,0.005657,0.011217,0.038634,12
+blitz 3+0,band and control,blitz,castle_ply,castling move (own move number),moves,0.091038,0.041046,-0.78167,1
+blitz 3+0,band and control,blitz,book_ply,book depth,plies,0.053256,0.034705,0.639646,2
+blitz 3+0,band and control,blitz,fast1,moves played in under 1 s,share of moves,0.020761,0.01344,-0.392541,3
+blitz 3+0,band and control,blitz,B_e4_e5,1...e5 against 1.e4,share of Black games vs 1.e4,0.015087,0.003966,0.403589,4
+blitz 3+0,band and control,blitz,t_opening,"time per move, opening",seconds,0.014055,0.005034,0.393362,5
+blitz 3+0,band and control,blitz,W_other,other first move as White,share of White games,0.013798,0.006782,-0.746505,6
+blitz 3+0,band and control,blitz,knight_share,knight moves,share of moves,0.008769,0.003924,-0.0871,7
+blitz 3+0,band and control,blitz,B_d4_d5,1...d5 against 1.d4,share of Black games vs 1.d4,0.008382,0.005332,0.504278,8
+blitz 3+0,band and control,blitz,left_m20,clock left after your 20th move,share of base,0.007221,0.002952,-0.080827,9
+blitz 3+0,band and control,blitz,game_plies,game length,plies,0.007092,0.005895,0.227166,10
+blitz 3+0,band and control,blitz,king_share,king moves (not castling),share of moves,0.006576,0.00604,0.25878,11
+blitz 3+0,band and control,blitz,check_rate,checks,share of moves,0.005803,0.005979,0.208626,12
+blitz 3+2,band and control,blitz,castle_ply,castling move (own move number),moves,0.039636,0.005526,-0.223226,1
+blitz 3+2,band and control,blitz,B_e4_other,other reply to 1.e4,share of Black games vs 1.e4,0.038777,0.01116,-0.690952,2
+blitz 3+2,band and control,blitz,book_ply,book depth,plies,0.037229,0.005102,0.350668,3
+blitz 3+2,band and control,blitz,capture_rate,captures,share of moves,0.029264,0.008593,0.525039,4
+blitz 3+2,band and control,blitz,left_m10,clock left after your 10th move,share of base,0.023176,0.00794,-0.157413,5
+blitz 3+2,band and control,blitz,B_d4_other,other reply to 1.d4,share of Black games vs 1.d4,0.017244,0.002931,-0.478314,6
+blitz 3+2,band and control,blitz,fast1,moves played in under 1 s,share of moves,0.01576,0.005972,0.02787,7
+blitz 3+2,band and control,blitz,queen_share,queen moves,share of moves,0.01098,0.006537,-0.427819,8
+blitz 3+2,band and control,blitz,eco_B,games ending in a B-code line,share of games,0.008404,0.003886,0.110678,9
+blitz 3+2,band and control,blitz,W_other,other first move as White,share of White games,0.008268,0.005196,-0.521311,10
+blitz 3+2,band and control,blitz,t_opening,"time per move, opening",seconds,0.007991,0.005301,0.371344,11
+blitz 3+2,band and control,blitz,t_middlegame,"time per move, middlegame",seconds,0.007853,0.002115,0.25591,12
+rapid 10+0,band and control,rapid,B_e4_other,other reply to 1.e4,share of Black games vs 1.e4,0.05988,0.018217,-0.862961,1
+rapid 10+0,band and control,rapid,fast1,moves played in under 1 s,share of moves,0.047711,0.016037,0.145226,2
+rapid 10+0,band and control,rapid,book_ply,book depth,plies,0.019785,0.002028,0.093117,3
+rapid 10+0,band and control,rapid,castle_ply,castling move (own move number),moves,0.019582,0.005721,-0.158796,4
+rapid 10+0,band and control,rapid,capture_rate,captures,share of moves,0.017568,0.003872,0.318937,5
+rapid 10+0,band and control,rapid,W_d4,1.d4 as White,share of White games,0.013828,0.00239,-0.044233,6
+rapid 10+0,band and control,rapid,B_e4_e5,1...e5 against 1.e4,share of Black games vs 1.e4,0.011255,0.003138,0.207921,7
+rapid 10+0,band and control,rapid,rook_share,rook moves,share of moves,0.009512,0.002618,-0.136439,8
+rapid 10+0,band and control,rapid,castle_long,castling queenside,share of castled games,0.009309,0.007155,-0.437746,9
+rapid 10+0,band and control,rapid,bishop_share,bishop moves,share of moves,0.008598,0.005386,-0.348672,10
+rapid 10+0,band and control,rapid,queen_early,queen moves in the first 10,per game,0.008039,0.003647,0.292448,11
+rapid 10+0,band and control,rapid,queen_share,queen moves,share of moves,0.007599,0.002764,-0.24538,12
+all bullet,band and control,bullet,B_e4_other,other reply to 1.e4,share of Black games vs 1.e4,0.078281,0.006236,-1.012745,1
+all bullet,band and control,bullet,W_other,other first move as White,share of White games,0.046771,0.003717,-1.048886,2
+all bullet,band and control,bullet,castle_ply,castling move (own move number),moves,0.031638,0.002454,-0.328115,3
+all bullet,band and control,bullet,W_e4,1.e4 as White,share of White games,0.025732,0.002218,0.569795,4
+all bullet,band and control,bullet,t_sd,spread (SD) of time per move,seconds,0.019612,0.001942,-0.128354,5
+all bullet,band and control,bullet,castle_long,castling queenside,share of castled games,0.015978,0.00289,-0.431776,6
+all bullet,band and control,bullet,fast1,moves played in under 1 s,share of moves,0.014059,0.002452,-0.587497,7
+all bullet,band and control,bullet,B_d4_other,other reply to 1.d4,share of Black games vs 1.d4,0.008694,0.001659,-0.255308,8
+all bullet,band and control,bullet,left_m10,clock left after your 10th move,share of base,0.006499,0.001018,-0.302621,9
+all bullet,band and control,bullet,W_d4,1.d4 as White,share of White games,0.006484,0.001514,-0.234689,10
+all bullet,band and control,bullet,t_endgame,"time per move, endgame",seconds,0.005809,0.001183,-0.14962,11
+all bullet,band and control,bullet,capture_rate,captures,share of moves,0.005347,0.001557,0.374561,12
+all blitz,band and control,blitz,B_e4_other,other reply to 1.e4,share of Black games vs 1.e4,0.055582,0.008951,-0.67238,1
+all blitz,band and control,blitz,book_ply,book depth,plies,0.03225,0.002327,0.347844,2
+all blitz,band and control,blitz,W_other,other first move as White,share of White games,0.032098,0.004794,-0.629206,3
+all blitz,band and control,blitz,capture_rate,captures,share of moves,0.031399,0.00581,0.463751,4
+all blitz,band and control,blitz,castle_ply,castling move (own move number),moves,0.024432,0.001143,-0.195435,5
+all blitz,band and control,blitz,left_m10,clock left after your 10th move,share of base,0.016831,0.00372,-0.288341,6
+all blitz,band and control,blitz,castle_long,castling queenside,share of castled games,0.012398,0.002334,-0.340205,7
+all blitz,band and control,blitz,left_book_first,you left the named lines first,share of games,0.01064,0.000479,0.238507,8
+all blitz,band and control,blitz,t_sd,spread (SD) of time per move,seconds,0.010273,0.00514,-0.692161,9
+all blitz,band and control,blitz,pawn_share,pawn moves,share of moves,0.010097,0.002203,0.223165,10
+all blitz,band and control,blitz,fast1,moves played in under 1 s,share of moves,0.009552,0.002784,0.019013,11
+all blitz,band and control,blitz,B_e4_e5,1...e5 against 1.e4,share of Black games vs 1.e4,0.007916,0.001905,0.304936,12
+all rapid,band and control,rapid,castle_ply,castling move (own move number),moves,0.049131,0.005219,-0.326658,1
+all rapid,band and control,rapid,fast1,moves played in under 1 s,share of moves,0.025493,0.010131,0.22506,2
+all rapid,band and control,rapid,B_e4_other,other reply to 1.e4,share of Black games vs 1.e4,0.022721,0.006488,-0.73162,3
+all rapid,band and control,rapid,bishop_share,bishop moves,share of moves,0.019735,0.003022,-0.319981,4
+all rapid,band and control,rapid,capture_rate,captures,share of moves,0.018173,0.004083,0.297672,5
+all rapid,band and control,rapid,queen_early,queen moves in the first 10,per game,0.014503,0.001495,0.394995,6
+all rapid,band and control,rapid,left_book_first,you left the named lines first,share of games,0.014191,0.00857,0.276274,7
+all rapid,band and control,rapid,B_e4_e5,1...e5 against 1.e4,share of Black games vs 1.e4,0.014074,0.012829,0.468131,8
+all rapid,band and control,rapid,t_sd,spread (SD) of time per move,seconds,0.011985,0.00418,-0.529237,9
+all rapid,band and control,rapid,W_other,other first move as White,share of White games,0.010287,0.004439,-0.81441,10
+all rapid,band and control,rapid,left_m10,clock left after your 10th move,share of base,0.008023,0.004999,-0.008257,11
+all rapid,band and control,rapid,rook_share,rook moves,share of moves,0.007652,0.010477,-0.076228,12

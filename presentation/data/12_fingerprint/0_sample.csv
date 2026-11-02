@@ -1,0 +1,13 @@
+tc_group,your_games,games_in_data,stranger_games,strangers,strangers_with_enough_games,strangers_fit_group,matched_games_per_side,thin
+bullet 1+0,2839,2937,13341,175,134,bullet 1+0,2838,False
+bullet 1+1,380,412,2898,96,40,bullet 1+1,379,False
+bullet 2+1,75,85,1937,83,19,all bullet,3292,True
+blitz 3+0,203,209,8273,166,98,blitz 3+0,202,False
+blitz 3+2,1344,1438,5330,124,60,blitz 3+2,1344,False
+blitz 5+0,87,90,6103,169,72,all blitz,1763,True
+blitz 5+2,106,113,30,7,0,all blitz,1763,True
+blitz 5+5,127,137,674,48,5,all blitz,1763,True
+rapid 10+0,535,588,15390,193,147,rapid 10+0,535,False
+all bullet,3294,3434,18410,184,164,all bullet,3292,False
+all blitz,1867,1987,20778,199,186,all blitz,1763,False
+all rapid,535,588,17033,197,159,all rapid,535,False
