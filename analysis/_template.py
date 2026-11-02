@@ -1,22 +1,30 @@
-"""Template for a question script: copy, rename to <nn>_<slug>.py, fill in."""
+"""Template for a question script: copy, rename to <nn>_<slug>.py, fill in.
 
-from chess_analysis.toolkit import TIME_CLASSES, Report, compare_sides, load_data
+Run: .venv/bin/python analysis/<nn>_<slug>.py
+"""
+
+from chess_analysis import charts
+from chess_analysis.toolkit import Results, compare_sides, load_data
 
 SLUG = "00_template"
 
 
 def main() -> None:
     data = load_data()
-    report = Report(SLUG, "Template question")
-    report.text(f"{len(data.games):,} games, {len(data.moves):,} moves.")
+    charts.style()
+    results = Results(SLUG)
 
-    report.heading("Expected points lost per move, by time class")
-    table = compare_sides(data.moves, "ep_loss", by=["time_class"])
-    table = table[table["time_class"].isin(TIME_CLASSES)]
-    report.table(table[["time_class", "player", "player_lo", "player_hi", "opponent", "opponent_lo", "opponent_hi", "diff", "diff_lo", "diff_hi", "games"]], floatfmt=".4f")
+    # 1. Expected points lost per move, you vs opponents, per time control.
+    table = compare_sides(data.moves, "ep_loss", by=["tc_group"])
+    table = table[table["tc_group"].isin(data.tc_groups)]
+    results.table("1_ep_loss", table, "Expected points lost per move, you vs opponents, per time control (CIs clustered by game).")
+    fig, ax = charts.single("How much do you give away per move?")
+    charts.side_bars(ax, table, "tc_group", order=data.tc_groups)
+    ax.set_ylabel("expected points lost per move")
+    charts.legend(ax)
+    results.figure(fig, "1_ep_loss")
 
-    path = report.write()
-    print(f"wrote {path}")
+    results.finish()
 
 
 if __name__ == "__main__":
