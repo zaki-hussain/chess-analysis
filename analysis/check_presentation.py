@@ -13,7 +13,8 @@ this script:
 - checks the block's `**Short answer:**` line (one per question) against all
   of that question's CSVs.
 
-It also checks that every image and link target exists. Ignored: numbers in
+It also checks that every image and link target exists, including
+`#anchor` links to headings (GitHub's heading slugs). Ignored: numbers in
 `code`, time-control labels like 1+0 or 3+2, the sub-question numbers in
 headings, and everything inside the collapsed "Method and caveats" blocks
 (method settings such as '500 resamples' are not data).
@@ -37,6 +38,12 @@ TC_LABEL = re.compile(r"\b\d+(?:\.\d+)?\+\d+\b")
 CODE = re.compile(r"`[^`]*`")
 LINK = re.compile(r"!?\[[^\]]*\]\(([^)\s]+)\)")
 CSV_LINK = re.compile(r"\]\(([^)\s]+\.csv)\)")
+
+
+def slug(heading: str) -> str:
+    """GitHub's anchor for a heading: lower case, punctuation dropped, spaces to hyphens."""
+    text = heading.lstrip("#").strip().lower()
+    return re.sub(r"[^\w\- ]", "", text).replace(" ", "-")
 
 
 def numbers_in(text: str) -> list[str]:
@@ -118,9 +125,14 @@ def check(path: Path) -> list[str]:
         return out
 
     # 1. every link and image target exists
+    anchors = {slug(line) for line in lines if line.startswith("#")}
     for i, line in enumerate(lines, start=1):
         for target in LINK.findall(line):
-            if target.startswith(("http://", "https://", "#", "mailto:")):
+            if target.startswith("#"):
+                if target[1:] not in anchors:
+                    problems.append(f"line {i}: no heading for anchor {target}")
+                continue
+            if target.startswith(("http://", "https://", "mailto:")):
                 continue
             if not (base / target.split("#", 1)[0]).exists():
                 problems.append(f"line {i}: missing link target {target}")

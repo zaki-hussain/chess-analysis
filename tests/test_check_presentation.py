@@ -27,7 +27,7 @@ GOOD = """## 1. A question?
 - Late games (21-23) score −0.055 (CI −0.084 to −0.055) in bullet 1+0.
 - That covers 2,937 games, 48% of them `n=7`.
 
-Data: [table](data/q/t.csv)
+Data: [table](data/q/t.csv) · [up](#1-a-question)
 
 <details><summary>Method and caveats</summary>
 
@@ -41,8 +41,9 @@ def test_good_file_passes(tmp_path):
 
 
 def test_wrong_number_missing_link_and_unbacked_bullet_fail(tmp_path):
-    bad = GOOD.replace("−0.084", "−0.085").replace("figures/c.svg", "figures/missing.svg") + "\n### 1.2 No data?\n\n- 7 things.\n"
+    bad = GOOD.replace("−0.084", "−0.085").replace("figures/c.svg", "figures/missing.svg").replace("#1-a-question", "#no-such-heading") + "\n### 1.2 No data?\n\n- 7 things.\n"
     problems = check_presentation.check(_write(tmp_path, bad))
     assert any("0.085" in p for p in problems)
     assert any("missing link target figures/missing.svg" in p for p in problems)
     assert any("links no CSV" in p for p in problems)
+    assert any("no heading for anchor #no-such-heading" in p for p in problems)
