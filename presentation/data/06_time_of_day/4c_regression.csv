@@ -1,0 +1,425 @@
+tc_group,outcome,term,estimate,lo,hi,expected,estimate_elo,lo_elo,hi_elo,games,sessions,thin
+bullet 1+0,excess,band=evening 18-20,0.012232,-0.051591,0.06276,0.504802,8.504396,-35.944461,43.899007,2935,607,False
+bullet 1+0,excess,band=late 21-23,-0.058387,-0.123787,-0.002833,0.504802,-40.71513,-87.631864,-1.96869,2935,607,False
+bullet 1+0,excess,band=midday 12-14,0.035889,-0.03177,0.089736,0.504802,25.001147,-22.094408,63.154717,2935,607,False
+bullet 1+0,excess,band=morning 7-11,0.038426,-0.020418,0.094463,0.504802,26.776483,-14.191307,66.567706,2935,607,False
+bullet 1+0,excess,band=night 0-6,-0.035561,-0.133992,0.045009,0.504802,-24.737717,-95.189157,31.390594,2935,607,False
+bullet 1+0,excess,weekend,-0.02543,-0.070218,0.021641,0.504802,-17.67901,-49.054819,15.054652,2935,607,False
+bullet 1+0,excess,previous game lost,-0.06115,-0.116134,-0.001051,0.504802,-42.658306,-82.016128,-0.730233,2935,607,False
+bullet 1+0,excess,previous game won,-0.010092,-0.074526,0.043796,0.504802,-7.012533,-52.103525,30.539231,2935,607,False
+bullet 1+0,excess,log2(game number),0.022631,-0.007955,0.050162,0.504802,15.744535,-5.52795,35.01118,2935,607,False
+bullet 1+0,excess,minutes into session / 30,-0.014266,-0.073008,0.042189,0.504802,-9.91359,-51.028618,29.41234,2935,607,False
+bullet 1+0,excess,rating before / 100,-0.017522,-0.036424,0.000951,0.504802,-12.177559,-25.339607,0.660623,2935,607,False
+bullet 1+0,ep_gap,band=evening 18-20,-0.000747,-0.002326,0.000828,,,,,2932,607,False
+bullet 1+0,ep_gap,band=late 21-23,0.000185,-0.001654,0.002274,,,,,2932,607,False
+bullet 1+0,ep_gap,band=midday 12-14,-0.001361,-0.00281,0.000502,,,,,2932,607,False
+bullet 1+0,ep_gap,band=morning 7-11,-0.001102,-0.002946,0.000955,,,,,2932,607,False
+bullet 1+0,ep_gap,band=night 0-6,0.000304,-0.001568,0.002599,,,,,2932,607,False
+bullet 1+0,ep_gap,weekend,0.000962,-0.000245,0.002337,,,,,2932,607,False
+bullet 1+0,ep_gap,previous game lost,0.001222,-0.000626,0.002975,,,,,2932,607,False
+bullet 1+0,ep_gap,previous game won,-0.000368,-0.001962,0.001378,,,,,2932,607,False
+bullet 1+0,ep_gap,log2(game number),-0.000802,-0.001531,8.5e-05,,,,,2932,607,False
+bullet 1+0,ep_gap,minutes into session / 30,0.0003,-0.001293,0.001728,,,,,2932,607,False
+bullet 1+0,ep_gap,rating before / 100,-8.6e-05,-0.00073,0.000533,,,,,2932,607,False
+bullet 1+0,my_ep,band=evening 18-20,0.000391,-0.002859,0.003785,,,,,2935,607,False
+bullet 1+0,my_ep,band=late 21-23,0.001468,-0.002309,0.005276,,,,,2935,607,False
+bullet 1+0,my_ep,band=midday 12-14,4.1e-05,-0.00373,0.004565,,,,,2935,607,False
+bullet 1+0,my_ep,band=morning 7-11,-0.000381,-0.004355,0.004223,,,,,2935,607,False
+bullet 1+0,my_ep,band=night 0-6,-0.002215,-0.006521,0.003773,,,,,2935,607,False
+bullet 1+0,my_ep,weekend,0.001718,-0.001379,0.004828,,,,,2935,607,False
+bullet 1+0,my_ep,previous game lost,0.002864,-0.000806,0.006799,,,,,2935,607,False
+bullet 1+0,my_ep,previous game won,-0.001049,-0.004556,0.002922,,,,,2935,607,False
+bullet 1+0,my_ep,log2(game number),-0.00162,-0.00356,0.000323,,,,,2935,607,False
+bullet 1+0,my_ep,minutes into session / 30,0.002443,-0.001178,0.007175,,,,,2935,607,False
+bullet 1+0,my_ep,rating before / 100,-0.001092,-0.002551,0.000571,,,,,2935,607,False
+bullet 1+0,lost_on_time,band=evening 18-20,0.018795,-0.029672,0.070036,,,,,2935,607,False
+bullet 1+0,lost_on_time,band=late 21-23,0.02266,-0.029297,0.078204,,,,,2935,607,False
+bullet 1+0,lost_on_time,band=midday 12-14,-0.018477,-0.075205,0.045989,,,,,2935,607,False
+bullet 1+0,lost_on_time,band=morning 7-11,-0.008795,-0.064278,0.041892,,,,,2935,607,False
+bullet 1+0,lost_on_time,band=night 0-6,0.049271,-0.024764,0.1481,,,,,2935,607,False
+bullet 1+0,lost_on_time,weekend,-0.000841,-0.042252,0.040283,,,,,2935,607,False
+bullet 1+0,lost_on_time,previous game lost,0.080288,0.029179,0.125842,,,,,2935,607,False
+bullet 1+0,lost_on_time,previous game won,0.081202,0.027784,0.131397,,,,,2935,607,False
+bullet 1+0,lost_on_time,log2(game number),-0.02355,-0.046191,0.002975,,,,,2935,607,False
+bullet 1+0,lost_on_time,minutes into session / 30,0.012783,-0.035778,0.062515,,,,,2935,607,False
+bullet 1+0,lost_on_time,rating before / 100,-0.021141,-0.037226,-0.003632,,,,,2935,607,False
+bullet 1+1,excess,band=evening 18-20,0.091903,-0.068022,0.231986,0.505178,64.728075,-47.499114,175.553796,412,98,False
+bullet 1+1,excess,band=late 21-23,0.169533,0.021719,0.336517,0.505178,123.141131,15.109643,286.665447,412,98,False
+bullet 1+1,excess,band=midday 12-14,0.014438,-0.158447,0.179917,0.505178,10.039304,-113.638118,131.430565,412,98,False
+bullet 1+1,excess,band=morning 7-11,-0.004416,-0.177403,0.186654,0.505178,-3.068968,-128.373898,136.887184,412,98,False
+bullet 1+1,excess,band=night 0-6,0.117213,-0.053104,0.274003,0.505178,83.210123,-37.002952,215.442218,412,98,False
+bullet 1+1,excess,weekend,0.041777,-0.056142,0.138801,0.505178,29.126177,-39.134686,99.360363,412,98,False
+bullet 1+1,excess,previous game lost,-0.114362,-0.260847,0.056487,0.505178,-80.708673,-199.739592,39.470498,412,98,False
+bullet 1+1,excess,previous game won,-0.138227,-0.29314,0.003598,0.505178,-98.330055,-231.634431,2.500795,412,98,False
+bullet 1+1,excess,log2(game number),0.050616,-0.038933,0.127894,0.505178,35.333412,-27.088966,91.150916,412,98,False
+bullet 1+1,excess,minutes into session / 30,-0.045414,-0.215505,0.10144,0.505178,-31.617499,-159.418256,71.642378,412,98,False
+bullet 1+1,excess,rating before / 100,0.01677,-0.042707,0.06166,0.505178,11.662367,-29.725273,43.125563,412,98,False
+bullet 1+1,ep_gap,band=evening 18-20,-0.002276,-0.006718,0.001703,,,,,412,98,False
+bullet 1+1,ep_gap,band=late 21-23,-0.004157,-0.009592,-0.000456,,,,,412,98,False
+bullet 1+1,ep_gap,band=midday 12-14,-0.002152,-0.006478,0.002136,,,,,412,98,False
+bullet 1+1,ep_gap,band=morning 7-11,0.001893,-0.003204,0.006754,,,,,412,98,False
+bullet 1+1,ep_gap,band=night 0-6,-0.004385,-0.008272,-0.000315,,,,,412,98,False
+bullet 1+1,ep_gap,weekend,-0.002419,-0.005157,0.000741,,,,,412,98,False
+bullet 1+1,ep_gap,previous game lost,0.002103,-0.00292,0.00616,,,,,412,98,False
+bullet 1+1,ep_gap,previous game won,0.003411,-0.001648,0.009122,,,,,412,98,False
+bullet 1+1,ep_gap,log2(game number),-0.000585,-0.00301,0.001922,,,,,412,98,False
+bullet 1+1,ep_gap,minutes into session / 30,-0.000847,-0.00603,0.004618,,,,,412,98,False
+bullet 1+1,ep_gap,rating before / 100,-0.001116,-0.00238,0.0004,,,,,412,98,False
+bullet 1+1,my_ep,band=evening 18-20,0.004416,-0.008202,0.018245,,,,,412,98,False
+bullet 1+1,my_ep,band=late 21-23,-0.003397,-0.01955,0.008558,,,,,412,98,False
+bullet 1+1,my_ep,band=midday 12-14,-0.000247,-0.018135,0.014267,,,,,412,98,False
+bullet 1+1,my_ep,band=morning 7-11,0.003296,-0.012171,0.017643,,,,,412,98,False
+bullet 1+1,my_ep,band=night 0-6,0.002585,-0.012826,0.016366,,,,,412,98,False
+bullet 1+1,my_ep,weekend,0.001674,-0.00707,0.008445,,,,,412,98,False
+bullet 1+1,my_ep,previous game lost,0.00523,-0.007809,0.016625,,,,,412,98,False
+bullet 1+1,my_ep,previous game won,0.000382,-0.012088,0.013054,,,,,412,98,False
+bullet 1+1,my_ep,log2(game number),-0.001264,-0.009256,0.006319,,,,,412,98,False
+bullet 1+1,my_ep,minutes into session / 30,0.005832,-0.009086,0.024178,,,,,412,98,False
+bullet 1+1,my_ep,rating before / 100,-0.003352,-0.00901,0.000578,,,,,412,98,False
+bullet 1+1,lost_on_time,band=evening 18-20,-0.027834,-0.112616,0.079436,,,,,412,98,False
+bullet 1+1,lost_on_time,band=late 21-23,-0.024163,-0.121017,0.058333,,,,,412,98,False
+bullet 1+1,lost_on_time,band=midday 12-14,0.018098,-0.104921,0.168488,,,,,412,98,False
+bullet 1+1,lost_on_time,band=morning 7-11,0.052031,-0.046196,0.166894,,,,,412,98,False
+bullet 1+1,lost_on_time,band=night 0-6,-0.029362,-0.114524,0.043305,,,,,412,98,False
+bullet 1+1,lost_on_time,weekend,-0.047175,-0.122899,0.005242,,,,,412,98,False
+bullet 1+1,lost_on_time,previous game lost,0.044691,-0.083193,0.149972,,,,,412,98,False
+bullet 1+1,lost_on_time,previous game won,0.062949,-0.058273,0.178514,,,,,412,98,False
+bullet 1+1,lost_on_time,log2(game number),0.000824,-0.056159,0.067489,,,,,412,98,False
+bullet 1+1,lost_on_time,minutes into session / 30,-0.045529,-0.171933,0.042644,,,,,412,98,False
+bullet 1+1,lost_on_time,rating before / 100,0.004648,-0.031999,0.059459,,,,,412,98,False
+bullet 2+1,excess,band=evening 18-20,-0.03962,-0.433913,0.354715,0.458533,-27.96642,-610.272499,284.4642,85,27,True
+bullet 2+1,excess,band=late 21-23,0.254766,-0.531229,0.953187,0.458533,187.217123,-1170.945595,1228.706795,85,27,True
+bullet 2+1,excess,band=midday 12-14,0.051509,-0.387226,0.853855,0.458533,35.859688,-417.016465,1228.706795,85,27,True
+bullet 2+1,excess,band=morning 7-11,-0.117053,-0.651353,0.361115,0.458533,-85.200775,-1170.945595,291.882722,85,27,True
+bullet 2+1,excess,band=night 0-6,-0.137345,-0.70204,0.518857,0.458533,-101.115325,-1170.945595,683.186751,85,27,True
+bullet 2+1,excess,weekend,-0.196459,-0.769172,0.219038,0.458533,-150.954614,-1170.945595,157.889222,85,27,True
+bullet 2+1,excess,previous game lost,-0.23879,-0.611544,0.524678,0.458533,-191.248321,-1170.945595,735.927102,85,27,True
+bullet 2+1,excess,previous game won,-0.300124,-0.607311,0.361345,0.458533,-261.247683,-1170.945595,292.153234,85,27,True
+bullet 2+1,excess,log2(game number),0.074105,-0.33838,0.221389,0.458533,51.592088,-316.988614,159.761488,85,27,True
+bullet 2+1,excess,minutes into session / 30,-0.104517,-0.366494,0.495615,0.458533,-75.598936,-368.757886,556.183644,85,27,True
+bullet 2+1,excess,rating before / 100,-0.115487,-0.262917,0.116931,0.458533,-83.992127,-216.742594,81.72201,85,27,True
+bullet 2+1,ep_gap,band=evening 18-20,0.004468,-0.012245,0.020821,,,,,85,27,True
+bullet 2+1,ep_gap,band=late 21-23,-0.005679,-0.030168,0.023664,,,,,85,27,True
+bullet 2+1,ep_gap,band=midday 12-14,0.000453,-0.025548,0.02311,,,,,85,27,True
+bullet 2+1,ep_gap,band=morning 7-11,0.008116,-0.003152,0.02723,,,,,85,27,True
+bullet 2+1,ep_gap,band=night 0-6,0.010858,-0.007952,0.039338,,,,,85,27,True
+bullet 2+1,ep_gap,weekend,0.003289,-0.013497,0.017124,,,,,85,27,True
+bullet 2+1,ep_gap,previous game lost,0.004767,-0.01601,0.014153,,,,,85,27,True
+bullet 2+1,ep_gap,previous game won,0.010877,-0.005913,0.024287,,,,,85,27,True
+bullet 2+1,ep_gap,log2(game number),0.001165,-0.00432,0.009873,,,,,85,27,True
+bullet 2+1,ep_gap,minutes into session / 30,-0.001056,-0.011547,0.008961,,,,,85,27,True
+bullet 2+1,ep_gap,rating before / 100,0.001432,-0.00749,0.008273,,,,,85,27,True
+bullet 2+1,my_ep,band=evening 18-20,-0.00281,-0.071476,0.02761,,,,,85,27,True
+bullet 2+1,my_ep,band=late 21-23,-0.054583,-0.150466,0.044436,,,,,85,27,True
+bullet 2+1,my_ep,band=midday 12-14,-0.014742,-0.092966,0.056715,,,,,85,27,True
+bullet 2+1,my_ep,band=morning 7-11,0.003231,-0.068142,0.034209,,,,,85,27,True
+bullet 2+1,my_ep,band=night 0-6,0.014587,-0.064511,0.09076,,,,,85,27,True
+bullet 2+1,my_ep,weekend,-0.001044,-0.071707,0.028731,,,,,85,27,True
+bullet 2+1,my_ep,previous game lost,0.003679,-0.031239,0.040923,,,,,85,27,True
+bullet 2+1,my_ep,previous game won,0.013685,-0.015182,0.04414,,,,,85,27,True
+bullet 2+1,my_ep,log2(game number),0.004936,-0.023129,0.024962,,,,,85,27,True
+bullet 2+1,my_ep,minutes into session / 30,-0.007686,-0.038638,0.051251,,,,,85,27,True
+bullet 2+1,my_ep,rating before / 100,-0.00817,-0.034281,0.011252,,,,,85,27,True
+bullet 2+1,lost_on_time,band=evening 18-20,0.024047,-0.291222,0.45699,,,,,85,27,True
+bullet 2+1,lost_on_time,band=late 21-23,0.208867,-0.331285,0.928912,,,,,85,27,True
+bullet 2+1,lost_on_time,band=midday 12-14,-0.209162,-0.804898,0.385336,,,,,85,27,True
+bullet 2+1,lost_on_time,band=morning 7-11,0.139199,-0.261385,0.70827,,,,,85,27,True
+bullet 2+1,lost_on_time,band=night 0-6,0.35827,-0.322531,0.981659,,,,,85,27,True
+bullet 2+1,lost_on_time,weekend,0.173704,-0.285408,0.666923,,,,,85,27,True
+bullet 2+1,lost_on_time,previous game lost,0.129684,-0.247143,0.343,,,,,85,27,True
+bullet 2+1,lost_on_time,previous game won,0.046352,-0.416211,0.354641,,,,,85,27,True
+bullet 2+1,lost_on_time,log2(game number),-0.045825,-0.224209,0.331604,,,,,85,27,True
+bullet 2+1,lost_on_time,minutes into session / 30,0.022781,-0.660644,0.16333,,,,,85,27,True
+bullet 2+1,lost_on_time,rating before / 100,0.01156,-0.194494,0.212791,,,,,85,27,True
+blitz 3+0,excess,band=evening 18-20,-0.35248,-0.624451,-0.142987,0.501443,-303.75009,-1200.829084,-102.118932,208,73,False
+blitz 3+0,excess,band=late 21-23,-0.284986,-0.501921,-0.076025,0.501443,-224.478837,-1200.829084,-53.217464,208,73,False
+blitz 3+0,excess,band=midday 12-14,-0.032691,-0.213814,0.176007,0.501443,-22.744566,-158.551692,127.909612,208,73,False
+blitz 3+0,excess,band=morning 7-11,-0.239446,-0.507373,-0.003903,0.501443,-180.907169,-1200.829084,-2.712155,208,73,False
+blitz 3+0,excess,weekend,0.007806,-0.157251,0.197846,0.501443,5.424942,-112.993032,145.600434,208,73,False
+blitz 3+0,excess,previous game lost,-0.133294,-0.34078,0.176212,0.501443,-94.838747,-288.210165,128.072271,208,73,False
+blitz 3+0,excess,previous game won,-0.048244,-0.250178,0.186274,0.501443,-33.618682,-190.681415,136.141962,208,73,False
+blitz 3+0,excess,log2(game number),0.130226,-0.007454,0.242868,0.501443,92.697663,-5.17976,184.614552,208,73,False
+blitz 3+0,excess,minutes into session / 30,-0.272381,-0.535386,-0.075798,0.501443,-211.829544,-1200.829084,-53.055915,208,73,False
+blitz 3+0,excess,rating before / 100,-0.224735,-0.406522,-0.082938,0.501443,-167.919373,-392.732012,-58.140833,208,73,False
+blitz 3+0,ep_gap,band=evening 18-20,0.010222,0.003842,0.019121,,,,,208,73,False
+blitz 3+0,ep_gap,band=late 21-23,0.009051,0.002934,0.016626,,,,,208,73,False
+blitz 3+0,ep_gap,band=midday 12-14,0.002844,-0.004229,0.009061,,,,,208,73,False
+blitz 3+0,ep_gap,band=morning 7-11,0.001053,-0.006782,0.00977,,,,,208,73,False
+blitz 3+0,ep_gap,weekend,-0.001045,-0.007582,0.004647,,,,,208,73,False
+blitz 3+0,ep_gap,previous game lost,0.000426,-0.00981,0.009259,,,,,208,73,False
+blitz 3+0,ep_gap,previous game won,0.000292,-0.007578,0.008602,,,,,208,73,False
+blitz 3+0,ep_gap,log2(game number),-0.001,-0.005727,0.004204,,,,,208,73,False
+blitz 3+0,ep_gap,minutes into session / 30,0.004473,-0.002323,0.011162,,,,,208,73,False
+blitz 3+0,ep_gap,rating before / 100,0.004073,0.000252,0.008818,,,,,208,73,False
+blitz 3+0,my_ep,band=evening 18-20,0.009706,-0.001083,0.020686,,,,,208,73,False
+blitz 3+0,my_ep,band=late 21-23,0.003523,-0.003445,0.013717,,,,,208,73,False
+blitz 3+0,my_ep,band=midday 12-14,0.013354,0.002617,0.026191,,,,,208,73,False
+blitz 3+0,my_ep,band=morning 7-11,0.003438,-0.007568,0.017175,,,,,208,73,False
+blitz 3+0,my_ep,weekend,-0.009907,-0.019452,-0.00173,,,,,208,73,False
+blitz 3+0,my_ep,previous game lost,-0.000765,-0.015775,0.015393,,,,,208,73,False
+blitz 3+0,my_ep,previous game won,0.000492,-0.015891,0.01557,,,,,208,73,False
+blitz 3+0,my_ep,log2(game number),0.0021,-0.008214,0.013141,,,,,208,73,False
+blitz 3+0,my_ep,minutes into session / 30,-0.00885,-0.02411,0.003565,,,,,208,73,False
+blitz 3+0,my_ep,rating before / 100,0.003631,-0.00142,0.01259,,,,,208,73,False
+blitz 3+0,lost_on_time,band=evening 18-20,0.121997,0.002604,0.275328,,,,,208,73,False
+blitz 3+0,lost_on_time,band=late 21-23,0.099469,-0.042012,0.309096,,,,,208,73,False
+blitz 3+0,lost_on_time,band=midday 12-14,0.069787,-0.051245,0.203028,,,,,208,73,False
+blitz 3+0,lost_on_time,band=morning 7-11,0.053031,-0.090727,0.219122,,,,,208,73,False
+blitz 3+0,lost_on_time,weekend,0.029582,-0.096671,0.151225,,,,,208,73,False
+blitz 3+0,lost_on_time,previous game lost,0.026875,-0.149791,0.187501,,,,,208,73,False
+blitz 3+0,lost_on_time,previous game won,-0.026777,-0.15996,0.115104,,,,,208,73,False
+blitz 3+0,lost_on_time,log2(game number),-0.015112,-0.115114,0.086699,,,,,208,73,False
+blitz 3+0,lost_on_time,minutes into session / 30,0.046905,-0.081289,0.192087,,,,,208,73,False
+blitz 3+0,lost_on_time,rating before / 100,0.062421,-0.021324,0.229952,,,,,208,73,False
+blitz 3+2,excess,band=evening 18-20,-0.00741,-0.083452,0.063052,0.50047,-5.149479,-58.526921,44.052647,1438,479,False
+blitz 3+2,excess,band=late 21-23,-0.042935,-0.147493,0.06113,0.50047,-29.905437,-105.595754,42.69576,1438,479,False
+blitz 3+2,excess,band=midday 12-14,0.026058,-0.052637,0.101302,0.50047,18.124383,-36.708586,71.39318,1438,479,False
+blitz 3+2,excess,band=morning 7-11,-0.043828,-0.106013,0.022615,0.50047,-30.530702,-74.784496,15.725605,1438,479,False
+blitz 3+2,excess,band=night 0-6,0.114753,-0.060731,0.259991,0.50047,81.202814,-42.404573,200.354139,1438,479,False
+blitz 3+2,excess,weekend,-0.012763,-0.065808,0.042632,0.50047,-8.870082,-45.989136,29.698463,1438,479,False
+blitz 3+2,excess,previous game lost,0.029161,-0.047744,0.119258,0.50047,20.286987,-33.27399,84.516033,1438,479,False
+blitz 3+2,excess,previous game won,0.031819,-0.05876,0.109739,0.50047,22.141658,-41.015772,77.532361,1438,479,False
+blitz 3+2,excess,log2(game number),-0.008837,-0.072117,0.052542,0.50047,-6.141276,-50.457054,36.648673,1438,479,False
+blitz 3+2,excess,minutes into session / 30,0.014259,-0.069577,0.089527,0.50047,9.910937,-48.656082,62.898864,1438,479,False
+blitz 3+2,excess,rating before / 100,-0.010273,-0.028606,0.008014,0.50047,-7.13899,-19.898257,5.568976,1438,479,False
+blitz 3+2,ep_gap,band=evening 18-20,-0.000147,-0.00231,0.002301,,,,,1438,479,False
+blitz 3+2,ep_gap,band=late 21-23,0.000477,-0.002971,0.004334,,,,,1438,479,False
+blitz 3+2,ep_gap,band=midday 12-14,-0.001406,-0.003696,0.001078,,,,,1438,479,False
+blitz 3+2,ep_gap,band=morning 7-11,0.001038,-0.001039,0.003516,,,,,1438,479,False
+blitz 3+2,ep_gap,band=night 0-6,-0.004313,-0.009619,0.002649,,,,,1438,479,False
+blitz 3+2,ep_gap,weekend,0.001236,-0.000712,0.003353,,,,,1438,479,False
+blitz 3+2,ep_gap,previous game lost,-2.7e-05,-0.003119,0.003008,,,,,1438,479,False
+blitz 3+2,ep_gap,previous game won,-0.001256,-0.003995,0.001964,,,,,1438,479,False
+blitz 3+2,ep_gap,log2(game number),0.000172,-0.001651,0.002297,,,,,1438,479,False
+blitz 3+2,ep_gap,minutes into session / 30,-0.000209,-0.002634,0.002369,,,,,1438,479,False
+blitz 3+2,ep_gap,rating before / 100,0.000277,-0.000328,0.000924,,,,,1438,479,False
+blitz 3+2,my_ep,band=evening 18-20,0.002337,-0.002054,0.007155,,,,,1438,479,False
+blitz 3+2,my_ep,band=late 21-23,0.006032,-2.4e-05,0.013405,,,,,1438,479,False
+blitz 3+2,my_ep,band=midday 12-14,0.001679,-0.003022,0.00691,,,,,1438,479,False
+blitz 3+2,my_ep,band=morning 7-11,0.004377,-0.001437,0.009953,,,,,1438,479,False
+blitz 3+2,my_ep,band=night 0-6,0.003624,-0.005693,0.013376,,,,,1438,479,False
+blitz 3+2,my_ep,weekend,0.002668,-0.001921,0.006673,,,,,1438,479,False
+blitz 3+2,my_ep,previous game lost,-0.001747,-0.007891,0.005006,,,,,1438,479,False
+blitz 3+2,my_ep,previous game won,-0.002245,-0.008676,0.004258,,,,,1438,479,False
+blitz 3+2,my_ep,log2(game number),0.000663,-0.003959,0.005181,,,,,1438,479,False
+blitz 3+2,my_ep,minutes into session / 30,-0.001931,-0.007187,0.003388,,,,,1438,479,False
+blitz 3+2,my_ep,rating before / 100,-0.001776,-0.003121,-8.6e-05,,,,,1438,479,False
+blitz 3+2,lost_on_time,band=evening 18-20,0.010781,-0.028336,0.049816,,,,,1438,479,False
+blitz 3+2,lost_on_time,band=late 21-23,-0.001581,-0.045851,0.049974,,,,,1438,479,False
+blitz 3+2,lost_on_time,band=midday 12-14,0.007888,-0.037294,0.046307,,,,,1438,479,False
+blitz 3+2,lost_on_time,band=morning 7-11,0.010067,-0.032147,0.053791,,,,,1438,479,False
+blitz 3+2,lost_on_time,band=night 0-6,0.020585,-0.073932,0.130256,,,,,1438,479,False
+blitz 3+2,lost_on_time,weekend,0.002551,-0.02961,0.03726,,,,,1438,479,False
+blitz 3+2,lost_on_time,previous game lost,0.035168,-0.007353,0.077878,,,,,1438,479,False
+blitz 3+2,lost_on_time,previous game won,0.033084,-0.012142,0.079033,,,,,1438,479,False
+blitz 3+2,lost_on_time,log2(game number),-0.043622,-0.070041,-0.015932,,,,,1438,479,False
+blitz 3+2,lost_on_time,minutes into session / 30,0.033546,-0.003701,0.068279,,,,,1438,479,False
+blitz 3+2,lost_on_time,rating before / 100,-0.02148,-0.031985,-0.010512,,,,,1438,479,False
+blitz 5+0,excess,band=evening 18-20,0.195292,-0.095934,0.446567,0.451802,138.919083,-69.478979,412.166612,89,37,True
+blitz 5+0,excess,band=late 21-23,0.232875,-0.214445,1.07849,0.451802,168.287478,-169.1717,1233.421741,89,37,True
+blitz 5+0,excess,band=midday 12-14,-0.306951,-0.712352,0.068429,0.451802,-274.85263,-1166.23065,47.661082,89,37,True
+blitz 5+0,excess,band=morning 7-11,0.246682,-0.121158,0.560646,0.451802,179.533838,-88.923141,1233.421741,89,37,True
+blitz 5+0,excess,weekend,0.13893,-0.107002,0.394527,0.451802,97.348451,-77.926586,329.974919,89,37,True
+blitz 5+0,excess,previous game lost,0.049164,-0.27263,0.496719,0.451802,34.2673,-230.796768,539.763742,89,37,True
+blitz 5+0,excess,previous game won,0.194833,-0.200878,0.663665,0.451802,138.569851,-156.3978,1233.421741,89,37,True
+blitz 5+0,excess,log2(game number),0.061392,-0.255361,0.385197,0.451802,42.765766,-211.118505,317.809346,89,37,True
+blitz 5+0,excess,minutes into session / 30,-0.079929,-0.556049,0.202732,0.451802,-57.465566,-1166.23065,144.60651,89,37,True
+blitz 5+0,excess,rating before / 100,-0.011005,-0.10823,0.109202,0.451802,-7.736953,-78.871834,76.197676,89,37,True
+blitz 5+0,ep_gap,band=evening 18-20,-0.00179,-0.013585,0.006405,,,,,89,37,True
+blitz 5+0,ep_gap,band=late 21-23,0.008588,-0.008399,0.025127,,,,,89,37,True
+blitz 5+0,ep_gap,band=midday 12-14,0.012534,0.000105,0.023425,,,,,89,37,True
+blitz 5+0,ep_gap,band=morning 7-11,-0.003196,-0.016028,0.004895,,,,,89,37,True
+blitz 5+0,ep_gap,weekend,-0.00299,-0.017267,0.007646,,,,,89,37,True
+blitz 5+0,ep_gap,previous game lost,-0.002138,-0.017715,0.009548,,,,,89,37,True
+blitz 5+0,ep_gap,previous game won,-0.009276,-0.028152,0.006874,,,,,89,37,True
+blitz 5+0,ep_gap,log2(game number),-0.004177,-0.018717,0.008879,,,,,89,37,True
+blitz 5+0,ep_gap,minutes into session / 30,0.00756,-0.004083,0.030193,,,,,89,37,True
+blitz 5+0,ep_gap,rating before / 100,-0.000497,-0.005955,0.002121,,,,,89,37,True
+blitz 5+0,my_ep,band=evening 18-20,0.00246,-0.012896,0.019532,,,,,89,37,True
+blitz 5+0,my_ep,band=late 21-23,0.034503,-0.02544,0.093473,,,,,89,37,True
+blitz 5+0,my_ep,band=midday 12-14,0.017924,-0.01773,0.063342,,,,,89,37,True
+blitz 5+0,my_ep,band=morning 7-11,-0.003295,-0.028289,0.02564,,,,,89,37,True
+blitz 5+0,my_ep,weekend,-0.010597,-0.033149,0.014181,,,,,89,37,True
+blitz 5+0,my_ep,previous game lost,0.007781,-0.033211,0.040157,,,,,89,37,True
+blitz 5+0,my_ep,previous game won,-0.005413,-0.049928,0.02669,,,,,89,37,True
+blitz 5+0,my_ep,log2(game number),-0.013197,-0.038268,0.035565,,,,,89,37,True
+blitz 5+0,my_ep,minutes into session / 30,0.021018,-0.060114,0.045932,,,,,89,37,True
+blitz 5+0,my_ep,rating before / 100,-0.000538,-0.005867,0.008518,,,,,89,37,True
+blitz 5+0,lost_on_time,band=evening 18-20,-0.372642,-0.667127,-0.043066,,,,,89,37,True
+blitz 5+0,lost_on_time,band=late 21-23,-0.20495,-0.564214,0.116338,,,,,89,37,True
+blitz 5+0,lost_on_time,band=midday 12-14,-0.515437,-0.859078,0.056381,,,,,89,37,True
+blitz 5+0,lost_on_time,band=morning 7-11,-0.27226,-0.601474,0.07605,,,,,89,37,True
+blitz 5+0,lost_on_time,weekend,-0.076836,-0.321724,0.28043,,,,,89,37,True
+blitz 5+0,lost_on_time,previous game lost,-0.027903,-0.410396,0.248295,,,,,89,37,True
+blitz 5+0,lost_on_time,previous game won,-0.29975,-0.649012,-0.040248,,,,,89,37,True
+blitz 5+0,lost_on_time,log2(game number),0.244686,-0.004997,0.605647,,,,,89,37,True
+blitz 5+0,lost_on_time,minutes into session / 30,-0.336152,-0.867341,-0.027272,,,,,89,37,True
+blitz 5+0,lost_on_time,rating before / 100,0.01684,-0.110888,0.170937,,,,,89,37,True
+blitz 5+2,excess,band=evening 18-20,-0.053598,-0.285681,0.153813,0.539102,-37.301974,-214.919408,114.14175,113,60,True
+blitz 5+2,excess,band=late 21-23,-0.14335,-0.636559,0.49735,0.539102,-100.743306,-1227.052482,1172.599908,113,60,True
+blitz 5+2,excess,band=midday 12-14,0.098463,-0.173666,0.415358,0.539102,70.890917,-123.092172,501.318156,113,60,True
+blitz 5+2,excess,band=morning 7-11,0.149483,-0.158707,0.384547,0.539102,110.621096,-111.978154,405.849058,113,60,True
+blitz 5+2,excess,weekend,-0.033763,-0.403071,0.217461,0.539102,-23.516365,-348.371108,169.756746,113,60,True
+blitz 5+2,excess,previous game lost,-0.13725,-0.47541,0.338725,0.539102,-96.323539,-494.160461,315.346489,113,60,True
+blitz 5+2,excess,previous game won,-0.09504,-0.642357,0.262468,0.539102,-66.259888,-1227.052482,215.306654,113,60,True
+blitz 5+2,excess,log2(game number),0.054167,-0.296146,0.47879,0.539102,38.351199,-224.66349,1172.599908,113,60,True
+blitz 5+2,excess,minutes into session / 30,0.040773,-0.394574,0.435407,0.539102,28.756078,-336.127817,605.73511,113,60,True
+blitz 5+2,excess,rating before / 100,-0.365907,-0.945719,0.208988,0.539102,-298.773452,-1227.052482,161.857199,113,60,True
+blitz 5+2,ep_gap,band=evening 18-20,0.004206,-0.002214,0.011101,,,,,113,60,True
+blitz 5+2,ep_gap,band=late 21-23,0.000496,-0.018921,0.015326,,,,,113,60,True
+blitz 5+2,ep_gap,band=midday 12-14,-0.002552,-0.011503,0.004611,,,,,113,60,True
+blitz 5+2,ep_gap,band=morning 7-11,-0.004864,-0.012634,0.003164,,,,,113,60,True
+blitz 5+2,ep_gap,weekend,0.001445,-0.003616,0.010238,,,,,113,60,True
+blitz 5+2,ep_gap,previous game lost,-0.004299,-0.020811,0.009623,,,,,113,60,True
+blitz 5+2,ep_gap,previous game won,-0.001256,-0.011355,0.019173,,,,,113,60,True
+blitz 5+2,ep_gap,log2(game number),0.002777,-0.010057,0.013216,,,,,113,60,True
+blitz 5+2,ep_gap,minutes into session / 30,-0.003441,-0.019085,0.016502,,,,,113,60,True
+blitz 5+2,ep_gap,rating before / 100,0.015487,0.00338,0.031541,,,,,113,60,True
+blitz 5+2,my_ep,band=evening 18-20,0.007522,-0.019242,0.032171,,,,,113,60,True
+blitz 5+2,my_ep,band=late 21-23,-0.006908,-0.050907,0.0268,,,,,113,60,True
+blitz 5+2,my_ep,band=midday 12-14,-0.006796,-0.050677,0.02195,,,,,113,60,True
+blitz 5+2,my_ep,band=morning 7-11,-0.004736,-0.019843,0.010064,,,,,113,60,True
+blitz 5+2,my_ep,weekend,0.005081,-0.018595,0.034158,,,,,113,60,True
+blitz 5+2,my_ep,previous game lost,0.01811,-0.005374,0.046725,,,,,113,60,True
+blitz 5+2,my_ep,previous game won,0.003606,-0.012062,0.036014,,,,,113,60,True
+blitz 5+2,my_ep,log2(game number),-0.008355,-0.033573,0.002865,,,,,113,60,True
+blitz 5+2,my_ep,minutes into session / 30,0.006668,-0.050709,0.033959,,,,,113,60,True
+blitz 5+2,my_ep,rating before / 100,-0.009833,-0.078929,0.027992,,,,,113,60,True
+blitz 5+2,lost_on_time,band=evening 18-20,0.032123,-0.035893,0.144713,,,,,113,60,True
+blitz 5+2,lost_on_time,band=late 21-23,-0.002394,-0.094473,0.083463,,,,,113,60,True
+blitz 5+2,lost_on_time,band=midday 12-14,0.050202,-0.000385,0.157776,,,,,113,60,True
+blitz 5+2,lost_on_time,band=morning 7-11,-0.010852,-0.042805,0.022617,,,,,113,60,True
+blitz 5+2,lost_on_time,weekend,0.00429,-0.038433,0.084733,,,,,113,60,True
+blitz 5+2,lost_on_time,previous game lost,0.045295,0.0,0.252681,,,,,113,60,True
+blitz 5+2,lost_on_time,previous game won,0.106427,0.0,0.471213,,,,,113,60,True
+blitz 5+2,lost_on_time,log2(game number),-0.035744,-0.266496,0.010825,,,,,113,60,True
+blitz 5+2,lost_on_time,minutes into session / 30,0.005969,-0.126108,0.14081,,,,,113,60,True
+blitz 5+2,lost_on_time,rating before / 100,0.008117,-0.122663,0.166723,,,,,113,60,True
+blitz 5+5,excess,band=evening 18-20,-0.017176,-0.281225,0.289427,0.468902,-12.012001,-232.889839,220.290066,137,54,False
+blitz 5+5,excess,band=late 21-23,0.240005,0.01835,0.569342,0.468902,176.260218,12.777033,1221.463095,137,54,False
+blitz 5+5,excess,band=midday 12-14,0.149783,0.010978,0.390388,0.468902,105.711511,7.648471,335.963078,137,54,False
+blitz 5+5,excess,band=morning 7-11,0.091388,-0.078646,0.335785,0.468902,63.735333,-55.882139,267.595987,137,54,False
+blitz 5+5,excess,weekend,0.078202,-0.132388,0.322989,0.468902,54.465541,-96.294061,253.78738,137,54,False
+blitz 5+5,excess,previous game lost,0.052039,-0.264172,0.282062,0.468902,36.197051,-214.096672,213.379553,137,54,False
+blitz 5+5,excess,previous game won,-0.054492,-0.439194,0.157953,0.468902,-38.4281,-583.975772,111.753059,137,54,False
+blitz 5+5,excess,log2(game number),-0.019012,-0.239105,0.290621,0.468902,-13.300517,-188.466863,221.423716,137,54,False
+blitz 5+5,excess,minutes into session / 30,-0.135151,-0.572507,0.179449,0.468902,-98.448806,-1178.189295,127.917374,137,54,False
+blitz 5+5,excess,rating before / 100,0.012983,-0.053143,0.093259,0.468902,9.044181,-37.462992,65.055254,137,54,False
+blitz 5+5,ep_gap,band=evening 18-20,0.00303,-0.004461,0.010122,,,,,137,54,False
+blitz 5+5,ep_gap,band=late 21-23,0.000958,-0.007818,0.007354,,,,,137,54,False
+blitz 5+5,ep_gap,band=midday 12-14,-0.004058,-0.016036,0.001287,,,,,137,54,False
+blitz 5+5,ep_gap,band=morning 7-11,-0.001054,-0.010698,0.005203,,,,,137,54,False
+blitz 5+5,ep_gap,weekend,0.002336,-0.005223,0.008624,,,,,137,54,False
+blitz 5+5,ep_gap,previous game lost,5.3e-05,-0.008894,0.010474,,,,,137,54,False
+blitz 5+5,ep_gap,previous game won,-0.000701,-0.008161,0.01265,,,,,137,54,False
+blitz 5+5,ep_gap,log2(game number),-0.00113,-0.011863,0.006087,,,,,137,54,False
+blitz 5+5,ep_gap,minutes into session / 30,0.003556,-0.005532,0.018015,,,,,137,54,False
+blitz 5+5,ep_gap,rating before / 100,-0.001403,-0.003941,0.000908,,,,,137,54,False
+blitz 5+5,my_ep,band=evening 18-20,0.01085,-0.006427,0.028228,,,,,137,54,False
+blitz 5+5,my_ep,band=late 21-23,-0.011541,-0.026139,0.006493,,,,,137,54,False
+blitz 5+5,my_ep,band=midday 12-14,-0.028034,-0.046815,-0.010692,,,,,137,54,False
+blitz 5+5,my_ep,band=morning 7-11,0.000551,-0.013755,0.021488,,,,,137,54,False
+blitz 5+5,my_ep,weekend,0.014182,0.000738,0.030993,,,,,137,54,False
+blitz 5+5,my_ep,previous game lost,-0.02238,-0.045743,0.005279,,,,,137,54,False
+blitz 5+5,my_ep,previous game won,-0.025072,-0.041952,0.000336,,,,,137,54,False
+blitz 5+5,my_ep,log2(game number),0.014967,-0.005597,0.030586,,,,,137,54,False
+blitz 5+5,my_ep,minutes into session / 30,-0.012278,-0.032849,0.012512,,,,,137,54,False
+blitz 5+5,my_ep,rating before / 100,-0.000776,-0.009015,0.005506,,,,,137,54,False
+blitz 5+5,lost_on_time,band=evening 18-20,-0.054123,-0.158402,0.0,,,,,137,54,False
+blitz 5+5,lost_on_time,band=late 21-23,-0.055718,-0.169811,0.0,,,,,137,54,False
+blitz 5+5,lost_on_time,band=midday 12-14,-0.059191,-0.183929,0.0,,,,,137,54,False
+blitz 5+5,lost_on_time,band=morning 7-11,-0.093182,-0.236158,0.0,,,,,137,54,False
+blitz 5+5,lost_on_time,weekend,-0.038079,-0.12319,0.001542,,,,,137,54,False
+blitz 5+5,lost_on_time,previous game lost,0.027312,-0.025187,0.108669,,,,,137,54,False
+blitz 5+5,lost_on_time,previous game won,-0.018112,-0.070516,0.04081,,,,,137,54,False
+blitz 5+5,lost_on_time,log2(game number),0.009933,-0.058683,0.077348,,,,,137,54,False
+blitz 5+5,lost_on_time,minutes into session / 30,-0.008889,-0.101615,0.099822,,,,,137,54,False
+blitz 5+5,lost_on_time,rating before / 100,-0.032421,-0.079713,0.0,,,,,137,54,False
+rapid 10+0,excess,band=evening 18-20,0.04901,-0.059127,0.151342,0.504522,34.198497,-41.237367,108.891241,586,216,False
+rapid 10+0,excess,band=late 21-23,0.008386,-0.169632,0.199778,0.504522,5.82895,-122.339054,147.620385,586,216,False
+rapid 10+0,excess,band=midday 12-14,0.022537,-0.109209,0.154651,0.504522,15.678951,-76.977775,111.44408,586,216,False
+rapid 10+0,excess,band=morning 7-11,0.058895,-0.067061,0.189913,0.504522,41.162909,-46.827343,139.46928,586,216,False
+rapid 10+0,excess,band=night 0-6,-0.277985,-0.529134,-0.078888,0.504522,-216.462825,-1202.968616,-55.203472,586,216,False
+rapid 10+0,excess,weekend,-0.016903,-0.124771,0.062157,0.504522,-11.747153,-88.369096,43.468954,586,216,False
+rapid 10+0,excess,previous game lost,-0.105598,-0.254836,0.03264,0.504522,-74.357639,-194.282252,22.72846,586,216,False
+rapid 10+0,excess,previous game won,-0.007681,-0.135336,0.097818,0.504522,-5.337175,-96.205027,68.989374,586,216,False
+rapid 10+0,excess,log2(game number),0.063629,-0.02167,0.155133,0.504522,44.510734,-15.062325,111.816697,586,216,False
+rapid 10+0,excess,minutes into session / 30,-0.063013,-0.174198,0.026099,0.504522,-43.972914,-125.912273,18.162012,586,216,False
+rapid 10+0,excess,rating before / 100,-0.008661,-0.048907,0.030597,0.504522,-6.018374,-34.065605,21.300827,586,216,False
+rapid 10+0,ep_gap,band=evening 18-20,-0.003333,-0.008422,0.001413,,,,,584,216,False
+rapid 10+0,ep_gap,band=late 21-23,-0.0029,-0.008047,0.001788,,,,,584,216,False
+rapid 10+0,ep_gap,band=midday 12-14,-0.002399,-0.008512,0.003543,,,,,584,216,False
+rapid 10+0,ep_gap,band=morning 7-11,-0.003387,-0.00887,0.002094,,,,,584,216,False
+rapid 10+0,ep_gap,band=night 0-6,0.00705,-0.000612,0.016444,,,,,584,216,False
+rapid 10+0,ep_gap,weekend,0.000472,-0.003037,0.004274,,,,,584,216,False
+rapid 10+0,ep_gap,previous game lost,0.002565,-0.003523,0.008213,,,,,584,216,False
+rapid 10+0,ep_gap,previous game won,-0.00053,-0.005466,0.004998,,,,,584,216,False
+rapid 10+0,ep_gap,log2(game number),-0.000777,-0.004664,0.003205,,,,,584,216,False
+rapid 10+0,ep_gap,minutes into session / 30,0.000733,-0.003553,0.005072,,,,,584,216,False
+rapid 10+0,ep_gap,rating before / 100,-0.000405,-0.002127,0.00127,,,,,584,216,False
+rapid 10+0,my_ep,band=evening 18-20,-0.000316,-0.007339,0.006336,,,,,584,216,False
+rapid 10+0,my_ep,band=late 21-23,-0.003424,-0.014556,0.013958,,,,,584,216,False
+rapid 10+0,my_ep,band=midday 12-14,0.000362,-0.009653,0.010932,,,,,584,216,False
+rapid 10+0,my_ep,band=morning 7-11,-0.00235,-0.010667,0.006978,,,,,584,216,False
+rapid 10+0,my_ep,band=night 0-6,0.007703,-0.021374,0.038024,,,,,584,216,False
+rapid 10+0,my_ep,weekend,0.000532,-0.00596,0.007147,,,,,584,216,False
+rapid 10+0,my_ep,previous game lost,0.007645,-0.001804,0.016305,,,,,584,216,False
+rapid 10+0,my_ep,previous game won,-0.000261,-0.008792,0.007653,,,,,584,216,False
+rapid 10+0,my_ep,log2(game number),-0.002832,-0.008623,0.003137,,,,,584,216,False
+rapid 10+0,my_ep,minutes into session / 30,0.002843,-0.00402,0.0102,,,,,584,216,False
+rapid 10+0,my_ep,rating before / 100,-0.001109,-0.003833,0.001753,,,,,584,216,False
+rapid 10+0,lost_on_time,band=evening 18-20,0.003394,-0.016598,0.023398,,,,,586,216,False
+rapid 10+0,lost_on_time,band=late 21-23,-0.004146,-0.020958,0.006271,,,,,586,216,False
+rapid 10+0,lost_on_time,band=midday 12-14,-0.001212,-0.013758,0.009716,,,,,586,216,False
+rapid 10+0,lost_on_time,band=morning 7-11,0.015822,-0.010639,0.052395,,,,,586,216,False
+rapid 10+0,lost_on_time,band=night 0-6,0.001473,-0.011119,0.01541,,,,,586,216,False
+rapid 10+0,lost_on_time,weekend,-0.002619,-0.018014,0.011659,,,,,586,216,False
+rapid 10+0,lost_on_time,previous game lost,0.032108,0.0,0.074064,,,,,586,216,False
+rapid 10+0,lost_on_time,previous game won,0.017396,-0.003207,0.044278,,,,,586,216,False
+rapid 10+0,lost_on_time,log2(game number),-0.012413,-0.027455,-0.000694,,,,,586,216,False
+rapid 10+0,lost_on_time,minutes into session / 30,0.006534,-0.007132,0.027123,,,,,586,216,False
+rapid 10+0,lost_on_time,rating before / 100,-0.002833,-0.008946,0.001857,,,,,586,216,False
+all games,excess,band=evening 18-20,0.006636,-0.028485,0.040448,0.502032,4.611538,-19.810594,28.17717,6003,1499,False
+all games,excess,band=late 21-23,-0.038402,-0.08695,0.006417,0.502032,-26.729119,-60.996533,4.45927,6003,1499,False
+all games,excess,band=midday 12-14,0.030667,-0.011846,0.07262,0.502032,21.342243,-8.232079,50.851907,6003,1499,False
+all games,excess,band=morning 7-11,0.012235,-0.028512,0.048875,0.502032,8.504422,-19.829498,34.085152,6003,1499,False
+all games,excess,band=night 0-6,0.00162,-0.061171,0.05623,0.502032,1.125912,-42.699108,39.257671,6003,1499,False
+all games,excess,weekend,-0.001562,-0.03474,0.028162,0.502032,-1.085055,-24.172079,19.594387,6003,1499,False
+all games,excess,previous game lost,-0.052473,-0.092868,-0.008391,0.502032,-36.581748,-65.239674,-5.831044,6003,1499,False
+all games,excess,previous game won,-0.003827,-0.040088,0.031368,0.502032,-2.659405,-27.907198,21.831629,6003,1499,False
+all games,excess,log2(game number),0.025569,0.002876,0.045875,0.502032,17.786375,1.998621,31.979335,6003,1499,False
+all games,excess,minutes into session / 30,-0.025041,-0.064292,0.006724,0.502032,-17.411922,-44.900346,4.672672,6003,1499,False
+all games,excess,rating before / 100,-0.009304,-0.01966,0.00197,0.502032,-6.465467,-13.665914,1.36893,6003,1499,False
+all games,ep_gap,band=evening 18-20,-0.00047,-0.001622,0.000728,,,,,5998,1499,False
+all games,ep_gap,band=late 21-23,5.5e-05,-0.001406,0.001664,,,,,5998,1499,False
+all games,ep_gap,band=midday 12-14,-0.001426,-0.002757,-4.1e-05,,,,,5998,1499,False
+all games,ep_gap,band=morning 7-11,-0.000536,-0.00187,0.000741,,,,,5998,1499,False
+all games,ep_gap,band=night 0-6,-0.000778,-0.002573,0.00117,,,,,5998,1499,False
+all games,ep_gap,weekend,0.00035,-0.000556,0.001254,,,,,5998,1499,False
+all games,ep_gap,previous game lost,0.00124,-1.1e-05,0.002394,,,,,5998,1499,False
+all games,ep_gap,previous game won,-0.000357,-0.00157,0.000923,,,,,5998,1499,False
+all games,ep_gap,log2(game number),-0.000652,-0.00123,-2e-06,,,,,5998,1499,False
+all games,ep_gap,minutes into session / 30,0.000379,-0.000603,0.001378,,,,,5998,1499,False
+all games,ep_gap,rating before / 100,-0.000126,-0.000526,0.000244,,,,,5998,1499,False
+all games,my_ep,band=evening 18-20,0.001683,-0.00069,0.003964,,,,,6001,1499,False
+all games,my_ep,band=late 21-23,0.001947,-0.000893,0.00497,,,,,6001,1499,False
+all games,my_ep,band=midday 12-14,0.000776,-0.002397,0.004156,,,,,6001,1499,False
+all games,my_ep,band=morning 7-11,0.001276,-0.001575,0.004436,,,,,6001,1499,False
+all games,my_ep,band=night 0-6,0.001546,-0.002821,0.006731,,,,,6001,1499,False
+all games,my_ep,weekend,0.001578,-0.00023,0.003526,,,,,6001,1499,False
+all games,my_ep,previous game lost,0.001907,-0.001028,0.004757,,,,,6001,1499,False
+all games,my_ep,previous game won,-0.00167,-0.004283,0.001049,,,,,6001,1499,False
+all games,my_ep,log2(game number),-0.001097,-0.00276,0.000519,,,,,6001,1499,False
+all games,my_ep,minutes into session / 30,0.001403,-0.001009,0.004313,,,,,6001,1499,False
+all games,my_ep,rating before / 100,-0.001561,-0.002624,-0.00057,,,,,6001,1499,False
+all games,lost_on_time,band=evening 18-20,0.008573,-0.018316,0.032521,,,,,6003,1499,False
+all games,lost_on_time,band=late 21-23,0.012617,-0.017793,0.047639,,,,,6003,1499,False
+all games,lost_on_time,band=midday 12-14,-0.011587,-0.039798,0.020637,,,,,6003,1499,False
+all games,lost_on_time,band=morning 7-11,-0.001964,-0.026199,0.027264,,,,,6003,1499,False
+all games,lost_on_time,band=night 0-6,0.024379,-0.030198,0.089013,,,,,6003,1499,False
+all games,lost_on_time,weekend,0.000695,-0.020489,0.024796,,,,,6003,1499,False
+all games,lost_on_time,previous game lost,0.055439,0.02466,0.083896,,,,,6003,1499,False
+all games,lost_on_time,previous game won,0.046432,0.016746,0.074844,,,,,6003,1499,False
+all games,lost_on_time,log2(game number),-0.020506,-0.036188,-0.004345,,,,,6003,1499,False
+all games,lost_on_time,minutes into session / 30,0.006984,-0.016532,0.031767,,,,,6003,1499,False
+all games,lost_on_time,rating before / 100,-0.019477,-0.028256,-0.011286,,,,,6003,1499,False

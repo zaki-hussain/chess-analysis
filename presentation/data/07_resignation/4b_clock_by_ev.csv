@@ -1,0 +1,934 @@
+tc_group,pooled,clock_measure,side,other_clock,ev_bin,score,score_lo,score_hi,model_ev,score_minus_model,positions,games,resignations,thin
+bullet 1+0,False,seconds left,player,<10 s,0-2%,0.001014,0.0,0.003493,0.01251,-0.011496,493,149,0,False
+bullet 1+0,False,seconds left,player,<10 s,2-5%,0.006438,0.000943,0.014828,0.033975,-0.027537,932,269,0,False
+bullet 1+0,False,seconds left,player,<10 s,5-10%,0.032895,0.017696,0.051629,0.073983,-0.041089,1140,319,0,False
+bullet 1+0,False,seconds left,player,<10 s,10-15%,0.088673,0.055331,0.1318,0.124115,-0.035442,874,290,0,False
+bullet 1+0,False,seconds left,player,<10 s,15-20%,0.117918,0.084846,0.159268,0.174335,-0.056417,759,276,0,False
+bullet 1+0,False,seconds left,player,<10 s,20-30%,0.194548,0.155485,0.241934,0.246499,-0.051951,1339,359,0,False
+bullet 1+0,False,seconds left,player,<10 s,30-50%,0.402362,0.356427,0.451754,0.40107,0.001293,2540,476,1,False
+bullet 1+0,False,seconds left,player,<10 s,50-100%,0.904474,0.88932,0.920205,0.851329,0.053145,16069,1233,0,False
+bullet 1+0,False,seconds left,player,10-30 s,0-2%,0.001029,0.0,0.003261,0.011951,-0.010922,1944,279,5,False
+bullet 1+0,False,seconds left,player,10-30 s,2-5%,0.006938,0.002335,0.012336,0.033697,-0.026759,3243,469,5,False
+bullet 1+0,False,seconds left,player,10-30 s,5-10%,0.041227,0.023432,0.059208,0.073345,-0.032118,3602,613,8,False
+bullet 1+0,False,seconds left,player,10-30 s,10-15%,0.088948,0.064447,0.114163,0.123931,-0.034983,2642,652,4,False
+bullet 1+0,False,seconds left,player,10-30 s,15-20%,0.144099,0.116903,0.172483,0.174117,-0.030018,2415,656,2,False
+bullet 1+0,False,seconds left,player,10-30 s,20-30%,0.243857,0.212946,0.275428,0.249611,-0.005754,4314,861,0,False
+bullet 1+0,False,seconds left,player,10-30 s,30-50%,0.414993,0.378739,0.446513,0.400435,0.014557,8264,1096,0,False
+bullet 1+0,False,seconds left,player,10-30 s,50-100%,0.836361,0.818625,0.853886,0.756335,0.080026,24496,1659,2,False
+bullet 1+0,False,seconds left,player,30+ s,0-2%,0.0,0.0,0.0,0.011539,-0.011539,236,33,1,False
+bullet 1+0,False,seconds left,player,30+ s,2-5%,0.009058,0.0,0.024094,0.036867,-0.027809,828,150,9,False
+bullet 1+0,False,seconds left,player,30+ s,5-10%,0.028184,0.013881,0.043494,0.076405,-0.048221,1916,384,19,False
+bullet 1+0,False,seconds left,player,30+ s,10-15%,0.081897,0.05736,0.107008,0.125751,-0.043855,2320,583,10,False
+bullet 1+0,False,seconds left,player,30+ s,15-20%,0.129345,0.101234,0.161873,0.175487,-0.046142,2733,735,15,False
+bullet 1+0,False,seconds left,player,30+ s,20-30%,0.189864,0.167423,0.215005,0.255345,-0.065481,8169,1264,22,False
+bullet 1+0,False,seconds left,player,30+ s,30-50%,0.399755,0.376725,0.420278,0.417539,-0.017784,42042,2427,13,False
+bullet 1+0,False,seconds left,player,30+ s,50-100%,0.738465,0.71793,0.755677,0.626606,0.111859,48137,2469,3,False
+bullet 1+0,False,seconds left,opponent,<10 s,0-2%,0.0,0.0,0.0,0.013082,-0.013082,495,165,0,False
+bullet 1+0,False,seconds left,opponent,<10 s,2-5%,0.002107,0.0,0.006719,0.034287,-0.03218,949,284,1,False
+bullet 1+0,False,seconds left,opponent,<10 s,5-10%,0.010554,0.000909,0.023921,0.074171,-0.063617,1137,337,1,False
+bullet 1+0,False,seconds left,opponent,<10 s,10-15%,0.034653,0.018572,0.055558,0.123887,-0.089234,1010,327,2,False
+bullet 1+0,False,seconds left,opponent,<10 s,15-20%,0.090805,0.060333,0.128834,0.174379,-0.083574,870,325,0,False
+bullet 1+0,False,seconds left,opponent,<10 s,20-30%,0.131065,0.097567,0.164525,0.247471,-0.116407,1484,390,2,False
+bullet 1+0,False,seconds left,opponent,<10 s,30-50%,0.320578,0.278877,0.358122,0.40171,-0.081133,2770,483,1,False
+bullet 1+0,False,seconds left,opponent,<10 s,50-100%,0.865966,0.845876,0.884598,0.851136,0.01483,16022,1115,2,False
+bullet 1+0,False,seconds left,opponent,10-30 s,0-2%,0.0,0.0,0.0,0.012002,-0.012002,1886,319,5,False
+bullet 1+0,False,seconds left,opponent,10-30 s,2-5%,0.00711,0.001591,0.015569,0.034281,-0.027171,3024,517,8,False
+bullet 1+0,False,seconds left,opponent,10-30 s,5-10%,0.019652,0.00989,0.031678,0.073051,-0.0534,3791,644,10,False
+bullet 1+0,False,seconds left,opponent,10-30 s,10-15%,0.053578,0.036872,0.076552,0.123655,-0.070078,2865,673,8,False
+bullet 1+0,False,seconds left,opponent,10-30 s,15-20%,0.103823,0.080397,0.125892,0.174135,-0.070312,2302,679,4,False
+bullet 1+0,False,seconds left,opponent,10-30 s,20-30%,0.15064,0.124505,0.17623,0.249275,-0.098636,4222,813,4,False
+bullet 1+0,False,seconds left,opponent,10-30 s,30-50%,0.32553,0.294788,0.359422,0.402175,-0.076645,8159,1132,2,False
+bullet 1+0,False,seconds left,opponent,10-30 s,50-100%,0.780013,0.759227,0.801666,0.76018,0.019833,26172,1654,5,False
+bullet 1+0,False,seconds left,opponent,30+ s,0-2%,0.0,0.0,0.0,0.012472,-0.012472,294,60,0,False
+bullet 1+0,False,seconds left,opponent,30+ s,2-5%,0.002688,0.0,0.007226,0.035018,-0.032329,744,146,7,False
+bullet 1+0,False,seconds left,opponent,30+ s,5-10%,0.018628,0.005065,0.035179,0.07675,-0.058122,1691,318,13,False
+bullet 1+0,False,seconds left,opponent,30+ s,10-15%,0.036456,0.022368,0.05288,0.125282,-0.088826,2071,489,17,False
+bullet 1+0,False,seconds left,opponent,30+ s,15-20%,0.088354,0.066032,0.114319,0.175397,-0.087043,2473,643,10,False
+bullet 1+0,False,seconds left,opponent,30+ s,20-30%,0.147929,0.125271,0.175088,0.254844,-0.106915,6351,1080,11,False
+bullet 1+0,False,seconds left,opponent,30+ s,30-50%,0.348614,0.327349,0.369314,0.421953,-0.073339,36681,2350,30,False
+bullet 1+0,False,seconds left,opponent,30+ s,50-100%,0.693808,0.675299,0.71353,0.625304,0.068504,51667,2443,5,False
+bullet 1+1,False,seconds left,player,<10 s,0-2%,0.0,0.0,0.0,0.014833,-0.014833,36,7,0,True
+bullet 1+1,False,seconds left,player,<10 s,2-5%,0.0,0.0,0.0,0.029814,-0.029814,106,13,1,True
+bullet 1+1,False,seconds left,player,<10 s,5-10%,0.0,0.0,0.0,0.074991,-0.074991,138,22,0,True
+bullet 1+1,False,seconds left,player,<10 s,10-15%,0.075472,0.016061,0.172323,0.123822,-0.04835,106,27,0,True
+bullet 1+1,False,seconds left,player,<10 s,15-20%,0.203704,0.04451,0.419668,0.171552,0.032151,81,20,0,True
+bullet 1+1,False,seconds left,player,<10 s,20-30%,0.311644,0.169116,0.454505,0.256661,0.054983,146,38,0,False
+bullet 1+1,False,seconds left,player,<10 s,30-50%,0.38491,0.260279,0.504946,0.389612,-0.004701,391,47,0,False
+bullet 1+1,False,seconds left,player,<10 s,50-100%,0.868371,0.794046,0.93159,0.828304,0.040067,1584,114,0,False
+bullet 1+1,False,seconds left,player,10-30 s,0-2%,0.0,0.0,0.0,0.012588,-0.012588,125,8,0,True
+bullet 1+1,False,seconds left,player,10-30 s,2-5%,0.0,0.0,0.0,0.033604,-0.033604,191,22,1,True
+bullet 1+1,False,seconds left,player,10-30 s,5-10%,0.003891,0.0,0.01468,0.075101,-0.07121,257,42,4,False
+bullet 1+1,False,seconds left,player,10-30 s,10-15%,0.117117,0.018896,0.232986,0.124268,-0.00715,222,55,3,False
+bullet 1+1,False,seconds left,player,10-30 s,15-20%,0.154696,0.05525,0.27486,0.173292,-0.018596,181,52,3,False
+bullet 1+1,False,seconds left,player,10-30 s,20-30%,0.188596,0.108573,0.289643,0.250688,-0.062091,342,67,1,False
+bullet 1+1,False,seconds left,player,10-30 s,30-50%,0.398048,0.29993,0.51238,0.409996,-0.011948,922,114,1,False
+bullet 1+1,False,seconds left,player,10-30 s,50-100%,0.834399,0.761379,0.887439,0.760963,0.073436,2971,189,0,False
+bullet 1+1,False,seconds left,player,30+ s,0-2%,0.0,0.0,0.0,0.012394,-0.012394,16,2,0,True
+bullet 1+1,False,seconds left,player,30+ s,2-5%,0.0,0.0,0.0,0.035236,-0.035236,65,10,4,True
+bullet 1+1,False,seconds left,player,30+ s,5-10%,0.026144,0.0,0.07916,0.077349,-0.051205,153,29,13,True
+bullet 1+1,False,seconds left,player,30+ s,10-15%,0.094527,0.02139,0.180455,0.125758,-0.031231,201,46,13,False
+bullet 1+1,False,seconds left,player,30+ s,15-20%,0.15736,0.078175,0.25,0.173908,-0.016548,197,60,12,False
+bullet 1+1,False,seconds left,player,30+ s,20-30%,0.229335,0.130816,0.337025,0.257797,-0.028462,617,96,11,False
+bullet 1+1,False,seconds left,player,30+ s,30-50%,0.465301,0.391433,0.543934,0.425274,0.040027,4539,275,16,False
+bullet 1+1,False,seconds left,player,30+ s,50-100%,0.788582,0.735731,0.838231,0.63498,0.153602,6875,291,3,False
+bullet 1+1,False,seconds left,opponent,<10 s,0-2%,0.0,0.0,0.0,0.013554,-0.013554,47,8,1,True
+bullet 1+1,False,seconds left,opponent,<10 s,2-5%,0.0,0.0,0.0,0.034278,-0.034278,147,17,1,True
+bullet 1+1,False,seconds left,opponent,<10 s,5-10%,0.0,0.0,0.0,0.070293,-0.070293,127,19,0,True
+bullet 1+1,False,seconds left,opponent,<10 s,10-15%,0.025316,0.0,0.094449,0.126323,-0.101006,79,26,0,True
+bullet 1+1,False,seconds left,opponent,<10 s,15-20%,0.016393,0.0,0.060931,0.177525,-0.161131,61,24,0,True
+bullet 1+1,False,seconds left,opponent,<10 s,20-30%,0.189516,0.064598,0.346541,0.255323,-0.065807,124,30,1,False
+bullet 1+1,False,seconds left,opponent,<10 s,30-50%,0.376471,0.218742,0.531993,0.393989,-0.017519,255,41,0,False
+bullet 1+1,False,seconds left,opponent,<10 s,50-100%,0.808255,0.706519,0.890575,0.78024,0.028015,1163,78,0,False
+bullet 1+1,False,seconds left,opponent,10-30 s,0-2%,0.0,0.0,0.0,0.012664,-0.012664,110,9,1,True
+bullet 1+1,False,seconds left,opponent,10-30 s,2-5%,0.0,0.0,0.0,0.034369,-0.034369,257,29,5,True
+bullet 1+1,False,seconds left,opponent,10-30 s,5-10%,0.009217,0.0,0.034909,0.074923,-0.065707,434,58,7,False
+bullet 1+1,False,seconds left,opponent,10-30 s,10-15%,0.024911,0.0,0.063165,0.123532,-0.098621,281,60,3,False
+bullet 1+1,False,seconds left,opponent,10-30 s,15-20%,0.149215,0.039749,0.279829,0.176497,-0.027282,191,62,0,False
+bullet 1+1,False,seconds left,opponent,10-30 s,20-30%,0.166176,0.091846,0.277272,0.247075,-0.080898,340,80,4,False
+bullet 1+1,False,seconds left,opponent,10-30 s,30-50%,0.338139,0.234275,0.467429,0.401454,-0.063315,763,119,2,False
+bullet 1+1,False,seconds left,opponent,10-30 s,50-100%,0.780488,0.703182,0.84521,0.755196,0.025292,2583,175,1,False
+bullet 1+1,False,seconds left,opponent,30+ s,0-2%,0.0,,,0.01375,-0.01375,7,1,1,True
+bullet 1+1,False,seconds left,opponent,30+ s,2-5%,0.0,0.0,0.0,0.03399,-0.03399,50,13,0,True
+bullet 1+1,False,seconds left,opponent,30+ s,5-10%,0.0,0.0,0.0,0.077245,-0.077245,156,28,7,True
+bullet 1+1,False,seconds left,opponent,30+ s,10-15%,0.033333,0.005001,0.077001,0.123488,-0.090155,225,45,11,False
+bullet 1+1,False,seconds left,opponent,30+ s,15-20%,0.07598,0.022391,0.140549,0.174095,-0.098114,204,59,2,False
+bullet 1+1,False,seconds left,opponent,30+ s,20-30%,0.14446,0.077982,0.217498,0.258405,-0.113945,713,112,2,False
+bullet 1+1,False,seconds left,opponent,30+ s,30-50%,0.426393,0.36239,0.495382,0.422593,0.003799,5278,295,7,False
+bullet 1+1,False,seconds left,opponent,30+ s,50-100%,0.773685,0.726142,0.818263,0.629297,0.144388,6692,311,2,False
+bullet 2+1,False,seconds left,player,<10 s,2-5%,0.0,,,0.04465,-0.04465,1,1,0,True
+bullet 2+1,False,seconds left,player,<10 s,10-15%,0.0,,,0.135258,-0.135258,13,1,0,True
+bullet 2+1,False,seconds left,player,<10 s,15-20%,0.0,,,0.16837,-0.16837,10,1,0,True
+bullet 2+1,False,seconds left,player,<10 s,20-30%,0.272727,0.0,1.0,0.244491,0.028236,11,2,0,True
+bullet 2+1,False,seconds left,player,<10 s,30-50%,0.444444,0.034483,1.0,0.406042,0.038403,18,5,0,True
+bullet 2+1,False,seconds left,player,<10 s,50-100%,0.830144,0.588564,0.986767,0.736392,0.093752,209,14,0,True
+bullet 2+1,False,seconds left,player,10-30 s,0-2%,0.0,0.0,0.0,0.013467,-0.013467,15,3,0,True
+bullet 2+1,False,seconds left,player,10-30 s,2-5%,0.0,0.0,0.0,0.038043,-0.038043,37,4,0,True
+bullet 2+1,False,seconds left,player,10-30 s,5-10%,0.0,0.0,0.0,0.068664,-0.068664,55,4,0,True
+bullet 2+1,False,seconds left,player,10-30 s,10-15%,0.0,0.0,0.0,0.120085,-0.120085,17,4,0,True
+bullet 2+1,False,seconds left,player,10-30 s,15-20%,0.0,0.0,0.0,0.176703,-0.176703,18,6,0,True
+bullet 2+1,False,seconds left,player,10-30 s,20-30%,0.54878,0.105278,0.820994,0.242385,0.306395,41,8,0,True
+bullet 2+1,False,seconds left,player,10-30 s,30-50%,0.470238,0.211161,0.744809,0.398764,0.071474,84,11,0,True
+bullet 2+1,False,seconds left,player,10-30 s,50-100%,0.806818,0.643115,0.938996,0.746918,0.0599,308,22,0,True
+bullet 2+1,False,seconds left,player,30+ s,0-2%,0.0,0.0,0.0,0.013086,-0.013086,7,2,2,True
+bullet 2+1,False,seconds left,player,30+ s,2-5%,0.0,0.0,0.0,0.035493,-0.035493,68,10,2,True
+bullet 2+1,False,seconds left,player,30+ s,5-10%,0.003759,0.0,0.014572,0.072025,-0.068265,133,13,5,True
+bullet 2+1,False,seconds left,player,30+ s,10-15%,0.025,0.0,0.088927,0.124643,-0.099643,80,14,2,True
+bullet 2+1,False,seconds left,player,30+ s,15-20%,0.018018,0.0,0.054054,0.172854,-0.154836,111,17,4,True
+bullet 2+1,False,seconds left,player,30+ s,20-30%,0.201422,0.097635,0.384224,0.255307,-0.053885,211,34,4,False
+bullet 2+1,False,seconds left,player,30+ s,30-50%,0.424944,0.273743,0.579488,0.416043,0.008901,886,53,2,False
+bullet 2+1,False,seconds left,player,30+ s,50-100%,0.798898,0.66827,0.902455,0.713853,0.085045,1452,51,0,False
+bullet 2+1,False,seconds left,opponent,<10 s,2-5%,0.0,0.0,0.0,0.037644,-0.037644,18,4,0,True
+bullet 2+1,False,seconds left,opponent,<10 s,5-10%,0.0,0.0,0.0,0.06572,-0.06572,41,4,0,True
+bullet 2+1,False,seconds left,opponent,<10 s,10-15%,0.0,0.0,0.0,0.119157,-0.119157,28,6,1,True
+bullet 2+1,False,seconds left,opponent,<10 s,15-20%,0.0,0.0,0.0,0.175781,-0.175781,13,3,0,True
+bullet 2+1,False,seconds left,opponent,<10 s,20-30%,0.071429,0.0,0.444444,0.237298,-0.16587,28,6,0,True
+bullet 2+1,False,seconds left,opponent,<10 s,30-50%,0.426471,0.046522,0.862069,0.403182,0.023288,68,8,0,True
+bullet 2+1,False,seconds left,opponent,<10 s,50-100%,0.892405,0.714715,1.0,0.850966,0.041439,158,14,0,True
+bullet 2+1,False,seconds left,opponent,10-30 s,0-2%,0.0,,,0.016615,-0.016615,20,1,0,True
+bullet 2+1,False,seconds left,opponent,10-30 s,2-5%,0.0,0.0,0.0,0.033074,-0.033074,31,2,0,True
+bullet 2+1,False,seconds left,opponent,10-30 s,5-10%,0.111111,0.0,1.0,0.082611,0.0285,9,3,0,True
+bullet 2+1,False,seconds left,opponent,10-30 s,10-15%,0.0,0.0,0.0,0.128175,-0.128175,12,5,0,True
+bullet 2+1,False,seconds left,opponent,10-30 s,15-20%,0.121212,0.0,0.380952,0.177097,-0.055885,33,6,0,True
+bullet 2+1,False,seconds left,opponent,10-30 s,20-30%,0.349315,0.08712,0.507002,0.247371,0.101944,73,11,0,True
+bullet 2+1,False,seconds left,opponent,10-30 s,30-50%,0.313084,0.127414,0.553545,0.398484,-0.0854,107,14,0,True
+bullet 2+1,False,seconds left,opponent,10-30 s,50-100%,0.827035,0.657319,0.949372,0.812974,0.01406,344,28,0,True
+bullet 2+1,False,seconds left,opponent,30+ s,0-2%,0.0,0.0,0.0,0.015544,-0.015544,60,4,0,True
+bullet 2+1,False,seconds left,opponent,30+ s,2-5%,0.0,0.0,0.0,0.03379,-0.03379,58,7,2,True
+bullet 2+1,False,seconds left,opponent,30+ s,5-10%,0.0,0.0,0.0,0.073917,-0.073917,87,12,0,True
+bullet 2+1,False,seconds left,opponent,30+ s,10-15%,0.0,0.0,0.0,0.124057,-0.124057,106,15,1,True
+bullet 2+1,False,seconds left,opponent,30+ s,15-20%,0.012195,0.0,0.043183,0.177315,-0.16512,82,15,1,True
+bullet 2+1,False,seconds left,opponent,30+ s,20-30%,0.09322,0.026689,0.198865,0.252109,-0.158888,177,25,1,True
+bullet 2+1,False,seconds left,opponent,30+ s,30-50%,0.511986,0.370852,0.656763,0.41882,0.093166,876,58,3,False
+bullet 2+1,False,seconds left,opponent,30+ s,50-100%,0.838882,0.750681,0.918668,0.6804,0.158482,1682,69,1,False
+blitz 3+0,False,seconds left,player,<10 s,0-2%,0.0,0.0,0.0,0.009275,-0.009275,20,3,0,True
+blitz 3+0,False,seconds left,player,<10 s,5-10%,0.0,0.0,0.0,0.08125,-0.08125,4,3,0,True
+blitz 3+0,False,seconds left,player,<10 s,10-15%,0.0,,,0.11925,-0.11925,2,1,0,True
+blitz 3+0,False,seconds left,player,<10 s,15-20%,0.0,,,0.17905,-0.17905,3,1,0,True
+blitz 3+0,False,seconds left,player,<10 s,20-30%,0.5,,,0.279325,0.220675,4,1,0,True
+blitz 3+0,False,seconds left,player,<10 s,30-50%,0.6875,0.5,1.0,0.396262,0.291238,16,3,0,True
+blitz 3+0,False,seconds left,player,<10 s,50-100%,0.979167,0.945259,1.0,0.897157,0.08201,168,21,0,True
+blitz 3+0,False,seconds left,player,10-30 s,0-2%,0.0,0.0,0.0,0.008981,-0.008981,105,9,0,True
+blitz 3+0,False,seconds left,player,10-30 s,2-5%,0.0,0.0,0.0,0.031406,-0.031406,79,9,0,True
+blitz 3+0,False,seconds left,player,10-30 s,5-10%,0.0,0.0,0.0,0.071373,-0.071373,58,9,1,True
+blitz 3+0,False,seconds left,player,10-30 s,10-15%,0.0,0.0,0.0,0.117848,-0.117848,31,6,0,True
+blitz 3+0,False,seconds left,player,10-30 s,15-20%,0.105263,0.0,0.349242,0.173542,-0.068279,19,8,0,True
+blitz 3+0,False,seconds left,player,10-30 s,20-30%,0.455882,0.033929,0.75,0.238104,0.217778,34,9,0,True
+blitz 3+0,False,seconds left,player,10-30 s,30-50%,0.5,0.23288,0.864421,0.404514,0.095486,65,12,0,True
+blitz 3+0,False,seconds left,player,10-30 s,50-100%,0.868421,0.753674,0.983774,0.783685,0.084736,285,26,0,True
+blitz 3+0,False,seconds left,player,30+ s,0-2%,0.0,0.0,0.0,0.009872,-0.009872,178,14,4,True
+blitz 3+0,False,seconds left,player,30+ s,2-5%,0.0,0.0,0.0,0.032552,-0.032552,177,25,5,True
+blitz 3+0,False,seconds left,player,30+ s,5-10%,0.015564,0.0,0.038915,0.07426,-0.058695,257,39,8,False
+blitz 3+0,False,seconds left,player,30+ s,10-15%,0.070342,0.0245,0.132796,0.124694,-0.054351,263,47,7,False
+blitz 3+0,False,seconds left,player,30+ s,15-20%,0.145161,0.049846,0.269597,0.175508,-0.030347,248,45,2,False
+blitz 3+0,False,seconds left,player,30+ s,20-30%,0.168399,0.09441,0.261,0.251548,-0.083149,481,65,5,False
+blitz 3+0,False,seconds left,player,30+ s,30-50%,0.44628,0.363514,0.546566,0.429395,0.016885,2997,159,2,False
+blitz 3+0,False,seconds left,player,30+ s,50-100%,0.819904,0.756753,0.875246,0.668564,0.151341,6255,168,1,False
+blitz 3+0,False,seconds left,opponent,<10 s,2-5%,0.0,0.0,0.0,0.034983,-0.034983,3,3,0,True
+blitz 3+0,False,seconds left,opponent,<10 s,5-10%,0.0,0.0,0.0,0.0697,-0.0697,4,4,1,True
+blitz 3+0,False,seconds left,opponent,<10 s,10-15%,0.0,0.0,0.0,0.127518,-0.127518,11,4,0,True
+blitz 3+0,False,seconds left,opponent,<10 s,15-20%,0.0,0.0,0.0,0.17105,-0.17105,4,2,0,True
+blitz 3+0,False,seconds left,opponent,<10 s,20-30%,0.125,0.0,0.5,0.245875,-0.120875,4,3,0,True
+blitz 3+0,False,seconds left,opponent,<10 s,30-50%,0.391304,0.0,0.5,0.417693,-0.026389,23,4,0,True
+blitz 3+0,False,seconds left,opponent,<10 s,50-100%,0.939024,0.85931,0.996132,0.907504,0.031521,533,33,1,False
+blitz 3+0,False,seconds left,opponent,10-30 s,0-2%,0.0,,,0.0171,-0.0171,3,1,0,True
+blitz 3+0,False,seconds left,opponent,10-30 s,2-5%,0.0,0.0,0.0,0.037728,-0.037728,58,10,0,True
+blitz 3+0,False,seconds left,opponent,10-30 s,5-10%,0.004425,0.0,0.017757,0.073135,-0.06871,113,16,0,True
+blitz 3+0,False,seconds left,opponent,10-30 s,10-15%,0.040541,0.0,0.148262,0.124203,-0.083662,37,11,0,True
+blitz 3+0,False,seconds left,opponent,10-30 s,15-20%,0.22,0.0,0.4,0.17447,0.04553,25,8,1,True
+blitz 3+0,False,seconds left,opponent,10-30 s,20-30%,0.3125,0.026319,0.458095,0.237431,0.075069,32,11,0,True
+blitz 3+0,False,seconds left,opponent,10-30 s,30-50%,0.365385,0.127582,0.549622,0.424613,-0.059228,78,13,0,True
+blitz 3+0,False,seconds left,opponent,10-30 s,50-100%,0.931004,0.85755,0.985765,0.854157,0.076847,558,42,0,False
+blitz 3+0,False,seconds left,opponent,30+ s,0-2%,0.0,0.0,0.0,0.011893,-0.011893,90,15,1,True
+blitz 3+0,False,seconds left,opponent,30+ s,2-5%,0.0,0.0,0.0,0.033615,-0.033615,181,23,6,True
+blitz 3+0,False,seconds left,opponent,30+ s,5-10%,0.018836,0.0,0.059766,0.075526,-0.05669,292,37,13,False
+blitz 3+0,False,seconds left,opponent,30+ s,10-15%,0.089015,0.024384,0.173003,0.125062,-0.036047,264,51,13,False
+blitz 3+0,False,seconds left,opponent,30+ s,15-20%,0.184685,0.045339,0.318299,0.173588,0.011097,222,51,4,False
+blitz 3+0,False,seconds left,opponent,30+ s,20-30%,0.221662,0.126102,0.334255,0.255087,-0.033425,397,73,3,False
+blitz 3+0,False,seconds left,opponent,30+ s,30-50%,0.405043,0.324601,0.492132,0.428504,-0.023461,3133,136,0,False
+blitz 3+0,False,seconds left,opponent,30+ s,50-100%,0.814606,0.751583,0.864289,0.650698,0.163908,4601,145,1,False
+blitz 3+2,False,seconds left,player,<10 s,2-5%,0.071429,0.0,0.28125,0.036698,0.034731,21,4,0,True
+blitz 3+2,False,seconds left,player,<10 s,5-10%,0.019231,0.0,0.092401,0.071244,-0.052013,52,8,0,True
+blitz 3+2,False,seconds left,player,<10 s,10-15%,0.045455,0.0,0.142857,0.123964,-0.078509,44,12,0,True
+blitz 3+2,False,seconds left,player,<10 s,15-20%,0.128205,0.033693,0.297097,0.174629,-0.046424,39,19,0,True
+blitz 3+2,False,seconds left,player,<10 s,20-30%,0.186047,0.060947,0.387753,0.248055,-0.062008,86,22,1,True
+blitz 3+2,False,seconds left,player,<10 s,30-50%,0.348214,0.217903,0.499613,0.404086,-0.055872,168,36,0,False
+blitz 3+2,False,seconds left,player,<10 s,50-100%,0.878761,0.809774,0.934401,0.840652,0.038109,1695,143,0,False
+blitz 3+2,False,seconds left,player,10-30 s,0-2%,0.0,0.0,0.0,0.013543,-0.013543,173,19,0,True
+blitz 3+2,False,seconds left,player,10-30 s,2-5%,0.0,0.0,0.0,0.034736,-0.034736,460,32,2,False
+blitz 3+2,False,seconds left,player,10-30 s,5-10%,0.019438,0.0,0.053619,0.072358,-0.052919,463,48,2,False
+blitz 3+2,False,seconds left,player,10-30 s,10-15%,0.078231,0.03086,0.146629,0.123004,-0.044773,294,58,0,False
+blitz 3+2,False,seconds left,player,10-30 s,15-20%,0.2075,0.072255,0.356005,0.17298,0.03452,200,54,0,False
+blitz 3+2,False,seconds left,player,10-30 s,20-30%,0.206371,0.123598,0.287395,0.251208,-0.044837,361,63,4,False
+blitz 3+2,False,seconds left,player,10-30 s,30-50%,0.400676,0.323888,0.464202,0.407017,-0.006341,740,98,1,False
+blitz 3+2,False,seconds left,player,10-30 s,50-100%,0.867283,0.822608,0.904866,0.816251,0.051032,4001,243,0,False
+blitz 3+2,False,seconds left,player,30+ s,0-2%,0.0,0.0,0.0,0.012532,-0.012532,741,55,10,False
+blitz 3+2,False,seconds left,player,30+ s,2-5%,0.001289,0.0,0.003987,0.034893,-0.033604,1551,135,29,False
+blitz 3+2,False,seconds left,player,30+ s,5-10%,0.008037,0.002287,0.017332,0.074318,-0.066281,2053,234,74,False
+blitz 3+2,False,seconds left,player,30+ s,10-15%,0.091651,0.061904,0.128335,0.124371,-0.03272,1593,299,60,False
+blitz 3+2,False,seconds left,player,30+ s,15-20%,0.173397,0.129897,0.215782,0.175859,-0.002461,1560,345,28,False
+blitz 3+2,False,seconds left,player,30+ s,20-30%,0.26502,0.222503,0.308801,0.253169,0.011851,3745,489,38,False
+blitz 3+2,False,seconds left,player,30+ s,30-50%,0.47923,0.445157,0.514216,0.422027,0.057203,17814,977,28,False
+blitz 3+2,False,seconds left,player,30+ s,50-100%,0.827568,0.804864,0.848358,0.693537,0.134031,35675,1066,6,False
+blitz 3+2,False,seconds left,opponent,<10 s,0-2%,0.0,0.0,0.0,0.01218,-0.01218,5,2,0,True
+blitz 3+2,False,seconds left,opponent,<10 s,2-5%,0.0,0.0,0.0,0.037637,-0.037637,39,9,0,True
+blitz 3+2,False,seconds left,opponent,<10 s,5-10%,0.0,0.0,0.0,0.075775,-0.075775,79,17,0,True
+blitz 3+2,False,seconds left,opponent,<10 s,10-15%,0.0,0.0,0.0,0.127804,-0.127804,87,27,1,True
+blitz 3+2,False,seconds left,opponent,<10 s,15-20%,0.060976,0.0,0.161465,0.175582,-0.114607,82,25,0,True
+blitz 3+2,False,seconds left,opponent,<10 s,20-30%,0.107477,0.0076,0.236637,0.24847,-0.140993,107,26,1,True
+blitz 3+2,False,seconds left,opponent,<10 s,30-50%,0.315068,0.197912,0.486548,0.392637,-0.077569,219,41,0,False
+blitz 3+2,False,seconds left,opponent,<10 s,50-100%,0.925887,0.883316,0.959674,0.859383,0.066504,1410,128,0,False
+blitz 3+2,False,seconds left,opponent,10-30 s,0-2%,0.0,0.0,0.0,0.012944,-0.012944,222,20,1,True
+blitz 3+2,False,seconds left,opponent,10-30 s,2-5%,0.0,0.0,0.0,0.035616,-0.035616,763,55,3,False
+blitz 3+2,False,seconds left,opponent,10-30 s,5-10%,0.0,0.0,0.0,0.070994,-0.070994,797,85,7,False
+blitz 3+2,False,seconds left,opponent,10-30 s,10-15%,0.013667,0.004165,0.027425,0.124473,-0.110806,439,89,6,False
+blitz 3+2,False,seconds left,opponent,10-30 s,15-20%,0.11194,0.038425,0.187557,0.174254,-0.062314,335,91,0,False
+blitz 3+2,False,seconds left,opponent,10-30 s,20-30%,0.242114,0.143116,0.339459,0.248402,-0.006288,634,112,2,False
+blitz 3+2,False,seconds left,opponent,10-30 s,30-50%,0.384768,0.301447,0.467609,0.405658,-0.02089,1011,149,2,False
+blitz 3+2,False,seconds left,opponent,10-30 s,50-100%,0.840015,0.787811,0.883039,0.811239,0.028776,5263,284,0,False
+blitz 3+2,False,seconds left,opponent,30+ s,0-2%,0.0,0.0,0.0,0.008893,-0.008893,782,41,15,False
+blitz 3+2,False,seconds left,opponent,30+ s,2-5%,0.0,0.0,0.0,0.03425,-0.03425,984,103,54,False
+blitz 3+2,False,seconds left,opponent,30+ s,5-10%,0.022406,0.005957,0.048256,0.074473,-0.052066,1629,187,84,False
+blitz 3+2,False,seconds left,opponent,30+ s,10-15%,0.069575,0.037641,0.111307,0.124233,-0.054658,1387,262,51,False
+blitz 3+2,False,seconds left,opponent,30+ s,15-20%,0.123462,0.08264,0.167499,0.174944,-0.051482,1300,280,27,False
+blitz 3+2,False,seconds left,opponent,30+ s,20-30%,0.217306,0.174155,0.259069,0.252251,-0.034945,3051,404,31,False
+blitz 3+2,False,seconds left,opponent,30+ s,30-50%,0.482171,0.446483,0.520012,0.424222,0.057949,16378,890,27,False
+blitz 3+2,False,seconds left,opponent,30+ s,50-100%,0.815294,0.790028,0.838749,0.682576,0.132718,30489,988,8,False
+blitz 5+0,False,seconds left,player,<10 s,0-2%,0.0,,,0.004217,-0.004217,3,1,0,True
+blitz 5+0,False,seconds left,player,<10 s,2-5%,0.0,0.0,0.0,0.043417,-0.043417,3,2,0,True
+blitz 5+0,False,seconds left,player,<10 s,5-10%,0.0,0.0,0.0,0.069512,-0.069512,4,2,0,True
+blitz 5+0,False,seconds left,player,<10 s,10-15%,0.0,0.0,0.0,0.1211,-0.1211,4,3,0,True
+blitz 5+0,False,seconds left,player,<10 s,15-20%,0.0,0.0,0.0,0.1789,-0.1789,3,2,0,True
+blitz 5+0,False,seconds left,player,<10 s,20-30%,0.0,0.0,0.0,0.271282,-0.271282,11,2,0,True
+blitz 5+0,False,seconds left,player,<10 s,30-50%,0.0,0.0,0.0,0.407133,-0.407133,6,2,0,True
+blitz 5+0,False,seconds left,player,<10 s,50-100%,0.925926,0.666667,1.0,0.879915,0.046011,27,6,0,True
+blitz 5+0,False,seconds left,player,10-30 s,0-2%,0.0,0.0,0.0,0.012023,-0.012023,13,2,0,True
+blitz 5+0,False,seconds left,player,10-30 s,2-5%,0.0,0.0,0.0,0.030403,-0.030403,16,4,0,True
+blitz 5+0,False,seconds left,player,10-30 s,5-10%,0.0,0.0,0.0,0.074525,-0.074525,10,2,0,True
+blitz 5+0,False,seconds left,player,10-30 s,10-15%,0.0,,,0.13312,-0.13312,5,1,0,True
+blitz 5+0,False,seconds left,player,10-30 s,15-20%,0.0,0.0,0.0,0.17253,-0.17253,5,2,0,True
+blitz 5+0,False,seconds left,player,10-30 s,20-30%,0.0,,,0.249458,-0.249458,6,1,0,True
+blitz 5+0,False,seconds left,player,10-30 s,30-50%,0.0,,,0.33117,-0.33117,5,1,0,True
+blitz 5+0,False,seconds left,player,10-30 s,50-100%,0.805556,0.363636,1.0,0.814249,-0.008693,72,7,0,True
+blitz 5+0,False,seconds left,player,30+ s,0-2%,0.0,0.0,0.0,0.008934,-0.008934,297,18,0,True
+blitz 5+0,False,seconds left,player,30+ s,2-5%,0.0,0.0,0.0,0.033345,-0.033345,252,25,1,True
+blitz 5+0,False,seconds left,player,30+ s,5-10%,0.018519,0.0,0.048508,0.073985,-0.055466,270,31,4,False
+blitz 5+0,False,seconds left,player,30+ s,10-15%,0.053571,0.005537,0.123287,0.124126,-0.070555,224,35,5,False
+blitz 5+0,False,seconds left,player,30+ s,15-20%,0.122378,0.047445,0.214927,0.175629,-0.053252,143,37,1,False
+blitz 5+0,False,seconds left,player,30+ s,20-30%,0.280405,0.124749,0.406077,0.252554,0.027852,296,39,2,False
+blitz 5+0,False,seconds left,player,30+ s,30-50%,0.329592,0.220904,0.469004,0.411939,-0.082347,980,62,2,False
+blitz 5+0,False,seconds left,player,30+ s,50-100%,0.723149,0.58582,0.835113,0.700445,0.022704,1499,58,0,False
+blitz 5+0,False,seconds left,opponent,<10 s,15-20%,0.0,,,0.192425,-0.192425,6,1,0,True
+blitz 5+0,False,seconds left,opponent,<10 s,20-30%,0.0,,,0.275175,-0.275175,4,1,0,True
+blitz 5+0,False,seconds left,opponent,<10 s,30-50%,0.5,,,0.46543,0.03457,5,1,0,True
+blitz 5+0,False,seconds left,opponent,<10 s,50-100%,0.957831,0.874973,1.0,0.90292,0.054911,249,21,0,True
+blitz 5+0,False,seconds left,opponent,10-30 s,0-2%,0.0,,,0.019375,-0.019375,2,1,0,True
+blitz 5+0,False,seconds left,opponent,10-30 s,2-5%,0.0,,,0.02905,-0.02905,1,1,0,True
+blitz 5+0,False,seconds left,opponent,10-30 s,5-10%,0.0,0.0,0.0,0.0663,-0.0663,4,2,0,True
+blitz 5+0,False,seconds left,opponent,10-30 s,10-15%,0.0,,,0.124925,-0.124925,4,1,0,True
+blitz 5+0,False,seconds left,opponent,10-30 s,15-20%,0.0,0.0,0.0,0.182365,-0.182365,10,2,0,True
+blitz 5+0,False,seconds left,opponent,10-30 s,20-30%,0.2,0.0,1.0,0.245625,-0.045625,20,3,0,True
+blitz 5+0,False,seconds left,opponent,10-30 s,30-50%,0.333333,0.0,0.75,0.40125,-0.067917,21,4,0,True
+blitz 5+0,False,seconds left,opponent,10-30 s,50-100%,0.933702,0.856361,1.0,0.867546,0.066156,181,26,0,True
+blitz 5+0,False,seconds left,opponent,30+ s,0-2%,0.0,0.0,0.0,0.013039,-0.013039,9,3,0,True
+blitz 5+0,False,seconds left,opponent,30+ s,2-5%,0.0,0.0,0.0,0.034471,-0.034471,28,4,3,True
+blitz 5+0,False,seconds left,opponent,30+ s,5-10%,0.0,0.0,0.0,0.077921,-0.077921,64,9,4,True
+blitz 5+0,False,seconds left,opponent,30+ s,10-15%,0.039474,0.0,0.155352,0.125482,-0.086008,76,14,3,True
+blitz 5+0,False,seconds left,opponent,30+ s,15-20%,0.096591,0.020743,0.252574,0.17423,-0.077639,88,19,1,True
+blitz 5+0,False,seconds left,opponent,30+ s,20-30%,0.275253,0.115742,0.537896,0.253257,0.021995,198,22,1,True
+blitz 5+0,False,seconds left,opponent,30+ s,30-50%,0.637931,0.490946,0.780265,0.421017,0.216914,667,55,1,False
+blitz 5+0,False,seconds left,opponent,30+ s,50-100%,0.889586,0.817838,0.945113,0.752674,0.136912,2391,71,1,False
+blitz 5+2,False,seconds left,player,<10 s,2-5%,0.0,,,0.04209,-0.04209,5,1,0,True
+blitz 5+2,False,seconds left,player,<10 s,5-10%,0.0,0.0,0.0,0.08305,-0.08305,6,3,0,True
+blitz 5+2,False,seconds left,player,<10 s,10-15%,0.0,0.0,0.0,0.119406,-0.119406,9,3,0,True
+blitz 5+2,False,seconds left,player,<10 s,15-20%,0.0,0.0,0.0,0.168967,-0.168967,6,2,0,True
+blitz 5+2,False,seconds left,player,<10 s,20-30%,0.0,0.0,0.0,0.2329,-0.2329,6,2,0,True
+blitz 5+2,False,seconds left,player,<10 s,30-50%,0.294118,0.0,0.5,0.391135,-0.097018,17,3,0,True
+blitz 5+2,False,seconds left,player,<10 s,50-100%,0.767442,0.541783,1.0,0.706777,0.060665,43,4,0,True
+blitz 5+2,False,seconds left,player,10-30 s,2-5%,0.0,0.0,0.0,0.028145,-0.028145,30,2,0,True
+blitz 5+2,False,seconds left,player,10-30 s,5-10%,0.0,0.0,0.0,0.074914,-0.074914,29,5,0,True
+blitz 5+2,False,seconds left,player,10-30 s,10-15%,0.0,0.0,0.0,0.129408,-0.129408,18,3,0,True
+blitz 5+2,False,seconds left,player,10-30 s,15-20%,0.020833,0.0,0.220312,0.174515,-0.153681,24,4,0,True
+blitz 5+2,False,seconds left,player,10-30 s,20-30%,0.0,0.0,0.0,0.242104,-0.242104,13,4,0,True
+blitz 5+2,False,seconds left,player,10-30 s,30-50%,0.275,0.023519,0.644193,0.406659,-0.131659,40,7,0,True
+blitz 5+2,False,seconds left,player,10-30 s,50-100%,0.804,0.595136,0.991685,0.839865,-0.035865,250,16,0,True
+blitz 5+2,False,seconds left,player,30+ s,0-2%,0.0,0.0,0.0,0.01324,-0.01324,77,7,0,True
+blitz 5+2,False,seconds left,player,30+ s,2-5%,0.0,0.0,0.0,0.034861,-0.034861,132,12,1,True
+blitz 5+2,False,seconds left,player,30+ s,5-10%,0.046296,0.0,0.149446,0.073992,-0.027696,162,15,4,True
+blitz 5+2,False,seconds left,player,30+ s,10-15%,0.103053,0.017552,0.224324,0.12535,-0.022296,131,22,7,True
+blitz 5+2,False,seconds left,player,30+ s,15-20%,0.168224,0.030135,0.314577,0.173544,-0.00532,107,17,4,True
+blitz 5+2,False,seconds left,player,30+ s,20-30%,0.251825,0.116784,0.426065,0.251233,0.000592,274,31,4,False
+blitz 5+2,False,seconds left,player,30+ s,30-50%,0.383868,0.271377,0.515263,0.419157,-0.035288,1184,68,4,False
+blitz 5+2,False,seconds left,player,30+ s,50-100%,0.810474,0.729318,0.877744,0.743737,0.066737,3332,86,0,False
+blitz 5+2,False,seconds left,opponent,<10 s,50-100%,1.0,1.0,1.0,0.824866,0.175134,46,3,0,True
+blitz 5+2,False,seconds left,opponent,10-30 s,30-50%,0.5,,,0.406958,0.093042,40,1,0,True
+blitz 5+2,False,seconds left,opponent,10-30 s,50-100%,0.850649,0.615573,1.0,0.809587,0.041063,154,6,0,True
+blitz 5+2,False,seconds left,opponent,30+ s,0-2%,0.0,0.0,0.0,0.010266,-0.010266,377,11,2,True
+blitz 5+2,False,seconds left,opponent,30+ s,2-5%,0.0,0.0,0.0,0.034103,-0.034103,234,15,6,True
+blitz 5+2,False,seconds left,opponent,30+ s,5-10%,0.029557,0.000813,0.093125,0.071663,-0.042106,203,22,7,True
+blitz 5+2,False,seconds left,opponent,30+ s,10-15%,0.064103,0.008793,0.152857,0.127985,-0.063882,117,27,4,True
+blitz 5+2,False,seconds left,opponent,30+ s,15-20%,0.177778,0.05311,0.312212,0.177351,0.000426,135,26,2,True
+blitz 5+2,False,seconds left,opponent,30+ s,20-30%,0.247588,0.121188,0.370569,0.248748,-0.00116,311,37,2,False
+blitz 5+2,False,seconds left,opponent,30+ s,30-50%,0.54173,0.41618,0.669336,0.422365,0.119365,1306,73,0,False
+blitz 5+2,False,seconds left,opponent,30+ s,50-100%,0.856939,0.780455,0.912438,0.705345,0.151594,2450,72,2,False
+blitz 5+5,False,seconds left,player,<10 s,50-100%,1.0,1.0,1.0,0.916166,0.083834,16,3,0,True
+blitz 5+5,False,seconds left,player,10-30 s,2-5%,0.0,0.0,0.0,0.042048,-0.042048,22,2,1,True
+blitz 5+5,False,seconds left,player,10-30 s,5-10%,0.0,,,0.064272,-0.064272,16,1,0,True
+blitz 5+5,False,seconds left,player,10-30 s,10-15%,0.0,0.0,0.0,0.1113,-0.1113,2,2,0,True
+blitz 5+5,False,seconds left,player,10-30 s,30-50%,0.0,,,0.425486,-0.425486,25,1,0,True
+blitz 5+5,False,seconds left,player,10-30 s,50-100%,0.643519,0.201032,1.0,0.796703,-0.153185,108,5,0,True
+blitz 5+5,False,seconds left,player,30+ s,0-2%,0.0,0.0,0.0,0.013267,-0.013267,126,8,2,True
+blitz 5+5,False,seconds left,player,30+ s,2-5%,0.0,0.0,0.0,0.032176,-0.032176,195,12,4,True
+blitz 5+5,False,seconds left,player,30+ s,5-10%,0.012195,0.0,0.038117,0.075097,-0.062902,123,22,9,True
+blitz 5+5,False,seconds left,player,30+ s,10-15%,0.1,0.02381,0.197723,0.127947,-0.027947,155,27,9,True
+blitz 5+5,False,seconds left,player,30+ s,15-20%,0.07197,0.0,0.179288,0.172938,-0.100968,132,21,5,True
+blitz 5+5,False,seconds left,player,30+ s,20-30%,0.250708,0.125689,0.393985,0.253304,-0.002596,353,38,4,False
+blitz 5+5,False,seconds left,player,30+ s,30-50%,0.52733,0.396945,0.66293,0.416094,0.111236,1116,75,7,False
+blitz 5+5,False,seconds left,player,30+ s,50-100%,0.830158,0.741594,0.899319,0.695655,0.134503,3044,84,2,False
+blitz 5+5,False,seconds left,opponent,10-30 s,30-50%,1.0,,,0.46109,0.53891,5,1,0,True
+blitz 5+5,False,seconds left,opponent,10-30 s,50-100%,1.0,1.0,1.0,0.823165,0.176835,71,4,0,True
+blitz 5+5,False,seconds left,opponent,30+ s,0-2%,0.0,0.0,0.0,0.01129,-0.01129,69,4,2,True
+blitz 5+5,False,seconds left,opponent,30+ s,2-5%,0.0,0.0,0.0,0.032466,-0.032466,130,10,6,True
+blitz 5+5,False,seconds left,opponent,30+ s,5-10%,0.011905,0.0,0.044554,0.074225,-0.06232,126,20,5,True
+blitz 5+5,False,seconds left,opponent,30+ s,10-15%,0.050505,0.0,0.127365,0.125284,-0.074779,99,22,7,True
+blitz 5+5,False,seconds left,opponent,30+ s,15-20%,0.199074,0.072192,0.358231,0.174488,0.024587,108,27,3,True
+blitz 5+5,False,seconds left,opponent,30+ s,20-30%,0.336032,0.194911,0.553295,0.253962,0.08207,247,36,4,False
+blitz 5+5,False,seconds left,opponent,30+ s,30-50%,0.463993,0.341951,0.610657,0.416238,0.047755,1708,77,3,False
+blitz 5+5,False,seconds left,opponent,30+ s,50-100%,0.886482,0.825669,0.934203,0.730194,0.156288,3255,99,1,False
+rapid 10+0,False,seconds left,player,<10 s,50-100%,0.994318,0.975565,1.0,0.979016,0.015302,88,8,0,True
+rapid 10+0,False,seconds left,player,10-30 s,20-30%,0.5,,,0.2789,0.2211,3,1,0,True
+rapid 10+0,False,seconds left,player,10-30 s,30-50%,0.5,,,0.390457,0.109543,7,1,0,True
+rapid 10+0,False,seconds left,player,10-30 s,50-100%,1.0,1.0,1.0,0.950128,0.049872,89,10,1,True
+rapid 10+0,False,seconds left,player,30+ s,0-2%,0.0,0.0,0.0,0.01029,-0.01029,611,26,2,True
+rapid 10+0,False,seconds left,player,30+ s,2-5%,0.005892,0.0,0.017316,0.032775,-0.026883,594,43,23,False
+rapid 10+0,False,seconds left,player,30+ s,5-10%,0.059292,0.020776,0.109056,0.074052,-0.01476,565,79,46,False
+rapid 10+0,False,seconds left,player,30+ s,10-15%,0.190867,0.124972,0.275269,0.123832,0.067034,427,97,24,False
+rapid 10+0,False,seconds left,player,30+ s,15-20%,0.285885,0.195952,0.373664,0.175427,0.110458,418,96,20,False
+rapid 10+0,False,seconds left,player,30+ s,20-30%,0.342338,0.269165,0.42445,0.251036,0.091302,1018,135,23,False
+rapid 10+0,False,seconds left,player,30+ s,30-50%,0.551445,0.495016,0.613893,0.42162,0.129825,4879,328,18,False
+rapid 10+0,False,seconds left,player,30+ s,50-100%,0.908962,0.882547,0.930267,0.744186,0.164776,17218,397,4,False
+rapid 10+0,False,seconds left,opponent,<10 s,0-2%,0.0,,,0.018662,-0.018662,4,1,0,True
+rapid 10+0,False,seconds left,opponent,<10 s,2-5%,0.0,,,0.035886,-0.035886,7,1,0,True
+rapid 10+0,False,seconds left,opponent,<10 s,5-10%,0.0,,,0.06005,-0.06005,4,1,0,True
+rapid 10+0,False,seconds left,opponent,<10 s,50-100%,1.0,1.0,1.0,0.987462,0.012538,38,5,0,True
+rapid 10+0,False,seconds left,opponent,10-30 s,0-2%,0.0,0.0,0.0,0.011486,-0.011486,35,3,0,True
+rapid 10+0,False,seconds left,opponent,10-30 s,2-5%,0.0,0.0,0.0,0.034387,-0.034387,19,3,0,True
+rapid 10+0,False,seconds left,opponent,10-30 s,5-10%,0.0,0.0,0.0,0.067895,-0.067895,19,5,0,True
+rapid 10+0,False,seconds left,opponent,10-30 s,10-15%,0.0,0.0,0.0,0.123337,-0.123337,4,2,0,True
+rapid 10+0,False,seconds left,opponent,10-30 s,15-20%,0.0,,,0.175375,-0.175375,2,1,0,True
+rapid 10+0,False,seconds left,opponent,10-30 s,20-30%,0.0,,,0.234825,-0.234825,4,1,0,True
+rapid 10+0,False,seconds left,opponent,10-30 s,50-100%,1.0,1.0,1.0,0.937775,0.062225,32,5,0,True
+rapid 10+0,False,seconds left,opponent,30+ s,0-2%,0.0,0.0,0.0,0.011082,-0.011082,886,53,17,False
+rapid 10+0,False,seconds left,opponent,30+ s,2-5%,0.0,0.0,0.0,0.034117,-0.034117,1064,74,52,False
+rapid 10+0,False,seconds left,opponent,30+ s,5-10%,0.009731,0.002851,0.02141,0.073503,-0.063772,1079,112,39,False
+rapid 10+0,False,seconds left,opponent,30+ s,10-15%,0.03811,0.017158,0.06514,0.122795,-0.084685,656,110,16,False
+rapid 10+0,False,seconds left,opponent,30+ s,15-20%,0.100382,0.059842,0.147825,0.174591,-0.074208,523,114,8,False
+rapid 10+0,False,seconds left,opponent,30+ s,20-30%,0.221586,0.161392,0.297273,0.251787,-0.030201,1135,171,14,False
+rapid 10+0,False,seconds left,opponent,30+ s,30-50%,0.451675,0.396365,0.508184,0.416774,0.034901,5970,336,10,False
+rapid 10+0,False,seconds left,opponent,30+ s,50-100%,0.839733,0.79954,0.873278,0.708071,0.131662,11693,369,3,False
+all bullet,True,seconds left,player,<10 s,0-2%,0.000945,0.0,0.003759,0.012668,-0.011723,529,156,0,False
+all bullet,True,seconds left,player,<10 s,2-5%,0.005775,0.000894,0.013509,0.033561,-0.027786,1039,283,1,False
+all bullet,True,seconds left,player,<10 s,5-10%,0.029343,0.015285,0.048221,0.074092,-0.044749,1278,341,0,False
+all bullet,True,seconds left,player,<10 s,10-15%,0.086103,0.054353,0.123119,0.12423,-0.038127,993,318,0,False
+all bullet,True,seconds left,player,<10 s,15-20%,0.124706,0.091335,0.162547,0.174,-0.049294,850,297,0,False
+all bullet,True,seconds left,player,<10 s,20-30%,0.206551,0.169041,0.246003,0.247476,-0.040926,1496,399,0,False
+all bullet,True,seconds left,player,<10 s,30-50%,0.400305,0.359343,0.439143,0.399581,0.000724,2949,528,1,False
+all bullet,True,seconds left,player,<10 s,50-100%,0.900403,0.881969,0.915562,0.847943,0.05246,17862,1361,0,False
+all bullet,True,seconds left,player,10-30 s,0-2%,0.00096,0.0,0.002981,0.012,-0.01104,2084,290,5,False
+all bullet,True,seconds left,player,10-30 s,2-5%,0.006482,0.002042,0.011327,0.033738,-0.027256,3471,495,6,False
+all bullet,True,seconds left,player,10-30 s,5-10%,0.038196,0.022713,0.058387,0.073395,-0.035198,3914,659,12,False
+all bullet,True,seconds left,player,10-30 s,10-15%,0.090594,0.069021,0.11234,0.123934,-0.033341,2881,711,7,False
+all bullet,True,seconds left,player,10-30 s,15-20%,0.143841,0.112267,0.176385,0.174078,-0.030237,2614,714,5,False
+all bullet,True,seconds left,player,10-30 s,20-30%,0.242495,0.212186,0.275105,0.249626,-0.007131,4697,936,1,False
+all bullet,True,seconds left,player,10-30 s,30-50%,0.413808,0.381696,0.445788,0.401371,0.012437,9270,1221,1,False
+all bullet,True,seconds left,player,10-30 s,50-100%,0.835824,0.817944,0.854618,0.756725,0.079098,27775,1870,2,False
+all bullet,True,seconds left,player,30+ s,0-2%,0.0,0.0,0.0,0.011634,-0.011634,259,37,3,False
+all bullet,True,seconds left,player,30+ s,2-5%,0.007804,0.0,0.019744,0.03666,-0.028855,961,170,15,False
+all bullet,True,seconds left,player,30+ s,5-10%,0.026567,0.015019,0.043225,0.076206,-0.049639,2202,426,37,False
+all bullet,True,seconds left,player,30+ s,10-15%,0.081123,0.059502,0.104958,0.125718,-0.044595,2601,643,25,False
+all bullet,True,seconds left,player,30+ s,15-20%,0.127096,0.102302,0.158287,0.175289,-0.048193,3041,812,31,False
+all bullet,True,seconds left,player,30+ s,20-30%,0.192842,0.17125,0.215097,0.255512,-0.06267,8997,1394,37,False
+all bullet,True,seconds left,player,30+ s,30-50%,0.406493,0.382585,0.424701,0.41825,-0.011757,47467,2755,31,False
+all bullet,True,seconds left,player,30+ s,50-100%,0.746121,0.728911,0.764998,0.629869,0.116252,56464,2811,6,False
+all bullet,True,seconds left,opponent,<10 s,0-2%,0.0,0.0,0.0,0.013123,-0.013123,542,173,1,False
+all bullet,True,seconds left,opponent,<10 s,2-5%,0.001795,0.0,0.005398,0.03434,-0.032545,1114,305,2,False
+all bullet,True,seconds left,opponent,<10 s,5-10%,0.009195,0.000806,0.020986,0.073528,-0.064332,1305,360,1,False
+all bullet,True,seconds left,opponent,<10 s,10-15%,0.033124,0.020543,0.050682,0.123941,-0.090817,1117,359,3,False
+all bullet,True,seconds left,opponent,<10 s,15-20%,0.084746,0.058189,0.119914,0.174601,-0.089855,944,352,0,False
+all bullet,True,seconds left,opponent,<10 s,20-30%,0.134474,0.100924,0.166617,0.247892,-0.113418,1636,426,3,False
+all bullet,True,seconds left,opponent,<10 s,30-50%,0.327514,0.284322,0.371995,0.401106,-0.073592,3093,532,1,False
+all bullet,True,seconds left,opponent,<10 s,50-100%,0.862336,0.843781,0.881079,0.84638,0.015956,17343,1207,2,False
+all bullet,True,seconds left,opponent,10-30 s,0-2%,0.0,0.0,0.0,0.012084,-0.012084,2016,329,6,False
+all bullet,True,seconds left,opponent,10-30 s,2-5%,0.006492,0.001601,0.014325,0.034276,-0.027785,3312,548,13,False
+all bullet,True,seconds left,opponent,10-30 s,5-10%,0.018777,0.010191,0.028996,0.073264,-0.054487,4234,705,17,False
+all bullet,True,seconds left,opponent,10-30 s,10-15%,0.050823,0.034192,0.066702,0.123661,-0.072838,3158,738,11,False
+all bullet,True,seconds left,opponent,10-30 s,15-20%,0.107482,0.082902,0.131836,0.174352,-0.06687,2526,747,4,False
+all bullet,True,seconds left,opponent,10-30 s,20-30%,0.154908,0.132413,0.179943,0.249084,-0.094176,4635,904,8,False
+all bullet,True,seconds left,opponent,10-30 s,30-50%,0.326448,0.294966,0.353761,0.40207,-0.075622,9029,1265,4,False
+all bullet,True,seconds left,opponent,10-30 s,50-100%,0.780611,0.758771,0.799819,0.760362,0.020249,29099,1857,6,False
+all bullet,True,seconds left,opponent,30+ s,0-2%,0.0,0.0,0.0,0.013007,-0.013007,361,65,1,False
+all bullet,True,seconds left,opponent,30+ s,2-5%,0.002347,0.0,0.006076,0.034874,-0.032526,852,166,9,False
+all bullet,True,seconds left,opponent,30+ s,5-10%,0.016287,0.004867,0.029278,0.076663,-0.060375,1934,358,20,False
+all bullet,True,seconds left,opponent,30+ s,10-15%,0.034555,0.022581,0.051285,0.12506,-0.090505,2402,549,29,False
+all bullet,True,seconds left,opponent,30+ s,15-20%,0.085176,0.063879,0.108617,0.175358,-0.090182,2759,717,13,False
+all bullet,True,seconds left,opponent,30+ s,20-30%,0.146251,0.124927,0.170137,0.255128,-0.108877,7241,1217,14,False
+all bullet,True,seconds left,opponent,30+ s,30-50%,0.361538,0.343734,0.380082,0.421968,-0.060429,42835,2703,40,False
+all bullet,True,seconds left,opponent,30+ s,50-100%,0.706775,0.689569,0.724426,0.627293,0.079482,60041,2823,8,False
+all blitz,True,seconds left,player,<10 s,0-2%,0.0,0.0,0.0,0.008615,-0.008615,23,4,0,True
+all blitz,True,seconds left,player,<10 s,2-5%,0.051724,0.0,0.173077,0.038322,0.013402,29,7,0,True
+all blitz,True,seconds left,player,<10 s,5-10%,0.015152,0.0,0.0625,0.072819,-0.057667,66,16,0,True
+all blitz,True,seconds left,player,<10 s,10-15%,0.033898,0.0,0.093127,0.122914,-0.089016,59,19,0,True
+all blitz,True,seconds left,player,<10 s,15-20%,0.098039,0.010648,0.219768,0.174475,-0.076435,51,24,0,True
+all blitz,True,seconds left,player,<10 s,20-30%,0.168224,0.061947,0.319201,0.250762,-0.082537,107,27,1,True
+all blitz,True,seconds left,player,<10 s,30-50%,0.359903,0.241736,0.490035,0.402506,-0.042603,207,44,0,False
+all blitz,True,seconds left,player,<10 s,50-100%,0.886609,0.832167,0.936303,0.843732,0.042876,1949,177,0,False
+all blitz,True,seconds left,player,10-30 s,0-2%,0.0,0.0,0.0,0.011829,-0.011829,291,30,0,False
+all blitz,True,seconds left,player,10-30 s,2-5%,0.0,0.0,0.0,0.034128,-0.034128,607,49,3,False
+all blitz,True,seconds left,player,10-30 s,5-10%,0.015625,0.0,0.039543,0.0722,-0.056575,576,65,3,False
+all blitz,True,seconds left,player,10-30 s,10-15%,0.065714,0.02509,0.11681,0.122954,-0.05724,350,70,0,False
+all blitz,True,seconds left,player,10-30 s,15-20%,0.177419,0.061161,0.300231,0.173162,0.004257,248,68,0,False
+all blitz,True,seconds left,player,10-30 s,20-30%,0.217391,0.134223,0.296659,0.249821,-0.03243,414,77,4,False
+all blitz,True,seconds left,player,10-30 s,30-50%,0.388571,0.315718,0.450977,0.406909,-0.018338,875,119,1,False
+all blitz,True,seconds left,player,10-30 s,50-100%,0.85793,0.817972,0.893615,0.815057,0.042874,4716,297,0,False
+all blitz,True,seconds left,player,30+ s,0-2%,0.0,0.0,0.0,0.011549,-0.011549,1419,102,16,False
+all blitz,True,seconds left,player,30+ s,2-5%,0.000867,0.0,0.002362,0.034313,-0.033446,2307,209,40,False
+all blitz,True,seconds left,player,30+ s,5-10%,0.012042,0.005742,0.020566,0.074297,-0.062255,2865,341,99,False
+all blitz,True,seconds left,player,30+ s,10-15%,0.086855,0.061484,0.114337,0.124672,-0.037817,2366,430,88,False
+all blitz,True,seconds left,player,30+ s,15-20%,0.160502,0.123147,0.202824,0.175515,-0.015013,2190,465,40,False
+all blitz,True,seconds left,player,30+ s,20-30%,0.255195,0.214686,0.293312,0.252888,0.002307,5149,662,53,False
+all blitz,True,seconds left,player,30+ s,30-50%,0.466585,0.431579,0.496041,0.422117,0.044468,24091,1341,43,False
+all blitz,True,seconds left,player,30+ s,50-100%,0.822478,0.802826,0.839762,0.694096,0.128381,49805,1462,9,False
+all blitz,True,seconds left,opponent,<10 s,0-2%,0.0,0.0,0.0,0.01218,-0.01218,5,2,0,True
+all blitz,True,seconds left,opponent,<10 s,2-5%,0.0,0.0,0.0,0.037448,-0.037448,42,12,0,True
+all blitz,True,seconds left,opponent,<10 s,5-10%,0.0,0.0,0.0,0.075483,-0.075483,83,21,1,True
+all blitz,True,seconds left,opponent,<10 s,10-15%,0.0,0.0,0.0,0.127772,-0.127772,98,31,1,False
+all blitz,True,seconds left,opponent,<10 s,15-20%,0.054348,0.0,0.146271,0.176484,-0.122136,92,28,0,True
+all blitz,True,seconds left,opponent,<10 s,20-30%,0.104348,0.011856,0.220821,0.249308,-0.14496,115,30,1,False
+all blitz,True,seconds left,opponent,<10 s,30-50%,0.325911,0.205632,0.495112,0.396444,-0.070533,247,46,0,False
+all blitz,True,seconds left,opponent,<10 s,50-100%,0.934093,0.89981,0.961908,0.874978,0.059115,2238,185,1,False
+all blitz,True,seconds left,opponent,10-30 s,0-2%,0.0,0.0,0.0,0.013055,-0.013055,227,22,1,True
+all blitz,True,seconds left,opponent,10-30 s,2-5%,0.0,0.0,0.0,0.035757,-0.035757,822,66,3,False
+all blitz,True,seconds left,opponent,10-30 s,5-10%,0.000547,0.0,0.001842,0.071238,-0.070691,914,103,7,False
+all blitz,True,seconds left,opponent,10-30 s,10-15%,0.015625,0.005257,0.028936,0.124456,-0.108831,480,101,6,False
+all blitz,True,seconds left,opponent,10-30 s,15-20%,0.116216,0.046624,0.184859,0.174488,-0.058271,370,101,1,False
+all blitz,True,seconds left,opponent,10-30 s,20-30%,0.244169,0.157602,0.320223,0.247809,-0.00364,686,126,2,False
+all blitz,True,seconds left,opponent,10-30 s,30-50%,0.389177,0.302832,0.463888,0.407143,-0.017965,1155,168,2,False
+all blitz,True,seconds left,opponent,10-30 s,50-100%,0.852979,0.813542,0.891561,0.816817,0.036162,6227,362,0,False
+all blitz,True,seconds left,opponent,30+ s,0-2%,0.0,0.0,0.0,0.009639,-0.009639,1327,74,20,False
+all blitz,True,seconds left,opponent,30+ s,2-5%,0.0,0.0,0.0,0.034009,-0.034009,1557,155,75,False
+all blitz,True,seconds left,opponent,30+ s,5-10%,0.021392,0.007735,0.039129,0.074441,-0.053049,2314,275,113,False
+all blitz,True,seconds left,opponent,30+ s,10-15%,0.069738,0.04114,0.098407,0.124674,-0.054936,1943,376,78,False
+all blitz,True,seconds left,opponent,30+ s,15-20%,0.137885,0.101697,0.178681,0.174896,-0.037012,1853,403,37,False
+all blitz,True,seconds left,opponent,30+ s,20-30%,0.229662,0.192526,0.269319,0.252408,-0.022746,4204,572,41,False
+all blitz,True,seconds left,opponent,30+ s,30-50%,0.478247,0.44977,0.513079,0.424016,0.054231,23192,1231,31,False
+all blitz,True,seconds left,opponent,30+ s,50-100%,0.827062,0.805504,0.845768,0.687941,0.139121,43186,1375,13,False
+bullet 1+0,False,buffer beyond increment,player,<10 s,0-2%,0.001014,0.0,0.003493,0.01251,-0.011496,493,149,0,False
+bullet 1+0,False,buffer beyond increment,player,<10 s,2-5%,0.006438,0.000943,0.014828,0.033975,-0.027537,932,269,0,False
+bullet 1+0,False,buffer beyond increment,player,<10 s,5-10%,0.032895,0.017696,0.051629,0.073983,-0.041089,1140,319,0,False
+bullet 1+0,False,buffer beyond increment,player,<10 s,10-15%,0.088673,0.055331,0.1318,0.124115,-0.035442,874,290,0,False
+bullet 1+0,False,buffer beyond increment,player,<10 s,15-20%,0.117918,0.084846,0.159268,0.174335,-0.056417,759,276,0,False
+bullet 1+0,False,buffer beyond increment,player,<10 s,20-30%,0.194548,0.155485,0.241934,0.246499,-0.051951,1339,359,0,False
+bullet 1+0,False,buffer beyond increment,player,<10 s,30-50%,0.402362,0.356427,0.451754,0.40107,0.001293,2540,476,1,False
+bullet 1+0,False,buffer beyond increment,player,<10 s,50-100%,0.904474,0.88932,0.920205,0.851329,0.053145,16069,1233,0,False
+bullet 1+0,False,buffer beyond increment,player,10-30 s,0-2%,0.001029,0.0,0.003261,0.011951,-0.010922,1944,279,5,False
+bullet 1+0,False,buffer beyond increment,player,10-30 s,2-5%,0.006938,0.002335,0.012336,0.033697,-0.026759,3243,469,5,False
+bullet 1+0,False,buffer beyond increment,player,10-30 s,5-10%,0.041227,0.023432,0.059208,0.073345,-0.032118,3602,613,8,False
+bullet 1+0,False,buffer beyond increment,player,10-30 s,10-15%,0.088948,0.064447,0.114163,0.123931,-0.034983,2642,652,4,False
+bullet 1+0,False,buffer beyond increment,player,10-30 s,15-20%,0.144099,0.116903,0.172483,0.174117,-0.030018,2415,656,2,False
+bullet 1+0,False,buffer beyond increment,player,10-30 s,20-30%,0.243857,0.212946,0.275428,0.249611,-0.005754,4314,861,0,False
+bullet 1+0,False,buffer beyond increment,player,10-30 s,30-50%,0.414993,0.378739,0.446513,0.400435,0.014557,8264,1096,0,False
+bullet 1+0,False,buffer beyond increment,player,10-30 s,50-100%,0.836361,0.818625,0.853886,0.756335,0.080026,24496,1659,2,False
+bullet 1+0,False,buffer beyond increment,player,30+ s,0-2%,0.0,0.0,0.0,0.011539,-0.011539,236,33,1,False
+bullet 1+0,False,buffer beyond increment,player,30+ s,2-5%,0.009058,0.0,0.024094,0.036867,-0.027809,828,150,9,False
+bullet 1+0,False,buffer beyond increment,player,30+ s,5-10%,0.028184,0.013881,0.043494,0.076405,-0.048221,1916,384,19,False
+bullet 1+0,False,buffer beyond increment,player,30+ s,10-15%,0.081897,0.05736,0.107008,0.125751,-0.043855,2320,583,10,False
+bullet 1+0,False,buffer beyond increment,player,30+ s,15-20%,0.129345,0.101234,0.161873,0.175487,-0.046142,2733,735,15,False
+bullet 1+0,False,buffer beyond increment,player,30+ s,20-30%,0.189864,0.167423,0.215005,0.255345,-0.065481,8169,1264,22,False
+bullet 1+0,False,buffer beyond increment,player,30+ s,30-50%,0.399755,0.376725,0.420278,0.417539,-0.017784,42042,2427,13,False
+bullet 1+0,False,buffer beyond increment,player,30+ s,50-100%,0.738465,0.71793,0.755677,0.626606,0.111859,48137,2469,3,False
+bullet 1+0,False,buffer beyond increment,opponent,<10 s,0-2%,0.0,0.0,0.0,0.013082,-0.013082,495,165,0,False
+bullet 1+0,False,buffer beyond increment,opponent,<10 s,2-5%,0.002107,0.0,0.006719,0.034287,-0.03218,949,284,1,False
+bullet 1+0,False,buffer beyond increment,opponent,<10 s,5-10%,0.010554,0.000909,0.023921,0.074171,-0.063617,1137,337,1,False
+bullet 1+0,False,buffer beyond increment,opponent,<10 s,10-15%,0.034653,0.018572,0.055558,0.123887,-0.089234,1010,327,2,False
+bullet 1+0,False,buffer beyond increment,opponent,<10 s,15-20%,0.090805,0.060333,0.128834,0.174379,-0.083574,870,325,0,False
+bullet 1+0,False,buffer beyond increment,opponent,<10 s,20-30%,0.131065,0.097567,0.164525,0.247471,-0.116407,1484,390,2,False
+bullet 1+0,False,buffer beyond increment,opponent,<10 s,30-50%,0.320578,0.278877,0.358122,0.40171,-0.081133,2770,483,1,False
+bullet 1+0,False,buffer beyond increment,opponent,<10 s,50-100%,0.865966,0.845876,0.884598,0.851136,0.01483,16022,1115,2,False
+bullet 1+0,False,buffer beyond increment,opponent,10-30 s,0-2%,0.0,0.0,0.0,0.012002,-0.012002,1886,319,5,False
+bullet 1+0,False,buffer beyond increment,opponent,10-30 s,2-5%,0.00711,0.001591,0.015569,0.034281,-0.027171,3024,517,8,False
+bullet 1+0,False,buffer beyond increment,opponent,10-30 s,5-10%,0.019652,0.00989,0.031678,0.073051,-0.0534,3791,644,10,False
+bullet 1+0,False,buffer beyond increment,opponent,10-30 s,10-15%,0.053578,0.036872,0.076552,0.123655,-0.070078,2865,673,8,False
+bullet 1+0,False,buffer beyond increment,opponent,10-30 s,15-20%,0.103823,0.080397,0.125892,0.174135,-0.070312,2302,679,4,False
+bullet 1+0,False,buffer beyond increment,opponent,10-30 s,20-30%,0.15064,0.124505,0.17623,0.249275,-0.098636,4222,813,4,False
+bullet 1+0,False,buffer beyond increment,opponent,10-30 s,30-50%,0.32553,0.294788,0.359422,0.402175,-0.076645,8159,1132,2,False
+bullet 1+0,False,buffer beyond increment,opponent,10-30 s,50-100%,0.780013,0.759227,0.801666,0.76018,0.019833,26172,1654,5,False
+bullet 1+0,False,buffer beyond increment,opponent,30+ s,0-2%,0.0,0.0,0.0,0.012472,-0.012472,294,60,0,False
+bullet 1+0,False,buffer beyond increment,opponent,30+ s,2-5%,0.002688,0.0,0.007226,0.035018,-0.032329,744,146,7,False
+bullet 1+0,False,buffer beyond increment,opponent,30+ s,5-10%,0.018628,0.005065,0.035179,0.07675,-0.058122,1691,318,13,False
+bullet 1+0,False,buffer beyond increment,opponent,30+ s,10-15%,0.036456,0.022368,0.05288,0.125282,-0.088826,2071,489,17,False
+bullet 1+0,False,buffer beyond increment,opponent,30+ s,15-20%,0.088354,0.066032,0.114319,0.175397,-0.087043,2473,643,10,False
+bullet 1+0,False,buffer beyond increment,opponent,30+ s,20-30%,0.147929,0.125271,0.175088,0.254844,-0.106915,6351,1080,11,False
+bullet 1+0,False,buffer beyond increment,opponent,30+ s,30-50%,0.348614,0.327349,0.369314,0.421953,-0.073339,36681,2350,30,False
+bullet 1+0,False,buffer beyond increment,opponent,30+ s,50-100%,0.693808,0.675299,0.71353,0.625304,0.068504,51667,2443,5,False
+bullet 1+1,False,buffer beyond increment,player,<10 s,0-2%,0.0,0.0,0.0,0.014576,-0.014576,53,8,0,True
+bullet 1+1,False,buffer beyond increment,player,<10 s,2-5%,0.0,0.0,0.0,0.030326,-0.030326,118,13,1,True
+bullet 1+1,False,buffer beyond increment,player,<10 s,5-10%,0.0,0.0,0.0,0.075214,-0.075214,155,24,0,True
+bullet 1+1,False,buffer beyond increment,player,<10 s,10-15%,0.066116,0.018812,0.142217,0.123508,-0.057393,121,30,0,False
+bullet 1+1,False,buffer beyond increment,player,<10 s,15-20%,0.183333,0.058511,0.35018,0.171133,0.0122,90,23,0,True
+bullet 1+1,False,buffer beyond increment,player,<10 s,20-30%,0.300613,0.16344,0.426312,0.256256,0.044357,163,42,0,False
+bullet 1+1,False,buffer beyond increment,player,<10 s,30-50%,0.392202,0.282303,0.507366,0.393406,-0.001204,436,54,0,False
+bullet 1+1,False,buffer beyond increment,player,<10 s,50-100%,0.866686,0.789044,0.931723,0.82525,0.041435,1759,120,0,False
+bullet 1+1,False,buffer beyond increment,player,10-30 s,0-2%,0.0,0.0,0.0,0.012361,-0.012361,108,7,0,True
+bullet 1+1,False,buffer beyond increment,player,10-30 s,2-5%,0.0,0.0,0.0,0.033548,-0.033548,186,20,1,True
+bullet 1+1,False,buffer beyond increment,player,10-30 s,5-10%,0.003984,0.0,0.015917,0.075353,-0.071369,251,42,6,False
+bullet 1+1,False,buffer beyond increment,player,10-30 s,10-15%,0.131336,0.037468,0.229826,0.124353,0.006983,217,52,3,False
+bullet 1+1,False,buffer beyond increment,player,10-30 s,15-20%,0.178378,0.069,0.308837,0.173179,0.005199,185,50,4,False
+bullet 1+1,False,buffer beyond increment,player,10-30 s,20-30%,0.194203,0.109891,0.304113,0.250382,-0.056179,345,65,2,False
+bullet 1+1,False,buffer beyond increment,player,10-30 s,30-50%,0.396721,0.298682,0.503254,0.408797,-0.012075,915,115,1,False
+bullet 1+1,False,buffer beyond increment,player,10-30 s,50-100%,0.834243,0.763805,0.886138,0.758014,0.076229,2932,190,0,False
+bullet 1+1,False,buffer beyond increment,player,30+ s,0-2%,0.0,0.0,0.0,0.012394,-0.012394,16,2,0,True
+bullet 1+1,False,buffer beyond increment,player,30+ s,2-5%,0.0,0.0,0.0,0.035355,-0.035355,58,9,4,True
+bullet 1+1,False,buffer beyond increment,player,30+ s,5-10%,0.028169,0.0,0.080379,0.076848,-0.048679,142,27,11,True
+bullet 1+1,False,buffer beyond increment,player,30+ s,10-15%,0.086387,0.016797,0.178706,0.125972,-0.039585,191,45,13,False
+bullet 1+1,False,buffer beyond increment,player,30+ s,15-20%,0.141304,0.067959,0.238469,0.174355,-0.03305,184,59,11,False
+bullet 1+1,False,buffer beyond increment,player,30+ s,20-30%,0.226968,0.127243,0.342055,0.258153,-0.031184,597,92,10,False
+bullet 1+1,False,buffer beyond increment,player,30+ s,30-50%,0.465563,0.393749,0.546349,0.425483,0.04008,4501,273,16,False
+bullet 1+1,False,buffer beyond increment,player,30+ s,50-100%,0.787283,0.740984,0.83055,0.632769,0.154514,6739,290,3,False
+bullet 1+1,False,buffer beyond increment,opponent,<10 s,0-2%,0.0,0.0,0.0,0.012028,-0.012028,80,9,1,True
+bullet 1+1,False,buffer beyond increment,opponent,<10 s,2-5%,0.0,0.0,0.0,0.033269,-0.033269,196,18,1,True
+bullet 1+1,False,buffer beyond increment,opponent,<10 s,5-10%,0.013889,0.0,0.050024,0.071024,-0.057135,144,24,0,True
+bullet 1+1,False,buffer beyond increment,opponent,<10 s,10-15%,0.047619,0.0,0.148303,0.126551,-0.078932,105,28,0,True
+bullet 1+1,False,buffer beyond increment,opponent,<10 s,15-20%,0.026316,0.0,0.074106,0.176684,-0.150368,76,28,0,True
+bullet 1+1,False,buffer beyond increment,opponent,<10 s,20-30%,0.16443,0.068356,0.30662,0.252413,-0.087984,149,35,1,False
+bullet 1+1,False,buffer beyond increment,opponent,<10 s,30-50%,0.373702,0.219638,0.527548,0.396747,-0.023044,289,42,0,False
+bullet 1+1,False,buffer beyond increment,opponent,<10 s,50-100%,0.804633,0.714887,0.89565,0.777773,0.026861,1295,86,0,False
+bullet 1+1,False,buffer beyond increment,opponent,10-30 s,0-2%,0.0,0.0,0.0,0.01377,-0.01377,80,9,1,True
+bullet 1+1,False,buffer beyond increment,opponent,10-30 s,2-5%,0.0,0.0,0.0,0.035176,-0.035176,212,28,5,True
+bullet 1+1,False,buffer beyond increment,opponent,10-30 s,5-10%,0.004619,0.0,0.01712,0.075168,-0.07055,433,55,8,False
+bullet 1+1,False,buffer beyond increment,opponent,10-30 s,10-15%,0.01476,0.0,0.045827,0.12305,-0.10829,271,59,3,False
+bullet 1+1,False,buffer beyond increment,opponent,10-30 s,15-20%,0.151832,0.050133,0.281522,0.175844,-0.024012,191,62,0,False
+bullet 1+1,False,buffer beyond increment,opponent,10-30 s,20-30%,0.187683,0.092683,0.305678,0.247727,-0.060044,341,80,4,False
+bullet 1+1,False,buffer beyond increment,opponent,10-30 s,30-50%,0.340625,0.234676,0.463191,0.399833,-0.059208,800,126,2,False
+bullet 1+1,False,buffer beyond increment,opponent,10-30 s,50-100%,0.783448,0.714939,0.84677,0.756458,0.02699,2616,177,1,False
+bullet 1+1,False,buffer beyond increment,opponent,30+ s,0-2%,0.0,,,0.015625,-0.015625,4,1,1,True
+bullet 1+1,False,buffer beyond increment,opponent,30+ s,2-5%,0.0,0.0,0.0,0.034636,-0.034636,46,13,0,True
+bullet 1+1,False,buffer beyond increment,opponent,30+ s,5-10%,0.0,0.0,0.0,0.076562,-0.076562,140,26,6,True
+bullet 1+1,False,buffer beyond increment,opponent,30+ s,10-15%,0.035885,0.006027,0.088618,0.123648,-0.087763,209,41,11,False
+bullet 1+1,False,buffer beyond increment,opponent,30+ s,15-20%,0.074074,0.020287,0.143152,0.17482,-0.100746,189,55,2,False
+bullet 1+1,False,buffer beyond increment,opponent,30+ s,20-30%,0.137555,0.072776,0.206853,0.258841,-0.121287,687,111,2,False
+bullet 1+1,False,buffer beyond increment,opponent,30+ s,30-50%,0.427117,0.361052,0.490523,0.423026,0.004091,5207,294,7,False
+bullet 1+1,False,buffer beyond increment,opponent,30+ s,50-100%,0.772484,0.725736,0.816525,0.625592,0.146891,6527,311,2,False
+bullet 2+1,False,buffer beyond increment,player,<10 s,0-2%,0.0,,,0.01545,-0.01545,1,1,0,True
+bullet 2+1,False,buffer beyond increment,player,<10 s,2-5%,0.0,0.0,0.0,0.0409,-0.0409,2,2,0,True
+bullet 2+1,False,buffer beyond increment,player,<10 s,5-10%,0.0,,,0.0524,-0.0524,1,1,0,True
+bullet 2+1,False,buffer beyond increment,player,<10 s,10-15%,0.0,0.0,0.0,0.133943,-0.133943,14,2,0,True
+bullet 2+1,False,buffer beyond increment,player,<10 s,15-20%,0.0,,,0.16837,-0.16837,10,1,0,True
+bullet 2+1,False,buffer beyond increment,player,<10 s,20-30%,0.34375,0.0,1.0,0.232394,0.111356,16,3,0,True
+bullet 2+1,False,buffer beyond increment,player,<10 s,30-50%,0.461538,0.160339,0.858643,0.395419,0.066119,26,8,0,True
+bullet 2+1,False,buffer beyond increment,player,<10 s,50-100%,0.813901,0.621843,0.951466,0.735842,0.078059,223,15,0,True
+bullet 2+1,False,buffer beyond increment,player,10-30 s,0-2%,0.0,0.0,0.0,0.013325,-0.013325,14,3,0,True
+bullet 2+1,False,buffer beyond increment,player,10-30 s,2-5%,0.0,0.0,0.0,0.037739,-0.037739,37,4,0,True
+bullet 2+1,False,buffer beyond increment,player,10-30 s,5-10%,0.0,0.0,0.0,0.06918,-0.06918,56,4,0,True
+bullet 2+1,False,buffer beyond increment,player,10-30 s,10-15%,0.0,0.0,0.0,0.120287,-0.120287,16,4,0,True
+bullet 2+1,False,buffer beyond increment,player,10-30 s,15-20%,0.0,0.0,0.0,0.177102,-0.177102,20,6,0,True
+bullet 2+1,False,buffer beyond increment,player,10-30 s,20-30%,0.540541,0.1,0.804424,0.247411,0.29313,37,8,0,True
+bullet 2+1,False,buffer beyond increment,player,10-30 s,30-50%,0.474026,0.218056,0.729295,0.402551,0.071475,77,11,0,True
+bullet 2+1,False,buffer beyond increment,player,10-30 s,50-100%,0.794498,0.618307,0.928068,0.743248,0.05125,309,22,0,True
+bullet 2+1,False,buffer beyond increment,player,30+ s,0-2%,0.0,0.0,0.0,0.013086,-0.013086,7,2,2,True
+bullet 2+1,False,buffer beyond increment,player,30+ s,2-5%,0.0,0.0,0.0,0.035636,-0.035636,67,10,2,True
+bullet 2+1,False,buffer beyond increment,player,30+ s,5-10%,0.003817,0.0,0.015202,0.071979,-0.068163,131,13,5,True
+bullet 2+1,False,buffer beyond increment,player,30+ s,10-15%,0.025,0.0,0.088927,0.124643,-0.099643,80,14,2,True
+bullet 2+1,False,buffer beyond increment,player,30+ s,15-20%,0.018349,0.0,0.055966,0.17271,-0.154361,109,17,4,True
+bullet 2+1,False,buffer beyond increment,player,30+ s,20-30%,0.202381,0.09805,0.384224,0.255354,-0.052973,210,34,4,False
+bullet 2+1,False,buffer beyond increment,player,30+ s,30-50%,0.424294,0.273365,0.578724,0.415979,0.008315,885,53,2,False
+bullet 2+1,False,buffer beyond increment,player,30+ s,50-100%,0.803758,0.678345,0.902637,0.714484,0.089273,1437,51,0,False
+bullet 2+1,False,buffer beyond increment,opponent,<10 s,2-5%,0.0,0.0,0.0,0.038518,-0.038518,20,5,0,True
+bullet 2+1,False,buffer beyond increment,opponent,<10 s,5-10%,0.0,0.0,0.0,0.066289,-0.066289,42,5,0,True
+bullet 2+1,False,buffer beyond increment,opponent,<10 s,10-15%,0.0,0.0,0.0,0.12051,-0.12051,31,6,1,True
+bullet 2+1,False,buffer beyond increment,opponent,<10 s,15-20%,0.0,0.0,0.0,0.175781,-0.175781,13,3,0,True
+bullet 2+1,False,buffer beyond increment,opponent,<10 s,20-30%,0.064516,0.0,0.444444,0.239798,-0.175282,31,6,0,True
+bullet 2+1,False,buffer beyond increment,opponent,<10 s,30-50%,0.414286,0.044091,0.847503,0.402912,0.011374,70,8,0,True
+bullet 2+1,False,buffer beyond increment,opponent,<10 s,50-100%,0.897727,0.736754,1.0,0.855302,0.042426,176,15,0,True
+bullet 2+1,False,buffer beyond increment,opponent,10-30 s,0-2%,0.0,,,0.015738,-0.015738,39,1,0,True
+bullet 2+1,False,buffer beyond increment,opponent,10-30 s,2-5%,0.0,0.0,0.0,0.032244,-0.032244,32,3,0,True
+bullet 2+1,False,buffer beyond increment,opponent,10-30 s,5-10%,0.111111,0.0,0.67875,0.079094,0.032017,9,4,0,True
+bullet 2+1,False,buffer beyond increment,opponent,10-30 s,10-15%,0.0,0.0,0.0,0.126522,-0.126522,9,5,0,True
+bullet 2+1,False,buffer beyond increment,opponent,10-30 s,15-20%,0.117647,0.0,0.351884,0.177079,-0.059432,34,6,0,True
+bullet 2+1,False,buffer beyond increment,opponent,10-30 s,20-30%,0.349315,0.085985,0.50698,0.246372,0.102943,73,11,0,True
+bullet 2+1,False,buffer beyond increment,opponent,10-30 s,30-50%,0.314815,0.111392,0.554503,0.398246,-0.083431,108,15,0,True
+bullet 2+1,False,buffer beyond increment,opponent,10-30 s,50-100%,0.819527,0.657593,0.957717,0.806763,0.012764,338,29,0,True
+bullet 2+1,False,buffer beyond increment,opponent,30+ s,0-2%,0.0,0.0,0.0,0.015882,-0.015882,41,3,0,True
+bullet 2+1,False,buffer beyond increment,opponent,30+ s,2-5%,0.0,0.0,0.0,0.033828,-0.033828,55,7,2,True
+bullet 2+1,False,buffer beyond increment,opponent,30+ s,5-10%,0.0,0.0,0.0,0.074102,-0.074102,86,12,0,True
+bullet 2+1,False,buffer beyond increment,opponent,30+ s,10-15%,0.0,0.0,0.0,0.124057,-0.124057,106,15,1,True
+bullet 2+1,False,buffer beyond increment,opponent,30+ s,15-20%,0.012346,0.0,0.043519,0.177325,-0.164979,81,15,1,True
+bullet 2+1,False,buffer beyond increment,opponent,30+ s,20-30%,0.094828,0.027088,0.201986,0.252338,-0.15751,174,25,1,True
+bullet 2+1,False,buffer beyond increment,opponent,30+ s,30-50%,0.513173,0.371845,0.65832,0.41893,0.094243,873,58,3,False
+bullet 2+1,False,buffer beyond increment,opponent,30+ s,50-100%,0.839222,0.751939,0.918235,0.679838,0.159383,1670,69,1,False
+blitz 3+0,False,buffer beyond increment,player,<10 s,0-2%,0.0,0.0,0.0,0.009275,-0.009275,20,3,0,True
+blitz 3+0,False,buffer beyond increment,player,<10 s,5-10%,0.0,0.0,0.0,0.08125,-0.08125,4,3,0,True
+blitz 3+0,False,buffer beyond increment,player,<10 s,10-15%,0.0,,,0.11925,-0.11925,2,1,0,True
+blitz 3+0,False,buffer beyond increment,player,<10 s,15-20%,0.0,,,0.17905,-0.17905,3,1,0,True
+blitz 3+0,False,buffer beyond increment,player,<10 s,20-30%,0.5,,,0.279325,0.220675,4,1,0,True
+blitz 3+0,False,buffer beyond increment,player,<10 s,30-50%,0.6875,0.5,1.0,0.396262,0.291238,16,3,0,True
+blitz 3+0,False,buffer beyond increment,player,<10 s,50-100%,0.979167,0.945259,1.0,0.897157,0.08201,168,21,0,True
+blitz 3+0,False,buffer beyond increment,player,10-30 s,0-2%,0.0,0.0,0.0,0.008981,-0.008981,105,9,0,True
+blitz 3+0,False,buffer beyond increment,player,10-30 s,2-5%,0.0,0.0,0.0,0.031406,-0.031406,79,9,0,True
+blitz 3+0,False,buffer beyond increment,player,10-30 s,5-10%,0.0,0.0,0.0,0.071373,-0.071373,58,9,1,True
+blitz 3+0,False,buffer beyond increment,player,10-30 s,10-15%,0.0,0.0,0.0,0.117848,-0.117848,31,6,0,True
+blitz 3+0,False,buffer beyond increment,player,10-30 s,15-20%,0.105263,0.0,0.349242,0.173542,-0.068279,19,8,0,True
+blitz 3+0,False,buffer beyond increment,player,10-30 s,20-30%,0.455882,0.033929,0.75,0.238104,0.217778,34,9,0,True
+blitz 3+0,False,buffer beyond increment,player,10-30 s,30-50%,0.5,0.23288,0.864421,0.404514,0.095486,65,12,0,True
+blitz 3+0,False,buffer beyond increment,player,10-30 s,50-100%,0.868421,0.753674,0.983774,0.783685,0.084736,285,26,0,True
+blitz 3+0,False,buffer beyond increment,player,30+ s,0-2%,0.0,0.0,0.0,0.009872,-0.009872,178,14,4,True
+blitz 3+0,False,buffer beyond increment,player,30+ s,2-5%,0.0,0.0,0.0,0.032552,-0.032552,177,25,5,True
+blitz 3+0,False,buffer beyond increment,player,30+ s,5-10%,0.015564,0.0,0.038915,0.07426,-0.058695,257,39,8,False
+blitz 3+0,False,buffer beyond increment,player,30+ s,10-15%,0.070342,0.0245,0.132796,0.124694,-0.054351,263,47,7,False
+blitz 3+0,False,buffer beyond increment,player,30+ s,15-20%,0.145161,0.049846,0.269597,0.175508,-0.030347,248,45,2,False
+blitz 3+0,False,buffer beyond increment,player,30+ s,20-30%,0.168399,0.09441,0.261,0.251548,-0.083149,481,65,5,False
+blitz 3+0,False,buffer beyond increment,player,30+ s,30-50%,0.44628,0.363514,0.546566,0.429395,0.016885,2997,159,2,False
+blitz 3+0,False,buffer beyond increment,player,30+ s,50-100%,0.819904,0.756753,0.875246,0.668564,0.151341,6255,168,1,False
+blitz 3+0,False,buffer beyond increment,opponent,<10 s,2-5%,0.0,0.0,0.0,0.034983,-0.034983,3,3,0,True
+blitz 3+0,False,buffer beyond increment,opponent,<10 s,5-10%,0.0,0.0,0.0,0.0697,-0.0697,4,4,1,True
+blitz 3+0,False,buffer beyond increment,opponent,<10 s,10-15%,0.0,0.0,0.0,0.127518,-0.127518,11,4,0,True
+blitz 3+0,False,buffer beyond increment,opponent,<10 s,15-20%,0.0,0.0,0.0,0.17105,-0.17105,4,2,0,True
+blitz 3+0,False,buffer beyond increment,opponent,<10 s,20-30%,0.125,0.0,0.5,0.245875,-0.120875,4,3,0,True
+blitz 3+0,False,buffer beyond increment,opponent,<10 s,30-50%,0.391304,0.0,0.5,0.417693,-0.026389,23,4,0,True
+blitz 3+0,False,buffer beyond increment,opponent,<10 s,50-100%,0.939024,0.85931,0.996132,0.907504,0.031521,533,33,1,False
+blitz 3+0,False,buffer beyond increment,opponent,10-30 s,0-2%,0.0,,,0.0171,-0.0171,3,1,0,True
+blitz 3+0,False,buffer beyond increment,opponent,10-30 s,2-5%,0.0,0.0,0.0,0.037728,-0.037728,58,10,0,True
+blitz 3+0,False,buffer beyond increment,opponent,10-30 s,5-10%,0.004425,0.0,0.017757,0.073135,-0.06871,113,16,0,True
+blitz 3+0,False,buffer beyond increment,opponent,10-30 s,10-15%,0.040541,0.0,0.148262,0.124203,-0.083662,37,11,0,True
+blitz 3+0,False,buffer beyond increment,opponent,10-30 s,15-20%,0.22,0.0,0.4,0.17447,0.04553,25,8,1,True
+blitz 3+0,False,buffer beyond increment,opponent,10-30 s,20-30%,0.3125,0.026319,0.458095,0.237431,0.075069,32,11,0,True
+blitz 3+0,False,buffer beyond increment,opponent,10-30 s,30-50%,0.365385,0.127582,0.549622,0.424613,-0.059228,78,13,0,True
+blitz 3+0,False,buffer beyond increment,opponent,10-30 s,50-100%,0.931004,0.85755,0.985765,0.854157,0.076847,558,42,0,False
+blitz 3+0,False,buffer beyond increment,opponent,30+ s,0-2%,0.0,0.0,0.0,0.011893,-0.011893,90,15,1,True
+blitz 3+0,False,buffer beyond increment,opponent,30+ s,2-5%,0.0,0.0,0.0,0.033615,-0.033615,181,23,6,True
+blitz 3+0,False,buffer beyond increment,opponent,30+ s,5-10%,0.018836,0.0,0.059766,0.075526,-0.05669,292,37,13,False
+blitz 3+0,False,buffer beyond increment,opponent,30+ s,10-15%,0.089015,0.024384,0.173003,0.125062,-0.036047,264,51,13,False
+blitz 3+0,False,buffer beyond increment,opponent,30+ s,15-20%,0.184685,0.045339,0.318299,0.173588,0.011097,222,51,4,False
+blitz 3+0,False,buffer beyond increment,opponent,30+ s,20-30%,0.221662,0.126102,0.334255,0.255087,-0.033425,397,73,3,False
+blitz 3+0,False,buffer beyond increment,opponent,30+ s,30-50%,0.405043,0.324601,0.492132,0.428504,-0.023461,3133,136,0,False
+blitz 3+0,False,buffer beyond increment,opponent,30+ s,50-100%,0.814606,0.751583,0.864289,0.650698,0.163908,4601,145,1,False
+blitz 3+2,False,buffer beyond increment,player,<10 s,0-2%,0.0,0.0,0.0,0.01453,-0.01453,5,3,0,True
+blitz 3+2,False,buffer beyond increment,player,<10 s,2-5%,0.040541,0.0,0.166667,0.03633,0.004211,37,8,0,True
+blitz 3+2,False,buffer beyond increment,player,<10 s,5-10%,0.010526,0.0,0.045187,0.072127,-0.061601,95,15,0,True
+blitz 3+2,False,buffer beyond increment,player,<10 s,10-15%,0.088608,0.012909,0.183479,0.123414,-0.034806,79,21,0,True
+blitz 3+2,False,buffer beyond increment,player,<10 s,15-20%,0.141667,0.041702,0.269551,0.17635,-0.034683,60,26,0,True
+blitz 3+2,False,buffer beyond increment,player,<10 s,20-30%,0.195122,0.076349,0.355621,0.251032,-0.05591,123,29,2,True
+blitz 3+2,False,buffer beyond increment,player,<10 s,30-50%,0.353053,0.23995,0.469198,0.404122,-0.051069,262,49,0,False
+blitz 3+2,False,buffer beyond increment,player,<10 s,50-100%,0.869816,0.815034,0.921488,0.8297,0.040115,2170,165,0,False
+blitz 3+2,False,buffer beyond increment,player,10-30 s,0-2%,0.0,0.0,0.0,0.013686,-0.013686,190,19,0,True
+blitz 3+2,False,buffer beyond increment,player,10-30 s,2-5%,0.0,0.0,0.0,0.034645,-0.034645,479,33,2,False
+blitz 3+2,False,buffer beyond increment,player,10-30 s,5-10%,0.019397,0.0,0.048344,0.072525,-0.053129,464,51,2,False
+blitz 3+2,False,buffer beyond increment,player,10-30 s,10-15%,0.071906,0.023881,0.138339,0.123209,-0.051303,299,59,0,False
+blitz 3+2,False,buffer beyond increment,player,10-30 s,15-20%,0.22549,0.098054,0.36963,0.172347,0.053143,204,56,0,False
+blitz 3+2,False,buffer beyond increment,player,10-30 s,20-30%,0.225138,0.140891,0.314743,0.250405,-0.025267,362,63,3,False
+blitz 3+2,False,buffer beyond increment,player,10-30 s,30-50%,0.413517,0.335447,0.481613,0.406791,0.006727,688,101,1,False
+blitz 3+2,False,buffer beyond increment,player,10-30 s,50-100%,0.87024,0.826945,0.908312,0.820315,0.049925,3834,241,0,False
+blitz 3+2,False,buffer beyond increment,player,30+ s,0-2%,0.0,0.0,0.0,0.012456,-0.012456,719,52,10,False
+blitz 3+2,False,buffer beyond increment,player,30+ s,2-5%,0.001319,0.0,0.004324,0.034914,-0.033595,1516,133,29,False
+blitz 3+2,False,buffer beyond increment,player,30+ s,5-10%,0.008213,0.002111,0.017227,0.074305,-0.066092,2009,230,74,False
+blitz 3+2,False,buffer beyond increment,player,30+ s,10-15%,0.091758,0.064915,0.129296,0.124373,-0.032615,1553,296,60,False
+blitz 3+2,False,buffer beyond increment,player,30+ s,15-20%,0.17101,0.127578,0.218933,0.1759,-0.00489,1535,342,28,False
+blitz 3+2,False,buffer beyond increment,player,30+ s,20-30%,0.26369,0.218415,0.31306,0.2532,0.010491,3707,487,38,False
+blitz 3+2,False,buffer beyond increment,player,30+ s,30-50%,0.479124,0.442787,0.517297,0.422086,0.057038,17772,975,28,False
+blitz 3+2,False,buffer beyond increment,player,30+ s,50-100%,0.827297,0.80466,0.848248,0.692372,0.134924,35367,1066,6,False
+blitz 3+2,False,buffer beyond increment,opponent,<10 s,0-2%,0.0,0.0,0.0,0.01175,-0.01175,13,5,0,True
+blitz 3+2,False,buffer beyond increment,opponent,<10 s,2-5%,0.0,0.0,0.0,0.036344,-0.036344,81,17,0,True
+blitz 3+2,False,buffer beyond increment,opponent,<10 s,5-10%,0.0,0.0,0.0,0.073357,-0.073357,167,32,1,False
+blitz 3+2,False,buffer beyond increment,opponent,<10 s,10-15%,0.0,0.0,0.0,0.126652,-0.126652,141,35,3,False
+blitz 3+2,False,buffer beyond increment,opponent,<10 s,15-20%,0.042373,0.0,0.113734,0.175113,-0.13274,118,31,0,False
+blitz 3+2,False,buffer beyond increment,opponent,<10 s,20-30%,0.139881,0.0488,0.25075,0.24878,-0.108899,168,41,1,False
+blitz 3+2,False,buffer beyond increment,opponent,<10 s,30-50%,0.373702,0.232906,0.579554,0.396734,-0.023031,289,51,0,False
+blitz 3+2,False,buffer beyond increment,opponent,<10 s,50-100%,0.898791,0.840717,0.941791,0.845169,0.053622,1902,143,0,False
+blitz 3+2,False,buffer beyond increment,opponent,10-30 s,0-2%,0.0,0.0,0.0,0.012927,-0.012927,220,19,1,True
+blitz 3+2,False,buffer beyond increment,opponent,10-30 s,2-5%,0.0,0.0,0.0,0.035593,-0.035593,741,56,3,False
+blitz 3+2,False,buffer beyond increment,opponent,10-30 s,5-10%,0.0,0.0,0.0,0.071209,-0.071209,728,81,8,False
+blitz 3+2,False,buffer beyond increment,opponent,10-30 s,10-15%,0.01875,0.006681,0.037555,0.124496,-0.105746,400,87,4,False
+blitz 3+2,False,buffer beyond increment,opponent,10-30 s,15-20%,0.123438,0.046206,0.201411,0.174411,-0.050973,320,92,0,False
+blitz 3+2,False,buffer beyond increment,opponent,10-30 s,20-30%,0.238333,0.137295,0.327177,0.247972,-0.009639,600,109,2,False
+blitz 3+2,False,buffer beyond increment,opponent,10-30 s,30-50%,0.38024,0.301134,0.466408,0.406135,-0.025895,1002,150,2,False
+blitz 3+2,False,buffer beyond increment,opponent,10-30 s,50-100%,0.84351,0.800037,0.88155,0.813438,0.030072,5077,288,0,False
+blitz 3+2,False,buffer beyond increment,opponent,30+ s,0-2%,0.0,0.0,0.0,0.008882,-0.008882,776,41,15,False
+blitz 3+2,False,buffer beyond increment,opponent,30+ s,2-5%,0.0,0.0,0.0,0.03426,-0.03426,964,103,54,False
+blitz 3+2,False,buffer beyond increment,opponent,30+ s,5-10%,0.022671,0.006003,0.051361,0.074406,-0.051735,1610,184,82,False
+blitz 3+2,False,buffer beyond increment,opponent,30+ s,10-15%,0.069242,0.034937,0.114284,0.124211,-0.054969,1372,258,51,False
+blitz 3+2,False,buffer beyond increment,opponent,30+ s,15-20%,0.123925,0.079032,0.169959,0.174922,-0.050997,1279,276,27,False
+blitz 3+2,False,buffer beyond increment,opponent,30+ s,20-30%,0.21875,0.178948,0.263526,0.252352,-0.033602,3024,401,31,False
+blitz 3+2,False,buffer beyond increment,opponent,30+ s,30-50%,0.482074,0.446408,0.520137,0.424245,0.057829,16317,890,27,False
+blitz 3+2,False,buffer beyond increment,opponent,30+ s,50-100%,0.814763,0.789387,0.838458,0.681012,0.133751,30183,988,8,False
+blitz 5+0,False,buffer beyond increment,player,<10 s,0-2%,0.0,,,0.004217,-0.004217,3,1,0,True
+blitz 5+0,False,buffer beyond increment,player,<10 s,2-5%,0.0,0.0,0.0,0.043417,-0.043417,3,2,0,True
+blitz 5+0,False,buffer beyond increment,player,<10 s,5-10%,0.0,0.0,0.0,0.069512,-0.069512,4,2,0,True
+blitz 5+0,False,buffer beyond increment,player,<10 s,10-15%,0.0,0.0,0.0,0.1211,-0.1211,4,3,0,True
+blitz 5+0,False,buffer beyond increment,player,<10 s,15-20%,0.0,0.0,0.0,0.1789,-0.1789,3,2,0,True
+blitz 5+0,False,buffer beyond increment,player,<10 s,20-30%,0.0,0.0,0.0,0.271282,-0.271282,11,2,0,True
+blitz 5+0,False,buffer beyond increment,player,<10 s,30-50%,0.0,0.0,0.0,0.407133,-0.407133,6,2,0,True
+blitz 5+0,False,buffer beyond increment,player,<10 s,50-100%,0.925926,0.666667,1.0,0.879915,0.046011,27,6,0,True
+blitz 5+0,False,buffer beyond increment,player,10-30 s,0-2%,0.0,0.0,0.0,0.012023,-0.012023,13,2,0,True
+blitz 5+0,False,buffer beyond increment,player,10-30 s,2-5%,0.0,0.0,0.0,0.030403,-0.030403,16,4,0,True
+blitz 5+0,False,buffer beyond increment,player,10-30 s,5-10%,0.0,0.0,0.0,0.074525,-0.074525,10,2,0,True
+blitz 5+0,False,buffer beyond increment,player,10-30 s,10-15%,0.0,,,0.13312,-0.13312,5,1,0,True
+blitz 5+0,False,buffer beyond increment,player,10-30 s,15-20%,0.0,0.0,0.0,0.17253,-0.17253,5,2,0,True
+blitz 5+0,False,buffer beyond increment,player,10-30 s,20-30%,0.0,,,0.249458,-0.249458,6,1,0,True
+blitz 5+0,False,buffer beyond increment,player,10-30 s,30-50%,0.0,,,0.33117,-0.33117,5,1,0,True
+blitz 5+0,False,buffer beyond increment,player,10-30 s,50-100%,0.805556,0.363636,1.0,0.814249,-0.008693,72,7,0,True
+blitz 5+0,False,buffer beyond increment,player,30+ s,0-2%,0.0,0.0,0.0,0.008934,-0.008934,297,18,0,True
+blitz 5+0,False,buffer beyond increment,player,30+ s,2-5%,0.0,0.0,0.0,0.033345,-0.033345,252,25,1,True
+blitz 5+0,False,buffer beyond increment,player,30+ s,5-10%,0.018519,0.0,0.048508,0.073985,-0.055466,270,31,4,False
+blitz 5+0,False,buffer beyond increment,player,30+ s,10-15%,0.053571,0.005537,0.123287,0.124126,-0.070555,224,35,5,False
+blitz 5+0,False,buffer beyond increment,player,30+ s,15-20%,0.122378,0.047445,0.214927,0.175629,-0.053252,143,37,1,False
+blitz 5+0,False,buffer beyond increment,player,30+ s,20-30%,0.280405,0.124749,0.406077,0.252554,0.027852,296,39,2,False
+blitz 5+0,False,buffer beyond increment,player,30+ s,30-50%,0.329592,0.220904,0.469004,0.411939,-0.082347,980,62,2,False
+blitz 5+0,False,buffer beyond increment,player,30+ s,50-100%,0.723149,0.58582,0.835113,0.700445,0.022704,1499,58,0,False
+blitz 5+0,False,buffer beyond increment,opponent,<10 s,15-20%,0.0,,,0.192425,-0.192425,6,1,0,True
+blitz 5+0,False,buffer beyond increment,opponent,<10 s,20-30%,0.0,,,0.275175,-0.275175,4,1,0,True
+blitz 5+0,False,buffer beyond increment,opponent,<10 s,30-50%,0.5,,,0.46543,0.03457,5,1,0,True
+blitz 5+0,False,buffer beyond increment,opponent,<10 s,50-100%,0.957831,0.874973,1.0,0.90292,0.054911,249,21,0,True
+blitz 5+0,False,buffer beyond increment,opponent,10-30 s,0-2%,0.0,,,0.019375,-0.019375,2,1,0,True
+blitz 5+0,False,buffer beyond increment,opponent,10-30 s,2-5%,0.0,,,0.02905,-0.02905,1,1,0,True
+blitz 5+0,False,buffer beyond increment,opponent,10-30 s,5-10%,0.0,0.0,0.0,0.0663,-0.0663,4,2,0,True
+blitz 5+0,False,buffer beyond increment,opponent,10-30 s,10-15%,0.0,,,0.124925,-0.124925,4,1,0,True
+blitz 5+0,False,buffer beyond increment,opponent,10-30 s,15-20%,0.0,0.0,0.0,0.182365,-0.182365,10,2,0,True
+blitz 5+0,False,buffer beyond increment,opponent,10-30 s,20-30%,0.2,0.0,1.0,0.245625,-0.045625,20,3,0,True
+blitz 5+0,False,buffer beyond increment,opponent,10-30 s,30-50%,0.333333,0.0,0.75,0.40125,-0.067917,21,4,0,True
+blitz 5+0,False,buffer beyond increment,opponent,10-30 s,50-100%,0.933702,0.856361,1.0,0.867546,0.066156,181,26,0,True
+blitz 5+0,False,buffer beyond increment,opponent,30+ s,0-2%,0.0,0.0,0.0,0.013039,-0.013039,9,3,0,True
+blitz 5+0,False,buffer beyond increment,opponent,30+ s,2-5%,0.0,0.0,0.0,0.034471,-0.034471,28,4,3,True
+blitz 5+0,False,buffer beyond increment,opponent,30+ s,5-10%,0.0,0.0,0.0,0.077921,-0.077921,64,9,4,True
+blitz 5+0,False,buffer beyond increment,opponent,30+ s,10-15%,0.039474,0.0,0.155352,0.125482,-0.086008,76,14,3,True
+blitz 5+0,False,buffer beyond increment,opponent,30+ s,15-20%,0.096591,0.020743,0.252574,0.17423,-0.077639,88,19,1,True
+blitz 5+0,False,buffer beyond increment,opponent,30+ s,20-30%,0.275253,0.115742,0.537896,0.253257,0.021995,198,22,1,True
+blitz 5+0,False,buffer beyond increment,opponent,30+ s,30-50%,0.637931,0.490946,0.780265,0.421017,0.216914,667,55,1,False
+blitz 5+0,False,buffer beyond increment,opponent,30+ s,50-100%,0.889586,0.817838,0.945113,0.752674,0.136912,2391,71,1,False
+blitz 5+2,False,buffer beyond increment,player,<10 s,2-5%,0.0,,,0.040921,-0.040921,7,1,0,True
+blitz 5+2,False,buffer beyond increment,player,<10 s,5-10%,0.0,0.0,0.0,0.083089,-0.083089,14,3,0,True
+blitz 5+2,False,buffer beyond increment,player,<10 s,10-15%,0.0,0.0,0.0,0.118229,-0.118229,12,3,0,True
+blitz 5+2,False,buffer beyond increment,player,<10 s,15-20%,0.071429,0.0,0.5,0.173086,-0.101657,7,3,0,True
+blitz 5+2,False,buffer beyond increment,player,<10 s,20-30%,0.0,0.0,0.0,0.23925,-0.23925,8,2,0,True
+blitz 5+2,False,buffer beyond increment,player,<10 s,30-50%,0.340909,0.055556,0.571429,0.386455,-0.045545,22,5,0,True
+blitz 5+2,False,buffer beyond increment,player,<10 s,50-100%,0.8,0.595506,1.0,0.702871,0.097129,60,5,0,True
+blitz 5+2,False,buffer beyond increment,player,10-30 s,2-5%,0.0,0.0,0.0,0.028171,-0.028171,29,2,0,True
+blitz 5+2,False,buffer beyond increment,player,10-30 s,5-10%,0.0,0.0,0.0,0.071364,-0.071364,22,4,0,True
+blitz 5+2,False,buffer beyond increment,player,10-30 s,10-15%,0.0,0.0,0.0,0.13235,-0.13235,15,3,0,True
+blitz 5+2,False,buffer beyond increment,player,10-30 s,15-20%,0.0,0.0,0.0,0.173502,-0.173502,23,3,0,True
+blitz 5+2,False,buffer beyond increment,player,10-30 s,20-30%,0.0,0.0,0.0,0.239159,-0.239159,11,4,0,True
+blitz 5+2,False,buffer beyond increment,player,10-30 s,30-50%,0.2625,0.012043,0.60375,0.407669,-0.145169,40,7,0,True
+blitz 5+2,False,buffer beyond increment,player,10-30 s,50-100%,0.80916,0.590128,0.985002,0.859548,-0.050388,262,16,0,True
+blitz 5+2,False,buffer beyond increment,player,30+ s,0-2%,0.0,0.0,0.0,0.01324,-0.01324,77,7,0,True
+blitz 5+2,False,buffer beyond increment,player,30+ s,2-5%,0.0,0.0,0.0,0.034756,-0.034756,131,12,1,True
+blitz 5+2,False,buffer beyond increment,player,30+ s,5-10%,0.046584,0.0,0.151009,0.074064,-0.02748,161,15,4,True
+blitz 5+2,False,buffer beyond increment,player,30+ s,10-15%,0.103053,0.017552,0.224324,0.12535,-0.022296,131,22,7,True
+blitz 5+2,False,buffer beyond increment,player,30+ s,15-20%,0.168224,0.030135,0.314577,0.173544,-0.00532,107,17,4,True
+blitz 5+2,False,buffer beyond increment,player,30+ s,20-30%,0.251825,0.116784,0.426065,0.251233,0.000592,274,31,4,False
+blitz 5+2,False,buffer beyond increment,player,30+ s,30-50%,0.3838,0.270371,0.515872,0.419329,-0.035529,1179,68,4,False
+blitz 5+2,False,buffer beyond increment,player,30+ s,50-100%,0.809718,0.728966,0.876809,0.742088,0.067631,3303,86,0,False
+blitz 5+2,False,buffer beyond increment,opponent,<10 s,50-100%,0.993333,0.927574,1.0,0.83251,0.160823,75,4,0,True
+blitz 5+2,False,buffer beyond increment,opponent,10-30 s,20-30%,0.0,,,0.2599,-0.2599,1,1,0,True
+blitz 5+2,False,buffer beyond increment,opponent,10-30 s,30-50%,0.5,,,0.406958,0.093042,40,1,0,True
+blitz 5+2,False,buffer beyond increment,opponent,10-30 s,50-100%,0.825581,0.62013,1.0,0.804553,0.021028,129,7,0,True
+blitz 5+2,False,buffer beyond increment,opponent,30+ s,0-2%,0.0,0.0,0.0,0.010266,-0.010266,377,11,2,True
+blitz 5+2,False,buffer beyond increment,opponent,30+ s,2-5%,0.0,0.0,0.0,0.034103,-0.034103,234,15,6,True
+blitz 5+2,False,buffer beyond increment,opponent,30+ s,5-10%,0.029557,0.000813,0.093125,0.071663,-0.042106,203,22,7,True
+blitz 5+2,False,buffer beyond increment,opponent,30+ s,10-15%,0.064103,0.008793,0.152857,0.127985,-0.063882,117,27,4,True
+blitz 5+2,False,buffer beyond increment,opponent,30+ s,15-20%,0.177778,0.05311,0.312212,0.177351,0.000426,135,26,2,True
+blitz 5+2,False,buffer beyond increment,opponent,30+ s,20-30%,0.248387,0.122252,0.37121,0.248712,-0.000325,310,37,2,False
+blitz 5+2,False,buffer beyond increment,opponent,30+ s,30-50%,0.54173,0.41618,0.669336,0.422365,0.119365,1306,73,0,False
+blitz 5+2,False,buffer beyond increment,opponent,30+ s,50-100%,0.856705,0.78016,0.912163,0.705025,0.15168,2446,72,2,False
+blitz 5+5,False,buffer beyond increment,player,<10 s,5-10%,0.0,,,0.065667,-0.065667,3,1,0,True
+blitz 5+5,False,buffer beyond increment,player,<10 s,10-15%,0.0,,,0.10725,-0.10725,1,1,0,True
+blitz 5+5,False,buffer beyond increment,player,<10 s,30-50%,0.0,,,0.384931,-0.384931,8,1,0,True
+blitz 5+5,False,buffer beyond increment,player,<10 s,50-100%,0.9,0.333333,1.0,0.881241,0.018759,40,4,0,True
+blitz 5+5,False,buffer beyond increment,player,10-30 s,2-5%,0.0,0.0,0.0,0.040908,-0.040908,32,2,1,True
+blitz 5+5,False,buffer beyond increment,player,10-30 s,5-10%,0.0,0.0,0.0,0.06816,-0.06816,15,2,0,True
+blitz 5+5,False,buffer beyond increment,player,10-30 s,10-15%,0.0,0.0,0.0,0.105642,-0.105642,6,2,0,True
+blitz 5+5,False,buffer beyond increment,player,10-30 s,20-30%,0.0,,,0.249925,-0.249925,2,1,0,True
+blitz 5+5,False,buffer beyond increment,player,10-30 s,30-50%,0.0,,,0.447281,-0.447281,18,1,0,True
+blitz 5+5,False,buffer beyond increment,player,10-30 s,50-100%,0.592391,0.214518,1.0,0.767471,-0.17508,92,5,0,True
+blitz 5+5,False,buffer beyond increment,player,30+ s,0-2%,0.0,0.0,0.0,0.013267,-0.013267,126,8,2,True
+blitz 5+5,False,buffer beyond increment,player,30+ s,2-5%,0.0,0.0,0.0,0.03184,-0.03184,185,11,4,True
+blitz 5+5,False,buffer beyond increment,player,30+ s,5-10%,0.012397,0.0,0.038462,0.074759,-0.062362,121,22,9,True
+blitz 5+5,False,buffer beyond increment,player,30+ s,10-15%,0.103333,0.025603,0.203208,0.128755,-0.025422,150,27,9,True
+blitz 5+5,False,buffer beyond increment,player,30+ s,15-20%,0.07197,0.0,0.179288,0.172938,-0.100968,132,21,5,True
+blitz 5+5,False,buffer beyond increment,player,30+ s,20-30%,0.252137,0.127376,0.397118,0.253323,-0.001187,351,37,4,False
+blitz 5+5,False,buffer beyond increment,player,30+ s,30-50%,0.527803,0.397302,0.66293,0.416024,0.111778,1115,75,7,False
+blitz 5+5,False,buffer beyond increment,player,30+ s,50-100%,0.830698,0.742016,0.899677,0.69579,0.134908,3036,84,2,False
+blitz 5+5,False,buffer beyond increment,opponent,<10 s,50-100%,1.0,1.0,1.0,0.87212,0.12788,10,2,0,True
+blitz 5+5,False,buffer beyond increment,opponent,10-30 s,30-50%,1.0,,,0.447238,0.552762,8,1,0,True
+blitz 5+5,False,buffer beyond increment,opponent,10-30 s,50-100%,1.0,1.0,1.0,0.831794,0.168206,76,4,0,True
+blitz 5+5,False,buffer beyond increment,opponent,30+ s,0-2%,0.0,0.0,0.0,0.01129,-0.01129,69,4,2,True
+blitz 5+5,False,buffer beyond increment,opponent,30+ s,2-5%,0.0,0.0,0.0,0.032466,-0.032466,130,10,6,True
+blitz 5+5,False,buffer beyond increment,opponent,30+ s,5-10%,0.011905,0.0,0.044554,0.074225,-0.06232,126,20,5,True
+blitz 5+5,False,buffer beyond increment,opponent,30+ s,10-15%,0.050505,0.0,0.127365,0.125284,-0.074779,99,22,7,True
+blitz 5+5,False,buffer beyond increment,opponent,30+ s,15-20%,0.199074,0.072192,0.358231,0.174488,0.024587,108,27,3,True
+blitz 5+5,False,buffer beyond increment,opponent,30+ s,20-30%,0.336032,0.194911,0.553295,0.253962,0.08207,247,36,4,False
+blitz 5+5,False,buffer beyond increment,opponent,30+ s,30-50%,0.46305,0.341951,0.610233,0.416224,0.046826,1705,77,3,False
+blitz 5+5,False,buffer beyond increment,opponent,30+ s,50-100%,0.885957,0.825189,0.93383,0.72941,0.156547,3240,99,1,False
+rapid 10+0,False,buffer beyond increment,player,<10 s,50-100%,0.994318,0.975565,1.0,0.979016,0.015302,88,8,0,True
+rapid 10+0,False,buffer beyond increment,player,10-30 s,20-30%,0.5,,,0.2789,0.2211,3,1,0,True
+rapid 10+0,False,buffer beyond increment,player,10-30 s,30-50%,0.5,,,0.390457,0.109543,7,1,0,True
+rapid 10+0,False,buffer beyond increment,player,10-30 s,50-100%,1.0,1.0,1.0,0.950128,0.049872,89,10,1,True
+rapid 10+0,False,buffer beyond increment,player,30+ s,0-2%,0.0,0.0,0.0,0.01029,-0.01029,611,26,2,True
+rapid 10+0,False,buffer beyond increment,player,30+ s,2-5%,0.005892,0.0,0.017316,0.032775,-0.026883,594,43,23,False
+rapid 10+0,False,buffer beyond increment,player,30+ s,5-10%,0.059292,0.020776,0.109056,0.074052,-0.01476,565,79,46,False
+rapid 10+0,False,buffer beyond increment,player,30+ s,10-15%,0.190867,0.124972,0.275269,0.123832,0.067034,427,97,24,False
+rapid 10+0,False,buffer beyond increment,player,30+ s,15-20%,0.285885,0.195952,0.373664,0.175427,0.110458,418,96,20,False
+rapid 10+0,False,buffer beyond increment,player,30+ s,20-30%,0.342338,0.269165,0.42445,0.251036,0.091302,1018,135,23,False
+rapid 10+0,False,buffer beyond increment,player,30+ s,30-50%,0.551445,0.495016,0.613893,0.42162,0.129825,4879,328,18,False
+rapid 10+0,False,buffer beyond increment,player,30+ s,50-100%,0.908962,0.882547,0.930267,0.744186,0.164776,17218,397,4,False
+rapid 10+0,False,buffer beyond increment,opponent,<10 s,0-2%,0.0,,,0.018662,-0.018662,4,1,0,True
+rapid 10+0,False,buffer beyond increment,opponent,<10 s,2-5%,0.0,,,0.035886,-0.035886,7,1,0,True
+rapid 10+0,False,buffer beyond increment,opponent,<10 s,5-10%,0.0,,,0.06005,-0.06005,4,1,0,True
+rapid 10+0,False,buffer beyond increment,opponent,<10 s,50-100%,1.0,1.0,1.0,0.987462,0.012538,38,5,0,True
+rapid 10+0,False,buffer beyond increment,opponent,10-30 s,0-2%,0.0,0.0,0.0,0.011486,-0.011486,35,3,0,True
+rapid 10+0,False,buffer beyond increment,opponent,10-30 s,2-5%,0.0,0.0,0.0,0.034387,-0.034387,19,3,0,True
+rapid 10+0,False,buffer beyond increment,opponent,10-30 s,5-10%,0.0,0.0,0.0,0.067895,-0.067895,19,5,0,True
+rapid 10+0,False,buffer beyond increment,opponent,10-30 s,10-15%,0.0,0.0,0.0,0.123337,-0.123337,4,2,0,True
+rapid 10+0,False,buffer beyond increment,opponent,10-30 s,15-20%,0.0,,,0.175375,-0.175375,2,1,0,True
+rapid 10+0,False,buffer beyond increment,opponent,10-30 s,20-30%,0.0,,,0.234825,-0.234825,4,1,0,True
+rapid 10+0,False,buffer beyond increment,opponent,10-30 s,50-100%,1.0,1.0,1.0,0.937775,0.062225,32,5,0,True
+rapid 10+0,False,buffer beyond increment,opponent,30+ s,0-2%,0.0,0.0,0.0,0.011082,-0.011082,886,53,17,False
+rapid 10+0,False,buffer beyond increment,opponent,30+ s,2-5%,0.0,0.0,0.0,0.034117,-0.034117,1064,74,52,False
+rapid 10+0,False,buffer beyond increment,opponent,30+ s,5-10%,0.009731,0.002851,0.02141,0.073503,-0.063772,1079,112,39,False
+rapid 10+0,False,buffer beyond increment,opponent,30+ s,10-15%,0.03811,0.017158,0.06514,0.122795,-0.084685,656,110,16,False
+rapid 10+0,False,buffer beyond increment,opponent,30+ s,15-20%,0.100382,0.059842,0.147825,0.174591,-0.074208,523,114,8,False
+rapid 10+0,False,buffer beyond increment,opponent,30+ s,20-30%,0.221586,0.161392,0.297273,0.251787,-0.030201,1135,171,14,False
+rapid 10+0,False,buffer beyond increment,opponent,30+ s,30-50%,0.451675,0.396365,0.508184,0.416774,0.034901,5970,336,10,False
+rapid 10+0,False,buffer beyond increment,opponent,30+ s,50-100%,0.839733,0.79954,0.873278,0.708071,0.131662,11693,369,3,False
+all bullet,True,buffer beyond increment,player,<10 s,0-2%,0.000914,0.0,0.003425,0.012716,-0.011802,547,158,0,False
+all bullet,True,buffer beyond increment,player,<10 s,2-5%,0.005703,0.0,0.013103,0.033579,-0.027875,1052,284,1,False
+all bullet,True,buffer beyond increment,player,<10 s,5-10%,0.028935,0.014374,0.047472,0.074114,-0.045179,1296,344,0,False
+all bullet,True,buffer beyond increment,player,<10 s,10-15%,0.084737,0.05443,0.123072,0.124178,-0.039441,1009,322,0,False
+all bullet,True,buffer beyond increment,player,<10 s,15-20%,0.123399,0.088398,0.160924,0.173931,-0.050531,859,300,0,False
+all bullet,True,buffer beyond increment,player,<10 s,20-30%,0.20751,0.165676,0.251244,0.247398,-0.039888,1518,404,0,False
+all bullet,True,buffer beyond increment,player,<10 s,30-50%,0.401399,0.356076,0.442405,0.399908,0.001491,3002,538,1,False
+all bullet,True,buffer beyond increment,player,<10 s,50-100%,0.899673,0.884708,0.914717,0.847361,0.052312,18051,1368,0,False
+all bullet,True,buffer beyond increment,player,10-30 s,0-2%,0.000968,0.0,0.003425,0.011981,-0.011013,2066,289,5,False
+all bullet,True,buffer beyond increment,player,10-30 s,2-5%,0.006492,0.002334,0.012179,0.033732,-0.027241,3466,493,6,False
+all bullet,True,buffer beyond increment,player,10-30 s,5-10%,0.038245,0.0241,0.055925,0.073414,-0.035169,3909,659,14,False
+all bullet,True,buffer beyond increment,player,10-30 s,10-15%,0.091652,0.069707,0.112893,0.123943,-0.032291,2875,708,7,False
+all bullet,True,buffer beyond increment,player,10-30 s,15-20%,0.14542,0.118927,0.174874,0.174074,-0.028654,2620,712,6,False
+all bullet,True,buffer beyond increment,player,10-30 s,20-30%,0.242547,0.21057,0.274277,0.24965,-0.007104,4696,934,2,False
+all bullet,True,buffer beyond increment,player,10-30 s,30-50%,0.413678,0.382742,0.446517,0.401279,0.012398,9256,1222,1,False
+all bullet,True,buffer beyond increment,player,10-30 s,50-100%,0.835671,0.818284,0.852292,0.756366,0.079304,27737,1871,2,False
+all bullet,True,buffer beyond increment,player,30+ s,0-2%,0.0,0.0,0.0,0.011634,-0.011634,259,37,3,False
+all bullet,True,buffer beyond increment,player,30+ s,2-5%,0.00787,0.0,0.01964,0.036689,-0.028819,953,169,15,False
+all bullet,True,buffer beyond increment,player,30+ s,5-10%,0.026725,0.014152,0.04162,0.076169,-0.049444,2189,424,35,False
+all bullet,True,buffer beyond increment,player,30+ s,10-15%,0.080471,0.057764,0.1055,0.125734,-0.045263,2591,642,25,False
+all bullet,True,buffer beyond increment,player,30+ s,15-20%,0.126074,0.101105,0.155642,0.175318,-0.049244,3026,811,30,False
+all bullet,True,buffer beyond increment,player,30+ s,20-30%,0.192625,0.170044,0.219372,0.255532,-0.062907,8976,1390,36,False
+all bullet,True,buffer beyond increment,player,30+ s,30-50%,0.406458,0.38278,0.426943,0.418263,-0.011805,47428,2753,31,False
+all bullet,True,buffer beyond increment,player,30+ s,50-100%,0.745973,0.728184,0.762636,0.629586,0.116387,56313,2810,6,False
+all bullet,True,buffer beyond increment,opponent,<10 s,0-2%,0.0,0.0,0.0,0.012935,-0.012935,575,174,1,False
+all bullet,True,buffer beyond increment,opponent,<10 s,2-5%,0.001717,0.0,0.005763,0.034188,-0.032472,1165,307,2,False
+all bullet,True,buffer beyond increment,opponent,<10 s,5-10%,0.010582,0.002153,0.023031,0.073578,-0.062996,1323,366,1,False
+all bullet,True,buffer beyond increment,opponent,<10 s,10-15%,0.034904,0.019411,0.051438,0.12404,-0.089136,1146,361,3,False
+all bullet,True,buffer beyond increment,opponent,<10 s,15-20%,0.084463,0.053551,0.113224,0.17458,-0.090117,959,356,0,False
+all bullet,True,buffer beyond increment,opponent,<10 s,20-30%,0.132812,0.10267,0.165883,0.247771,-0.114958,1664,431,3,False
+all bullet,True,buffer beyond increment,opponent,<10 s,30-50%,0.327581,0.286981,0.368773,0.401279,-0.073698,3129,533,1,False
+all bullet,True,buffer beyond increment,opponent,<10 s,50-100%,0.861745,0.844167,0.881409,0.845747,0.015998,17493,1216,2,False
+all bullet,True,buffer beyond increment,opponent,10-30 s,0-2%,0.0,0.0,0.0,0.012146,-0.012146,2005,329,6,False
+all bullet,True,buffer beyond increment,opponent,10-30 s,2-5%,0.006579,0.001875,0.013694,0.034319,-0.02774,3268,548,13,False
+all bullet,True,buffer beyond increment,opponent,10-30 s,5-10%,0.018309,0.009826,0.027453,0.073281,-0.054972,4233,703,18,False
+all bullet,True,buffer beyond increment,opponent,10-30 s,10-15%,0.050079,0.034595,0.067494,0.123611,-0.073532,3145,737,11,False
+all bullet,True,buffer beyond increment,opponent,10-30 s,15-20%,0.107638,0.083682,0.131004,0.174304,-0.066667,2527,747,4,False
+all bullet,True,buffer beyond increment,opponent,10-30 s,20-30%,0.156493,0.13054,0.181817,0.249116,-0.092623,4636,904,8,False
+all bullet,True,buffer beyond increment,opponent,10-30 s,30-50%,0.326734,0.295193,0.356605,0.401922,-0.075187,9067,1273,4,False
+all bullet,True,buffer beyond increment,opponent,10-30 s,50-100%,0.78078,0.761886,0.797672,0.760387,0.020393,29126,1860,6,False
+all bullet,True,buffer beyond increment,opponent,30+ s,0-2%,0.0,0.0,0.0,0.012922,-0.012922,339,64,1,False
+all bullet,True,buffer beyond increment,opponent,30+ s,2-5%,0.002367,0.0,0.006105,0.034919,-0.032553,845,166,9,False
+all bullet,True,buffer beyond increment,opponent,30+ s,5-10%,0.016432,0.005691,0.029225,0.076618,-0.060186,1917,356,19,False
+all bullet,True,buffer beyond increment,opponent,30+ s,10-15%,0.034786,0.022012,0.048381,0.125084,-0.090298,2386,545,29,False
+all bullet,True,buffer beyond increment,opponent,30+ s,15-20%,0.085126,0.063425,0.109503,0.175414,-0.090289,2743,713,13,False
+all bullet,True,buffer beyond increment,opponent,30+ s,20-30%,0.14566,0.124241,0.165816,0.255164,-0.109504,7212,1216,14,False
+all bullet,True,buffer beyond increment,opponent,30+ s,30-50%,0.361533,0.343127,0.380001,0.422022,-0.060489,42761,2702,40,False
+all bullet,True,buffer beyond increment,opponent,30+ s,50-100%,0.706443,0.689329,0.723988,0.626857,0.079586,59864,2823,8,False
+all blitz,True,buffer beyond increment,player,<10 s,0-2%,0.0,0.0,0.0,0.009671,-0.009671,28,7,0,True
+all blitz,True,buffer beyond increment,player,<10 s,2-5%,0.031915,0.0,0.120851,0.037466,-0.005551,47,11,0,True
+all blitz,True,buffer beyond increment,player,<10 s,5-10%,0.008333,0.0,0.032442,0.073462,-0.065128,120,24,0,True
+all blitz,True,buffer beyond increment,player,<10 s,10-15%,0.071429,0.01025,0.155007,0.122435,-0.051006,98,29,0,True
+all blitz,True,buffer beyond increment,player,<10 s,15-20%,0.123288,0.037014,0.225367,0.176253,-0.052965,73,32,0,False
+all blitz,True,buffer beyond increment,player,<10 s,20-30%,0.178082,0.084445,0.311545,0.252687,-0.074605,146,34,2,False
+all blitz,True,buffer beyond increment,player,<10 s,30-50%,0.353503,0.251731,0.452108,0.402052,-0.048549,314,60,0,False
+all blitz,True,buffer beyond increment,player,<10 s,50-100%,0.876673,0.82745,0.926196,0.832597,0.044077,2465,201,0,False
+all blitz,True,buffer beyond increment,player,10-30 s,0-2%,0.0,0.0,0.0,0.012012,-0.012012,308,30,0,False
+all blitz,True,buffer beyond increment,player,10-30 s,2-5%,0.0,0.0,0.0,0.034155,-0.034155,635,50,3,False
+all blitz,True,buffer beyond increment,player,10-30 s,5-10%,0.015817,0.0,0.03832,0.072283,-0.056466,569,68,3,False
+all blitz,True,buffer beyond increment,player,10-30 s,10-15%,0.060393,0.022784,0.112937,0.122971,-0.062577,356,71,0,False
+all blitz,True,buffer beyond increment,player,10-30 s,15-20%,0.191235,0.072771,0.313525,0.172547,0.018688,251,69,0,False
+all blitz,True,buffer beyond increment,player,10-30 s,20-30%,0.233735,0.146353,0.318994,0.249083,-0.015349,415,78,3,False
+all blitz,True,buffer beyond increment,player,10-30 s,30-50%,0.401348,0.329183,0.471956,0.407082,-0.005734,816,122,1,False
+all blitz,True,buffer beyond increment,player,10-30 s,50-100%,0.859956,0.81688,0.898671,0.819114,0.040842,4545,295,0,False
+all blitz,True,buffer beyond increment,player,30+ s,0-2%,0.0,0.0,0.0,0.011495,-0.011495,1397,99,16,False
+all blitz,True,buffer beyond increment,player,30+ s,2-5%,0.000885,0.0,0.00266,0.034294,-0.033409,2261,206,40,False
+all blitz,True,buffer beyond increment,player,30+ s,5-10%,0.012243,0.005654,0.021993,0.074276,-0.062033,2818,337,99,False
+all blitz,True,buffer beyond increment,player,30+ s,10-15%,0.087031,0.06172,0.116225,0.124724,-0.037693,2321,427,88,False
+all blitz,True,buffer beyond increment,player,30+ s,15-20%,0.158661,0.11956,0.198249,0.17554,-0.01688,2165,462,40,False
+all blitz,True,buffer beyond increment,player,30+ s,20-30%,0.254257,0.216648,0.291992,0.25291,0.001347,5109,659,53,False
+all blitz,True,buffer beyond increment,player,30+ s,30-50%,0.466518,0.436316,0.495024,0.422167,0.044351,24043,1339,43,False
+all blitz,True,buffer beyond increment,player,30+ s,50-100%,0.82224,0.802561,0.839591,0.693136,0.129104,49460,1462,9,False
+all blitz,True,buffer beyond increment,opponent,<10 s,0-2%,0.0,0.0,0.0,0.01175,-0.01175,13,5,0,True
+all blitz,True,buffer beyond increment,opponent,<10 s,2-5%,0.0,0.0,0.0,0.036295,-0.036295,84,20,0,True
+all blitz,True,buffer beyond increment,opponent,<10 s,5-10%,0.0,0.0,0.0,0.073271,-0.073271,171,36,2,False
+all blitz,True,buffer beyond increment,opponent,<10 s,10-15%,0.0,0.0,0.0,0.126715,-0.126715,152,39,3,False
+all blitz,True,buffer beyond increment,opponent,<10 s,15-20%,0.039062,0.0,0.103763,0.175798,-0.136735,128,34,0,False
+all blitz,True,buffer beyond increment,opponent,<10 s,20-30%,0.136364,0.051991,0.238819,0.249314,-0.11295,176,45,1,False
+all blitz,True,buffer beyond increment,opponent,<10 s,30-50%,0.376972,0.246144,0.546251,0.399338,-0.022366,317,56,0,False
+all blitz,True,buffer beyond increment,opponent,<10 s,50-100%,0.914771,0.877479,0.946689,0.862115,0.052655,2769,203,1,False
+all blitz,True,buffer beyond increment,opponent,10-30 s,0-2%,0.0,0.0,0.0,0.01304,-0.01304,225,21,1,True
+all blitz,True,buffer beyond increment,opponent,10-30 s,2-5%,0.0,0.0,0.0,0.035739,-0.035739,800,67,3,False
+all blitz,True,buffer beyond increment,opponent,10-30 s,5-10%,0.000592,0.0,0.002073,0.071443,-0.070852,845,99,8,False
+all blitz,True,buffer beyond increment,opponent,10-30 s,10-15%,0.020408,0.007741,0.038288,0.124475,-0.104067,441,99,4,False
+all blitz,True,buffer beyond increment,opponent,10-30 s,15-20%,0.126761,0.053328,0.194947,0.174639,-0.047878,355,102,1,False
+all blitz,True,buffer beyond increment,opponent,10-30 s,20-30%,0.240429,0.149755,0.319302,0.247402,-0.006973,653,124,2,False
+all blitz,True,buffer beyond increment,opponent,10-30 s,30-50%,0.386858,0.306591,0.466013,0.407615,-0.020757,1149,169,2,False
+all blitz,True,buffer beyond increment,opponent,10-30 s,50-100%,0.855921,0.815997,0.890526,0.81888,0.037041,6021,367,0,False
+all blitz,True,buffer beyond increment,opponent,30+ s,0-2%,0.0,0.0,0.0,0.009636,-0.009636,1321,74,20,False
+all blitz,True,buffer beyond increment,opponent,30+ s,2-5%,0.0,0.0,0.0,0.034012,-0.034012,1537,155,75,False
+all blitz,True,buffer beyond increment,opponent,30+ s,5-10%,0.021569,0.008806,0.041394,0.074394,-0.052825,2295,272,111,False
+all blitz,True,buffer beyond increment,opponent,30+ s,10-15%,0.069502,0.04088,0.104943,0.124662,-0.055159,1928,372,78,False
+all blitz,True,buffer beyond increment,opponent,30+ s,15-20%,0.138373,0.101867,0.178431,0.17488,-0.036507,1832,399,37,False
+all blitz,True,buffer beyond increment,opponent,30+ s,20-30%,0.230843,0.19767,0.266962,0.25248,-0.021637,4176,569,41,False
+all blitz,True,buffer beyond increment,opponent,30+ s,30-50%,0.4781,0.449611,0.513043,0.424032,0.054068,23128,1231,31,False
+all blitz,True,buffer beyond increment,opponent,30+ s,50-100%,0.826696,0.805101,0.845386,0.686785,0.139911,42861,1375,13,False

@@ -1,0 +1,5 @@
+pool,cells,cells_thin,cells_usable,cells_ci_clear_of_zero,cells_clear_expected_by_chance,games
+all games,42,15,27,3,1.35,6007
+all bullet,42,41,1,1,0.05,3433
+all blitz,42,37,5,1,0.25,1987
+all rapid,42,42,0,0,0.0,587

@@ -1,0 +1,13 @@
+tc_group,material,player_errors,player_moves,opponent_errors,opponent_moves,errors,thin
+all games,KRvKRP,13,54,16,60,29,True
+all games,KRPvKR,12,114,10,81,22,True
+all games,KPvK,4,163,9,224,13,False
+all games,KvKP,7,114,2,27,9,True
+all games,KPPvKP,1,57,7,67,8,True
+all games,KQvK,1,385,6,398,7,False
+all games,KBvKR,5,15,0,0,5,True
+all games,KQvKP,3,84,2,18,5,True
+all games,KQvKQP,4,16,0,12,4,True
+all games,KPPvK,1,74,2,130,3,True
+all games,KQPvKQ,0,12,3,15,3,True
+all games,KRvKB,0,0,3,18,3,True

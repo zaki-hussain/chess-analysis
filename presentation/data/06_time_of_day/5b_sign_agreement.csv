@@ -1,0 +1,11 @@
+tc_group,bands_compared,bands_same_sign,bands_clear_in_first,bands_clear_in_second,bands_clear_in_both_same_sign,thin
+bullet 1+0,5,2,1,0,0,False
+bullet 1+1,0,0,0,0,0,True
+bullet 2+1,0,0,0,0,0,True
+blitz 3+0,0,0,0,0,0,True
+blitz 3+2,3,2,1,1,0,False
+blitz 5+0,0,0,0,0,0,True
+blitz 5+2,0,0,0,0,0,True
+blitz 5+5,0,0,0,0,0,True
+rapid 10+0,0,0,0,0,0,True
+all games,5,2,2,0,0,False

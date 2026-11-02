@@ -1,0 +1,241 @@
+tc_group,model,outcome,term,estimate,lo,hi,expected,estimate_elo,lo_elo,hi_elo,games,sessions,thin
+bullet 1+0,pooled,excess,log2(game number),0.038584,0.010969,0.070598,0.50782,26.903389,7.627966,49.509585,2366,481,False
+bullet 1+0,pooled,excess,minutes into session / 30,-0.022943,-0.092849,0.037725,0.50782,-15.946307,-65.098265,26.301655,2366,481,False
+bullet 1+0,pooled,excess,previous game lost,-0.062228,-0.125963,0.003878,0.50782,-43.391454,-89.10948,2.695522,2366,481,False
+bullet 1+0,pooled,excess,previous game won,-0.021969,-0.083157,0.040843,0.50782,-15.268587,-58.185571,28.487783,2366,481,False
+bullet 1+0,pooled,my_ep,log2(game number),-0.001819,-0.004281,0.000516,,,,,2366,481,False
+bullet 1+0,pooled,my_ep,minutes into session / 30,0.002273,-0.002025,0.007508,,,,,2366,481,False
+bullet 1+0,pooled,my_ep,previous game lost,0.003285,-0.001028,0.008059,,,,,2366,481,False
+bullet 1+0,pooled,my_ep,previous game won,-0.001136,-0.005601,0.003161,,,,,2366,481,False
+bullet 1+0,pooled,opp_ep,log2(game number),-0.000426,-0.002755,0.0018,,,,,2363,481,False
+bullet 1+0,pooled,opp_ep,minutes into session / 30,0.001804,-0.00213,0.006965,,,,,2363,481,False
+bullet 1+0,pooled,opp_ep,previous game lost,0.001213,-0.003205,0.005395,,,,,2363,481,False
+bullet 1+0,pooled,opp_ep,previous game won,-0.001793,-0.006249,0.002288,,,,,2363,481,False
+bullet 1+0,pooled,ep_gap,log2(game number),-0.001343,-0.002202,-0.000518,,,,,2363,481,False
+bullet 1+0,pooled,ep_gap,minutes into session / 30,0.000474,-0.00109,0.002157,,,,,2363,481,False
+bullet 1+0,pooled,ep_gap,previous game lost,0.002017,7.3e-05,0.004264,,,,,2363,481,False
+bullet 1+0,pooled,ep_gap,previous game won,0.000605,-0.001156,0.002614,,,,,2363,481,False
+bullet 1+0,within,excess,log2(game number),-0.003446,-0.035434,0.026647,0.50782,-2.39515,-24.641858,18.553539,2366,481,False
+bullet 1+0,within,excess,minutes into session / 30,-0.023205,-0.127452,0.090317,0.50782,-16.12814,-90.206015,63.654722,2366,481,False
+bullet 1+0,within,my_ep,log2(game number),-0.001761,-0.004026,0.000425,,,,,2366,481,False
+bullet 1+0,within,my_ep,minutes into session / 30,0.006972,0.001034,0.014141,,,,,2366,481,False
+bullet 1+0,within,opp_ep,log2(game number),-0.001367,-0.00349,0.000493,,,,,2363,481,False
+bullet 1+0,within,opp_ep,minutes into session / 30,0.006761,0.000619,0.0143,,,,,2363,481,False
+bullet 1+0,within,ep_gap,log2(game number),-0.000365,-0.001345,0.00069,,,,,2363,481,False
+bullet 1+0,within,ep_gap,minutes into session / 30,0.000172,-0.002409,0.002489,,,,,2363,481,False
+bullet 1+1,pooled,excess,log2(game number),0.093172,0.005649,0.181585,0.510643,65.805483,3.928299,133.411354,322,79,False
+bullet 1+1,pooled,excess,minutes into session / 30,-0.062952,-0.221477,0.120356,0.510643,-43.877788,-163.644684,85.803652,322,79,False
+bullet 1+1,pooled,excess,previous game lost,-0.119687,-0.270314,0.036816,0.510643,-84.40529,-207.323929,25.681101,322,79,False
+bullet 1+1,pooled,excess,previous game won,-0.1447,-0.320219,0.014768,0.510643,-102.882201,-258.811179,10.275878,322,79,False
+bullet 1+1,pooled,my_ep,log2(game number),-0.001877,-0.009401,0.004973,,,,,322,79,False
+bullet 1+1,pooled,my_ep,minutes into session / 30,0.007741,-0.007045,0.031367,,,,,322,79,False
+bullet 1+1,pooled,my_ep,previous game lost,0.006356,-0.004909,0.017479,,,,,322,79,False
+bullet 1+1,pooled,my_ep,previous game won,0.001547,-0.008891,0.012706,,,,,322,79,False
+bullet 1+1,pooled,opp_ep,log2(game number),-0.000229,-0.007629,0.005838,,,,,322,79,False
+bullet 1+1,pooled,opp_ep,minutes into session / 30,0.006791,-0.006668,0.028967,,,,,322,79,False
+bullet 1+1,pooled,opp_ep,previous game lost,0.004291,-0.006049,0.014,,,,,322,79,False
+bullet 1+1,pooled,opp_ep,previous game won,-0.001206,-0.010451,0.008689,,,,,322,79,False
+bullet 1+1,pooled,ep_gap,log2(game number),-0.001648,-0.004398,0.000909,,,,,322,79,False
+bullet 1+1,pooled,ep_gap,minutes into session / 30,0.000949,-0.004947,0.007121,,,,,322,79,False
+bullet 1+1,pooled,ep_gap,previous game lost,0.002065,-0.003066,0.006518,,,,,322,79,False
+bullet 1+1,pooled,ep_gap,previous game won,0.002753,-0.002747,0.008425,,,,,322,79,False
+bullet 1+1,within,excess,log2(game number),-0.049604,-0.151861,0.033631,0.510643,-34.524501,-108.266385,23.44854,322,79,False
+bullet 1+1,within,excess,minutes into session / 30,0.208533,0.02779,0.51606,0.510643,155.963689,19.362375,1192.429232,322,79,False
+bullet 1+1,within,my_ep,log2(game number),0.003282,-0.003426,0.010188,,,,,322,79,False
+bullet 1+1,within,my_ep,minutes into session / 30,-0.004773,-0.021544,0.016805,,,,,322,79,False
+bullet 1+1,within,opp_ep,log2(game number),0.002141,-0.004057,0.008114,,,,,322,79,False
+bullet 1+1,within,opp_ep,minutes into session / 30,-0.000406,-0.011261,0.016757,,,,,322,79,False
+bullet 1+1,within,ep_gap,log2(game number),0.001141,-0.001703,0.004314,,,,,322,79,False
+bullet 1+1,within,ep_gap,minutes into session / 30,-0.004368,-0.016679,0.005567,,,,,322,79,False
+bullet 2+1,pooled,excess,log2(game number),0.069513,-0.303081,0.211181,0.470017,48.385159,-258.392623,152.760136,65,22,True
+bullet 2+1,pooled,excess,minutes into session / 30,-0.135438,-0.32165,0.486615,0.470017,-98.579906,-282.706826,558.291117,65,22,True
+bullet 2+1,pooled,excess,previous game lost,-0.164145,-0.611661,0.614409,0.470017,-121.500313,-1178.966792,1220.685598,65,22,True
+bullet 2+1,pooled,excess,previous game won,-0.261605,-0.628641,0.457821,0.470017,-210.971008,-1178.966792,464.524747,65,22,True
+bullet 2+1,pooled,my_ep,log2(game number),0.000699,-0.029139,0.022236,,,,,65,22,True
+bullet 2+1,pooled,my_ep,minutes into session / 30,-0.001568,-0.022584,0.063875,,,,,65,22,True
+bullet 2+1,pooled,my_ep,previous game lost,0.005049,-0.040941,0.051329,,,,,65,22,True
+bullet 2+1,pooled,my_ep,previous game won,0.01468,-0.018127,0.049131,,,,,65,22,True
+bullet 2+1,pooled,opp_ep,log2(game number),0.002286,-0.023742,0.022757,,,,,65,22,True
+bullet 2+1,pooled,opp_ep,minutes into session / 30,-0.002632,-0.023172,0.053668,,,,,65,22,True
+bullet 2+1,pooled,opp_ep,previous game lost,-0.002822,-0.048097,0.050807,,,,,65,22,True
+bullet 2+1,pooled,opp_ep,previous game won,0.002383,-0.027075,0.036055,,,,,65,22,True
+bullet 2+1,pooled,ep_gap,log2(game number),-0.001587,-0.008572,0.005051,,,,,65,22,True
+bullet 2+1,pooled,ep_gap,minutes into session / 30,0.001064,-0.002178,0.012365,,,,,65,22,True
+bullet 2+1,pooled,ep_gap,previous game lost,0.007872,-0.011326,0.019647,,,,,65,22,True
+bullet 2+1,pooled,ep_gap,previous game won,0.012297,-0.007959,0.027993,,,,,65,22,True
+bullet 2+1,within,excess,log2(game number),-0.014918,-0.318082,0.1647,0.470017,-10.425179,-277.849236,116.839884,65,22,True
+bullet 2+1,within,excess,minutes into session / 30,-0.225963,-0.548474,0.472276,0.470017,-175.542764,-1178.966792,506.043015,65,22,True
+bullet 2+1,within,my_ep,log2(game number),-0.00704,-0.021704,0.007051,,,,,65,22,True
+bullet 2+1,within,my_ep,minutes into session / 30,0.007089,-0.008568,0.048986,,,,,65,22,True
+bullet 2+1,within,opp_ep,log2(game number),-0.008052,-0.025383,0.00449,,,,,65,22,True
+bullet 2+1,within,opp_ep,minutes into session / 30,0.001531,-0.017466,0.045339,,,,,65,22,True
+bullet 2+1,within,ep_gap,log2(game number),0.001012,-0.003991,0.009351,,,,,65,22,True
+bullet 2+1,within,ep_gap,minutes into session / 30,0.005559,-0.011696,0.014762,,,,,65,22,True
+blitz 3+0,pooled,excess,log2(game number),0.146598,-0.000779,0.284722,0.507672,105.476316,-0.541241,227.348949,142,46,False
+blitz 3+0,pooled,excess,minutes into session / 30,-0.271053,-0.505041,-0.108621,0.507672,-208.808084,-1036.841353,-76.45513,142,46,False
+blitz 3+0,pooled,excess,previous game lost,-0.136477,-0.379001,0.1541,0.507672,-96.897115,-337.61169,111.267678,142,46,False
+blitz 3+0,pooled,excess,previous game won,-0.076442,-0.299584,0.155518,0.507672,-53.422514,-237.50346,112.369863,142,46,False
+blitz 3+0,pooled,my_ep,log2(game number),-0.005817,-0.019263,0.006902,,,,,142,46,False
+blitz 3+0,pooled,my_ep,minutes into session / 30,0.002163,-0.015604,0.016767,,,,,142,46,False
+blitz 3+0,pooled,my_ep,previous game lost,0.010639,-0.010578,0.032053,,,,,142,46,False
+blitz 3+0,pooled,my_ep,previous game won,0.013109,-0.005874,0.035133,,,,,142,46,False
+blitz 3+0,pooled,opp_ep,log2(game number),-0.004887,-0.019289,0.009144,,,,,142,46,False
+blitz 3+0,pooled,opp_ep,minutes into session / 30,-0.001969,-0.02254,0.013576,,,,,142,46,False
+blitz 3+0,pooled,opp_ep,previous game lost,0.008948,-0.008587,0.028968,,,,,142,46,False
+blitz 3+0,pooled,opp_ep,previous game won,0.011613,-0.007786,0.033592,,,,,142,46,False
+blitz 3+0,pooled,ep_gap,log2(game number),-0.00093,-0.006272,0.004905,,,,,142,46,False
+blitz 3+0,pooled,ep_gap,minutes into session / 30,0.004131,-0.001669,0.011876,,,,,142,46,False
+blitz 3+0,pooled,ep_gap,previous game lost,0.001691,-0.010193,0.011795,,,,,142,46,False
+blitz 3+0,pooled,ep_gap,previous game won,0.001495,-0.007243,0.011656,,,,,142,46,False
+blitz 3+0,within,excess,log2(game number),-0.033496,-0.133101,0.10043,0.507672,-23.291525,-94.388848,70.990205,142,46,False
+blitz 3+0,within,excess,minutes into session / 30,-0.089361,-0.599245,0.177954,0.507672,-62.608174,-1205.157548,130.124919,142,46,False
+blitz 3+0,within,my_ep,log2(game number),0.004101,-0.003986,0.014579,,,,,142,46,False
+blitz 3+0,within,my_ep,minutes into session / 30,-0.007239,-0.033849,0.005352,,,,,142,46,False
+blitz 3+0,within,opp_ep,log2(game number),-0.000658,-0.009613,0.00933,,,,,142,46,False
+blitz 3+0,within,opp_ep,minutes into session / 30,-0.004933,-0.024205,0.006362,,,,,142,46,False
+blitz 3+0,within,ep_gap,log2(game number),0.004759,-0.000404,0.011174,,,,,142,46,False
+blitz 3+0,within,ep_gap,minutes into session / 30,-0.002306,-0.0207,0.009704,,,,,142,46,False
+blitz 3+2,pooled,excess,log2(game number),-0.017643,-0.082152,0.044102,0.503043,-12.262548,-57.550822,30.74247,999,346,False
+blitz 3+2,pooled,excess,minutes into session / 30,0.041273,-0.053406,0.125035,0.503043,28.760156,-37.229292,88.910494,999,346,False
+blitz 3+2,pooled,excess,previous game lost,0.02227,-0.078381,0.122024,0.503043,15.489473,-54.866301,86.674887,999,346,False
+blitz 3+2,pooled,excess,previous game won,0.059448,-0.040948,0.156042,0.503043,41.537216,-28.504421,112.4038,999,346,False
+blitz 3+2,pooled,my_ep,log2(game number),0.000615,-0.00348,0.005808,,,,,999,346,False
+blitz 3+2,pooled,my_ep,minutes into session / 30,-0.002659,-0.009732,0.002898,,,,,999,346,False
+blitz 3+2,pooled,my_ep,previous game lost,-0.003592,-0.011789,0.002994,,,,,999,346,False
+blitz 3+2,pooled,my_ep,previous game won,-0.003155,-0.011272,0.003831,,,,,999,346,False
+blitz 3+2,pooled,opp_ep,log2(game number),0.000125,-0.00399,0.004986,,,,,999,346,False
+blitz 3+2,pooled,opp_ep,minutes into session / 30,-0.001579,-0.00805,0.003903,,,,,999,346,False
+blitz 3+2,pooled,opp_ep,previous game lost,-0.00386,-0.011346,0.003549,,,,,999,346,False
+blitz 3+2,pooled,opp_ep,previous game won,-0.001191,-0.00838,0.005362,,,,,999,346,False
+blitz 3+2,pooled,ep_gap,log2(game number),0.00049,-0.00163,0.002708,,,,,999,346,False
+blitz 3+2,pooled,ep_gap,minutes into session / 30,-0.00108,-0.003888,0.001989,,,,,999,346,False
+blitz 3+2,pooled,ep_gap,previous game lost,0.000268,-0.003438,0.003718,,,,,999,346,False
+blitz 3+2,pooled,ep_gap,previous game won,-0.001964,-0.005483,0.001483,,,,,999,346,False
+blitz 3+2,within,excess,log2(game number),-0.007218,-0.072525,0.058893,0.503043,-5.015424,-50.709766,41.145103,999,346,False
+blitz 3+2,within,excess,minutes into session / 30,-0.030229,-0.145956,0.078354,0.503043,-21.023977,-104.265779,54.953441,999,346,False
+blitz 3+2,within,my_ep,log2(game number),-0.00128,-0.00507,0.003521,,,,,999,346,False
+blitz 3+2,within,my_ep,minutes into session / 30,0.002938,-0.005618,0.009589,,,,,999,346,False
+blitz 3+2,within,opp_ep,log2(game number),-0.001582,-0.005271,0.003168,,,,,999,346,False
+blitz 3+2,within,opp_ep,minutes into session / 30,0.003692,-0.003592,0.009238,,,,,999,346,False
+blitz 3+2,within,ep_gap,log2(game number),0.000302,-0.002068,0.00304,,,,,999,346,False
+blitz 3+2,within,ep_gap,minutes into session / 30,-0.000754,-0.005257,0.002355,,,,,999,346,False
+blitz 5+0,pooled,excess,log2(game number),0.249697,-0.171888,0.515622,0.458509,182.930798,-129.5077,659.229676,66,28,True
+blitz 5+0,pooled,excess,minutes into session / 30,-0.181618,-0.703289,0.149304,0.458509,-137.860824,-1170.928908,105.008005,66,28,True
+blitz 5+0,pooled,excess,previous game lost,-0.122226,-0.473909,0.392422,0.458509,-89.21405,-1170.928908,331.50017,66,28,True
+blitz 5+0,pooled,excess,previous game won,0.094381,-0.315276,0.793896,0.458509,65.786971,-281.830147,1228.723483,66,28,True
+blitz 5+0,pooled,my_ep,log2(game number),-0.027364,-0.046063,0.00607,,,,,66,28,True
+blitz 5+0,pooled,my_ep,minutes into session / 30,0.036409,-0.022338,0.057955,,,,,66,28,True
+blitz 5+0,pooled,my_ep,previous game lost,0.020584,-0.012075,0.049465,,,,,66,28,True
+blitz 5+0,pooled,my_ep,previous game won,0.005197,-0.029719,0.025941,,,,,66,28,True
+blitz 5+0,pooled,opp_ep,log2(game number),-0.021329,-0.046452,0.024253,,,,,66,28,True
+blitz 5+0,pooled,opp_ep,minutes into session / 30,0.028037,-0.055229,0.048399,,,,,66,28,True
+blitz 5+0,pooled,opp_ep,previous game lost,0.022242,-0.013048,0.058861,,,,,66,28,True
+blitz 5+0,pooled,opp_ep,previous game won,0.016084,-0.014331,0.048557,,,,,66,28,True
+blitz 5+0,pooled,ep_gap,log2(game number),-0.006035,-0.025059,0.008486,,,,,66,28,True
+blitz 5+0,pooled,ep_gap,minutes into session / 30,0.008372,-0.001932,0.041087,,,,,66,28,True
+blitz 5+0,pooled,ep_gap,previous game lost,-0.001657,-0.020165,0.010457,,,,,66,28,True
+blitz 5+0,pooled,ep_gap,previous game won,-0.010886,-0.043865,0.005479,,,,,66,28,True
+blitz 5+0,within,excess,log2(game number),0.207683,-0.058932,0.612576,0.458509,148.938352,-41.845275,1228.723483,66,28,True
+blitz 5+0,within,excess,minutes into session / 30,-0.23887,-1.764952,0.245721,0.458509,-191.336865,-1170.928908,179.601311,66,28,True
+blitz 5+0,within,my_ep,log2(game number),-0.016802,-0.036106,0.004757,,,,,66,28,True
+blitz 5+0,within,my_ep,minutes into session / 30,0.011857,-0.033871,0.039937,,,,,66,28,True
+blitz 5+0,within,opp_ep,log2(game number),0.00582,-0.016685,0.040726,,,,,66,28,True
+blitz 5+0,within,opp_ep,minutes into session / 30,-0.02562,-0.142282,0.012132,,,,,66,28,True
+blitz 5+0,within,ep_gap,log2(game number),-0.022622,-0.050344,-0.005998,,,,,66,28,True
+blitz 5+0,within,ep_gap,minutes into session / 30,0.037477,0.006903,0.123355,,,,,66,28,True
+blitz 5+2,pooled,excess,log2(game number),0.006289,-0.185059,0.69951,0.544083,4.409766,-131.399355,1169.114214,60,33,False
+blitz 5+2,pooled,excess,minutes into session / 30,-0.100894,-0.812477,0.184365,0.544083,-70.359108,-1230.538177,140.706449,60,33,False
+blitz 5+2,pooled,excess,previous game lost,0.037685,-0.57466,0.454952,0.544083,26.621236,-1230.538177,1169.114214,60,33,False
+blitz 5+2,pooled,excess,previous game won,0.097721,-0.827113,0.292009,0.544083,70.600915,-1230.538177,252.350219,60,33,False
+blitz 5+2,pooled,my_ep,log2(game number),-0.006651,-0.020183,0.046897,,,,,60,33,False
+blitz 5+2,pooled,my_ep,minutes into session / 30,0.008843,-0.154934,0.028436,,,,,60,33,False
+blitz 5+2,pooled,my_ep,previous game lost,0.029174,-0.009831,0.066166,,,,,60,33,False
+blitz 5+2,pooled,my_ep,previous game won,0.01128,-0.025701,0.050795,,,,,60,33,False
+blitz 5+2,pooled,opp_ep,log2(game number),-0.013041,-0.028407,0.051731,,,,,60,33,False
+blitz 5+2,pooled,opp_ep,minutes into session / 30,0.011289,-0.14504,0.028475,,,,,60,33,False
+blitz 5+2,pooled,opp_ep,previous game lost,0.042196,-0.014199,0.094402,,,,,60,33,False
+blitz 5+2,pooled,opp_ep,previous game won,0.019607,-0.038196,0.04509,,,,,60,33,False
+blitz 5+2,pooled,ep_gap,log2(game number),0.006389,-0.014125,0.014618,,,,,60,33,False
+blitz 5+2,pooled,ep_gap,minutes into session / 30,-0.002446,-0.028906,0.022634,,,,,60,33,False
+blitz 5+2,pooled,ep_gap,previous game lost,-0.013023,-0.035625,0.014665,,,,,60,33,False
+blitz 5+2,pooled,ep_gap,previous game won,-0.008328,-0.016631,0.031379,,,,,60,33,False
+blitz 5+2,within,excess,log2(game number),0.330789,0.005281,0.673359,0.544083,307.125225,3.702121,1169.114214,60,33,False
+blitz 5+2,within,excess,minutes into session / 30,-0.517021,-0.882922,0.27392,0.544083,-652.997305,-1230.538177,230.365001,60,33,False
+blitz 5+2,within,my_ep,log2(game number),0.006141,-0.012624,0.04773,,,,,60,33,False
+blitz 5+2,within,my_ep,minutes into session / 30,0.005221,-0.123239,0.03306,,,,,60,33,False
+blitz 5+2,within,opp_ep,log2(game number),0.013774,-0.013942,0.050681,,,,,60,33,False
+blitz 5+2,within,opp_ep,minutes into session / 30,-0.011296,-0.091877,0.038259,,,,,60,33,False
+blitz 5+2,within,ep_gap,log2(game number),-0.007633,-0.013608,0.01465,,,,,60,33,False
+blitz 5+2,within,ep_gap,minutes into session / 30,0.016517,-0.067373,0.028388,,,,,60,33,False
+blitz 5+5,pooled,excess,log2(game number),-0.046985,-0.206938,0.359548,0.474296,-32.99289,-157.243089,298.104307,93,42,False
+blitz 5+5,pooled,excess,minutes into session / 30,-0.128251,-0.688771,0.087403,0.474296,-92.689218,-1181.949258,60.969507,93,42,False
+blitz 5+5,pooled,excess,previous game lost,0.100379,-0.362684,0.293897,0.474296,70.156926,-342.48033,226.014261,93,42,False
+blitz 5+5,pooled,excess,previous game won,0.012035,-0.486352,0.263163,0.474296,8.375847,-1181.949258,197.292669,93,42,False
+blitz 5+5,pooled,my_ep,log2(game number),0.009587,-0.0218,0.028385,,,,,93,42,False
+blitz 5+5,pooled,my_ep,minutes into session / 30,-4.3e-05,-0.026564,0.029747,,,,,93,42,False
+blitz 5+5,pooled,my_ep,previous game lost,-0.018318,-0.042892,0.022525,,,,,93,42,False
+blitz 5+5,pooled,my_ep,previous game won,-0.024263,-0.051412,0.018119,,,,,93,42,False
+blitz 5+5,pooled,opp_ep,log2(game number),0.012037,-0.021477,0.037477,,,,,93,42,False
+blitz 5+5,pooled,opp_ep,minutes into session / 30,-0.007182,-0.04579,0.027233,,,,,93,42,False
+blitz 5+5,pooled,opp_ep,previous game lost,-0.018942,-0.041007,0.018656,,,,,93,42,False
+blitz 5+5,pooled,opp_ep,previous game won,-0.022818,-0.053108,0.018999,,,,,93,42,False
+blitz 5+5,pooled,ep_gap,log2(game number),-0.002449,-0.018081,0.009,,,,,93,42,False
+blitz 5+5,pooled,ep_gap,minutes into session / 30,0.007139,-0.005979,0.030263,,,,,93,42,False
+blitz 5+5,pooled,ep_gap,previous game lost,0.000624,-0.011864,0.015152,,,,,93,42,False
+blitz 5+5,pooled,ep_gap,previous game won,-0.001445,-0.014332,0.014539,,,,,93,42,False
+blitz 5+5,within,excess,log2(game number),0.082315,-0.208734,0.309918,0.474296,57.383453,-158.838802,242.041135,93,42,False
+blitz 5+5,within,excess,minutes into session / 30,-0.265278,-0.643523,0.221405,0.474296,-213.316914,-1181.949258,161.525199,93,42,False
+blitz 5+5,within,my_ep,log2(game number),-0.011185,-0.036616,0.006378,,,,,93,42,False
+blitz 5+5,within,my_ep,minutes into session / 30,0.012517,-0.022716,0.0451,,,,,93,42,False
+blitz 5+5,within,opp_ep,log2(game number),-0.006285,-0.025482,0.011216,,,,,93,42,False
+blitz 5+5,within,opp_ep,minutes into session / 30,0.004122,-0.03144,0.036034,,,,,93,42,False
+blitz 5+5,within,ep_gap,log2(game number),-0.0049,-0.014385,0.0038,,,,,93,42,False
+blitz 5+5,within,ep_gap,minutes into session / 30,0.008395,-0.003193,0.02243,,,,,93,42,False
+rapid 10+0,pooled,excess,log2(game number),0.069025,-0.038752,0.200927,0.512277,48.467953,-26.946862,149.723979,394,150,False
+rapid 10+0,pooled,excess,minutes into session / 30,-0.040266,-0.178265,0.102178,0.512277,-28.001408,-128.414707,72.433535,394,150,False
+rapid 10+0,pooled,excess,previous game lost,-0.11016,-0.310134,0.09202,0.512277,-77.438399,-247.039055,65.019663,394,150,False
+rapid 10+0,pooled,excess,previous game won,-0.038223,-0.194384,0.106764,0.512277,-26.57822,-141.161465,75.80403,394,150,False
+rapid 10+0,pooled,my_ep,log2(game number),-0.007885,-0.014953,-0.000972,,,,,392,150,False
+rapid 10+0,pooled,my_ep,minutes into session / 30,0.003479,-0.004981,0.01133,,,,,392,150,False
+rapid 10+0,pooled,my_ep,previous game lost,0.012332,0.000805,0.025181,,,,,392,150,False
+rapid 10+0,pooled,my_ep,previous game won,0.003806,-0.006243,0.014068,,,,,392,150,False
+rapid 10+0,pooled,opp_ep,log2(game number),-0.00711,-0.014747,0.000871,,,,,394,150,False
+rapid 10+0,pooled,opp_ep,minutes into session / 30,0.005132,-0.004959,0.017636,,,,,394,150,False
+rapid 10+0,pooled,opp_ep,previous game lost,0.010899,-0.001878,0.023175,,,,,394,150,False
+rapid 10+0,pooled,opp_ep,previous game won,0.002747,-0.007382,0.012921,,,,,394,150,False
+rapid 10+0,pooled,ep_gap,log2(game number),-0.001195,-0.007032,0.004222,,,,,392,150,False
+rapid 10+0,pooled,ep_gap,minutes into session / 30,-0.001433,-0.008905,0.005493,,,,,392,150,False
+rapid 10+0,pooled,ep_gap,previous game lost,0.002726,-0.00544,0.010884,,,,,392,150,False
+rapid 10+0,pooled,ep_gap,previous game won,0.001624,-0.005334,0.00904,,,,,392,150,False
+rapid 10+0,within,excess,log2(game number),0.009898,-0.074328,0.101164,0.512277,6.8865,-51.873487,71.690187,394,150,False
+rapid 10+0,within,excess,minutes into session / 30,-0.127194,-0.258135,0.069909,0.512277,-89.837148,-195.564349,49.09922,394,150,False
+rapid 10+0,within,my_ep,log2(game number),0.001135,-0.004997,0.007808,,,,,392,150,False
+rapid 10+0,within,my_ep,minutes into session / 30,-0.001633,-0.013075,0.008732,,,,,392,150,False
+rapid 10+0,within,opp_ep,log2(game number),0.001915,-0.004741,0.008624,,,,,394,150,False
+rapid 10+0,within,opp_ep,minutes into session / 30,-0.004104,-0.015235,0.006985,,,,,394,150,False
+rapid 10+0,within,ep_gap,log2(game number),-0.000507,-0.005379,0.004681,,,,,392,150,False
+rapid 10+0,within,ep_gap,minutes into session / 30,0.002268,-0.00762,0.009604,,,,,392,150,False
+all games,pooled,excess,log2(game number),0.0405,0.018408,0.065365,0.505871,28.235066,12.804621,45.759336,4507,1118,False
+all games,pooled,excess,minutes into session / 30,-0.032449,-0.079281,0.008882,0.505871,-22.565374,-55.461357,6.174504,4507,1118,False
+all games,pooled,excess,previous game lost,-0.053693,-0.095263,-0.005615,0.505871,-37.41201,-66.87046,-3.901906,4507,1118,False
+all games,pooled,excess,previous game won,-0.011994,-0.056337,0.026279,0.505871,-8.33488,-39.266883,18.291493,4507,1118,False
+all games,pooled,my_ep,log2(game number),-0.001762,-0.003662,-0.000259,,,,,4505,1118,False
+all games,pooled,my_ep,minutes into session / 30,0.001902,-0.000626,0.00529,,,,,4505,1118,False
+all games,pooled,my_ep,previous game lost,0.002509,-0.000523,0.005798,,,,,4505,1118,False
+all games,pooled,my_ep,previous game won,-0.00115,-0.004216,0.002011,,,,,4505,1118,False
+all games,pooled,opp_ep,log2(game number),-0.000688,-0.002517,0.000859,,,,,4504,1118,False
+all games,pooled,opp_ep,minutes into session / 30,0.001526,-0.001143,0.004686,,,,,4504,1118,False
+all games,pooled,opp_ep,previous game lost,0.000943,-0.002144,0.00402,,,,,4504,1118,False
+all games,pooled,opp_ep,previous game won,-0.001314,-0.004503,0.001548,,,,,4504,1118,False
+all games,pooled,ep_gap,log2(game number),-0.001056,-0.001788,-0.000377,,,,,4502,1118,False
+all games,pooled,ep_gap,minutes into session / 30,0.000377,-0.00068,0.001615,,,,,4502,1118,False
+all games,pooled,ep_gap,previous game lost,0.001617,0.000196,0.003036,,,,,4502,1118,False
+all games,pooled,ep_gap,previous game won,0.000162,-0.001169,0.001643,,,,,4502,1118,False
+all games,within,excess,log2(game number),-0.00183,-0.024057,0.024177,0.505871,-1.271731,-16.722514,16.824773,4507,1118,False
+all games,within,excess,minutes into session / 30,-0.028723,-0.088368,0.027501,0.505871,-19.969893,-61.933276,19.14397,4507,1118,False
+all games,within,my_ep,log2(game number),-0.000972,-0.002715,0.000612,,,,,4505,1118,False
+all games,within,my_ep,minutes into session / 30,0.002284,-0.001309,0.005491,,,,,4505,1118,False
+all games,within,opp_ep,log2(game number),-0.000741,-0.002405,0.000692,,,,,4504,1118,False
+all games,within,opp_ep,minutes into session / 30,0.002223,-0.001079,0.005435,,,,,4504,1118,False
+all games,within,ep_gap,log2(game number),-0.000199,-0.001019,0.000686,,,,,4502,1118,False
+all games,within,ep_gap,minutes into session / 30,4.7e-05,-0.001804,0.001644,,,,,4502,1118,False

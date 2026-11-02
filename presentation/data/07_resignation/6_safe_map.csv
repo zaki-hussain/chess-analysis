@@ -1,0 +1,97 @@
+tc_group,pooled,clock_measure,side,other_clock,cp_bin,score,score_lo,score_hi,model_ev,score_minus_model,positions,games,resignations,thin
+rapid 10+0,False,seconds left,player,<10 s,-10 to -5,0.5,,,0.5368,-0.0368,1,1,0,True
+rapid 10+0,False,seconds left,player,<10 s,-1 or better,1.0,1.0,1.0,0.984099,0.015901,87,7,0,True
+rapid 10+0,False,seconds left,player,10-30 s,-20 to -10,0.5,,,0.283975,0.216025,2,1,0,True
+rapid 10+0,False,seconds left,player,10-30 s,-10 to -5,0.666667,0.5,1.0,0.543946,0.122721,12,2,0,True
+rapid 10+0,False,seconds left,player,10-30 s,-3 to -1,1.0,,,0.78315,0.21685,1,1,0,True
+rapid 10+0,False,seconds left,player,10-30 s,-1 or better,1.0,1.0,1.0,0.955391,0.044609,84,9,1,True
+rapid 10+0,False,seconds left,player,30+ s,mate or -20,0.115975,0.06033,0.186415,0.061396,0.054579,1108,101,18,False
+rapid 10+0,False,seconds left,player,30+ s,-20 to -10,0.108696,0.035193,0.212521,0.064488,0.044207,69,29,4,True
+rapid 10+0,False,seconds left,player,30+ s,-10 to -5,0.26947,0.187878,0.35819,0.13526,0.134211,1284,125,87,False
+rapid 10+0,False,seconds left,player,30+ s,-5 to -3,0.51969,0.428202,0.625265,0.310742,0.208948,1549,170,33,False
+rapid 10+0,False,seconds left,player,30+ s,-3 to -1,0.661006,0.588883,0.745739,0.436436,0.224571,1590,240,7,False
+rapid 10+0,False,seconds left,player,30+ s,-1 or better,0.824118,0.790919,0.859737,0.690432,0.133686,20130,419,11,False
+all bullet,True,seconds left,player,<10 s,mate or -20,0.317943,0.270674,0.36214,0.292345,0.025598,4765,518,1,False
+all bullet,True,seconds left,player,<10 s,-20 to -10,0.457303,0.3692,0.536643,0.415686,0.041618,445,192,0,False
+all bullet,True,seconds left,player,<10 s,-10 to -5,0.602357,0.55919,0.648418,0.537964,0.064393,4455,661,1,False
+all bullet,True,seconds left,player,<10 s,-5 to -3,0.743437,0.685407,0.793242,0.67776,0.065676,1676,394,0,False
+all bullet,True,seconds left,player,<10 s,-3 to -1,0.777036,0.703044,0.833923,0.711867,0.065169,749,240,0,False
+all bullet,True,seconds left,player,<10 s,-1 or better,0.776734,0.751339,0.803389,0.768705,0.008029,14906,1270,0,False
+all bullet,True,seconds left,player,10-30 s,mate or -20,0.11294,0.088764,0.140015,0.101755,0.011185,4830,656,11,False
+all bullet,True,seconds left,player,10-30 s,-20 to -10,0.183556,0.133076,0.238274,0.157821,0.025736,523,251,5,False
+all bullet,True,seconds left,player,10-30 s,-10 to -5,0.324029,0.292623,0.356128,0.272424,0.051605,10246,1104,21,False
+all bullet,True,seconds left,player,10-30 s,-5 to -3,0.453909,0.413627,0.493419,0.410438,0.043471,5641,993,1,False
+all bullet,True,seconds left,player,10-30 s,-3 to -1,0.51265,0.468137,0.557093,0.476492,0.036158,3083,739,1,False
+all bullet,True,seconds left,player,10-30 s,-1 or better,0.645354,0.621332,0.66656,0.617705,0.027649,32383,2016,0,False
+all bullet,True,seconds left,player,30+ s,mate or -20,0.092941,0.063766,0.127028,0.098538,-0.005597,1275,377,18,False
+all bullet,True,seconds left,player,30+ s,-20 to -10,0.123494,0.065476,0.191176,0.114785,0.008709,166,80,5,False
+all bullet,True,seconds left,player,30+ s,-10 to -5,0.278802,0.243871,0.314317,0.226461,0.052341,7109,960,116,False
+all bullet,True,seconds left,player,30+ s,-5 to -3,0.433184,0.400771,0.467314,0.345226,0.087958,8284,1484,33,False
+all bullet,True,seconds left,player,30+ s,-3 to -1,0.462351,0.431672,0.486592,0.426568,0.035784,12869,2028,6,False
+all bullet,True,seconds left,player,30+ s,-1 or better,0.565214,0.544464,0.584246,0.527463,0.037751,92289,3186,7,False
+all blitz,True,seconds left,player,<10 s,mate or -20,0.186099,0.09438,0.32898,0.169804,0.016295,223,37,0,False
+all blitz,True,seconds left,player,<10 s,-20 to -10,0.181818,0.0,0.5,0.191055,-0.009236,11,6,0,True
+all blitz,True,seconds left,player,<10 s,-10 to -5,0.558419,0.401644,0.714511,0.472049,0.08637,291,53,1,False
+all blitz,True,seconds left,player,<10 s,-5 to -3,0.807107,0.691667,0.904678,0.690584,0.116523,197,47,0,False
+all blitz,True,seconds left,player,<10 s,-3 to -1,0.745455,0.5,0.908291,0.720137,0.025317,55,22,0,True
+all blitz,True,seconds left,player,<10 s,-1 or better,0.830805,0.751193,0.90555,0.830726,7.9e-05,1714,166,0,False
+all blitz,True,seconds left,player,10-30 s,mate or -20,0.091588,0.045189,0.149755,0.082486,0.009101,1474,98,3,False
+all blitz,True,seconds left,player,10-30 s,-20 to -10,0.174528,0.06029,0.325787,0.139759,0.034769,106,40,0,False
+all blitz,True,seconds left,player,10-30 s,-10 to -5,0.214075,0.145344,0.290598,0.239185,-0.02511,1016,123,7,False
+all blitz,True,seconds left,player,10-30 s,-5 to -3,0.501046,0.387564,0.616994,0.467669,0.033377,478,98,1,False
+all blitz,True,seconds left,player,10-30 s,-3 to -1,0.694595,0.540613,0.820649,0.578944,0.11565,185,63,0,False
+all blitz,True,seconds left,player,10-30 s,-1 or better,0.791407,0.742578,0.838058,0.777281,0.014126,4818,292,0,False
+all blitz,True,seconds left,player,30+ s,mate or -20,0.072512,0.049927,0.097868,0.066161,0.006351,4020,409,46,False
+all blitz,True,seconds left,player,30+ s,-20 to -10,0.108696,0.053402,0.174177,0.099539,0.009157,299,115,6,False
+all blitz,True,seconds left,player,30+ s,-10 to -5,0.219856,0.17839,0.263656,0.154794,0.065062,5822,523,229,False
+all blitz,True,seconds left,player,30+ s,-5 to -3,0.413866,0.370879,0.461382,0.307008,0.106858,5921,757,81,False
+all blitz,True,seconds left,player,30+ s,-3 to -1,0.522487,0.484649,0.560444,0.409664,0.112823,7382,1005,16,False
+all blitz,True,seconds left,player,30+ s,-1 or better,0.692156,0.670839,0.715069,0.614096,0.078059,66748,1575,10,False
+rapid 10+0,False,buffer beyond increment,player,<10 s,-10 to -5,0.5,,,0.5368,-0.0368,1,1,0,True
+rapid 10+0,False,buffer beyond increment,player,<10 s,-1 or better,1.0,1.0,1.0,0.984099,0.015901,87,7,0,True
+rapid 10+0,False,buffer beyond increment,player,10-30 s,-20 to -10,0.5,,,0.283975,0.216025,2,1,0,True
+rapid 10+0,False,buffer beyond increment,player,10-30 s,-10 to -5,0.666667,0.5,1.0,0.543946,0.122721,12,2,0,True
+rapid 10+0,False,buffer beyond increment,player,10-30 s,-3 to -1,1.0,,,0.78315,0.21685,1,1,0,True
+rapid 10+0,False,buffer beyond increment,player,10-30 s,-1 or better,1.0,1.0,1.0,0.955391,0.044609,84,9,1,True
+rapid 10+0,False,buffer beyond increment,player,30+ s,mate or -20,0.115975,0.06033,0.186415,0.061396,0.054579,1108,101,18,False
+rapid 10+0,False,buffer beyond increment,player,30+ s,-20 to -10,0.108696,0.035193,0.212521,0.064488,0.044207,69,29,4,True
+rapid 10+0,False,buffer beyond increment,player,30+ s,-10 to -5,0.26947,0.187878,0.35819,0.13526,0.134211,1284,125,87,False
+rapid 10+0,False,buffer beyond increment,player,30+ s,-5 to -3,0.51969,0.428202,0.625265,0.310742,0.208948,1549,170,33,False
+rapid 10+0,False,buffer beyond increment,player,30+ s,-3 to -1,0.661006,0.588883,0.745739,0.436436,0.224571,1590,240,7,False
+rapid 10+0,False,buffer beyond increment,player,30+ s,-1 or better,0.824118,0.790919,0.859737,0.690432,0.133686,20130,419,11,False
+all bullet,True,buffer beyond increment,player,<10 s,mate or -20,0.315998,0.272244,0.362432,0.290561,0.025436,4807,521,1,False
+all bullet,True,buffer beyond increment,player,<10 s,-20 to -10,0.453642,0.362779,0.549036,0.411343,0.042299,453,197,0,False
+all bullet,True,buffer beyond increment,player,<10 s,-10 to -5,0.598181,0.556176,0.643609,0.534491,0.063689,4507,667,1,False
+all bullet,True,buffer beyond increment,player,<10 s,-5 to -3,0.73586,0.683602,0.787371,0.674384,0.061476,1715,399,0,False
+all bullet,True,buffer beyond increment,player,<10 s,-3 to -1,0.769935,0.705699,0.830272,0.707898,0.062036,765,243,0,False
+all bullet,True,buffer beyond increment,player,<10 s,-1 or better,0.777093,0.750787,0.801547,0.768523,0.00857,15087,1279,0,False
+all bullet,True,buffer beyond increment,player,10-30 s,mate or -20,0.113452,0.089248,0.141095,0.101972,0.01148,4795,654,11,False
+all bullet,True,buffer beyond increment,player,10-30 s,-20 to -10,0.18314,0.13105,0.243712,0.15778,0.025359,516,249,5,False
+all bullet,True,buffer beyond increment,player,10-30 s,-10 to -5,0.324228,0.289535,0.356351,0.272225,0.052002,10232,1103,25,False
+all bullet,True,buffer beyond increment,player,10-30 s,-5 to -3,0.454037,0.418458,0.493047,0.409002,0.045035,5635,994,1,False
+all bullet,True,buffer beyond increment,player,10-30 s,-3 to -1,0.511824,0.46534,0.553968,0.475906,0.035918,3087,739,1,False
+all bullet,True,buffer beyond increment,player,10-30 s,-1 or better,0.644963,0.620774,0.6689,0.617347,0.027615,32360,2017,0,False
+all bullet,True,buffer beyond increment,player,30+ s,mate or -20,0.091483,0.059464,0.129168,0.09815,-0.006667,1268,376,18,False
+all bullet,True,buffer beyond increment,player,30+ s,-20 to -10,0.121212,0.063894,0.190975,0.114071,0.007142,165,80,5,False
+all bullet,True,buffer beyond increment,player,30+ s,-10 to -5,0.278886,0.244415,0.312541,0.226761,0.052124,7071,955,112,False
+all bullet,True,buffer beyond increment,player,30+ s,-5 to -3,0.43322,0.399437,0.462886,0.345384,0.087836,8251,1482,33,False
+all bullet,True,buffer beyond increment,player,30+ s,-3 to -1,0.462565,0.433081,0.489111,0.426574,0.035991,12849,2027,6,False
+all bullet,True,buffer beyond increment,player,30+ s,-1 or better,0.564897,0.544193,0.583878,0.527167,0.03773,92131,3186,7,False
+all blitz,True,buffer beyond increment,player,<10 s,mate or -20,0.158576,0.069798,0.266337,0.14948,0.009096,309,46,0,False
+all blitz,True,buffer beyond increment,player,<10 s,-20 to -10,0.125,0.006985,0.333333,0.149672,-0.024673,20,8,0,True
+all blitz,True,buffer beyond increment,player,<10 s,-10 to -5,0.47066,0.344374,0.62023,0.415449,0.055211,409,65,1,False
+all blitz,True,buffer beyond increment,player,<10 s,-5 to -3,0.76494,0.658612,0.858697,0.652986,0.111954,251,57,1,False
+all blitz,True,buffer beyond increment,player,<10 s,-3 to -1,0.74359,0.536232,0.877853,0.697114,0.046476,78,27,0,True
+all blitz,True,buffer beyond increment,player,<10 s,-1 or better,0.819469,0.744664,0.888798,0.815569,0.003901,2224,190,0,False
+all blitz,True,buffer beyond increment,player,10-30 s,mate or -20,0.093833,0.047786,0.154709,0.081804,0.012029,1508,101,3,False
+all blitz,True,buffer beyond increment,player,10-30 s,-20 to -10,0.18,0.05075,0.338542,0.141673,0.038327,100,38,0,False
+all blitz,True,buffer beyond increment,player,10-30 s,-10 to -5,0.212198,0.143311,0.292844,0.230379,-0.018181,992,120,7,False
+all blitz,True,buffer beyond increment,player,10-30 s,-5 to -3,0.479348,0.357534,0.598879,0.451004,0.028344,460,95,0,False
+all blitz,True,buffer beyond increment,player,10-30 s,-3 to -1,0.68306,0.547047,0.807667,0.569985,0.113075,183,64,0,False
+all blitz,True,buffer beyond increment,player,10-30 s,-1 or better,0.794497,0.740226,0.844598,0.78121,0.013287,4652,295,0,False
+all blitz,True,buffer beyond increment,player,30+ s,mate or -20,0.071154,0.047754,0.09446,0.065607,0.005546,3900,403,46,False
+all blitz,True,buffer beyond increment,player,30+ s,-20 to -10,0.109797,0.054237,0.168742,0.099721,0.010076,296,114,6,False
+all blitz,True,buffer beyond increment,player,30+ s,-10 to -5,0.219448,0.181144,0.26161,0.154178,0.06527,5728,517,229,False
+all blitz,True,buffer beyond increment,player,30+ s,-5 to -3,0.414019,0.369282,0.462503,0.306886,0.107132,5885,755,81,False
+all blitz,True,buffer beyond increment,player,30+ s,-3 to -1,0.522144,0.484198,0.559908,0.409207,0.112937,7361,1005,16,False
+all blitz,True,buffer beyond increment,player,30+ s,-1 or better,0.691502,0.670178,0.71467,0.613073,0.078429,66404,1575,10,False

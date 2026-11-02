@@ -1,0 +1,111 @@
+tc_group,side,how,share_of_lost_positions,share_of_lost_positions_lo,share_of_lost_positions_hi,share_of_saves,saves_of_this_kind,saves,cases,thin,thin_share_of_saves
+bullet 1+0,player,won on time,0.107433,0.091327,0.121546,0.490028,172,351,1601,False,False
+bullet 1+0,player,won on the board,0.043723,0.033933,0.054808,0.19943,70,351,1601,False,False
+bullet 1+0,player,drawn on time,0.044972,0.03474,0.054005,0.205128,72,351,1601,False,False
+bullet 1+0,player,drawn by stalemate,0.013741,0.00835,0.019627,0.062678,22,351,1601,False,False
+bullet 1+0,player,drawn otherwise,0.009369,0.005024,0.014086,0.042735,15,351,1601,False,False
+bullet 1+0,opponent,won on time,0.06116,0.050133,0.072448,0.354015,97,274,1586,False,False
+bullet 1+0,opponent,won on the board,0.04918,0.039434,0.059613,0.284672,78,274,1586,False,False
+bullet 1+0,opponent,drawn on time,0.043506,0.03356,0.05311,0.251825,69,274,1586,False,False
+bullet 1+0,opponent,drawn by stalemate,0.01261,0.007239,0.017898,0.072993,20,274,1586,False,False
+bullet 1+0,opponent,drawn otherwise,0.006305,0.002531,0.010651,0.036496,10,274,1586,False,False
+bullet 1+1,player,won on time,0.085714,0.049066,0.121431,0.409091,18,44,210,False,False
+bullet 1+1,player,won on the board,0.066667,0.034992,0.099775,0.318182,14,44,210,False,False
+bullet 1+1,player,drawn on time,0.019048,0.004444,0.038583,0.090909,4,44,210,False,False
+bullet 1+1,player,drawn by stalemate,0.014286,0.0,0.030465,0.068182,3,44,210,False,False
+bullet 1+1,player,drawn otherwise,0.02381,0.004796,0.044015,0.113636,5,44,210,False,False
+bullet 1+1,opponent,won on time,0.06701,0.031826,0.1066,0.448276,13,29,194,False,True
+bullet 1+1,opponent,won on the board,0.025773,0.005374,0.050807,0.172414,5,29,194,False,True
+bullet 1+1,opponent,drawn on time,0.020619,0.004925,0.040926,0.137931,4,29,194,False,True
+bullet 1+1,opponent,drawn by stalemate,0.015464,0.0,0.031959,0.103448,3,29,194,False,True
+bullet 1+1,opponent,drawn otherwise,0.020619,0.00495,0.043147,0.137931,4,29,194,False,True
+bullet 2+1,player,won on time,0.038462,0.0,0.103157,0.181818,2,11,52,False,True
+bullet 2+1,player,won on the board,0.096154,0.034463,0.184801,0.454545,5,11,52,False,True
+bullet 2+1,player,drawn on time,0.0,0.0,0.0,0.0,0,11,52,False,True
+bullet 2+1,player,drawn by stalemate,0.019231,0.0,0.06,0.090909,1,11,52,False,True
+bullet 2+1,player,drawn otherwise,0.057692,0.0,0.11817,0.272727,3,11,52,False,True
+bullet 2+1,opponent,won on time,0.09375,0.0,0.213258,0.375,3,8,32,False,True
+bullet 2+1,opponent,won on the board,0.03125,0.0,0.096774,0.125,1,8,32,False,True
+bullet 2+1,opponent,drawn on time,0.0,0.0,0.0,0.0,0,8,32,False,True
+bullet 2+1,opponent,drawn by stalemate,0.03125,0.0,0.104401,0.125,1,8,32,False,True
+bullet 2+1,opponent,drawn otherwise,0.09375,0.0,0.2,0.375,3,8,32,False,True
+blitz 3+0,player,won on time,0.05102,0.011047,0.095,0.208333,5,24,98,False,True
+blitz 3+0,player,won on the board,0.112245,0.052632,0.167533,0.458333,11,24,98,False,True
+blitz 3+0,player,drawn on time,0.010204,0.0,0.032989,0.041667,1,24,98,False,True
+blitz 3+0,player,drawn by stalemate,0.010204,0.0,0.031097,0.041667,1,24,98,False,True
+blitz 3+0,player,drawn otherwise,0.061224,0.019314,0.112805,0.25,6,24,98,False,True
+blitz 3+0,opponent,won on time,0.03125,0.007379,0.064271,0.222222,4,18,128,False,True
+blitz 3+0,opponent,won on the board,0.054688,0.018574,0.100042,0.388889,7,18,128,False,True
+blitz 3+0,opponent,drawn on time,0.007812,0.0,0.025028,0.055556,1,18,128,False,True
+blitz 3+0,opponent,drawn by stalemate,0.007812,0.0,0.02391,0.055556,1,18,128,False,True
+blitz 3+0,opponent,drawn otherwise,0.039062,0.007838,0.076027,0.277778,5,18,128,False,True
+blitz 3+2,player,won on time,0.036145,0.023432,0.048797,0.155172,27,174,747,False,False
+blitz 3+2,player,won on the board,0.116466,0.093689,0.139111,0.5,87,174,747,False,False
+blitz 3+2,player,drawn on time,0.001339,0.0,0.004022,0.005747,1,174,747,False,False
+blitz 3+2,player,drawn by stalemate,0.029451,0.015899,0.04104,0.126437,22,174,747,False,False
+blitz 3+2,player,drawn otherwise,0.049531,0.034727,0.067641,0.212644,37,174,747,False,False
+blitz 3+2,opponent,won on time,0.017356,0.008673,0.027818,0.099237,13,131,749,False,False
+blitz 3+2,opponent,won on the board,0.074766,0.055991,0.095079,0.427481,56,131,749,False,False
+blitz 3+2,opponent,drawn on time,0.001335,0.0,0.004049,0.007634,1,131,749,False,False
+blitz 3+2,opponent,drawn by stalemate,0.032043,0.019282,0.044566,0.183206,24,131,749,False,False
+blitz 3+2,opponent,drawn otherwise,0.049399,0.036262,0.06797,0.282443,37,131,749,False,False
+blitz 5+0,player,won on time,0.015873,0.0,0.054613,0.1,1,10,63,False,True
+blitz 5+0,player,won on the board,0.079365,0.01612,0.151783,0.5,5,10,63,False,True
+blitz 5+0,player,drawn on time,0.015873,0.0,0.056478,0.1,1,10,63,False,True
+blitz 5+0,player,drawn by stalemate,0.031746,0.0,0.080339,0.2,2,10,63,False,True
+blitz 5+0,player,drawn otherwise,0.015873,0.0,0.050847,0.1,1,10,63,False,True
+blitz 5+0,opponent,won on time,0.114286,0.022208,0.232115,0.571429,4,7,35,False,True
+blitz 5+0,opponent,won on the board,0.028571,0.0,0.09375,0.142857,1,7,35,False,True
+blitz 5+0,opponent,drawn on time,0.028571,0.0,0.104257,0.142857,1,7,35,False,True
+blitz 5+0,opponent,drawn by stalemate,0.028571,0.0,0.098841,0.142857,1,7,35,False,True
+blitz 5+0,opponent,drawn otherwise,0.0,0.0,0.0,0.0,0,7,35,False,True
+blitz 5+2,player,won on time,0.0,0.0,0.0,0.0,0,15,57,False,True
+blitz 5+2,player,won on the board,0.105263,0.033333,0.196416,0.4,6,15,57,False,True
+blitz 5+2,player,drawn on time,0.0,0.0,0.0,0.0,0,15,57,False,True
+blitz 5+2,player,drawn by stalemate,0.070175,0.016393,0.13761,0.266667,4,15,57,False,True
+blitz 5+2,player,drawn otherwise,0.087719,0.019608,0.168013,0.333333,5,15,57,False,True
+blitz 5+2,opponent,won on time,0.0,0.0,0.0,0.0,0,10,63,False,True
+blitz 5+2,opponent,won on the board,0.063492,0.014697,0.128059,0.4,4,10,63,False,True
+blitz 5+2,opponent,drawn on time,0.0,0.0,0.0,0.0,0,10,63,False,True
+blitz 5+2,opponent,drawn by stalemate,0.063492,0.013514,0.125,0.4,4,10,63,False,True
+blitz 5+2,opponent,drawn otherwise,0.031746,0.0,0.081339,0.2,2,10,63,False,True
+blitz 5+5,player,won on time,0.0,0.0,0.0,0.0,0,15,73,False,True
+blitz 5+5,player,won on the board,0.123288,0.050633,0.2,0.6,9,15,73,False,True
+blitz 5+5,player,drawn on time,0.0,0.0,0.0,0.0,0,15,73,False,True
+blitz 5+5,player,drawn by stalemate,0.041096,0.0,0.092969,0.2,3,15,73,False,True
+blitz 5+5,player,drawn otherwise,0.041096,0.0,0.093995,0.2,3,15,73,False,True
+blitz 5+5,opponent,won on time,0.014493,0.0,0.046875,0.055556,1,18,69,False,True
+blitz 5+5,opponent,won on the board,0.173913,0.08462,0.278907,0.666667,12,18,69,False,True
+blitz 5+5,opponent,drawn on time,0.0,0.0,0.0,0.0,0,18,69,False,True
+blitz 5+5,opponent,drawn by stalemate,0.043478,0.0,0.090909,0.166667,3,18,69,False,True
+blitz 5+5,opponent,drawn otherwise,0.028986,0.0,0.073023,0.111111,2,18,69,False,True
+rapid 10+0,player,won on time,0.003534,0.0,0.010909,0.013158,1,76,283,False,False
+rapid 10+0,player,won on the board,0.155477,0.11648,0.20107,0.578947,44,76,283,False,False
+rapid 10+0,player,drawn on time,0.0,0.0,0.0,0.0,0,76,283,False,False
+rapid 10+0,player,drawn by stalemate,0.014134,0.003355,0.030141,0.052632,4,76,283,False,False
+rapid 10+0,player,drawn otherwise,0.095406,0.065468,0.130736,0.355263,27,76,283,False,False
+rapid 10+0,opponent,won on time,0.005848,0.0,0.01633,0.033898,2,59,342,False,False
+rapid 10+0,opponent,won on the board,0.084795,0.056097,0.113999,0.491525,29,59,342,False,False
+rapid 10+0,opponent,drawn on time,0.0,0.0,0.0,0.0,0,59,342,False,False
+rapid 10+0,opponent,drawn by stalemate,0.011696,0.002714,0.025757,0.067797,4,59,342,False,False
+rapid 10+0,opponent,drawn otherwise,0.070175,0.044239,0.097249,0.40678,24,59,342,False,False
+all bullet,player,won on time,0.10306,0.089269,0.11798,0.472906,192,406,1863,False,False
+all bullet,player,won on the board,0.047772,0.038188,0.057193,0.219212,89,406,1863,False,False
+all bullet,player,drawn on time,0.040794,0.03226,0.049843,0.187192,76,406,1863,False,False
+all bullet,player,drawn by stalemate,0.013956,0.00866,0.019504,0.064039,26,406,1863,False,False
+all bullet,player,drawn otherwise,0.012346,0.008002,0.018285,0.05665,23,406,1863,False,False
+all bullet,opponent,won on time,0.062362,0.051934,0.074029,0.363344,113,311,1812,False,False
+all bullet,opponent,won on the board,0.046358,0.036853,0.055531,0.270096,84,311,1812,False,False
+all bullet,opponent,drawn on time,0.040287,0.032095,0.049345,0.234727,73,311,1812,False,False
+all bullet,opponent,drawn by stalemate,0.013245,0.008271,0.019274,0.07717,24,311,1812,False,False
+all bullet,opponent,drawn otherwise,0.009382,0.005653,0.014187,0.054662,17,311,1812,False,False
+all blitz,player,won on time,0.031792,0.022012,0.043272,0.138655,33,238,1038,False,False
+all blitz,player,won on the board,0.11368,0.09565,0.134759,0.495798,118,238,1038,False,False
+all blitz,player,drawn on time,0.00289,0.0,0.006825,0.012605,3,238,1038,False,False
+all blitz,player,drawn by stalemate,0.030829,0.020827,0.041812,0.134454,32,238,1038,False,False
+all blitz,player,drawn otherwise,0.050096,0.035952,0.064189,0.218487,52,238,1038,False,False
+all blitz,opponent,won on time,0.021073,0.013191,0.029726,0.119565,22,184,1044,False,False
+all blitz,opponent,won on the board,0.076628,0.061618,0.092578,0.434783,80,184,1044,False,False
+all blitz,opponent,drawn on time,0.002874,0.0,0.006737,0.016304,3,184,1044,False,False
+all blitz,opponent,drawn by stalemate,0.031609,0.021821,0.041909,0.179348,33,184,1044,False,False
+all blitz,opponent,drawn otherwise,0.044061,0.032138,0.057037,0.25,46,184,1044,False,False
